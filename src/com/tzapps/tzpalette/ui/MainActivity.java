@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +16,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -27,9 +27,9 @@ import android.view.View;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends Activity
 {
-    private final static String TAG = "com.tzapps.tzpalette.activity.MainActivity";
+    private final static String TAG = "MainActivity";
     
     /** Called when the user clicks the TakePicture button */
     static final int TAKE_PHOTE_RESULT   = 1; 
@@ -38,8 +38,10 @@ public class MainActivity extends FragmentActivity
     
     ViewPager   mViewPager;
     TabsAdapter mTabsAdapter;
-    CaptureFragment fragment1;
+    Bitmap      mBitmap;
+    
     CaptureFragment mCaptureFragment;
+    CaptureFragment fragment2;
     CaptureFragment fragment3;
 
     @Override
@@ -51,21 +53,23 @@ public class MainActivity extends FragmentActivity
         mViewPager.setId(R.id.pager);
         setContentView(mViewPager);
         
-        final ActionBar bar = getActionBar();
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
         
-        fragment1 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
-        mCaptureFragment  = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        mCaptureFragment = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        fragment2 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(bar.newTab().setText("My Palette"),fragment1);
-        mTabsAdapter.addTab(bar.newTab().setText("Capture"), mCaptureFragment);
-        mTabsAdapter.addTab(bar.newTab().setText("About"), fragment3);
+        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFragment);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),fragment2);
+        mTabsAdapter.addTab(actionBar.newTab().setText("About"), fragment3);
         
         if (savedInstanceState != null)
         {
-            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab",0));
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab",0));
         }
     }
     
@@ -91,10 +95,6 @@ public class MainActivity extends FragmentActivity
         // Handle presses on the action bar items
         switch (item.getItemId())
         {
-            case R.id.action_share:
-                // openSearch();
-                return true;
-
             case R.id.action_settings:
                 // openSettings();
                 return true;
@@ -112,6 +112,8 @@ public class MainActivity extends FragmentActivity
     /** Called when the user clicks the TakePhoto button */
     public void takePhoto(View view)
     {
+        Log.i(TAG, "take a photo");
+        
         if (ActivityUtils.isIntentAvailable(getBaseContext(), MediaStore.ACTION_IMAGE_CAPTURE))
         {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -153,7 +155,12 @@ public class MainActivity extends FragmentActivity
     {
         Uri selectedImage = intent.getData();
         Bundle extras     = intent.getExtras();
-        Bitmap bitmap     = null;
+        
+        if (mBitmap != null)
+        {
+            mBitmap.recycle();
+            mBitmap = null;
+        }
         
         if (selectedImage != null)
         {
@@ -161,7 +168,7 @@ public class MainActivity extends FragmentActivity
             try
             {
                 imageStream  = getContentResolver().openInputStream(selectedImage);
-                bitmap = BitmapFactory.decodeStream(imageStream);
+                mBitmap = BitmapFactory.decodeStream(imageStream);
             }
             catch (FileNotFoundException e)
             {
@@ -171,12 +178,12 @@ public class MainActivity extends FragmentActivity
         }
         else if (extras != null)
         {
-            bitmap = (Bitmap) extras.get("data");
+            mBitmap = (Bitmap) extras.get("data");
         }
         
-        assert(bitmap != null);
+        assert(mBitmap != null);
         
-        mCaptureFragment.updateImageView(bitmap);
+        mCaptureFragment.updateImageView(mBitmap);
     }
 
     /**
@@ -198,9 +205,9 @@ public class MainActivity extends FragmentActivity
         private final ViewPager mViewPager;
         private final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
         
-        public TabsAdapter(FragmentActivity activity, ViewPager pager)
+        public TabsAdapter(Activity activity, ViewPager pager)
         {
-            super(activity.getSupportFragmentManager());
+            super(activity.getFragmentManager());
             mContext = activity;
             mActionBar = activity.getActionBar();
             mViewPager = pager;
@@ -233,7 +240,6 @@ public class MainActivity extends FragmentActivity
         @Override
         public void onPageSelected(int position)
         {
-            Log.i(TAG, "page " + position + " selected");
             mActionBar.setSelectedNavigationItem(position);
             
             //mActionBar.setTitle(mActionBar.getSelectedTab().getText());

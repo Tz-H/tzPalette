@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Share, should appear as action button -->
-    <item
-        android:id="@+id/action_share"
-        android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_share"/>
-
     <!-- Settings. should always be in the overflow -->
     <item
         android:id="@+id/action_settings"
