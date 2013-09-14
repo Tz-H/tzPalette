@@ -3,4 +3,5 @@
     <color name="actionbar_text">#222222</color>
     <color name="tab_text">#222222</color>
     <color name="imageview_bg">#222222</color>
+    <color name="img_pic_init_bg">#F8F8F8</color>
 </resources>

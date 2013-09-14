@@ -14,4 +14,6 @@
     <string name="button_loadPicture">Load a picture</string>
     <string name="button_takePhoto">Take a photo</string>
     
+    <string name="img_pic_desc">The picture displayed in capture view</string>
+    
 </resources>

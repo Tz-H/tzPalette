@@ -17,25 +17,13 @@
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
         
-        <!-- The main activity -->
         <activity
-            android:name="com.tzapps.tzpalette.activity.MainActivity"
+            android:name="com.tzapps.tzpalette.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
-        <!-- The child activity to display the picture -->
-        <activity
-            android:name="com.tzapps.tzpalette.activity.ShowPictureActivity"
-            android:label="@string/title_activity_show_picture"
-            android:parentActivityName="com.tzapps.tzpalette.activity.MainActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tzapps.tzpalette.activity.MainActivity" />
         </activity>
         
     </application>

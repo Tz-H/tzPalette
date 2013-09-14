@@ -1,5 +1,7 @@
-package com.tzapps.tzpalette.activity;
+package com.tzapps.tzpalette.ui;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -7,6 +9,8 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.fragment.CaptureFragment;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
 public class MainActivity extends FragmentActivity
@@ -33,8 +36,11 @@ public class MainActivity extends FragmentActivity
     /** Called when the user clicks the LoadPicture button */
     static final int LOAD_PICTURE_RESULT = 2;
     
-    ViewPager mViewPager;
+    ViewPager   mViewPager;
     TabsAdapter mTabsAdapter;
+    CaptureFragment fragment1;
+    CaptureFragment mCaptureFragment;
+    CaptureFragment fragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,13 +54,14 @@ public class MainActivity extends FragmentActivity
         final ActionBar bar = getActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
+        fragment1 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        mCaptureFragment  = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        
         mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(bar.newTab().setText("My Palette"),
-                            CaptureFragment.class,null);
-        mTabsAdapter.addTab(bar.newTab().setText("Capture"), 
-                            CaptureFragment.class,null);
-        mTabsAdapter.addTab(bar.newTab().setText("About"), 
-                            CaptureFragment.class,null);
+        mTabsAdapter.addTab(bar.newTab().setText("My Palette"),fragment1);
+        mTabsAdapter.addTab(bar.newTab().setText("Capture"), mCaptureFragment);
+        mTabsAdapter.addTab(bar.newTab().setText("About"), fragment3);
         
         if (savedInstanceState != null)
         {
@@ -129,30 +136,47 @@ public class MainActivity extends FragmentActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         // Check which request we are responding to
-        if (requestCode == TAKE_PHOTE_RESULT)
+        switch(requestCode)
         {
-            if (resultCode == RESULT_OK)
-            {
-                Bundle extras = data.getExtras();
-                assert(extras != null);
+            case TAKE_PHOTE_RESULT:
+            case LOAD_PICTURE_RESULT:
+                if (resultCode == RESULT_OK)
+                    handlePicture(data);
+                break;
                 
-                Intent intent = new Intent(this, ShowPictureActivity.class);
-                intent.putExtras(extras);
-                startActivity(intent);
+            default:
+                break;
+        }
+    }
+    
+    private void handlePicture(Intent intent)
+    {
+        Uri selectedImage = intent.getData();
+        Bundle extras     = intent.getExtras();
+        Bitmap bitmap     = null;
+        
+        if (selectedImage != null)
+        {
+            InputStream imageStream;
+            try
+            {
+                imageStream  = getContentResolver().openInputStream(selectedImage);
+                bitmap = BitmapFactory.decodeStream(imageStream);
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+                Log.e(TAG, "load picture failed");
             }
         }
-        else if (requestCode == LOAD_PICTURE_RESULT)
+        else if (extras != null)
         {
-            if (resultCode == RESULT_OK)
-            {
-                Uri selectedImage = data.getData();
-                assert(selectedImage != null);
-                
-                Intent intent = new Intent(this, ShowPictureActivity.class);
-                intent.setData(selectedImage);
-                startActivity(intent);
-            }
+            bitmap = (Bitmap) extras.get("data");
         }
+        
+        assert(bitmap != null);
+        
+        mCaptureFragment.updateImageView(bitmap);
     }
 
     /**
@@ -172,19 +196,7 @@ public class MainActivity extends FragmentActivity
         private final Context mContext;
         private final ActionBar mActionBar;
         private final ViewPager mViewPager;
-        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
-        
-        static final class TabInfo
-        {
-            private final Class<?> clss;
-            private final Bundle args;
-            
-            TabInfo(Class<?> _class, Bundle _args)
-            {
-                clss = _class;
-                args = _args;
-            }
-        }
+        private final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
         
         public TabsAdapter(FragmentActivity activity, ViewPager pager)
         {
@@ -196,27 +208,26 @@ public class MainActivity extends FragmentActivity
             mViewPager.setOnPageChangeListener(this);
         }
         
-        public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args)
+        public void addTab(ActionBar.Tab tab, Fragment fragment)
         {
-            TabInfo info = new TabInfo(clss, args);
-            tab.setTag(info);
+            mFragments.add(fragment);
+            
             tab.setTabListener(this);
-            mTabs.add(info);
             mActionBar.addTab(tab);
+            
             notifyDataSetChanged();
         }
         
         @Override
         public int getCount()
         {
-            return mTabs.size();
+            return mFragments.size();
         }
         
         @Override
         public Fragment getItem(int position)
         {
-            TabInfo info = mTabs.get(position);
-            return Fragment.instantiate(mContext, info.clss.getName(), info.args);
+            return mFragments.get(position);
         }
         
         @Override
@@ -225,7 +236,7 @@ public class MainActivity extends FragmentActivity
             Log.i(TAG, "page " + position + " selected");
             mActionBar.setSelectedNavigationItem(position);
             
-            mActionBar.setTitle(mActionBar.getSelectedTab().getText());
+            //mActionBar.setTitle(mActionBar.getSelectedTab().getText());
         }
         
         @Override
@@ -237,16 +248,7 @@ public class MainActivity extends FragmentActivity
         @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft)
         {
-            Object tag = tab.getTag();
-            
-            for (int i = 0; i < mTabs.size(); i++)
-            {
-                if (mTabs.get(i) == tag)
-                {
-                    mViewPager.setCurrentItem(i);
-                    break;
-                }
-            }
+            mViewPager.setCurrentItem(tab.getPosition());
         }
         
         @Override
