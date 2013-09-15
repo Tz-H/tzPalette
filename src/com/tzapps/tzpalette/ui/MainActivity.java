@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
@@ -113,7 +115,7 @@ public class MainActivity extends Activity
     /** Called when the user clicks the TakePhoto button */
     public void takePhoto(View view)
     {
-        Log.i(TAG, "take a photo");
+        Log.d(TAG, "take a photo");
         
         if (ActivityUtils.isIntentAvailable(getBaseContext(), MediaStore.ACTION_IMAGE_CAPTURE))
         {
@@ -125,11 +127,34 @@ public class MainActivity extends Activity
             Log.e(TAG, "no camera found");
         }
     }
+    /** Called when the user clicks the Analysis button */
+    public void analysisPicture(View view)
+    {
+        Log.d(TAG, "analysis the picture");
+        
+        if (mBitmap == null)
+            return;
+        
+        KMeansProcessor proc = new KMeansProcessor(9, 5);        
+        proc.processKMean(mBitmap);
+        
+        for (ClusterCenter center : proc.getClusterCenters())
+        {
+            Log.i(TAG, "Center color is " + colorToString(center.getValue()));
+        }
+        
+        int[] colors = new int[9];
+        
+        for (int i = 0; i < 9; i++)
+            colors[i] = proc.getClusterCenters().get(i).getValue();
+        
+        mCaptureFragment.updateColors(colors);
+    }
 
     /** Called when the user clicks the PickPicture button */
     public void loadPicture(View view)
     {
-        Log.i(TAG, "load a picture");
+        Log.d(TAG, "load a picture");
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, LOAD_PICTURE_RESULT);
@@ -184,12 +209,19 @@ public class MainActivity extends Activity
         
         assert(mBitmap != null);
         
-        KMeansProcessor proc = new KMeansProcessor(9);
-        Bitmap newBitmap = null;
+        mCaptureFragment.updateImageView(mBitmap);
+    }
+    
+    private String colorToString(int color)
+    {
+        StringBuffer buffer = new StringBuffer();
         
-        newBitmap = proc.filter(mBitmap, newBitmap);
+        buffer.append("[r,g,b]:[")
+        .append(Color.red(color)).append(",")
+        .append(Color.green(color)).append(",")
+        .append(Color.blue(color)).append("]");
         
-        mCaptureFragment.updateImageView(newBitmap);
+        return buffer.toString();
     }
 
     /**

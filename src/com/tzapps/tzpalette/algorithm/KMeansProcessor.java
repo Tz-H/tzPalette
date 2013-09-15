@@ -16,47 +16,54 @@ public class KMeansProcessor
     private List<ClusterPoint> pointList;
     
     private int numOfCluster;
+    private int deviation;
     
-    public KMeansProcessor(int clusters)
+    public KMeansProcessor(int numOfCluster, int deviation)
     {
-        this.numOfCluster = clusters;
-        pointList = new ArrayList<ClusterPoint>();
+        this.numOfCluster = numOfCluster;
+        this.deviation    = deviation;
+        pointList         = new ArrayList<ClusterPoint>();
         clusterCenterList = new ArrayList<ClusterCenter>();
     }
     
-    public Bitmap filter(Bitmap src, Bitmap dest)
+    public List<ClusterCenter> getClusterCenters()
     {
-        // initialization the pixel data
-        int width = src.getWidth();
-        int height = src.getHeight();
-        int[] inPixels = new int[width*height];
+        return clusterCenterList;
+    }
+    
+    private void initKMeanProcess(int totalCol, int totalRow, int[] values)
+    {
         int index = 0;
         
-        src.getPixels(inPixels, 0, width, 0, 0, width, height);
+        pointList.clear();
+        clusterCenterList.clear();
         
-        // Crate random points as the cluster center
+        // Create random points as the cluster center
         Random random = new Random();
         for (int i = 0; i < numOfCluster; i++)
         {
-            int randCol = random.nextInt(width);
-            int randRow = random.nextInt(height);
-            index = randRow * width + randCol;
-            ClusterCenter cc = new ClusterCenter(randCol, randRow, inPixels[index]);
+            int randCol = random.nextInt(totalCol);
+            int randRow = random.nextInt(totalRow);
+            index = randRow * totalCol + randCol;
+            ClusterCenter cc = new ClusterCenter(randCol, randRow, values[index]);
             cc.setClusterIndex(i);
             clusterCenterList.add(cc);
         }
         
         // create all cluster point
-        for (int row = 0; row < height; row++)
+        for (int row = 0; row < totalRow; row++)
         {
-            for (int col = 0; col < width; col++)
+            for (int col = 0; col < totalCol; col++)
             {
-                index = row * width + col;
-                int color = inPixels[index];
-                pointList.add(new ClusterPoint(col, row, color));
+                index = row * totalCol + col;
+                int value = values[index];
+                pointList.add(new ClusterPoint(col, row, value));
             }
         }
-        
+    }
+    
+    private void initKMeanClusters()
+    {
         // initialize the clusters for each point
         double[] clusterDisValues = new double[numOfCluster];
         for (ClusterPoint point : pointList)
@@ -68,6 +75,23 @@ public class KMeansProcessor
             }
             point.setClusterIndex(getCloserCluster(clusterDisValues));
         }
+    }
+    
+    public void processKMean(Bitmap src)
+    {
+        // initialization the pixel data
+        int width = src.getWidth();
+        int height = src.getHeight();
+        int[] inPixels = new int[width*height];
+        int index = 0;
+        
+        src.getPixels(inPixels, 0, width, 0, 0, width, height);
+        
+        // create random cluster center
+        initKMeanProcess(width, height, inPixels);
+        
+        // initialize the clusters for each point
+        initKMeanClusters();
         
         // calculate the old summary
         // assign the points to cluster center
@@ -87,6 +111,7 @@ public class KMeansProcessor
                 oldClusterCenterColors = newClusterCenterColors;
         }
         
+        /**
         //update the result image
         dest = src.copy(Bitmap.Config.ARGB_8888, true);
         index = 0;
@@ -109,6 +134,7 @@ public class KMeansProcessor
         // fill the pixel data
         dest.setPixels(outPixels, 0, width, 0, 0, width, height);
         return dest;
+        */
     }
     
     private boolean isStop(int[] oldClusterCenterValues, int[] newClusterCenterValues)
@@ -137,7 +163,7 @@ public class KMeansProcessor
                   .append(nGreen).append(",")
                   .append(nBlue);
             
-            Log.i(TAG, "cluster " + i + " " + buffer.toString());
+            Log.d(TAG, "cluster " + i + " " + buffer.toString());
             
             if (oldClusterCenterValues[i] != newClusterCenterValues[i])
                 return false;
@@ -212,7 +238,7 @@ public class KMeansProcessor
                 red = green = blue = 0; 
             }
             
-            Log.i(TAG, "red = " + red + " gree = " + green + " blue = " + blue);
+            Log.d(TAG, "red = " + red + " gree = " + green + " blue = " + blue);
             
             int clusterColor = Color.rgb(red, green, blue);
             center.setValue(clusterColor);
