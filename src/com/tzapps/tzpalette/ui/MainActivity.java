@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.algorithm.KMeansProcessor;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
 public class MainActivity extends Activity
@@ -183,7 +184,12 @@ public class MainActivity extends Activity
         
         assert(mBitmap != null);
         
-        mCaptureFragment.updateImageView(mBitmap);
+        KMeansProcessor proc = new KMeansProcessor(9);
+        Bitmap newBitmap = null;
+        
+        newBitmap = proc.filter(mBitmap, newBitmap);
+        
+        mCaptureFragment.updateImageView(newBitmap);
     }
 
     /**
