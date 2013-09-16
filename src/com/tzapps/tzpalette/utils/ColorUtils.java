@@ -5,7 +5,7 @@ import android.graphics.Color;
 public class ColorUtils
 {
 
-    public static String colorToString(int color)
+    public static String colorToRGBString(int color)
     {
         StringBuffer buffer = new StringBuffer();
         
@@ -15,5 +15,10 @@ public class ColorUtils
         .append(Color.blue(color)).append("]");
         
         return buffer.toString();
+    }
+    
+    public static String colorToHtml(int color)
+    {
+        return String.format("#%06X", (0xFFFFFF & color));
     }
 }

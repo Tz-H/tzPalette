@@ -143,8 +143,8 @@ public class KMeansProcessor
             int oldColor = oldClusterCenterValues[i];
             int newColor = newClusterCenterValues[i];
                      
-            Log.d(TAG, "cluster " + i + " old " + ColorUtils.colorToString(oldColor) 
-                       + ", new " + ColorUtils.colorToString(newColor));
+            Log.d(TAG, "cluster " + i + " old " + ColorUtils.colorToRGBString(oldColor) 
+                       + ", new " + ColorUtils.colorToRGBString(newColor));
             
             if (deviation == 0 && oldClusterCenterValues[i] != newClusterCenterValues[i])
             {
@@ -242,7 +242,7 @@ public class KMeansProcessor
             
             int clusterColor = Color.rgb(red, green, blue);
             
-            Log.d(TAG, "Cluster color is " + ColorUtils.colorToString(clusterColor));
+            Log.d(TAG, "Cluster color is " + ColorUtils.colorToRGBString(clusterColor));
             
             center.setValue(clusterColor);
             clusterCentersValues[cIndex] = clusterColor;

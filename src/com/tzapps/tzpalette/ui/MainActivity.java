@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,7 +44,7 @@ public class MainActivity extends Activity
     Bitmap      mBitmap;
     
     CaptureFragment       mCaptureFragment;
-    MyPaletteListFragment mPlaletteListFragment;
+    MyPaletteListFragment mPaletteListFragment;
     CaptureFragment       fragment3;
 
     @Override
@@ -63,12 +62,12 @@ public class MainActivity extends Activity
         actionBar.setDisplayShowHomeEnabled(false);
         
         mCaptureFragment = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
-        mPlaletteListFragment = (MyPaletteListFragment)Fragment.instantiate(this, MyPaletteListFragment.class.getName(), null);
+        mPaletteListFragment = (MyPaletteListFragment)Fragment.instantiate(this, MyPaletteListFragment.class.getName(), null);
         fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFragment);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),mPlaletteListFragment);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),mPaletteListFragment);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), fragment3);
         
         if (savedInstanceState != null)
@@ -110,7 +109,6 @@ public class MainActivity extends Activity
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     /** Called when the user clicks the TakePhoto button */
@@ -136,20 +134,20 @@ public class MainActivity extends Activity
         if (mBitmap == null)
             return;
         
-        KMeansProcessor proc = new KMeansProcessor(9, 10);        
+        KMeansProcessor proc = new KMeansProcessor(8, 10);        
         proc.processKMean(mBitmap);
         
         for (ClusterCenter center : proc.getClusterCenters())
         {
-            Log.i(TAG, "Center color is " + ColorUtils.colorToString(center.getValue()));
+            Log.i(TAG, "Center color is " + ColorUtils.colorToRGBString(center.getValue()));
         }
         
-        int[] colors = new int[2];
+        int[] colors = new int[8];
         
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 8; i++)
             colors[i] = proc.getClusterCenters().get(i).getValue();
         
-        //mCaptureFragment.updateColors(colors);
+        mCaptureFragment.updateColors(colors);
     }
 
     /** Called when the user clicks the PickPicture button */
