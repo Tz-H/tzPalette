@@ -29,6 +29,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
 import com.tzapps.tzpalette.utils.ActivityUtils;
+import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class MainActivity extends Activity
 {
@@ -135,20 +136,20 @@ public class MainActivity extends Activity
         if (mBitmap == null)
             return;
         
-        KMeansProcessor proc = new KMeansProcessor(9, 5);        
+        KMeansProcessor proc = new KMeansProcessor(9, 10);        
         proc.processKMean(mBitmap);
         
         for (ClusterCenter center : proc.getClusterCenters())
         {
-            Log.i(TAG, "Center color is " + colorToString(center.getValue()));
+            Log.i(TAG, "Center color is " + ColorUtils.colorToString(center.getValue()));
         }
         
-        int[] colors = new int[9];
+        int[] colors = new int[2];
         
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
             colors[i] = proc.getClusterCenters().get(i).getValue();
         
-        mCaptureFragment.updateColors(colors);
+        //mCaptureFragment.updateColors(colors);
     }
 
     /** Called when the user clicks the PickPicture button */
@@ -210,18 +211,6 @@ public class MainActivity extends Activity
         assert(mBitmap != null);
         
         mCaptureFragment.updateImageView(mBitmap);
-    }
-    
-    private String colorToString(int color)
-    {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("[r,g,b]:[")
-        .append(Color.red(color)).append(",")
-        .append(Color.green(color)).append(",")
-        .append(Color.blue(color)).append("]");
-        
-        return buffer.toString();
     }
 
     /**

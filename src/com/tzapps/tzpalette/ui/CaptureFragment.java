@@ -60,12 +60,12 @@ public class CaptureFragment extends Fragment
         
         ImageView v1 = (ImageView)getView().findViewById(R.id.img_color_1);
         ImageView v2 = (ImageView)getView().findViewById(R.id.img_color_2);
-        ImageView v3 = (ImageView)getView().findViewById(R.id.img_color_3);
-        ImageView v4 = (ImageView)getView().findViewById(R.id.img_color_4);
+        //ImageView v3 = (ImageView)getView().findViewById(R.id.img_color_3);
+        //ImageView v4 = (ImageView)getView().findViewById(R.id.img_color_4);
         
         v1.setBackgroundColor(colors[0]);
         v2.setBackgroundColor(colors[1]);
-        v3.setBackgroundColor(colors[2]);
-        v4.setBackgroundColor(colors[3]);
+        //v3.setBackgroundColor(colors[2]);
+        //v4.setBackgroundColor(colors[3]);
     }
 }

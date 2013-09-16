@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.tzapps.tzpalette.utils.ColorUtils;
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.TimingLogger;
 
 public class KMeansProcessor
 {
@@ -79,37 +82,53 @@ public class KMeansProcessor
     
     public void processKMean(Bitmap src)
     {
+        TimingLogger timings = new TimingLogger(TAG, "processKMean");
+        
         // initialization the pixel data
         int width = src.getWidth();
         int height = src.getHeight();
         int[] inPixels = new int[width*height];
-        int index = 0;
         
         src.getPixels(inPixels, 0, width, 0, 0, width, height);
+        
         
         // create random cluster center
         initKMeanProcess(width, height, inPixels);
         
+        timings.addSplit("initKMeanProcess");
+        
         // initialize the clusters for each point
         initKMeanClusters();
+        
+        timings.addSplit("initKMeanClusters");
         
         // calculate the old summary
         // assign the points to cluster center
         // calculate the new cluster center
         // computing the delta value
         // stop condition
+        
         int[] oldClusterCenterColors = reCalculateClusterCenters();
+        int count = 1;
+        timings.addSplit("reCalculateClusterCenters count " + count);
+        
         while (true)
         {
             stepClusters();
             
             int[] newClusterCenterColors = reCalculateClusterCenters();
+            count++;
+            timings.addSplit("reCalculateClusterCenters count " + count);
             
-            if (isStop(oldClusterCenterColors, newClusterCenterColors))
+            if (isStop(oldClusterCenterColors, newClusterCenterColors, this.deviation))
                 break;
             else
                 oldClusterCenterColors = newClusterCenterColors;
         }
+      
+        timings.addSplit("processKMean done" + count);
+        timings.dumpToLog();
+        Log.d(TAG, "finished");
         
         /**
         //update the result image
@@ -137,38 +156,41 @@ public class KMeansProcessor
         */
     }
     
-    private boolean isStop(int[] oldClusterCenterValues, int[] newClusterCenterValues)
+    private boolean isStop(int[] oldClusterCenterValues, int[] newClusterCenterValues, int deviation)
     {
         for (int i = 0; i < oldClusterCenterValues.length; i++)
         {
             int oldColor = oldClusterCenterValues[i];
             int newColor = newClusterCenterValues[i];
+                     
+            Log.d(TAG, "cluster " + i + " old " + ColorUtils.colorToString(oldColor) 
+                       + ", new " + ColorUtils.colorToString(newColor));
             
-            int oRed = Color.red(oldColor);
-            int oGreen = Color.green(oldColor);
-            int oBlue = Color.blue(oldColor);
-            
-            int nRed = Color.red(newColor);
-            int nGreen = Color.green(newColor);
-            int nBlue = Color.blue(newColor);
-            
-            StringBuffer buffer = new StringBuffer();
-            
-            buffer.append("old r,g,b:")
-                  .append(oRed).append(",")
-                  .append(oGreen).append(",")
-                  .append(oBlue).append(",")
-                  .append("new r,g,b:")
-                  .append(nRed).append(",")
-                  .append(nGreen).append(",")
-                  .append(nBlue);
-            
-            Log.d(TAG, "cluster " + i + " " + buffer.toString());
-            
-            if (oldClusterCenterValues[i] != newClusterCenterValues[i])
-                return false;
+            if (deviation == 0 && oldClusterCenterValues[i] != newClusterCenterValues[i])
+            {
+                return false; 
+            }
+            else
+            {
+                int oRed   = Color.red(oldColor);
+                int oGreen = Color.green(oldColor);
+                int oBlue  = Color.blue(oldColor);
+                
+                int nRed   = Color.red(newColor);
+                int nGreen = Color.green(newColor);
+                int nBlue  = Color.blue(newColor);
+                
+                /* To improve the cluster convergence rate, we might
+                 * allow a deviation, i.e. if the difference of the old value 
+                 * and the new value is less than the indicated deviation
+                 * we could treat them as "same"  
+                 */
+                if (Math.abs(nRed   - oRed)   > deviation ||
+                    Math.abs(nGreen - oGreen) > deviation ||
+                    Math.abs(nBlue  - oBlue)  > deviation)
+                    return false;
+            }
         }
-        
         return true;
     }
     
@@ -238,9 +260,10 @@ public class KMeansProcessor
                 red = green = blue = 0; 
             }
             
-            Log.d(TAG, "red = " + red + " gree = " + green + " blue = " + blue);
-            
             int clusterColor = Color.rgb(red, green, blue);
+            
+            Log.d(TAG, "Cluster color is " + ColorUtils.colorToString(clusterColor));
+            
             center.setValue(clusterColor);
             oldClusterCentersColors[cIndex] = clusterColor;
         }
