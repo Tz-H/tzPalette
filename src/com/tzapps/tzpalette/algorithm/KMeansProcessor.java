@@ -34,7 +34,7 @@ public class KMeansProcessor
         return clusterCenterList;
     }
     
-    private void initKMeanProcess(int totalCol, int totalRow, int[] values)
+    private void initKMeanProcess(int totalCol, int totalRow, int[] values, int numOfCluster)
     {
         int index = 0;
         
@@ -77,7 +77,7 @@ public class KMeansProcessor
         TimingLogger timings = new TimingLogger(TAG, "processKMean()");
         
         // create random cluster centers and initialize the cluster points
-        initKMeanProcess(width, height, inPixels);
+        initKMeanProcess(width, height, inPixels, numOfCluster);
         timings.addSplit("initKMeanProcess(): width=" + width + " height=" + height + " pixels=" + inPixels.length);
         
         // assign the cluster points into the initial cluster centers
@@ -270,15 +270,16 @@ public class KMeansProcessor
     
     private int calcEuclideanDistanceSquare(ClusterPoint p, ClusterCenter c)
     {
-        //int pa = Color.alpha(p.getValue());
-        int pr = Color.red(p.getValue());
-        int pg = Color.green(p.getValue());
-        int pb = Color.blue(p.getValue());
+        int pValue = p.getValue();
+        int cValue = c.getValue();
         
-        //int ca = Color.alpha(p.getValue());
-        int cr = Color.red(c.getValue());
-        int cg = Color.green(c.getValue());
-        int cb = Color.blue(c.getValue());
+        int pr = Color.red(pValue);
+        int pg = Color.green(pValue);
+        int pb = Color.blue(pValue);
+        
+        int cr = Color.red(cValue);
+        int cg = Color.green(cValue);
+        int cb = Color.blue(cValue);
         
         return (pr-cr)*(pr-cr) + (pg-cg)*(pg-cg) + (pb-cb)*(pb-cb);
     }

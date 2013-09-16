@@ -44,9 +44,9 @@ public class MainActivity extends Activity
     TabsAdapter mTabsAdapter;
     Bitmap      mBitmap;
     
-    CaptureFragment mCaptureFragment;
-    CaptureFragment fragment2;
-    CaptureFragment fragment3;
+    CaptureFragment       mCaptureFragment;
+    MyPaletteListFragment mPlaletteListFragment;
+    CaptureFragment       fragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,12 +63,12 @@ public class MainActivity extends Activity
         actionBar.setDisplayShowHomeEnabled(false);
         
         mCaptureFragment = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
-        fragment2 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        mPlaletteListFragment = (MyPaletteListFragment)Fragment.instantiate(this, MyPaletteListFragment.class.getName(), null);
         fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFragment);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),fragment2);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),mPlaletteListFragment);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), fragment3);
         
         if (savedInstanceState != null)
