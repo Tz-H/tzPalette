@@ -65,25 +65,8 @@ public class KMeansProcessor
         }
     }
     
-    private void initKMeanClusters()
-    {
-        // initialize the clusters for each point
-        double[] clusterDisValues = new double[numOfCluster];
-        for (ClusterPoint point : pointList)
-        {
-            for (ClusterCenter center : clusterCenterList)
-            {
-                int cIndex = center.getClusterIndex();
-                clusterDisValues[cIndex] = calculateEuclideanDistance(point, center);
-            }
-            point.setClusterIndex(getCloserCluster(clusterDisValues));
-        }
-    }
-    
     public void processKMean(Bitmap src)
     {
-        TimingLogger timings = new TimingLogger(TAG, "processKMean");
-        
         // initialization the pixel data
         int width = src.getWidth();
         int height = src.getHeight();
@@ -91,44 +74,38 @@ public class KMeansProcessor
         
         src.getPixels(inPixels, 0, width, 0, 0, width, height);
         
+        TimingLogger timings = new TimingLogger(TAG, "processKMean()");
         
-        // create random cluster center
+        // create random cluster centers and initialize the cluster points
         initKMeanProcess(width, height, inPixels);
+        timings.addSplit("initKMeanProcess(): width=" + width + " height=" + height + " pixels=" + inPixels.length);
         
-        timings.addSplit("initKMeanProcess");
+        // assign the cluster points into the initial cluster centers
+        updateClusters();
+        timings.addSplit("init updateClusters()");
         
-        // initialize the clusters for each point
-        initKMeanClusters();
-        
-        timings.addSplit("initKMeanClusters");
-        
-        // calculate the old summary
-        // assign the points to cluster center
-        // calculate the new cluster center
-        // computing the delta value
-        // stop condition
-        
-        int[] oldClusterCenterColors = reCalculateClusterCenters();
+        // calculate the cluster center values as the first initial one
+        int[] clusterCenterValues = reCalcClusterCenterValues();
         int count = 1;
-        timings.addSplit("reCalculateClusterCenters count " + count);
+        timings.addSplit("reCalculateClusterCenters() count " + count);
         
         while (true)
         {
-            stepClusters();
+            updateClusters();
+            timings.addSplit("updateClusters() count " + count);
             
-            int[] newClusterCenterColors = reCalculateClusterCenters();
+            int[] newClusterCenterValues = reCalcClusterCenterValues();
             count++;
-            timings.addSplit("reCalculateClusterCenters count " + count);
+            timings.addSplit("reCalculateClusterCenters() count " + count);
             
-            if (isStop(oldClusterCenterColors, newClusterCenterColors, this.deviation))
+            if (isStop(clusterCenterValues, newClusterCenterValues, this.deviation))
                 break;
             else
-                oldClusterCenterColors = newClusterCenterColors;
+                clusterCenterValues = newClusterCenterValues;
         }
       
         timings.addSplit("processKMean done" + count);
         timings.dumpToLog();
-        Log.d(TAG, "finished");
         
         /**
         //update the result image
@@ -156,6 +133,9 @@ public class KMeansProcessor
         */
     }
     
+    /**
+     * check if we could stop the cluster update process
+     */
     private boolean isStop(int[] oldClusterCenterValues, int[] newClusterCenterValues, int deviation)
     {
         for (int i = 0; i < oldClusterCenterValues.length; i++)
@@ -197,17 +177,17 @@ public class KMeansProcessor
     /**
      * update the cluster index by distance value
      */
-    private void stepClusters()
+    private void updateClusters()
     {
         // initialize the clusters for each point
-        double[] clusterDisValues = new double[numOfCluster];
+        int[] clusterDisValues = new int[numOfCluster];
         
         for (ClusterPoint point: pointList)
         {
             for (ClusterCenter center : clusterCenterList)
             {
                 int cIndex = center.getClusterIndex();
-                clusterDisValues[cIndex] = calculateEuclideanDistance(point, center);
+                clusterDisValues[cIndex] = calcEuclideanDistanceSquare(point, center);
             }
             point.setClusterIndex(getCloserCluster(clusterDisValues));
         }
@@ -216,7 +196,7 @@ public class KMeansProcessor
     /**
      * using cluster value of each point to update cluster center value
      */
-    private int[] reCalculateClusterCenters()
+    private int[] reCalcClusterCenterValues()
     {
         // clear the points now
         for (ClusterCenter center : clusterCenterList)
@@ -241,7 +221,7 @@ public class KMeansProcessor
             blueSum[cIndex]  += tb;
         }
         
-        int[] oldClusterCentersColors = new int[numOfCluster];
+        int[] clusterCentersValues = new int[numOfCluster];
         
         for (ClusterCenter center : clusterCenterList)
         {
@@ -265,15 +245,15 @@ public class KMeansProcessor
             Log.d(TAG, "Cluster color is " + ColorUtils.colorToString(clusterColor));
             
             center.setValue(clusterColor);
-            oldClusterCentersColors[cIndex] = clusterColor;
+            clusterCentersValues[cIndex] = clusterColor;
         }
         
-        return oldClusterCentersColors;
+        return clusterCentersValues;
     }
     
-    private int getCloserCluster(double[] clusterDisValues)
+    private int getCloserCluster(int[] clusterDisValues)
     {
-        double min = clusterDisValues[0];
+        int min = clusterDisValues[0];
         int clusterIndex = 0;
         
         for (int i = 0; i < clusterDisValues.length; i ++)
@@ -288,7 +268,7 @@ public class KMeansProcessor
         return clusterIndex;
     }
     
-    private double calculateEuclideanDistance(ClusterPoint p, ClusterCenter c)
+    private int calcEuclideanDistanceSquare(ClusterPoint p, ClusterCenter c)
     {
         //int pa = Color.alpha(p.getValue());
         int pr = Color.red(p.getValue());
@@ -300,9 +280,6 @@ public class KMeansProcessor
         int cg = Color.green(c.getValue());
         int cb = Color.blue(c.getValue());
         
-        // the Euclidean distance equation
-        return Math.sqrt( Math.pow((pr - cr), 2.0) + 
-                          Math.pow((pg - cg), 2.0) + 
-                          Math.pow((pb - cb), 2.0) );
+        return (pr-cr)*(pr-cr) + (pg-cg)*(pg-cg) + (pb-cb)*(pb-cb);
     }
 }
