@@ -15,5 +15,6 @@
     <string name="button_analysis">Analysis</string>
     
     <string name="img_pic_desc">The picture displayed in capture view</string>
+    <string name="img_pic_frame_desc">The picture frame in capture view</string>
     
 </resources>

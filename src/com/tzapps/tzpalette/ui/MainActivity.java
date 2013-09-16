@@ -3,6 +3,8 @@ package com.tzapps.tzpalette.ui;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -146,6 +148,8 @@ public class MainActivity extends Activity
         
         for (int i = 0; i < 8; i++)
             colors[i] = proc.getClusterCenters().get(i).getValue();
+        
+        Arrays.sort(colors);
         
         mCaptureFragment.updateColors(colors);
     }

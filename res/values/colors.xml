@@ -4,5 +4,7 @@
     <color name="actionbar_text">#222222</color>
     <color name="actionbar_tab_text">#F8F8F8</color>
     <color name="imageview_bg">#222222</color>
-    <color name="img_pic_init_bg">#808080</color>
+    <color name="img_pic_init_bg">#FAFAFA</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_photogray">#F8F8F8</color>
 </resources>

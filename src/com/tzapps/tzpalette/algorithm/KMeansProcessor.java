@@ -104,7 +104,7 @@ public class KMeansProcessor
                 clusterCenterValues = newClusterCenterValues;
         }
       
-        timings.addSplit("processKMean done" + count);
+        timings.addSplit("processKMean done");
         timings.dumpToLog();
         
         /**

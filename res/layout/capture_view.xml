@@ -3,19 +3,32 @@
     android:id="@+id/fragment_capture"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_photogray"
     android:padding="16dp" >
+    
+    <ImageView 
+        android:id="@+id/img_pic_frame"
+        android:layout_width="300dp"
+        android:layout_height="340dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_white"
+        android:contentDescription="@string/img_pic_frame_desc" />
     
     <ImageView
         android:id="@+id/img_pic"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_alignTop="@id/img_pic_frame"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:background="@color/img_pic_init_bg"
         android:contentDescription="@string/img_pic_desc" />
     
     <GridView 
         android:id="@+id/grid_colors"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:columnWidth="30dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="10dp"
@@ -30,7 +43,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/grid_colors"
+        android:layout_below="@+id/img_pic_frame"
         android:onClick="loadPicture"
         android:text="@string/button_loadPicture" />
 
