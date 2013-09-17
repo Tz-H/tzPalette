@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -183,8 +184,31 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             return;
         
         // TODO: async this process to avoid UI thread block
-        mPaletteData.analysis(/*rest*/true);
-        mCaptureFrag.updateColors(mPaletteData.getColors());
+        //mPaletteData.analysis(/*rest*/true);
+        //mCaptureFrag.updateColors(mPaletteData.getColors());
+        
+        new PaletteDataAnalysisTask().execute(mPaletteData);
+    }
+    
+    private class PaletteDataAnalysisTask extends AsyncTask<PaletteData, Void, PaletteData>
+    {
+        /* The system calls this to perform work in a worker thread and
+         * delivers it the parameters given to AsyncTask.execute() 
+         */
+        protected PaletteData doInBackground(PaletteData ...dataArray)
+        {
+            PaletteData data = dataArray[0];
+            data.analysis(/*reset*/true);
+            return data;
+        }
+        
+        /* The system calls this to perform work in the UI thread and
+         * delivers the result from doInBackground()
+         */
+        protected void onPostExecute(PaletteData result)
+        {
+            mCaptureFrag.updateColors(result.getColors());
+        }
     }
     
     /** Called when the user clicks the Clear button */
