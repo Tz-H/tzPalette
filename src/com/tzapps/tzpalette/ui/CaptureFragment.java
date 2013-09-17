@@ -1,6 +1,5 @@
 package com.tzapps.tzpalette.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,11 +16,10 @@ import android.widget.Toast;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.utils.ColorUtils;
 
-public class CaptureFragment extends Fragment implements AdapterView.OnItemClickListener
+public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener
 {
     private static final String TAG = "CaptureFragment";
-
-    Bitmap mImageBitmap;
+    
     ImageView mImageView;
     GridView mColoursGrid;
     ColorAdapter mColorsAdapter;
@@ -35,16 +33,7 @@ public class CaptureFragment extends Fragment implements AdapterView.OnItemClick
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.capture_view, container, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
-
-        Log.d(TAG, "onViewCreated()");
-
+        
         mImageView = (ImageView) view.findViewById(R.id.img_pic);
         
         mColorsAdapter = new ColorAdapter(getActivity());
@@ -52,16 +41,13 @@ public class CaptureFragment extends Fragment implements AdapterView.OnItemClick
         mColoursGrid = (GridView) view.findViewById(R.id.grid_colors);
         mColoursGrid.setAdapter(mColorsAdapter);
         mColoursGrid.setOnItemClickListener(this);
-
-        if (mImageBitmap != null)
-            mImageView.setImageBitmap(mImageBitmap);
+        
+        return view;
     }
 
     public void updateImageView(Bitmap bitmap)
     {
         Log.d(TAG, "updateImageView()");
-
-        mImageBitmap = bitmap;
 
         if (mImageView != null)
             mImageView.setImageBitmap(bitmap);

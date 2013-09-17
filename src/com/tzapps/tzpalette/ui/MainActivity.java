@@ -28,7 +28,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements BaseFragment.OnFragmentStatusChangedListener
 {
     private final static String TAG = "MainActivity";
     
@@ -41,11 +41,10 @@ public class MainActivity extends Activity
     TabsAdapter mTabsAdapter;
     PaletteData mPaletteData;
     
-    CaptureFragment       mCaptureFragment;
+    CaptureFragment       mCaptureFrag;
     MyPaletteListFragment mPaletteListFragment;
     CaptureFragment       fragment3;
     
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -60,12 +59,12 @@ public class MainActivity extends Activity
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
         
-        mCaptureFragment = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        mCaptureFrag = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         mPaletteListFragment = (MyPaletteListFragment)Fragment.instantiate(this, MyPaletteListFragment.class.getName(), null);
         fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFragment);
+        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFrag);
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),mPaletteListFragment);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), fragment3);
         
@@ -109,6 +108,25 @@ public class MainActivity extends Activity
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    /** refresh fragments in main activity with persisted mPaletteData */
+    private void refresh()
+    {
+        if (mCaptureFrag != null && mPaletteData != null)
+        {
+            mCaptureFrag.updateImageView(mPaletteData.getThumb());
+            mCaptureFrag.updateColors(mPaletteData.getColors());
+        }
+    }
+    
+    @Override
+    public void onFragmentViewCreated(Fragment fragment)
+    {
+        if (fragment instanceof CaptureFragment)
+            mCaptureFrag = (CaptureFragment) fragment;
+        
+        refresh();
+    }
 
     /** Called when the user clicks the TakePhoto button */
     public void takePhoto(View view)
@@ -133,9 +151,9 @@ public class MainActivity extends Activity
         if (mPaletteData == null)
             return;
         
-        mPaletteData.analysis();
-        
-        mCaptureFragment.updateColors(mPaletteData.getColors());
+        // TODO: async this process to avoid UI thread block
+        mPaletteData.analysis(/*rest*/true);
+        mCaptureFrag.updateColors(mPaletteData.getColors());
     }
 
     /** Called when the user clicks the PickPicture button */
@@ -192,7 +210,8 @@ public class MainActivity extends Activity
         assert(bitmap != null);
         
         mPaletteData = new PaletteData(bitmap);
-        mCaptureFragment.updateImageView(bitmap);
+
+        refresh();
     }
 
     /**

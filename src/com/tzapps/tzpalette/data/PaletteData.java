@@ -61,14 +61,37 @@ public class PaletteData
         
         return colors;
     }
+    
+    public void clearColors()
+    {
+        mColors.clear();
+    }
 
-    public void analysis()
+    /**
+     * Analysis the thumb in palette data to pick up
+     * its main colors
+     * 
+     * @param reset  true to clean up all existing colors
+     *               false to keep them and append new colors
+     *               in to colors list
+     */
+    public void analysis(boolean reset)
     {
         Log.d(TAG, "palette data analysis()");
         
+        assert(mThumb != null);
+        
+        if (mThumb == null)
+        {
+            Log.e(TAG, "palette data doesn't have a thumb!");
+            return;
+        }
+        
+        if (reset)
+            clearColors();
+        
         KMeansProcessor proc = new KMeansProcessor(8, 10);   
         
-        // TODO: async this process to avoid UI thread block
         proc.processKMean(mThumb);
         
         for (ClusterCenter center : proc.getClusterCenters())
