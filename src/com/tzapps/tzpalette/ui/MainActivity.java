@@ -164,6 +164,16 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             Log.e(TAG, "no camera found");
         }
     }
+    
+    /** Called when the user clicks the PickPicture button */
+    public void loadPicture(View view)
+    {
+        Log.d(TAG, "load a picture");
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, LOAD_PICTURE_RESULT);
+    }
+    
     /** Called when the user clicks the Analysis button */
     public void analysisPicture(View view)
     {
@@ -176,14 +186,19 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mPaletteData.analysis(/*rest*/true);
         mCaptureFrag.updateColors(mPaletteData.getColors());
     }
-
-    /** Called when the user clicks the PickPicture button */
-    public void loadPicture(View view)
+    
+    /** Called when the user clicks the Clear button */
+    public void clearPicture(View view)
     {
-        Log.d(TAG, "load a picture");
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, LOAD_PICTURE_RESULT);
+        Log.d(TAG, "clear the picture");
+        
+        if (mPaletteData == null)
+            return;
+        
+        mPaletteData.setThumb(null);
+        mPaletteData.clearColors();
+        
+        refresh();
     }
     
     @Override

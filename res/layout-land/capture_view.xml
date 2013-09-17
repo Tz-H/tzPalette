@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btn_loadPicture"
-        android:layout_alignRight="@+id/btn_takePhoto"
         android:layout_below="@+id/btn_loadPicture"
         android:onClick="takePhoto"
         android:text="@string/button_takePhoto" />

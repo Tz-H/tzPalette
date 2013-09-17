@@ -63,4 +63,12 @@
         android:onClick="analysisPicture"
         android:text="@string/button_analysis" />
     
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_analysis"
+        android:onClick="clearPicture"
+        android:text="@string/button_clear" />
+    
 </RelativeLayout>

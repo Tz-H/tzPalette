@@ -44,16 +44,24 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         
         return view;
     }
-
+    
     public void updateImageView(Bitmap bitmap)
     {
-        Log.d(TAG, "updateImageView()");
+        Log.d(TAG, "updateImageView");
         
-        if (mImageView == null || bitmap == null)
+        if (mImageView == null)
             return;
         
-        mImageView.setBackgroundColor(getResources().getColor(R.color.color_transparent));
-        mImageView.setImageBitmap(bitmap);
+        if (bitmap != null)
+        {
+            mImageView.setBackgroundColor(getResources().getColor(R.color.color_transparent));
+            mImageView.setImageBitmap(bitmap);
+        }
+        else
+        {
+            mImageView.setImageBitmap(null);
+            mImageView.setBackgroundColor(getResources().getColor(R.color.img_pic_init_bg));
+        }
     }
 
     public void updateColors(int[] colors)
