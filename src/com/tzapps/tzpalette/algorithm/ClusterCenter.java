@@ -4,9 +4,9 @@ public class ClusterCenter extends ClusterPoint
 {
     private int numOfPoints;
     
-    public ClusterCenter(int x, int y, int value)
+    public ClusterCenter(int value)
     {
-        super(x, y, value);
+        super(value);
     }
 
     public int getNumOfPoints()

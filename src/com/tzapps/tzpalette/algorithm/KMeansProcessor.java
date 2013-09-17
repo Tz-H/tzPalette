@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.tzapps.tzpalette.utils.ColorUtils;
-
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.TimingLogger;
+
+import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class KMeansProcessor
 {
@@ -34,10 +33,8 @@ public class KMeansProcessor
         return clusterCenterList;
     }
     
-    private void initKMeanProcess(int totalCol, int totalRow, int[] values, int numOfCluster)
+    private void initKMeanProcess(int[] values, int numOfCluster)
     {
-        int index = 0;
-        
         pointList.clear();
         clusterCenterList.clear();
         
@@ -45,40 +42,25 @@ public class KMeansProcessor
         Random random = new Random();
         for (int i = 0; i < numOfCluster; i++)
         {
-            int randCol = random.nextInt(totalCol);
-            int randRow = random.nextInt(totalRow);
-            index = randRow * totalCol + randCol;
-            ClusterCenter cc = new ClusterCenter(randCol, randRow, values[index]);
+            int index = random.nextInt(values.length);
+            ClusterCenter cc = new ClusterCenter(values[index]);
             cc.setClusterIndex(i);
             clusterCenterList.add(cc);
         }
         
-        // create all cluster point
-        for (int row = 0; row < totalRow; row++)
-        {
-            for (int col = 0; col < totalCol; col++)
-            {
-                index = row * totalCol + col;
-                int value = values[index];
-                pointList.add(new ClusterPoint(col, row, value));
-            }
-        }
+        // create all cluster point 
+        for (int i = 0; i < values.length; i++)
+            pointList.add(new ClusterPoint(values[i]));
     }
     
-    public void processKMean(Bitmap src)
+    public void processKMean(int[] values)
     {
-        // initialization the pixel data
-        int width = src.getWidth();
-        int height = src.getHeight();
-        int[] inPixels = new int[width*height];
-        
-        src.getPixels(inPixels, 0, width, 0, 0, width, height);
-        
+           
         TimingLogger timings = new TimingLogger(TAG, "processKMean()");
         
         // create random cluster centers and initialize the cluster points
-        initKMeanProcess(width, height, inPixels, numOfCluster);
-        timings.addSplit("initKMeanProcess(): width=" + width + " height=" + height + " pixels=" + inPixels.length);
+        initKMeanProcess(values, numOfCluster);
+        timings.addSplit("initKMeanProcess(): values=" + values.length);
         
         // assign the cluster points into the initial cluster centers
         updateClusters();
@@ -106,31 +88,6 @@ public class KMeansProcessor
       
         timings.addSplit("processKMean done");
         timings.dumpToLog();
-        
-        /**
-        //update the result image
-        dest = src.copy(Bitmap.Config.ARGB_8888, true);
-        index = 0;
-        int[] outPixels = new int[width*height];
-        
-        for (ClusterPoint point : pointList)
-        {
-            for (ClusterCenter center : clusterCenterList)
-            {
-                if (point.getClusterIndex() == center.getClusterIndex())
-                {
-                    int col = point.getX();
-                    int row = point.getY();
-                    index = row * width + col;
-                    outPixels[index] = center.getValue();
-                }
-            }
-        }
-        
-        // fill the pixel data
-        dest.setPixels(outPixels, 0, width, 0, 0, width, height);
-        return dest;
-        */
     }
     
     /**
@@ -182,13 +139,15 @@ public class KMeansProcessor
         // initialize the clusters for each point
         int[] clusterDisValues = new int[numOfCluster];
         
-        for (ClusterPoint point: pointList)
+        for (int i = 0; i < pointList.size(); i++)
         {
-            for (ClusterCenter center : clusterCenterList)
+            ClusterPoint point = pointList.get(i);
+            for (int cIndex = 0; cIndex < clusterCenterList.size(); cIndex++)
             {
-                int cIndex = center.getClusterIndex();
+                ClusterCenter center = clusterCenterList.get(cIndex);
                 clusterDisValues[cIndex] = calcEuclideanDistanceSquare(point, center);
             }
+            
             point.setClusterIndex(getCloserCluster(clusterDisValues));
         }
     }
@@ -199,16 +158,20 @@ public class KMeansProcessor
     private int[] reCalcClusterCenterValues()
     {
         // clear the points now
-        for (ClusterCenter center : clusterCenterList)
+        for (int i = 0; i < clusterCenterList.size(); i++)
+        {
+            ClusterCenter center = clusterCenterList.get(i);
             center.setNumOfPoints(0);
+        }
         
         // recalculate the sum and total of points for each cluster
         int[] redSum   = new int[numOfCluster];
         int[] greenSum = new int[numOfCluster];
         int[] blueSum  = new int[numOfCluster];
         
-        for (ClusterPoint point : pointList)
+        for (int i = 0; i < pointList.size(); i++)
         {
+            ClusterPoint point = pointList.get(i);
             int cIndex = point.getClusterIndex();            
             clusterCenterList.get(cIndex).addPoints();
             
@@ -223,8 +186,9 @@ public class KMeansProcessor
         
         int[] clusterCentersValues = new int[numOfCluster];
         
-        for (ClusterCenter center : clusterCenterList)
+        for (int i = 0; i < clusterCenterList.size(); i++)
         {
+            ClusterCenter center = clusterCenterList.get(i);
             int sum = center.getNumOfPoints();
             int cIndex = center.getClusterIndex();
             int red, green, blue;

@@ -104,7 +104,13 @@ public class PaletteData
         
         KMeansProcessor proc = new KMeansProcessor(8, 10);   
         
-        proc.processKMean(mThumb);
+        // initialization the pixel data
+        int width = mThumb.getWidth();
+        int height = mThumb.getHeight();
+        int[] inPixels = new int[width*height];
+        mThumb.getPixels(inPixels, 0, width, 0, 0, width, height);
+        
+        proc.processKMean(inPixels);
         
         for (ClusterCenter center : proc.getClusterCenters())
             addColor(center.getValue());
