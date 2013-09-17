@@ -59,14 +59,14 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
         
-        mCaptureFrag = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
-        mPaletteListFragment = (MyPaletteListFragment)Fragment.instantiate(this, MyPaletteListFragment.class.getName(), null);
-        fragment3 = (CaptureFragment)Fragment.instantiate(this, CaptureFragment.class.getName(), null);
+        mCaptureFrag = null;
+        mPaletteListFragment = null;
+        fragment3 = null;
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), mCaptureFrag);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),mPaletteListFragment);
-        mTabsAdapter.addTab(actionBar.newTab().setText("About"), fragment3);
+        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),MyPaletteListFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("About"),  CaptureFragment.class, null);
         
         if (savedInstanceState != null)
         {
@@ -231,7 +231,19 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         private final Context mContext;
         private final ActionBar mActionBar;
         private final ViewPager mViewPager;
-        private final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
+        
+        static final class TabInfo
+        {
+            private final Class<?> clss;
+            private final Bundle args;
+            
+            TabInfo(Class<?> _class, Bundle _args)
+            {
+                clss = _class;
+                args = _args;
+            }
+        }
         
         public TabsAdapter(Activity activity, ViewPager pager)
         {
@@ -243,11 +255,13 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             mViewPager.setOnPageChangeListener(this);
         }
         
-        public void addTab(ActionBar.Tab tab, Fragment fragment)
+        public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args)
         {
-            mFragments.add(fragment);
-            
+            TabInfo info = new TabInfo(clss, args);
+            tab.setTag(info);
             tab.setTabListener(this);
+            
+            mTabs.add(info);
             mActionBar.addTab(tab);
             
             notifyDataSetChanged();
@@ -256,21 +270,21 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         @Override
         public int getCount()
         {
-            return mFragments.size();
+            return mTabs.size();
         }
         
         @Override
         public Fragment getItem(int position)
         {
-            return mFragments.get(position);
+            TabInfo info = mTabs.get(position);
+            
+            return Fragment.instantiate(mContext, info.clss.getName(), info.args);
         }
         
         @Override
         public void onPageSelected(int position)
         {
             mActionBar.setSelectedNavigationItem(position);
-            
-            //mActionBar.setTitle(mActionBar.getSelectedTab().getText());
         }
         
         @Override
