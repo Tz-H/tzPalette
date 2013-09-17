@@ -15,6 +15,8 @@
     <string name="button_analysis">Analysis</string>
     <string name="button_clear">Clear</string>
     
+    <string name="analysis_picture_in_process">Analyse the picture...</string>
+    
     <string name="img_pic_desc">The picture displayed in capture view</string>
     <string name="img_pic_frame_desc">The picture frame in capture view</string>
     

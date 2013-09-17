@@ -9,6 +9,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -183,32 +184,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         if (mPaletteData == null)
             return;
         
-        // TODO: async this process to avoid UI thread block
-        //mPaletteData.analysis(/*rest*/true);
-        //mCaptureFrag.updateColors(mPaletteData.getColors());
-        
-        new PaletteDataAnalysisTask().execute(mPaletteData);
-    }
-    
-    private class PaletteDataAnalysisTask extends AsyncTask<PaletteData, Void, PaletteData>
-    {
-        /* The system calls this to perform work in a worker thread and
-         * delivers it the parameters given to AsyncTask.execute() 
-         */
-        protected PaletteData doInBackground(PaletteData ...dataArray)
-        {
-            PaletteData data = dataArray[0];
-            data.analysis(/*reset*/true);
-            return data;
-        }
-        
-        /* The system calls this to perform work in the UI thread and
-         * delivers the result from doInBackground()
-         */
-        protected void onPostExecute(PaletteData result)
-        {
-            mCaptureFrag.updateColors(result.getColors());
-        }
+        new PaletteDataAnalysisTask(this).execute(mPaletteData);
     }
     
     /** Called when the user clicks the Clear button */
@@ -228,50 +204,114 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Bitmap bitmap = null;
+        
         // Check which request we are responding to
         switch(requestCode)
         {
             case TAKE_PHOTE_RESULT:
+                if (resultCode == RESULT_OK)
+                {
+                    Bundle extras = data.getExtras();
+                    bitmap = (Bitmap) extras.get("data");
+                    
+                    if (bitmap != null)
+                        handlePicture(bitmap);
+                }
+                break;
+                
             case LOAD_PICTURE_RESULT:
                 if (resultCode == RESULT_OK)
-                    handlePicture(data);
+                {
+                    Uri selectedImage = data.getData();
+                    
+                    if (selectedImage != null)
+                    {
+                        InputStream imageStream;
+                        try
+                        {
+                            imageStream  = getContentResolver().openInputStream(selectedImage);
+                            bitmap = BitmapFactory.decodeStream(imageStream);
+                        }
+                        catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                            Log.e(TAG, "load picture failed");
+                        }
+                        handlePicture(bitmap);
+                    }
+                }
                 break;
                 
             default:
                 break;
         }
+        
     }
     
-    private void handlePicture(Intent intent)
+    private void handlePicture(Bitmap bitmap)
     {
-        Uri selectedImage = intent.getData();
-        Bundle extras     = intent.getExtras();
-        Bitmap bitmap     = null;
-      
-        if (selectedImage != null)
-        {
-            InputStream imageStream;
-            try
-            {
-                imageStream  = getContentResolver().openInputStream(selectedImage);
-                bitmap = BitmapFactory.decodeStream(imageStream);
-            }
-            catch (FileNotFoundException e)
-            {
-                e.printStackTrace();
-                Log.e(TAG, "load picture failed");
-            }
-        }
-        else if (extras != null)
-        {
-            bitmap = (Bitmap) extras.get("data");
-        }
-        
         assert(bitmap != null);
         
-        mPaletteData = new PaletteData(bitmap);
-
+        if (mPaletteData == null)
+        {
+            mPaletteData = new PaletteData(bitmap);
+        }
+        else
+        {
+            mPaletteData.clearColors();
+            mPaletteData.setThumb(bitmap);
+        }
+            
         refresh();
+        
+        // start to analysis the picture immediately after loading it
+        new PaletteDataAnalysisTask(this).execute(mPaletteData);
+    }
+    
+    /**
+     * This is a helper class used to do the palette data analysis process
+     * asynchronously
+     */
+    private class PaletteDataAnalysisTask extends AsyncTask<PaletteData, Void, PaletteData>
+    {
+        Context mContext;
+        ProgressDialog mDialog;
+        
+        public PaletteDataAnalysisTask(Context context)
+        {
+            mContext = context;
+        }
+        
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(mContext);
+            
+            mDialog.setMessage(mContext.getResources().getText(R.string.analysis_picture_in_process));
+            mDialog.setIndeterminate(false);
+            mDialog.setCancelable(true);
+            mDialog.show();
+        }
+        
+        /* The system calls this to perform work in a worker thread and
+         * delivers it the parameters given to AsyncTask.execute() 
+         */
+        protected PaletteData doInBackground(PaletteData ...dataArray)
+        {
+            PaletteData data = dataArray[0];
+            data.analysis(/*reset*/true);
+            return data;
+        }
+        
+        /* The system calls this to perform work in the UI thread and
+         * delivers the result from doInBackground()
+         */
+        protected void onPostExecute(PaletteData result)
+        {
+            mDialog.hide();
+            refresh();
+        }
     }
 
     /**
