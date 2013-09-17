@@ -3,8 +3,6 @@ package com.tzapps.tzpalette.ui;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -27,10 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.algorithm.ClusterCenter;
-import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.utils.ActivityUtils;
-import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class MainActivity extends Activity
 {
@@ -43,11 +39,12 @@ public class MainActivity extends Activity
     
     ViewPager   mViewPager;
     TabsAdapter mTabsAdapter;
-    Bitmap      mBitmap;
+    PaletteData mPaletteData;
     
     CaptureFragment       mCaptureFragment;
     MyPaletteListFragment mPaletteListFragment;
     CaptureFragment       fragment3;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -133,25 +130,12 @@ public class MainActivity extends Activity
     {
         Log.d(TAG, "analysis the picture");
         
-        if (mBitmap == null)
+        if (mPaletteData == null)
             return;
         
-        KMeansProcessor proc = new KMeansProcessor(8, 10);        
-        proc.processKMean(mBitmap);
+        mPaletteData.analysis();
         
-        for (ClusterCenter center : proc.getClusterCenters())
-        {
-            Log.i(TAG, "Center color is " + ColorUtils.colorToRGBString(center.getValue()));
-        }
-        
-        int[] colors = new int[8];
-        
-        for (int i = 0; i < 8; i++)
-            colors[i] = proc.getClusterCenters().get(i).getValue();
-        
-        Arrays.sort(colors);
-        
-        mCaptureFragment.updateColors(colors);
+        mCaptureFragment.updateColors(mPaletteData.getColors());
     }
 
     /** Called when the user clicks the PickPicture button */
@@ -184,20 +168,15 @@ public class MainActivity extends Activity
     {
         Uri selectedImage = intent.getData();
         Bundle extras     = intent.getExtras();
-        
-        if (mBitmap != null)
-        {
-            mBitmap.recycle();
-            mBitmap = null;
-        }
-        
+        Bitmap bitmap     = null;
+      
         if (selectedImage != null)
         {
             InputStream imageStream;
             try
             {
                 imageStream  = getContentResolver().openInputStream(selectedImage);
-                mBitmap = BitmapFactory.decodeStream(imageStream);
+                bitmap = BitmapFactory.decodeStream(imageStream);
             }
             catch (FileNotFoundException e)
             {
@@ -207,12 +186,13 @@ public class MainActivity extends Activity
         }
         else if (extras != null)
         {
-            mBitmap = (Bitmap) extras.get("data");
+            bitmap = (Bitmap) extras.get("data");
         }
         
-        assert(mBitmap != null);
+        assert(bitmap != null);
         
-        mCaptureFragment.updateImageView(mBitmap);
+        mPaletteData = new PaletteData(bitmap);
+        mCaptureFragment.updateImageView(bitmap);
     }
 
     /**
