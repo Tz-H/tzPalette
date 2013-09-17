@@ -67,18 +67,39 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),MyPaletteListFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"),  CaptureFragment.class, null);
-        
-        if (savedInstanceState != null)
-        {
-            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab",0));
-        }
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
+        
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+        
+        if (mPaletteData != null)
+        {
+            outState.putParcelable("bitmap", mPaletteData.getThumb());
+            outState.putIntArray("colors", mPaletteData.getColors());
+        }
+    }
+    
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        
+        mTabsAdapter.setSelectedTab(savedInstanceState.getInt("tab",0));
+        
+        Bitmap bitmap = (Bitmap)savedInstanceState.getParcelable("bitmap");
+        int[]  colors = savedInstanceState.getIntArray("colors");
+               
+        if (mPaletteData == null)
+            mPaletteData = new PaletteData();
+
+        mPaletteData.setThumb(bitmap);
+        mPaletteData.addColors(colors, /*reset*/true);
+        
+        refresh();
     }
 
     @Override
@@ -255,6 +276,11 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             mViewPager.setOnPageChangeListener(this);
         }
         
+        public void setSelectedTab(int position)
+        {
+            mActionBar.setSelectedNavigationItem(position);
+        }
+
         public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args)
         {
             TabInfo info = new TabInfo(clss, args);

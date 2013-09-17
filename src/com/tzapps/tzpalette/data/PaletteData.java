@@ -47,6 +47,18 @@ public class PaletteData
         mColors.add(color);
     }
     
+    public void addColors(int[] colors, boolean reset)
+    {
+        if (colors == null)
+            return;
+        
+        if (reset)
+            mColors.clear();
+        
+        for (int color : colors)
+            addColor(color);
+    }
+    
     public int[] getColors()
     {
         int numOfColors = mColors.size();
