@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tzapps.tzpalette.algorithm.ClusterCenter;
-import com.tzapps.tzpalette.algorithm.KMeansProcessor;
-import com.tzapps.tzpalette.utils.ColorUtils;
-
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.tzapps.tzpalette.algorithm.ClusterCenter;
+import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+
 public class PaletteData
 {
+    private static final String TAG = "PaletteData";
+    
     Bitmap mThumb;
     List<Integer> mColors;
     
@@ -63,6 +64,8 @@ public class PaletteData
 
     public void analysis()
     {
+        Log.d(TAG, "palette data analysis()");
+        
         KMeansProcessor proc = new KMeansProcessor(8, 10);   
         
         // TODO: async this process to avoid UI thread block
