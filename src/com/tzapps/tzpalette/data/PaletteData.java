@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class PaletteData
 {
@@ -117,11 +118,13 @@ public class PaletteData
         {
             int[] values = center.getValues();
             
-            int r = values[0];
-            int g = values[1];
-            int b = values[2];
+            //int r = values[0];
+            //int g = values[1];
+            //int b = values[2];
+            //int color = Color.rgb(r,g,b);
             
-            int color = Color.rgb(r,g,b);
+            int color = ColorUtils.hsvToColor(values);
+            
             addColor(color);
         }
     }

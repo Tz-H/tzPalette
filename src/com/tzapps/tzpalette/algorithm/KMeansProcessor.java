@@ -39,13 +39,13 @@ public class KMeansProcessor
         {
             int index = random.nextInt(values.length);
             
-            centers[i] = new ClusterCenter(ColorUtils.colorToRGB(values[index]));
+            centers[i] = new ClusterCenter(ColorUtils.colorToHSV(values[index]));
             centers[i].setClusterIndex(i);
         }
         
         // create all cluster point 
         for (int i = 0; i < values.length; i++)
-            points[i] = new ClusterPoint(ColorUtils.colorToRGB(values[i]));
+            points[i] = new ClusterPoint(ColorUtils.colorToHSV(values[i]));
     }
     
     public void processKMean(int[] values)

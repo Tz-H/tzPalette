@@ -32,4 +32,31 @@ public class ColorUtils
         
         return rgb;
     }
+    
+    public static int[] colorToHSV(int color)
+    {
+        int[] hsv = new int[3];
+        float[] hsv_float = new float[3];
+        
+        Color.colorToHSV(color, hsv_float);
+        
+        hsv[0] = (int)hsv_float[0];
+        hsv[1] = (int)(hsv_float[1] * 100);
+        hsv[2] = (int)(hsv_float[2] * 100);
+        
+        return hsv;
+    }
+    
+    public static int hsvToColor(int[] hsv)
+    {
+        assert(hsv.length == 3);
+        
+        float[] hsv_float = new float[3];
+        
+        hsv_float[0] = hsv[0];
+        hsv_float[1] = (float)hsv[1] / 100;
+        hsv_float[2] = (float)hsv[2] / 100;
+        
+        return Color.HSVToColor(hsv_float);
+    }
 }
