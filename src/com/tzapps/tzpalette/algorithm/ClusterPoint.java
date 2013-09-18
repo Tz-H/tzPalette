@@ -1,7 +1,5 @@
 package com.tzapps.tzpalette.algorithm;
 
-import android.graphics.Color;
-
 
 public class ClusterPoint
 {
@@ -36,18 +34,6 @@ public class ClusterPoint
         this.clusterIndex = clusterIndex;
     }
     
-    public static int calcEuclideanDistanceSquare(ClusterPoint p1, ClusterPoint p2)
-    {
-        int dist = 0;
-        
-        assert(p1.values.length == p2.values.length);
-        
-        for (int i = 0; i < p1.values.length; i++)
-            dist += (p1.values[i] - p2.values[i]) * (p1.values[i] - p2.values[i]);
-        
-        return dist;
-    }
-
     public int getValuesCount()
     {
         return values.length;
@@ -65,5 +51,17 @@ public class ClusterPoint
         buffer.append("]");
         
         return buffer.toString();
+    }
+    
+    public static int calcEuclideanDistanceSquare(ClusterPoint p1, ClusterPoint p2)
+    {
+        int dist = 0;
+        
+        assert(p1.values.length == p2.values.length);
+        
+        for (int i = 0; i < p1.values.length; i++)
+            dist += (p1.values[i] - p2.values[i]) * (p1.values[i] - p2.values[i]);
+        
+        return dist;
     }
 }

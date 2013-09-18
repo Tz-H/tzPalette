@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+import com.tzapps.tzpalette.algorithm.KMeansProcessor.KMeansProcessor_DataType;
 import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class PaletteData
@@ -104,7 +104,9 @@ public class PaletteData
         if (reset)
             clearColors();
         
-        KMeansProcessor proc = new KMeansProcessor(8, 10);   
+        KMeansProcessor_DataType dataType = KMeansProcessor_DataType.ColorToRGB;
+        
+        KMeansProcessor proc = new KMeansProcessor(8, 10, dataType);   
         
         // initialization the pixel data
         int width = mThumb.getWidth();
@@ -118,12 +120,18 @@ public class PaletteData
         {
             int[] values = center.getValues();
             
-            //int r = values[0];
-            //int g = values[1];
-            //int b = values[2];
-            //int color = Color.rgb(r,g,b);
+            int color = 0;
             
-            int color = ColorUtils.hsvToColor(values);
+            switch(dataType)
+            {
+                case ColorToRGB:
+                    color = ColorUtils.rgbToColor(values);
+                    break;
+                
+                case ColorToHSV:
+                    color = ColorUtils.hsvToColor(values);
+                    break;
+            }
             
             addColor(color);
         }

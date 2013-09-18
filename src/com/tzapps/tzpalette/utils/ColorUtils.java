@@ -59,4 +59,11 @@ public class ColorUtils
         
         return Color.HSVToColor(hsv_float);
     }
+
+    public static int rgbToColor(int[] rgb)
+    {
+        assert(rgb.length == 3);
+        
+        return Color.rgb(rgb[0], rgb[1], rgb[2]);
+    }
 }

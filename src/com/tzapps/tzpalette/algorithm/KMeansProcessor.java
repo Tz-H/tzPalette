@@ -9,17 +9,25 @@ import com.tzapps.tzpalette.utils.ColorUtils;
 
 public class KMeansProcessor
 {
+    public enum KMeansProcessor_DataType
+    {
+        ColorToRGB,
+        ColorToHSV
+    };
+    
     private final static String TAG = "KMeansProcessor";
     
     private int numOfCluster;
     private int deviation;
     private ClusterPoint[] points;
     private ClusterCenter[] centers;
+    private KMeansProcessor_DataType type;
     
-    public KMeansProcessor(int numOfCluster, int deviation)
+    public KMeansProcessor(int numOfCluster, int deviation, KMeansProcessor_DataType type)
     {
         this.numOfCluster = numOfCluster;
         this.deviation    = deviation;
+        this.type         = type;
     }
     
     public ClusterCenter[] getClusterCenters()
@@ -27,25 +35,44 @@ public class KMeansProcessor
         return centers;
     }
     
+    /**
+     * Convert the input value into Cluster point values
+     */
+    private int[] convertInput(int input)
+    {
+        switch(type)
+        {
+            case ColorToRGB:
+                return ColorUtils.colorToRGB(input);
+                
+            case ColorToHSV:
+                return ColorUtils.colorToHSV(input);
+               
+            default:
+                int[] values = new int[1];
+                values[0] = input;
+                return values;
+        }
+    }
+    
     private void initKMeanProcess(int[] values, int numOfCluster)
     {
         points = new ClusterPoint[values.length];
         centers = new ClusterCenter[numOfCluster];
         
-        // Create random points as the cluster center
-        Random random = new Random();
+        // create all cluster points
+        for (int i = 0; i < values.length; i++)
+            points[i] = new ClusterPoint(convertInput(values[i]));
         
+        // create random points as the cluster centers
+        Random random = new Random();
         for (int i = 0; i < numOfCluster; i++)
         {
             int index = random.nextInt(values.length);
             
-            centers[i] = new ClusterCenter(ColorUtils.colorToHSV(values[index]));
+            centers[i] = new ClusterCenter(convertInput(values[index]));
             centers[i].setClusterIndex(i);
         }
-        
-        // create all cluster point 
-        for (int i = 0; i < values.length; i++)
-            points[i] = new ClusterPoint(ColorUtils.colorToHSV(values[i]));
     }
     
     public void processKMean(int[] values)
@@ -56,16 +83,8 @@ public class KMeansProcessor
         initKMeanProcess(values, numOfCluster);
         timings.addSplit("initKMeanProcess(): values=" + values.length);
         
-        // assign the cluster points into the initial cluster centers
-        updateClusters(points, centers);
-        timings.addSplit("init updateClusters()");
-        
-        // calculate the cluster center values as the first initial one
-        centers = reCalcClusterCenters(points);
         int count = 1;
-        timings.addSplit("reCalcClusterCenters() count " + count);
-        
-        while (true)
+        do
         {
             updateClusters(points, centers);
             timings.addSplit("updateClusters() count " + count);
@@ -74,11 +93,12 @@ public class KMeansProcessor
             count++;
             timings.addSplit("reCalcClusterCenters() count " + count);
             
-            if (isStop(centers, newCenters, this.deviation))
+            if (isStop(centers, newCenters, deviation))
                 break;
             else
                 centers = newCenters;
         }
+        while(true);
       
         timings.addSplit("processKMean done");
         timings.dumpToLog();
@@ -161,15 +181,15 @@ public class KMeansProcessor
         {
             ClusterCenter center = newCenters[i];
             
-            int sum = center.getNumOfPoints();
+            int totalPoints = center.getNumOfPoints();
             int cIndex = center.getClusterIndex();
             
             int values[] = new int[numOfValues];
             
             for (int j = 0; j < numOfValues; j++)
             {
-                if (sum != 0)
-                    values[j] = valuesSum[cIndex][j] / sum;
+                if (totalPoints != 0)
+                    values[j] = valuesSum[cIndex][j] / totalPoints;
                 else
                     values[j] = 0;
             }
