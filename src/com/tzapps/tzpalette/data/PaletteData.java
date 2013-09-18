@@ -33,6 +33,12 @@ public class PaletteData
         if (mThumb != null)
             mThumb.recycle();
         
+        if (thumb == null)
+        {
+            mThumb = null;
+            return;
+        }
+        
         int width = thumb.getWidth();
         int height = thumb.getHeight();
         
