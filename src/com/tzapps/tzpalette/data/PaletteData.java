@@ -5,10 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
 public class PaletteData
 {
     private static final String TAG = "PaletteData";
+    
+    private static final int THUMB_MAX_WIDTH  = 500;
+    private static final int THUMB_MAX_HEIGHT = 500;
     
     Bitmap mThumb;
     List<Integer> mColors;
@@ -30,7 +34,27 @@ public class PaletteData
         if (mThumb != null)
             mThumb.recycle();
         
-        mThumb = thumb;
+        int width = thumb.getWidth();
+        int height = thumb.getHeight();
+        
+        int targetW = THUMB_MAX_WIDTH;
+        int targetH = THUMB_MAX_HEIGHT;
+        
+        float scale = 0.0f;
+        
+        if (width > height)
+        {
+            scale = ((float) targetW) / width;
+            
+            targetH = (int)Math.round(height * scale);
+        }
+        else
+        {
+            scale = ((float) targetH) / height;
+            targetW = (int)Math.round(width * scale);
+        }
+        
+        mThumb = Bitmap.createScaledBitmap(thumb, targetW, targetH, false);
     }
     
     public Bitmap getThumb()

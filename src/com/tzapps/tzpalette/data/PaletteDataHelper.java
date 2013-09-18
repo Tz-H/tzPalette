@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.data;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
@@ -23,7 +24,7 @@ public class PaletteDataHelper
     
     public void analysis(PaletteData data, boolean reset)
     {
-        analysis(data, reset, 10, 5, KMeansProcessor_DataType.ColorToRGB);
+        analysis(data, reset, 8, 5, KMeansProcessor_DataType.ColorToHSL);
     }
     
     /**
@@ -78,9 +79,35 @@ public class PaletteDataHelper
                 case ColorToHSV:
                     color = ColorUtils.hsvToColor(values);
                     break;
+                    
+                case ColorToHSL:
+                    color = ColorUtils.hslToColor(values);
+                    break;
             }
             
             data.addColor(color);
         }
+    }
+    
+    public static int calcuInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+    {
+        // Raw height and widht of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        
+        if (height > reqHeight || width > reqWidth)
+        {
+         // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        
+        return inSampleSize;
     }
 }

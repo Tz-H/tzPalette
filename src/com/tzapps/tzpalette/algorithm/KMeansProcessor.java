@@ -12,7 +12,8 @@ public class KMeansProcessor
     public enum KMeansProcessor_DataType
     {
         ColorToRGB,
-        ColorToHSV
+        ColorToHSV,
+        ColorToHSL
     };
     
     private final static String TAG = "KMeansProcessor";
@@ -47,6 +48,9 @@ public class KMeansProcessor
                 
             case ColorToHSV:
                 return ColorUtils.colorToHSV(input);
+                
+            case ColorToHSL:
+                return ColorUtils.colorToHSL(input);
                
             default:
                 int[] values = new int[1];
