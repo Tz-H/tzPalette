@@ -28,6 +28,7 @@ import android.view.View;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.utils.ActivityUtils;
 
 public class MainActivity extends Activity implements BaseFragment.OnFragmentStatusChangedListener
@@ -39,9 +40,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     /** Called when the user clicks the LoadPicture button */
     static final int LOAD_PICTURE_RESULT = 2;
     
-    ViewPager   mViewPager;
-    TabsAdapter mTabsAdapter;
-    PaletteData mPaletteData;
+    ProgressDialog mDialog;
+    ViewPager      mViewPager;
+    TabsAdapter    mTabsAdapter;
+    PaletteData    mPaletteData;
     
     CaptureFragment       mCaptureFrag;
     MyPaletteListFragment mPaletteListFragment;
@@ -184,7 +186,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         if (mPaletteData == null)
             return;
         
-        new PaletteDataAnalysisTask(this).execute(mPaletteData);
+        new PaletteDataAnalysisTask().execute(mPaletteData);
     }
     
     /** Called when the user clicks the Clear button */
@@ -266,7 +268,23 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         refresh();
         
         // start to analysis the picture immediately after loading it
-        new PaletteDataAnalysisTask(this).execute(mPaletteData);
+        new PaletteDataAnalysisTask().execute(mPaletteData);
+    }
+    
+    private void startAnalysis()
+    {
+        if (mDialog == null)
+            mDialog = new ProgressDialog(this);
+        
+        mDialog.setMessage(getResources().getText(R.string.analysis_picture_in_process));
+        mDialog.setIndeterminate(false);
+        mDialog.setCancelable(true);
+        mDialog.show();
+    }
+    
+    private void stopAnalysis()
+    {
+        mDialog.hide();
     }
     
     /**
@@ -275,23 +293,11 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
      */
     private class PaletteDataAnalysisTask extends AsyncTask<PaletteData, Void, PaletteData>
     {
-        Context mContext;
-        ProgressDialog mDialog;
-        
-        public PaletteDataAnalysisTask(Context context)
-        {
-            mContext = context;
-        }
-        
         protected void onPreExecute()
         {
             super.onPreExecute();
-            mDialog = new ProgressDialog(mContext);
-            
-            mDialog.setMessage(mContext.getResources().getText(R.string.analysis_picture_in_process));
-            mDialog.setIndeterminate(false);
-            mDialog.setCancelable(true);
-            mDialog.show();
+            startAnalysis();
+
         }
         
         /* The system calls this to perform work in a worker thread and
@@ -300,7 +306,11 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         protected PaletteData doInBackground(PaletteData ...dataArray)
         {
             PaletteData data = dataArray[0];
-            data.analysis(/*reset*/true);
+            
+            PaletteDataHelper helper = PaletteDataHelper.getInstance();
+            
+            helper.analysis(data, /*reset*/true);
+            
             return data;
         }
         
@@ -309,8 +319,8 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
          */
         protected void onPostExecute(PaletteData result)
         {
-            mDialog.hide();
             refresh();
+            stopAnalysis();
         }
     }
 
