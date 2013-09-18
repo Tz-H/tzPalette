@@ -9,34 +9,72 @@
     <ImageView 
         android:id="@+id/img_pic_frame"
         android:layout_width="300dp"
-        android:layout_height="340dp"
+        android:layout_height="350dp"
         android:layout_centerHorizontal="true"
         android:background="@color/color_white"
         android:contentDescription="@string/img_pic_frame_desc" />
     
+    <TextView 
+        android:id="@+id/tv_palette_title"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/img_pic_frame"
+        android:layout_alignLeft="@+id/img_pic_frame"
+        android:layout_alignRight="@+id/img_pic_frame"
+        
+        android:background="@color/color_darkgray"
+        
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical|left"
+        android:text="@string/palette_title_default"
+        android:textColor="@color/color_lightgray"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center" />
+    
+    <ImageButton 
+        android:id="@+id/btn_clear"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/tv_palette_title"
+        android:layout_alignTop="@+id/tv_palette_title"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:soundEffectsEnabled="true"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="clearPicture"
+        android:contentDescription="@string/btn_clear_desc"/>
+    
     <ImageView
         android:id="@+id/img_pic"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:layout_alignTop="@id/img_pic_frame"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        
+        android:layout_alignTop="@+id/img_pic_frame"
+        android:layout_alignBottom="@+id/img_pic_frame"
+        android:layout_alignLeft="@+id/img_pic_frame"
+        android:layout_alignRight="@+id/img_pic_frame"
+        
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        
         android:background="@color/img_pic_init_bg"
         android:contentDescription="@string/img_pic_desc" />
     
     <GridView 
         android:id="@+id/grid_colors"
-        android:layout_width="280dp"
+        android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:columnWidth="30dp"
+        android:layout_alignLeft="@+id/img_pic_frame"
+        android:layout_alignRight="@+id/img_pic_frame"
+        android:layout_alignBottom="@+id/img_pic_frame"
+        
         android:numColumns="auto_fit"
+        android:columnWidth="30dp"
         android:verticalSpacing="10dp"
         android:horizontalSpacing="5dp"
         android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/img_pic" />
+        android:gravity="center" />
     
     <Button
         android:id="@+id/btn_loadPicture"
@@ -62,13 +100,5 @@
         android:layout_below="@+id/btn_takePhoto"
         android:onClick="analysisPicture"
         android:text="@string/button_analysis" />
-    
-    <Button
-        android:id="@+id/btn_clear"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_analysis"
-        android:onClick="clearPicture"
-        android:text="@string/button_clear" />
     
 </RelativeLayout>
