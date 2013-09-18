@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 
 public class PaletteData
 {
@@ -40,21 +39,28 @@ public class PaletteData
         int targetW = THUMB_MAX_WIDTH;
         int targetH = THUMB_MAX_HEIGHT;
         
-        float scale = 0.0f;
-        
-        if (width > height)
+        if (width <= targetW && height <= targetH)
         {
-            scale = ((float) targetW) / width;
-            
-            targetH = (int)Math.round(height * scale);
+            mThumb = thumb;
         }
         else
-        {
-            scale = ((float) targetH) / height;
-            targetW = (int)Math.round(width * scale);
+        {   
+            float scale = 0.0f;
+            
+            if (width > height)
+            {
+                scale = ((float) targetW) / width;
+                
+                targetH = (int)Math.round(height * scale);
+            }
+            else
+            {
+                scale = ((float) targetH) / height;
+                targetW = (int)Math.round(width * scale);
+            }
+            
+            mThumb = Bitmap.createScaledBitmap(thumb, targetW, targetH, false);
         }
-        
-        mThumb = Bitmap.createScaledBitmap(thumb, targetW, targetH, false);
     }
     
     public Bitmap getThumb()
