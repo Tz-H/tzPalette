@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
@@ -113,6 +114,15 @@ public class PaletteData
         proc.processKMean(inPixels);
         
         for (ClusterCenter center : proc.getClusterCenters())
-            addColor(center.getValue());
+        {
+            int[] values = center.getValues();
+            
+            int r = values[0];
+            int g = values[1];
+            int b = values[2];
+            
+            int color = Color.rgb(r,g,b);
+            addColor(color);
+        }
     }
 }

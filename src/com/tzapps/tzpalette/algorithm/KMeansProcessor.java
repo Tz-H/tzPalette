@@ -1,10 +1,7 @@
 package com.tzapps.tzpalette.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.util.TimingLogger;
 
@@ -37,21 +34,22 @@ public class KMeansProcessor
         
         // Create random points as the cluster center
         Random random = new Random();
+        
         for (int i = 0; i < numOfCluster; i++)
         {
             int index = random.nextInt(values.length);
-            centers[i] = new ClusterCenter(values[index]);
+            
+            centers[i] = new ClusterCenter(ColorUtils.colorToRGB(values[index]));
             centers[i].setClusterIndex(i);
         }
         
         // create all cluster point 
         for (int i = 0; i < values.length; i++)
-            points[i] = new ClusterPoint(values[i]);
+            points[i] = new ClusterPoint(ColorUtils.colorToRGB(values[i]));
     }
     
     public void processKMean(int[] values)
     {
-           
         TimingLogger timings = new TimingLogger(TAG, "processKMean()");
         
         // create random cluster centers and initialize the cluster points
@@ -59,27 +57,27 @@ public class KMeansProcessor
         timings.addSplit("initKMeanProcess(): values=" + values.length);
         
         // assign the cluster points into the initial cluster centers
-        updateClusters();
+        updateClusters(points, centers);
         timings.addSplit("init updateClusters()");
         
         // calculate the cluster center values as the first initial one
-        int[] clusterCenterValues = reCalcClusterCenterValues();
+        centers = reCalcClusterCenters(points);
         int count = 1;
-        timings.addSplit("reCalculateClusterCenters() count " + count);
+        timings.addSplit("reCalcClusterCenters() count " + count);
         
         while (true)
         {
-            updateClusters();
+            updateClusters(points, centers);
             timings.addSplit("updateClusters() count " + count);
             
-            int[] newClusterCenterValues = reCalcClusterCenterValues();
+            ClusterCenter[] newCenters = reCalcClusterCenters(points);
             count++;
-            timings.addSplit("reCalculateClusterCenters() count " + count);
+            timings.addSplit("reCalcClusterCenters() count " + count);
             
-            if (isStop(clusterCenterValues, newClusterCenterValues, this.deviation))
+            if (isStop(centers, newCenters, this.deviation))
                 break;
             else
-                clusterCenterValues = newClusterCenterValues;
+                centers = newCenters;
         }
       
         timings.addSplit("processKMean done");
@@ -89,40 +87,20 @@ public class KMeansProcessor
     /**
      * check if we could stop the cluster update process
      */
-    private boolean isStop(int[] oldClusterCenterValues, int[] newClusterCenterValues, int deviation)
+    private boolean isStop(ClusterCenter[] oldCenters, ClusterCenter[] newCenters, int deviation)
     {
-        for (int i = 0; i < oldClusterCenterValues.length; i++)
+        assert(oldCenters.length == newCenters.length);
+        
+        for (int i = 0; i < oldCenters.length; i++)
         {
-            int oldColor = oldClusterCenterValues[i];
-            int newColor = newClusterCenterValues[i];
+            ClusterCenter oldCenter = oldCenters[i];
+            ClusterCenter newCenter = newCenters[i];
                      
-            Log.d(TAG, "cluster " + i + " old " + ColorUtils.colorToRGBString(oldColor) 
-                       + ", new " + ColorUtils.colorToRGBString(newColor));
+            Log.d(TAG, "cluster " + i + " old " + oldCenter.toString()
+                       + ", new " + newCenter.toString());
             
-            if (deviation == 0 && oldClusterCenterValues[i] != newClusterCenterValues[i])
-            {
-                return false; 
-            }
-            else
-            {
-                int oRed   = Color.red(oldColor);
-                int oGreen = Color.green(oldColor);
-                int oBlue  = Color.blue(oldColor);
-                
-                int nRed   = Color.red(newColor);
-                int nGreen = Color.green(newColor);
-                int nBlue  = Color.blue(newColor);
-                
-                /* To improve the cluster convergence rate, we might
-                 * allow a deviation, i.e. if the difference of the old value 
-                 * and the new value is less than the indicated deviation
-                 * we could treat them as "same"  
-                 */
-                if (Math.abs(nRed   - oRed)   > deviation ||
-                    Math.abs(nGreen - oGreen) > deviation ||
-                    Math.abs(nBlue  - oBlue)  > deviation)
-                    return false;
-            }
+            if (!ClusterCenter.equals(oldCenter, newCenter, deviation))
+                return false;
         }
         return true;
     }
@@ -130,7 +108,7 @@ public class KMeansProcessor
     /**
      * update the cluster index by distance value
      */
-    private void updateClusters()
+    private void updateClusters(ClusterPoint[] points, ClusterCenter[] centers)
     {
         // initialize the clusters for each point
         int[] clusterDisValues = new int[numOfCluster];
@@ -141,7 +119,7 @@ public class KMeansProcessor
             for (int cIndex = 0; cIndex < centers.length; cIndex++)
             {
                 ClusterCenter center = centers[cIndex];
-                clusterDisValues[cIndex] = calcEuclideanDistanceSquare(point, center);
+                clusterDisValues[cIndex] = ClusterPoint.calcEuclideanDistanceSquare(point, center);
             }
             
             point.setClusterIndex(getCloserCluster(clusterDisValues));
@@ -151,61 +129,55 @@ public class KMeansProcessor
     /**
      * using cluster value of each point to update cluster center value
      */
-    private int[] reCalcClusterCenterValues()
+    private ClusterCenter[] reCalcClusterCenters(ClusterPoint points[])
     {
+        ClusterCenter[] newCenters = new ClusterCenter[numOfCluster];
+        
         // clear the points now
-        for (int i = 0; i < centers.length; i++)
-            centers[i].setNumOfPoints(0);
+        for (int i = 0; i < newCenters.length; i++)
+        {
+            newCenters[i] = new ClusterCenter();
+            newCenters[i].setClusterIndex(i);
+        }
         
-        // recalculate the sum and total of points for each cluster
-        int[] redSum   = new int[numOfCluster];
-        int[] greenSum = new int[numOfCluster];
-        int[] blueSum  = new int[numOfCluster];
+        int numOfValues = points[0].getValuesCount();
+        int[][] valuesSum = new int[numOfCluster][numOfValues];
         
+        // recalculate the sum and total of points for each cluster center
         for (int i = 0; i < points.length; i++)
         {
             ClusterPoint point = points[i];
             int cIndex = point.getClusterIndex();            
-            centers[cIndex].addPoints();
+            newCenters[cIndex].addPoints();
             
-            int tr = Color.red(point.getValue());
-            int tg = Color.green(point.getValue());
-            int tb = Color.blue(point.getValue());
+            int[] values = point.getValues();
             
-            redSum[cIndex]   += tr;
-            greenSum[cIndex] += tg;
-            blueSum[cIndex]  += tb;
+            for (int j = 0; j < values.length; j++)
+                valuesSum[cIndex][j] += values[j];
         }
         
-        int[] clusterCentersValues = new int[numOfCluster];
-        
-        for (int i = 0; i < centers.length; i++)
+        // recalculate the values in cluster center
+        for (int i = 0; i < newCenters.length; i++)
         {
-            ClusterCenter center = centers[i];
+            ClusterCenter center = newCenters[i];
+            
             int sum = center.getNumOfPoints();
             int cIndex = center.getClusterIndex();
-            int red, green, blue;
             
-            if (sum != 0 )
+            int values[] = new int[numOfValues];
+            
+            for (int j = 0; j < numOfValues; j++)
             {
-                red = redSum[cIndex] / sum;
-                green = greenSum[cIndex] / sum;
-                blue = blueSum[cIndex]/sum;
-            }
-            else
-            {
-                red = green = blue = 0; 
+                if (sum != 0)
+                    values[j] = valuesSum[cIndex][j] / sum;
+                else
+                    values[j] = 0;
             }
             
-            int clusterColor = Color.rgb(red, green, blue);
-            
-            Log.d(TAG, "Cluster color is " + ColorUtils.colorToRGBString(clusterColor));
-            
-            center.setValue(clusterColor);
-            clusterCentersValues[cIndex] = clusterColor;
+            center.setValues(values);
         }
         
-        return clusterCentersValues;
+        return newCenters;
     }
     
     private int getCloserCluster(int[] clusterDisValues)
@@ -225,19 +197,4 @@ public class KMeansProcessor
         return clusterIndex;
     }
     
-    private int calcEuclideanDistanceSquare(ClusterPoint p, ClusterCenter c)
-    {
-        int pValue = p.getValue();
-        int cValue = c.getValue();
-        
-        int pr = Color.red(pValue);
-        int pg = Color.green(pValue);
-        int pb = Color.blue(pValue);
-        
-        int cr = Color.red(cValue);
-        int cg = Color.green(cValue);
-        int cb = Color.blue(cValue);
-        
-        return (pr-cr)*(pr-cr) + (pg-cg)*(pg-cg) + (pb-cb)*(pb-cb);
-    }
 }
