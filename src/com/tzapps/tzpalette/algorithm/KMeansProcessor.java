@@ -14,43 +14,39 @@ public class KMeansProcessor
 {
     private final static String TAG = "KMeansProcessor";
     
-    private List<ClusterCenter> clusterCenterList;
-    private List<ClusterPoint> pointList;
-    
     private int numOfCluster;
     private int deviation;
+    private ClusterPoint[] points;
+    private ClusterCenter[] centers;
     
     public KMeansProcessor(int numOfCluster, int deviation)
     {
         this.numOfCluster = numOfCluster;
         this.deviation    = deviation;
-        pointList         = new ArrayList<ClusterPoint>();
-        clusterCenterList = new ArrayList<ClusterCenter>();
     }
     
-    public List<ClusterCenter> getClusterCenters()
+    public ClusterCenter[] getClusterCenters()
     {
-        return clusterCenterList;
+        return centers;
     }
     
     private void initKMeanProcess(int[] values, int numOfCluster)
     {
-        pointList.clear();
-        clusterCenterList.clear();
+        points = new ClusterPoint[values.length];
+        centers = new ClusterCenter[numOfCluster];
         
         // Create random points as the cluster center
         Random random = new Random();
         for (int i = 0; i < numOfCluster; i++)
         {
             int index = random.nextInt(values.length);
-            ClusterCenter cc = new ClusterCenter(values[index]);
-            cc.setClusterIndex(i);
-            clusterCenterList.add(cc);
+            centers[i] = new ClusterCenter(values[index]);
+            centers[i].setClusterIndex(i);
         }
         
         // create all cluster point 
         for (int i = 0; i < values.length; i++)
-            pointList.add(new ClusterPoint(values[i]));
+            points[i] = new ClusterPoint(values[i]);
     }
     
     public void processKMean(int[] values)
@@ -139,12 +135,12 @@ public class KMeansProcessor
         // initialize the clusters for each point
         int[] clusterDisValues = new int[numOfCluster];
         
-        for (int i = 0; i < pointList.size(); i++)
+        for (int i = 0; i < points.length; i++)
         {
-            ClusterPoint point = pointList.get(i);
-            for (int cIndex = 0; cIndex < clusterCenterList.size(); cIndex++)
+            ClusterPoint point = points[i];
+            for (int cIndex = 0; cIndex < centers.length; cIndex++)
             {
-                ClusterCenter center = clusterCenterList.get(cIndex);
+                ClusterCenter center = centers[cIndex];
                 clusterDisValues[cIndex] = calcEuclideanDistanceSquare(point, center);
             }
             
@@ -158,22 +154,19 @@ public class KMeansProcessor
     private int[] reCalcClusterCenterValues()
     {
         // clear the points now
-        for (int i = 0; i < clusterCenterList.size(); i++)
-        {
-            ClusterCenter center = clusterCenterList.get(i);
-            center.setNumOfPoints(0);
-        }
+        for (int i = 0; i < centers.length; i++)
+            centers[i].setNumOfPoints(0);
         
         // recalculate the sum and total of points for each cluster
         int[] redSum   = new int[numOfCluster];
         int[] greenSum = new int[numOfCluster];
         int[] blueSum  = new int[numOfCluster];
         
-        for (int i = 0; i < pointList.size(); i++)
+        for (int i = 0; i < points.length; i++)
         {
-            ClusterPoint point = pointList.get(i);
+            ClusterPoint point = points[i];
             int cIndex = point.getClusterIndex();            
-            clusterCenterList.get(cIndex).addPoints();
+            centers[cIndex].addPoints();
             
             int tr = Color.red(point.getValue());
             int tg = Color.green(point.getValue());
@@ -186,9 +179,9 @@ public class KMeansProcessor
         
         int[] clusterCentersValues = new int[numOfCluster];
         
-        for (int i = 0; i < clusterCenterList.size(); i++)
+        for (int i = 0; i < centers.length; i++)
         {
-            ClusterCenter center = clusterCenterList.get(i);
+            ClusterCenter center = centers[i];
             int sum = center.getNumOfPoints();
             int cIndex = center.getClusterIndex();
             int red, green, blue;
