@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palette"),MyPaletteListFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"),MyPaletteListFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"),  CaptureFragment.class, null);
     }
     
@@ -153,7 +153,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         refresh();
     }
 
-    /** Called when the user clicks the TakePhoto button */
+    /** Called when the user performs the Take Photo action */
     public void takePhoto(View view)
     {
         Log.d(TAG, "take a photo");
@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         }
     }
     
-    /** Called when the user clicks the PickPicture button */
+    /** Called when the user performs the Load Picture action */
     public void loadPicture(View view)
     {
         Log.d(TAG, "load a picture");
@@ -178,7 +178,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         startActivityForResult(photoPickerIntent, LOAD_PICTURE_RESULT);
     }
     
-    /** Called when the user clicks the Analysis button */
+    /** Called when the user performs the Analysis action */
     public void analysisPicture(View view)
     {
         Log.d(TAG, "analysis the picture");
@@ -189,7 +189,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         new PaletteDataAnalysisTask().execute(mPaletteData);
     }
     
-    /** Called when the user clicks the Clear button */
+    /** Called when the user performs the Clear action */
     public void clearPicture(View view)
     {
         Log.d(TAG, "clear the picture");
@@ -201,6 +201,17 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mPaletteData.clearColors();
         
         refresh();
+    }
+    
+    /** Called when the user performs the Save action */
+    public void savePalette(View view)
+    {
+        Log.d(TAG, "save the palette");
+        
+        if (mPaletteData == null)
+            return;
+        
+        // TODO: implement the save function
     }
     
     @Override

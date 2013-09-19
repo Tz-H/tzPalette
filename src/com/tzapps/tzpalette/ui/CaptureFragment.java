@@ -23,6 +23,8 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     ImageView mImageView;
     GridView mColoursGrid;
     ColorAdapter mColorsAdapter;
+    View mTitleButtons;
+    View mPicButtons;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,6 +37,8 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         View view = inflater.inflate(R.layout.capture_view, container, false);
         
         mImageView = (ImageView) view.findViewById(R.id.img_pic);
+        mTitleButtons = (View) view.findViewById(R.id.title_buttons);
+        mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
         mColorsAdapter = new ColorAdapter(getActivity());
         
@@ -56,11 +60,15 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         {
             mImageView.setBackgroundColor(getResources().getColor(R.color.color_transparent));
             mImageView.setImageBitmap(bitmap);
+            mTitleButtons.setVisibility(View.VISIBLE);
+            mPicButtons.setVisibility(View.GONE);
         }
         else
         {
             mImageView.setImageBitmap(null);
             mImageView.setBackgroundColor(getResources().getColor(R.color.img_pic_init_bg));
+            mTitleButtons.setVisibility(View.GONE);
+            mPicButtons.setVisibility(View.VISIBLE);
         }
     }
 
