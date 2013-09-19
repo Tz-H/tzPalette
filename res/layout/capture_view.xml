@@ -41,15 +41,25 @@
        android:layout_alignRight="@+id/tv_palette_title"
        android:layout_alignBottom="@+id/tv_palette_title"
        android:gravity="center_vertical|right"
-       android:visibility="gone"
+       android:visibility="visible"
        android:orientation="horizontal">
+       
+        <ImageButton 
+            android:id="@+id/btn_analysis"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/ic_menu_view"
+            android:contentDescription="@string/btn_analysis_desc"
+            android:onClick="analysisPicture"
+            android:soundEffectsEnabled="true" />
        
         <ImageButton 
             android:id="@+id/btn_save"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"
-            android:background="@android:drawable/ic_menu_add"
+            android:background="@android:drawable/ic_menu_save"
             android:contentDescription="@string/btn_save_desc"
             android:onClick="savePalette"
             android:soundEffectsEnabled="true" />
@@ -59,7 +69,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="5dp"
-            android:background="@android:drawable/ic_menu_delete"
+            android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="@string/btn_clear_desc"
             android:onClick="clearPicture"
             android:soundEffectsEnabled="true" />
@@ -136,13 +146,5 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
-
-    <Button
-        android:id="@+id/btn_analysis"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/img_pic_frame"
-        android:onClick="analysisPicture"
-        android:text="@string/button_analysis" />
 
 </RelativeLayout>

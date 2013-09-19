@@ -26,5 +26,6 @@
     <string name="btn_save_desc">The bubbton used to save the current palette</string>
     <string name="btn_takePhoto_desc">The button used to take a photo</string>
     <string name="btn_loadPicture_desc">The button used to load a picture</string>
+    <string name="btn_analysis_desc">The button used to analysis the picture</string>
     
 </resources>

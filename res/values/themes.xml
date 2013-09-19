@@ -21,6 +21,7 @@
     <!-- ActoinBar tabs text styles -->
     <style name="MyActionBarTabText" parent="@android:style/Widget.ActionBar.TabText">
         <item name="android:textColor">@color/actionbar_tab_text</item>
+        <item name="android:textSize">16sp</item>
     </style>
     
 </resources>
