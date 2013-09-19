@@ -1,7 +1,5 @@
 package com.tzapps.tzpalette.ui;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -144,25 +142,22 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent)
         {
+            View cellView = convertView;
             ImageView imageView;
-
-            if (convertView == null)
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            
+            if (cellView != null)
             {
-                // if it's not recycled, initialize some attributes
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                
-                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
-                imageView.startAnimation(fadeInAnim);
+                imageView = (ImageView)cellView.findViewById(R.id.item_color);
             }
             else
             {
-                imageView = (ImageView) convertView;
+                cellView = inflater.inflate(R.layout.color_item, parent, false);
+                imageView = (ImageView)cellView.findViewById(R.id.item_color);
             }
             
             imageView.setBackgroundColor(colors[position]);
-            return imageView;
+            return cellView;
         }
     }
 }

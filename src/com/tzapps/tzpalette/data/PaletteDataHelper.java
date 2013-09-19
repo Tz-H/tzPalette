@@ -34,7 +34,7 @@ public class PaletteDataHelper
      * @param data          the PaletteData data to analysis
      * @param reset         flag to indicate if remove the existing colors
      * @param numOfColors   number of colors to pick up (default value is 10)
-     * @param deviation     deviation to control how precise the analysis it (default value is 5)
+     * @param deviation     deviation to control how precise the analysis it is (the default value is 5)
      * @param dataType      the color type (RGB or HSV) when do the color analysis
      */
     public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, KMeansProcessor_DataType dataType)

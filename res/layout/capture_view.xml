@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/img_pic_frame"
-        android:layout_width="300dp"
-        android:layout_height="340dp"
+        android:layout_width="320dp"
+        android:layout_height="380dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@color/color_white"
@@ -87,7 +87,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="60dp"
         android:background="@color/img_pic_init_bg"
         android:contentDescription="@string/img_pic_desc" />
     
@@ -132,19 +132,27 @@
        
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/grid_colors"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/img_pic_frame"
-        android:layout_alignLeft="@+id/img_pic_frame"
+    <LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="40dp"
+	    android:layout_alignLeft="@+id/img_pic_frame"
         android:layout_alignRight="@+id/img_pic_frame"
-        android:layout_marginTop="20dp"
-        android:columnWidth="30dp"
+        android:layout_alignBottom="@+id/img_pic_frame"
         android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="5dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth" />
+	    android:orientation="vertical" >
+        
+		<GridView
+		    android:id="@+id/grid_colors"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"
+		    
+		    android:horizontalSpacing="5dp"
+		    android:verticalSpacing="5dp"
+		    android:columnWidth="35dp"
+		    android:numColumns="auto_fit"
+		    android:stretchMode="columnWidth" />
+		
+    </LinearLayout>
 
 </RelativeLayout>

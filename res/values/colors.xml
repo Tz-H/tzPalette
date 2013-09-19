@@ -9,6 +9,8 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_photogray">#F8F8F8</color>
     <color name="color_transparent">#00000000</color>
+    <color name="color_semitransparent">#60000000</color>
     <color name="color_darkgray">#222222</color>
     <color name="color_lightgray">#F8F8F8</color>
+    
 </resources>
