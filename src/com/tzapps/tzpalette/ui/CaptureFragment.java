@@ -154,6 +154,9 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
             {
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
                 imageView = (ImageView)cellView.findViewById(R.id.item_color);
+                
+                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
+                cellView.startAnimation(fadeInAnim);
             }
             
             imageView.setBackgroundColor(colors[position]);
