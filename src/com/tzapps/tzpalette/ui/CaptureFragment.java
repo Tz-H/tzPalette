@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -150,6 +152,9 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                
+                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
+                imageView.startAnimation(fadeInAnim);
             }
             else
             {

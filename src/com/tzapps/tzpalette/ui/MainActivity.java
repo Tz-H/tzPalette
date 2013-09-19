@@ -111,7 +111,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_actions, menu);
+        inflater.inflate(R.menu.capture_view_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -126,7 +126,19 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
                 return true;
 
             case R.id.action_about:
-                // openAbout();
+                mTabsAdapter.setSelectedTab(2);
+                return true;
+                
+            case R.id.action_save:
+                // savePalette();
+                return true;
+                
+            case R.id.action_clear:
+                clearPalette(item.getActionView());
+                return true;
+                
+            case R.id.action_analysis:
+                analysisPicture(item.getActionView());
                 return true;
 
             default:
@@ -190,16 +202,14 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     }
     
     /** Called when the user performs the Clear action */
-    public void clearPicture(View view)
+    public void clearPalette(View view)
     {
         Log.d(TAG, "clear the picture");
         
         if (mPaletteData == null)
             return;
         
-        mPaletteData.setThumb(null);
-        mPaletteData.clearColors();
-        
+        mPaletteData.clear();
         refresh();
     }
     

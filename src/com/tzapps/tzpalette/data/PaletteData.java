@@ -110,4 +110,10 @@ public class PaletteData
     {
         mColors.clear();
     }
+
+    public void clear()
+    {
+        setThumb(null);
+        clearColors();
+    }
 }

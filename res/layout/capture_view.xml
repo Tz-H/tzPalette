@@ -41,7 +41,7 @@
        android:layout_alignRight="@+id/tv_palette_title"
        android:layout_alignBottom="@+id/tv_palette_title"
        android:gravity="center_vertical|right"
-       android:visibility="visible"
+       android:visibility="invisible"
        android:orientation="horizontal">
        
         <ImageButton 
@@ -71,7 +71,7 @@
             android:layout_marginRight="5dp"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="@string/btn_clear_desc"
-            android:onClick="clearPicture"
+            android:onClick="clearPalette"
             android:soundEffectsEnabled="true" />
        
     </LinearLayout>
