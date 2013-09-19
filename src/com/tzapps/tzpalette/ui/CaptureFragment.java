@@ -1,5 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,9 +16,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.utils.ClipboardUtils;
 import com.tzapps.tzpalette.utils.ColorUtils;
 
-public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener
+public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     private static final String TAG = "CaptureFragment";
     
@@ -45,6 +48,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mColoursGrid = (GridView) view.findViewById(R.id.grid_colors);
         mColoursGrid.setAdapter(mColorsAdapter);
         mColoursGrid.setOnItemClickListener(this);
+        mColoursGrid.setOnItemLongClickListener(this);
         
         return view;
     }
@@ -84,6 +88,18 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         int color = mColorsAdapter.getColor(position);
         
         Toast.makeText(getActivity(), ColorUtils.colorToHtml(color), Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorsAdapter.getColor(position);
+        
+        //TODO add strings into resources
+        ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
+        Toast.makeText(getActivity(), "Color[" + ColorUtils.colorToHtml(color) + "] has been added into clipboard", Toast.LENGTH_SHORT).show();
+        
+        return true;
     }
 
     private class ColorAdapter extends BaseAdapter
@@ -133,8 +149,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             }
             else
             {
