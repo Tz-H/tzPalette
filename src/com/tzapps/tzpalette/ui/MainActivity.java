@@ -121,6 +121,14 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         // Handle presses on the action bar items
         switch (item.getItemId())
         {
+            case R.id.action_takePhoto:
+                takePhoto(item.getActionView());
+                return true;
+                
+            case R.id.action_loadPicture:
+                loadPicture(item.getActionView());
+                return true;
+            
             case R.id.action_settings:
                 // openSettings();
                 return true;

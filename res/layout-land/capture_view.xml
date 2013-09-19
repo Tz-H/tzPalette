@@ -36,32 +36,4 @@
         android:gravity="center"
         android:layout_toRightOf="@+id/img_pic" />
     
-    <Button
-        android:id="@+id/btn_loadPicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_toRightOf="@+id/img_pic_frame"
-        android:onClick="loadPicture"
-        android:text="@string/button_loadPicture" />
-
-    <Button
-        android:id="@+id/btn_takePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btn_loadPicture"
-        android:layout_below="@+id/btn_loadPicture"
-        android:onClick="takePhoto"
-        android:text="@string/button_takePhoto" />
-    
-    <Button
-        android:id="@+id/btn_analysis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btn_takePhoto"
-        android:layout_alignRight="@+id/btn_takePhoto"
-        android:layout_below="@+id/btn_takePhoto"
-        android:onClick="analysisPicture"
-        android:text="@string/button_analysis" />
-    
 </RelativeLayout>
