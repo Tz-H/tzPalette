@@ -2,6 +2,8 @@ package com.tzapps.tzpalette.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.utils.ClipboardUtils;
 import com.tzapps.tzpalette.utils.ColorUtils;
+import com.tzapps.tzpalette.utils.ImageHelper;
 
 public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
@@ -39,7 +42,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.capture_view, container, false);
         
-        mImageView = (ImageView) view.findViewById(R.id.img_pic);
+        mImageView = (ImageView) view.findViewById(R.id.img_palette_picture);
         mTitleButtons = (View) view.findViewById(R.id.title_buttons);
         mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
@@ -143,23 +146,24 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         public View getView(int position, View convertView, ViewGroup parent)
         {
             View cellView = convertView;
-            ImageView imageView;
+            PaletteColorView colorView;
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             
             if (cellView != null)
             {
-                imageView = (ImageView)cellView.findViewById(R.id.item_color);
+                colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
             }
             else
             {
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
-                imageView = (ImageView)cellView.findViewById(R.id.item_color);
+                colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
                 
                 Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
                 cellView.startAnimation(fadeInAnim);
             }
             
-            imageView.setBackgroundColor(colors[position]);
+            colorView.setColor(colors[position]);
+            
             return cellView;
         }
     }

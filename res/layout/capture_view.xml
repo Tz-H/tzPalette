@@ -7,152 +7,150 @@
     android:background="@color/color_photogray"
     tools:context=".ui.CaptureFragment" >
 
-    <ImageView
-        android:id="@+id/img_pic_frame"
+    <RelativeLayout
+        android:id="@+id/frame_palette_card"
         android:layout_width="320dp"
         android:layout_height="380dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/color_white"
-        android:contentDescription="@string/img_pic_frame_desc" />
-
-    <TextView
-        android:id="@+id/tv_palette_title"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_alignLeft="@+id/img_pic_frame"
-        android:layout_alignRight="@+id/img_pic_frame"
-        android:layout_alignTop="@+id/img_pic_frame"
-        
-        android:background="@color/color_darkgray"
-        android:paddingLeft="10dp"
-        android:gravity="center_vertical|left"
-        
-        android:text="@string/palette_title_default"
-        android:textColor="@color/color_lightgray"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:background="@color/color_white">
     
-    <LinearLayout
-       android:id="@+id/title_buttons"
-       android:layout_width="wrap_content"
-       android:layout_height="fill_parent"
-       android:layout_alignTop="@+id/tv_palette_title"
-       android:layout_alignRight="@+id/tv_palette_title"
-       android:layout_alignBottom="@+id/tv_palette_title"
-       android:gravity="center_vertical|right"
-       android:visibility="invisible"
-       android:orientation="horizontal">
-       
-        <ImageButton 
-            android:id="@+id/btn_analysis"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="5dp"
-            android:background="@android:drawable/ic_menu_view"
-            android:contentDescription="@string/btn_analysis_desc"
-            android:onClick="analysisPicture"
-            android:soundEffectsEnabled="true" />
-       
-        <ImageButton 
-            android:id="@+id/btn_save"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="5dp"
-            android:background="@android:drawable/ic_menu_save"
-            android:contentDescription="@string/btn_save_desc"
-            android:onClick="savePalette"
-            android:soundEffectsEnabled="true" />
-    
-        <ImageButton
-            android:id="@+id/btn_clear"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="5dp"
-            android:background="@android:drawable/ic_menu_close_clear_cancel"
-            android:contentDescription="@string/btn_clear_desc"
-            android:onClick="clearPalette"
-            android:soundEffectsEnabled="true" />
-       
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/img_pic"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignBottom="@+id/img_pic_frame"
-        android:layout_alignLeft="@+id/img_pic_frame"
-        android:layout_alignRight="@+id/img_pic_frame"
-        android:layout_alignTop="@+id/img_pic_frame"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:background="@color/img_pic_init_bg"
-        android:contentDescription="@string/img_pic_desc" />
-    
-    <LinearLayout
-       android:id="@+id/pic_buttons"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignTop="@+id/img_pic"
-       android:layout_alignLeft="@+id/img_pic"
-       android:layout_alignRight="@+id/img_pic"
-       android:layout_alignBottom="@+id/img_pic"
-       android:gravity="center"
-       android:orientation="horizontal" >
-       
-        <ImageButton
-            android:id="@+id/btn_takePhoto"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-    
-            android:background="@android:drawable/ic_menu_camera"
-            android:contentDescription="@string/btn_takePhoto_desc"
-            android:onClick="takePhoto"
-            android:soundEffectsEnabled="true" />
-        
-        <ImageView
-            android:id="@+id/pic_separator"
-            android:layout_width="2dp"
+        <TextView
+            android:id="@+id/tv_palette_title"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/color_darkgray"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical|left"
+            android:text="@string/palette_title_default"
+            android:textColor="@color/color_lightgray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+        <LinearLayout
+           android:id="@+id/title_buttons"
+           android:layout_width="wrap_content"
+           android:layout_height="fill_parent"
+           android:layout_alignRight="@+id/tv_palette_title"
+           android:layout_alignTop="@+id/tv_palette_title"
+           android:layout_alignBottom="@+id/tv_palette_title"
+           android:gravity="center_vertical|right"
+           android:visibility="visible"
+           android:orientation="horizontal">
+           
+            <ImageButton 
+	            android:id="@+id/btn_analysis"
+	            android:layout_width="35dp"
+	            android:layout_height="35dp"
+	            android:layout_marginRight="5dp"
+	            android:background="@android:drawable/ic_menu_view"
+	            android:contentDescription="@string/btn_analysis_desc"
+	            android:onClick="analysisPicture"
+	            android:soundEffectsEnabled="true" />
+           
+            <ImageButton 
+                android:id="@+id/btn_save"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="5dp"
+                android:background="@android:drawable/ic_menu_save"
+                android:contentDescription="@string/btn_save_desc"
+                android:onClick="savePalette"
+                android:soundEffectsEnabled="true" />
+        
+            <ImageButton
+                android:id="@+id/btn_clear"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="5dp"
+                android:background="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/btn_clear_desc"
+                android:onClick="clearPalette"
+                android:soundEffectsEnabled="true" />
+           
+        </LinearLayout>
+    
+        <ImageView
+            android:id="@+id/img_palette_picture"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@android:drawable/divider_horizontal_bright"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:background="@color/img_pic_init_bg"
+            android:contentDescription="@string/img_pic_desc" />
+        
+        <LinearLayout
+           android:id="@+id/pic_buttons"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:gravity="center"
+           android:orientation="horizontal" >
+           
+            <ImageButton
+                android:id="@+id/btn_takePhoto"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+        
+                android:background="@android:drawable/ic_menu_camera"
+    
+                android:contentDescription="@string/btn_takePhoto_desc"
+                android:onClick="takePhoto"
+                android:soundEffectsEnabled="true" />
+            
+            <ImageView
+                android:id="@+id/pic_separator"
+                android:layout_width="2dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:drawable/divider_horizontal_bright"
+                tools:ignore="ContentDescription" />
+            
+            <ImageButton 
+                android:id="@+id/btn_loadPicture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@android:drawable/ic_menu_gallery"
+                android:contentDescription="@string/btn_loadPicture_desc"
+                android:onClick="loadPicture"
+                android:soundEffectsEnabled="true" />
+           
+        </LinearLayout>
+          
+        <ImageView 
+            android:id="@+id/bar_separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/bottom_colors_bar"
+            android:background="@color/color_lightgray"
             tools:ignore="ContentDescription" />
-        
-        <ImageButton 
-            android:id="@+id/btn_loadPicture"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@android:drawable/ic_menu_gallery"
-            android:contentDescription="@string/btn_loadPicture_desc"
-            android:onClick="loadPicture"
-            android:soundEffectsEnabled="true" />
-       
-    </LinearLayout>
-
-    <LinearLayout 
-	    android:layout_width="fill_parent"
-	    android:layout_height="40dp"
-	    android:layout_alignLeft="@+id/img_pic_frame"
-        android:layout_alignRight="@+id/img_pic_frame"
-        android:layout_alignBottom="@+id/img_pic_frame"
-        android:gravity="center"
-	    android:orientation="vertical" >
-        
-		<GridView
-		    android:id="@+id/grid_colors"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:gravity="center"
-		    
-		    android:horizontalSpacing="5dp"
-		    android:verticalSpacing="5dp"
-		    android:columnWidth="35dp"
-		    android:numColumns="auto_fit"
-		    android:stretchMode="columnWidth" />
-		
-    </LinearLayout>
+    
+        <LinearLayout 
+            android:id="@+id/bottom_colors_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+            
+            <GridView
+                android:id="@+id/grid_colors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:columnWidth="35dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth" />
+            
+        </LinearLayout>
+    
+    </RelativeLayout>
 
 </RelativeLayout>
