@@ -138,7 +138,6 @@ public class ColorUtils
      *  @param h Hue is specified as degrees in the range 0 - 360.
      *  @param s Saturation is specified as a percentage in the range 1 - 100.
      *  @param l Lumanance is specified as a percentage in the range 1 - 100.
-     *  @paran alpha  the alpha value between 0 - 1
      */
     private static int hslToRGB(int hInt, int sInt, int lInt)
     {

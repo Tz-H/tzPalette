@@ -2,25 +2,24 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="android:actionBarSize">35dp</item>
-        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarTabBarStyle">@style/Actionbar_TabBar</item>
+        <item name="android:actionBarTabStyle">@style/ActionBar_Tab</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBar_TabText</item>
+        <item name="android:actionBarSize">40dp</item>
     </style>
     
-    <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.ActionBar.Solid">
-        <!-- semi transparent background -->
-        <item name="android:background">@color/actionbar_bg</item>
-        <item name="android:backgroundStacked">@color/actionbar_bg</item>
-        <item name="android:minHeight">35dp</item>
-        <item name="android:height">35dp</item>
+    <!-- ActionBar tab bar style -->
+    <style name="Actionbar_TabBar" parent="@android:style/Widget.Holo.ActionBar.TabBar">
+	    <item name="android:divider">@null</item>
+	</style>
+    
+    <!-- ActionBar tab style -->
+    <style name="ActionBar_Tab" parent="@android:style/Widget.Holo.ActionBar.TabView">
     </style>
     
-    <!-- ActoinBar tabs text styles -->
-    <style name="MyActionBarTabText" parent="@android:style/Widget.ActionBar.TabText">
-        <item name="android:textColor">@color/actionbar_tab_text</item>
+    <!-- ActoinBar tab text style -->
+    <style name="ActionBar_TabText" parent="@android:style/Theme.Holo.Light">
         <item name="android:textSize">16sp</item>
     </style>
     
