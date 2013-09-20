@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 
-public class ImageHelper
+public class ImageUtils
 {
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels)
     {
