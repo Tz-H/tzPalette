@@ -6,6 +6,8 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 
+import com.tzapps.tzpalette.utils.BitmapUtils;
+
 public class PaletteData
 {
     private static final String TAG = "PaletteData";
@@ -48,30 +50,13 @@ public class PaletteData
         int width = thumb.getWidth();
         int height = thumb.getHeight();
         
-        int targetW = THUMB_MAX_WIDTH;
-        int targetH = THUMB_MAX_HEIGHT;
-        
-        if (width <= targetW && height <= targetH)
+        if (width <= THUMB_MAX_WIDTH && height <= THUMB_MAX_HEIGHT)
         {
             mThumb = thumb;
         }
         else
-        {   
-            float scale = 0.0f;
-            
-            if (width > height)
-            {
-                scale = ((float) targetW) / width;
-                
-                targetH = (int)Math.round(height * scale);
-            }
-            else
-            {
-                scale = ((float) targetH) / height;
-                targetW = (int)Math.round(width * scale);
-            }
-            
-            mThumb = Bitmap.createScaledBitmap(thumb, targetW, targetH, false);
+        {              
+            mThumb = BitmapUtils.resizeBitmapToFitFrame(thumb, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
         }
     }
     

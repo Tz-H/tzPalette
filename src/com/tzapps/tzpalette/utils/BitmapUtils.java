@@ -72,7 +72,31 @@ public class BitmapUtils
         return bitmap;
     }
     
-    private static boolean saveBitmapToFile(Bitmap bitmap, File file)
+    public static Bitmap resizeBitmapToFitFrame(Bitmap bitmap, int frameWidth, int frameHeight)
+    {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        
+        int targetW = frameWidth;
+        int targetH = frameHeight;
+        
+        float scale = 0.0f;
+        
+        if (width > height)
+        {
+            scale = ((float) targetW) / width;
+            targetH = (int)Math.round(height * scale);
+        }
+        else
+        {
+            scale = ((float) targetH) / height;
+            targetW = (int)Math.round(width * scale);
+        }
+            
+        return Bitmap.createScaledBitmap(bitmap, targetW, targetH, false);
+    }
+    
+    public static boolean saveBitmapToFile(Bitmap bitmap, File file)
     {
         assert(bitmap != null);
         
@@ -99,7 +123,7 @@ public class BitmapUtils
         }
     }
     
-    public static void saveBitmapToSDCard(Bitmap bitmap, String name)
+    public static File saveBitmapToSDCard(Bitmap bitmap, String name)
     {
         String path = Environment.getExternalStorageDirectory().toString();
         
@@ -109,5 +133,7 @@ public class BitmapUtils
         { 
             Log.d(TAG, "save bitmap to" + file.getPath());
         }
+        
+        return file;
     }
 }

@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -153,7 +154,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         switch (item.getItemId())
         {
             case R.id.action_share:
-                //shareMyPalette();
+                sharePalette(item.getActionView());
                 return true;
                 
             case R.id.action_export:
@@ -170,6 +171,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
             case R.id.action_settings:
                 // openSettings();
+                sharePalette(item.getActionView());
                 return true;
 
             case R.id.action_about:
@@ -191,6 +193,30 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    private void sharePalette(View view)
+    {
+        if (mCurrentPalette == null)
+            return;
+        
+        View paletteCard = (View) findViewById(R.id.frame_palette_card);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
+        
+        assert(bitmap != null);
+        
+        //TODO make the share function work rather than just a trial version
+        
+        String name = FOLDER_HOME + File.separator + "share";
+        
+        File file = BitmapUtils.saveBitmapToSDCard(bitmap, name);
+        
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        
+        sendIntent.setType("image/jpeg");
+        sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "My Palette");
+        startActivity(Intent.createChooser(sendIntent, "share"));
     }
     
     private void exportPalette(View view)
