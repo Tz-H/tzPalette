@@ -1,8 +1,11 @@
 package com.tzapps.tzpalette.ui;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -19,6 +22,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -26,7 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
+import android.widget.ShareActionProvider;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -46,6 +50,8 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     ViewPager mViewPager;
     TabsAdapter mTabsAdapter;
     PaletteData mPaletteData;
+    
+    ShareActionProvider mShareActionProvider;
 
     CaptureFragment mCaptureFrag;
     MyPaletteListFragment mPaletteListFragment;
@@ -117,7 +123,30 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.capture_view_actions, menu);
+       
+        /* TODO adjust menu items dynamically based on:
+         * 1. the current tab
+         * 2. whether a palette data exists
+         */
+        
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share);
+        
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        
+        // TODO adjust the share item contents based on the palette data
+        
         return super.onCreateOptionsMenu(menu);
+    }
+    
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent)
+    {
+        if (mShareActionProvider != null)
+        {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
     }
 
     @Override
@@ -126,6 +155,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         // Handle presses on the action bar items
         switch (item.getItemId())
         {
+            case R.id.action_share:
+                //shareMyPalette();
+                return true;
+            
             case R.id.action_takePhoto:
                 takePhoto(item.getActionView());
                 return true;

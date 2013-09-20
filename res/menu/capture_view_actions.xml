@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
+    <item android:id="@+id/action_share"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_share"
+        android:actionProviderClass="android.widget.ShareActionProvider" />
+    
     <!-- Re-pick colors. should always be in the overflow -->
     <item
         android:id="@+id/action_takePhoto"
