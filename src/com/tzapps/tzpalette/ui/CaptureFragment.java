@@ -2,8 +2,6 @@ package com.tzapps.tzpalette.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.utils.ClipboardUtils;
 import com.tzapps.tzpalette.utils.ColorUtils;
-import com.tzapps.tzpalette.utils.ImageUtils;
 
 public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {

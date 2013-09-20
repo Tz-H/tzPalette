@@ -36,7 +36,7 @@
            android:layout_alignTop="@+id/tv_palette_title"
            android:layout_alignBottom="@+id/tv_palette_title"
            android:gravity="center_vertical|right"
-           android:visibility="visible"
+           android:visibility="invisible"
            android:orientation="horizontal">
            
             <ImageButton 

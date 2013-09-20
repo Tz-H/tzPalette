@@ -36,6 +36,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.utils.ActivityUtils;
+import com.tzapps.tzpalette.utils.BitmapUtils;
 
 public class MainActivity extends Activity implements BaseFragment.OnFragmentStatusChangedListener
 {
@@ -80,8 +81,6 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), MyPaletteListFragment.class,
                 null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
-
-
     }
 
     @Override
@@ -176,7 +175,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
                 return true;
 
             case R.id.action_save:
-                // savePalette();
+                savePalette();
                 return true;
 
             case R.id.action_clear:
@@ -190,6 +189,16 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    private void savePalette()
+    {
+        View view = (View) findViewById(R.id.frame_palette_card);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(view);
+        
+        assert(bitmap != null);
+        
+        BitmapUtils.saveBitmapToSDCard(bitmap, "testtettset");
     }
 
     /** refresh fragments in main activity with persisted mPaletteData */
