@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/frame_palette_card"
-        android:layout_width="320dp"
+        android:layout_width="300dp"
         android:layout_height="380dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -20,13 +20,13 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
-            android:background="@color/color_darkgray"
+            android:background="@color/color_palette_card_title_bg"
             android:paddingLeft="10dp"
             android:gravity="center_vertical|left"
             android:text="@string/palette_title_default"
             android:textColor="@color/color_lightgray"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
         
         <LinearLayout
            android:id="@+id/title_buttons"
@@ -140,10 +140,10 @@
             <GridView
                 android:id="@+id/grid_colors"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:gravity="center"
-                
-                android:horizontalSpacing="5dp"
+                android:paddingTop="5dp"
+                android:horizontalSpacing="2dp"
                 android:verticalSpacing="5dp"
                 android:columnWidth="35dp"
                 android:numColumns="auto_fit"
