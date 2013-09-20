@@ -1,10 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -22,7 +19,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -31,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ShareActionProvider;
+import android.widget.Toast;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -41,6 +38,8 @@ import com.tzapps.tzpalette.utils.BitmapUtils;
 public class MainActivity extends Activity implements BaseFragment.OnFragmentStatusChangedListener
 {
     private final static String TAG = "MainActivity";
+    
+    private final static String FOLDER_HOME = "tzpalette";
 
     /** Called when the user clicks the TakePicture button */
     static final int TAKE_PHOTE_RESULT = 1;
@@ -50,7 +49,8 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     ProgressDialog mDialog;
     ViewPager mViewPager;
     TabsAdapter mTabsAdapter;
-    PaletteData mPaletteData;
+    
+    PaletteData mCurrentPalette;
     
     ShareActionProvider mShareActionProvider;
 
@@ -78,8 +78,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), MyPaletteListFragment.class,
-                null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), MyPaletteListFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
     }
 
@@ -90,10 +89,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
 
-        if (mPaletteData != null)
+        if (mCurrentPalette != null)
         {
-            outState.putParcelable("bitmap", mPaletteData.getThumb());
-            outState.putIntArray("colors", mPaletteData.getColors());
+            outState.putParcelable("bitmap", mCurrentPalette.getThumb());
+            outState.putIntArray("colors", mCurrentPalette.getColors());
         }
     }
 
@@ -107,11 +106,11 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable("bitmap");
         int[] colors = savedInstanceState.getIntArray("colors");
 
-        if (mPaletteData == null)
-            mPaletteData = new PaletteData();
+        if (mCurrentPalette == null)
+            mCurrentPalette = new PaletteData();
 
-        mPaletteData.setThumb(bitmap);
-        mPaletteData.addColors(colors, /* reset */true);
+        mCurrentPalette.setThumb(bitmap);
+        mCurrentPalette.addColors(colors, /* reset */true);
 
         refresh();
     }
@@ -135,7 +134,6 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
         
         // TODO adjust the share item contents based on the palette data
-        
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -157,6 +155,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
             case R.id.action_share:
                 //shareMyPalette();
                 return true;
+                
+            case R.id.action_export:
+                exportPalette(item.getActionView());
+                return true;
             
             case R.id.action_takePhoto:
                 takePhoto(item.getActionView());
@@ -175,7 +177,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
                 return true;
 
             case R.id.action_save:
-                savePalette();
+                savePalette(item.getActionView());
                 return true;
 
             case R.id.action_clear:
@@ -191,23 +193,33 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         }
     }
     
-    private void savePalette()
+    private void exportPalette(View view)
     {
-        View view = (View) findViewById(R.id.frame_palette_card);
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(view);
+        if (mCurrentPalette == null)
+            return;
+        
+        View paletteCard = (View) findViewById(R.id.frame_palette_card);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
         
         assert(bitmap != null);
         
-        BitmapUtils.saveBitmapToSDCard(bitmap, "testtettset");
+        String name = mCurrentPalette.getName();
+        
+        if (name == null)
+            name = getResources().getString(R.string.palette_title_default);
+        
+        BitmapUtils.saveBitmapToSDCard(bitmap, FOLDER_HOME + File.separator + name);
+        
+        Toast.makeText(this, "Palette <" + name + "> has been exported", Toast.LENGTH_SHORT).show();
     }
 
     /** refresh fragments in main activity with persisted mPaletteData */
     private void refresh()
     {
-        if (mCaptureFrag != null && mPaletteData != null)
+        if (mCaptureFrag != null && mCurrentPalette != null)
         {
-            mCaptureFrag.updateImageView(mPaletteData.getThumb());
-            mCaptureFrag.updateColors(mPaletteData.getColors());
+            mCaptureFrag.updateImageView(mCurrentPalette.getThumb());
+            mCaptureFrag.updateColors(mCurrentPalette.getColors());
         }
     }
 
@@ -250,10 +262,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         Log.d(TAG, "analysis the picture");
 
-        if (mPaletteData == null)
+        if (mCurrentPalette == null)
             return;
 
-        new PaletteDataAnalysisTask().execute(mPaletteData);
+        new PaletteDataAnalysisTask().execute(mCurrentPalette);
     }
 
     /** Called when the user performs the Clear action */
@@ -261,10 +273,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         Log.d(TAG, "clear the picture");
 
-        if (mPaletteData == null)
+        if (mCurrentPalette == null)
             return;
 
-        mPaletteData.clear();
+        mCurrentPalette.clear();
         refresh();
     }
 
@@ -273,10 +285,10 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         Log.d(TAG, "save the palette");
 
-        if (mPaletteData == null)
+        if (mCurrentPalette == null)
             return;
 
-        // TODO: implement the save function
+        //TODO save or update the current platte data into database
     }
 
     @Override
@@ -331,20 +343,20 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         assert (bitmap != null);
 
-        if (mPaletteData == null)
+        if (mCurrentPalette == null)
         {
-            mPaletteData = new PaletteData(bitmap);
+            mCurrentPalette = new PaletteData(bitmap);
         }
         else
         {
-            mPaletteData.clearColors();
-            mPaletteData.setThumb(bitmap);
+            mCurrentPalette.clearColors();
+            mCurrentPalette.setThumb(bitmap);
         }
 
         refresh();
 
         // start to analysis the picture immediately after loading it
-        new PaletteDataAnalysisTask().execute(mPaletteData);
+        new PaletteDataAnalysisTask().execute(mCurrentPalette);
     }
 
     private void startAnalysis()

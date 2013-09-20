@@ -36,6 +36,12 @@
         android:showAsAction="never"
         android:title="@string/action_save"/>
     
+    <!-- Export plate. should always be in the overflow -->
+    <item 
+        android:id="@+id/action_export"
+        android:showAsAction="never"
+        android:title="@string/action_export"/>
+    
     <!-- Settings. should always be in the overflow -->
     <item
         android:id="@+id/action_settings"

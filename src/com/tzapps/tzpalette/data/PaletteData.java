@@ -15,16 +15,22 @@ public class PaletteData
     
     Bitmap mThumb;
     List<Integer> mColors;
+    String mName;
     
     public PaletteData()
     {
-        mThumb  = null;
-        mColors = new ArrayList<Integer>();
+        this(null, null);
     }
     
     public PaletteData(Bitmap thumb)
     {
-        mThumb  = thumb;
+        this(null, thumb);
+    }
+
+    public PaletteData(String name, Bitmap thumb)
+    {
+        mName = name;
+        mThumb = thumb;
         mColors = new ArrayList<Integer>();
     }
     
@@ -115,5 +121,15 @@ public class PaletteData
     {
         setThumb(null);
         clearColors();
+    }
+
+    public String getName()
+    {
+        return mName;
+    }
+    
+    public void setName(String name)
+    {
+        mName = name;
     }
 }

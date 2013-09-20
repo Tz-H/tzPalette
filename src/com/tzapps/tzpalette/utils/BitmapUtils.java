@@ -74,10 +74,18 @@ public class BitmapUtils
     
     private static boolean saveBitmapToFile(Bitmap bitmap, File file)
     {
+        assert(bitmap != null);
+        
         try
         {
+            File path = file.getParentFile();
+            // build the directory
+            if (file.getParent() != null && !path.isDirectory())
+                path.mkdirs();
+            
             FileOutputStream out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
+            
             
             out.flush();
             out.close();
