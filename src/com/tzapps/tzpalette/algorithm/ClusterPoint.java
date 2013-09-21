@@ -5,8 +5,8 @@ public class ClusterPoint
 {
     private static final String TAG = "ClusterPoint";
     
-    private int   clusterIndex;
-    private int[] values;
+    protected int   clusterIndex;
+    protected int[] values;
     
     public ClusterPoint(int...values)
     {

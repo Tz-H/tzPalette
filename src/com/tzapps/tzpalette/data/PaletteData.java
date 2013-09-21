@@ -11,10 +11,7 @@ import com.tzapps.tzpalette.utils.BitmapUtils;
 public class PaletteData
 {
     private static final String TAG = "PaletteData";
-    
-    private static final int THUMB_MAX_WIDTH  = 500;
-    private static final int THUMB_MAX_HEIGHT = 500;
-    
+       
     Bitmap mThumb;
     List<Integer> mColors;
     String mName;
@@ -47,17 +44,7 @@ public class PaletteData
             return;
         }
         
-        int width = thumb.getWidth();
-        int height = thumb.getHeight();
-        
-        if (width <= THUMB_MAX_WIDTH && height <= THUMB_MAX_HEIGHT)
-        {
-            mThumb = thumb;
-        }
-        else
-        {              
-            mThumb = BitmapUtils.resizeBitmapToFitFrame(thumb, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
-        }
+        mThumb = thumb;
     }
     
     public Bitmap getThumb()
