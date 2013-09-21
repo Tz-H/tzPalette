@@ -92,7 +92,7 @@ public class BitmapUtils
             scale = ((float) targetH) / height;
             targetW = (int)Math.round(width * scale);
         }
-            
+        
         return Bitmap.createScaledBitmap(bitmap, targetW, targetH, false);
     }
     

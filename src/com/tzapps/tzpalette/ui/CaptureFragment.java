@@ -77,7 +77,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         else
         {
             mImageView.setImageBitmap(null);
-            mImageView.setBackgroundColor(getResources().getColor(R.color.img_pic_init_bg));
+            mImageView.setBackgroundColor(getResources().getColor(R.color.palette_card_pic_init_bg));
             mPicButtons.setVisibility(View.VISIBLE);
             mTitleButtons.setVisibility(View.GONE);
         }
