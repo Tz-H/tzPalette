@@ -81,6 +81,39 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), MyPaletteListFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
+        
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type   = intent.getType();
+        
+        if (Intent.ACTION_SEND.equals(action) && type != null)
+        {
+            if (type.startsWith("image/"))
+                handleSendImage(intent);
+        }
+    }
+    
+    private void handleSendImage(Intent intent)
+    {
+        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        
+        if (imageUri != null)
+        {
+            InputStream imageStream;
+            Bitmap      bitmap = null;
+            try
+            {
+                imageStream = getContentResolver().openInputStream(imageUri);
+                bitmap = BitmapFactory.decodeStream(imageStream);
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+                Log.e(TAG, "load picture failed");
+            }
+            handlePicture(bitmap);
+        }
     }
 
     @Override
