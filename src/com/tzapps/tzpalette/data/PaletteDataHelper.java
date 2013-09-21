@@ -1,7 +1,6 @@
 package com.tzapps.tzpalette.data;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
@@ -107,7 +106,7 @@ public class PaletteDataHelper
         for (int i = 0; i < inPixels.length; i++)
             points[i] = new ClusterPoint(convertColor(inPixels[i], dataType));
         
-        KMeansProcessor proc = new KMeansProcessor(numOfColors, deviation, /*maxRound*/20);   
+        KMeansProcessor proc = new KMeansProcessor(numOfColors, deviation, /*maxRound*/99);   
         proc.processKMean(points);
         
         for (ClusterCenter center : proc.getClusterCenters())

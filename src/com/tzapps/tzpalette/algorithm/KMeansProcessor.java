@@ -34,6 +34,56 @@ public class KMeansProcessor
         return mCenters;
     }
     
+    private void kpp(ClusterPoint[] points, ClusterCenter[] centers)
+    {
+        Random random = new Random();
+        
+        centers[0].setValues(points[random.nextInt(points.length)].getValues());
+        centers[0].setClusterIndex(0);
+        
+        int[] d = new int[points.length];
+        
+        for (int i = 0; i < centers.length; i++)
+        {
+            int sum = 0;
+            for (int j = 0; j < points.length; j++)
+            {
+                d[j] = nearest_cluster_center(points[j], centers, i);
+                sum += d[j];
+            }
+            
+            sum = (int)((float)sum * random.nextFloat());
+            
+            for (int j = 0; j < d.length; j++)
+            {
+                sum -= d[j];
+                if (sum > 0)
+                    continue;
+                
+                centers[i].setValues(points[j].getValues());
+                centers[i].setClusterIndex(i);
+                break;
+            }
+        }
+    }
+    
+    private int nearest_cluster_center(ClusterPoint point, ClusterCenter[] centers, int stepTo)
+    {
+        int min_dist  = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < stepTo; i++)
+        {
+            int dist = ClusterPoint.calcEuclideanDistanceSquare(point,  centers[i]);
+            if (min_dist > dist)
+            {
+                min_dist = dist;
+                point.setClusterIndex(i);
+            }
+        }
+        
+        return min_dist;
+    }
+    
     private void initKMeanProcess(ClusterPoint[] points, int numOfCluster)
     {
         mCenters = new ClusterCenter[numOfCluster];
@@ -53,8 +103,11 @@ public class KMeansProcessor
          * It should be changed to a better way to handle with. e.g.
          * the "k-means++" clustering algorithm. see
          * http://rosettacode.org/wiki/K-means%2B%2B_clustering
-         * 
+         *
+         * The kpp() algorithm is still not quite correct, so
+         * comment it out for now...
          */
+        kpp(points, mCenters);
 
         // create random points as the cluster centers
         Random random = new Random();
@@ -169,7 +222,7 @@ public class KMeansProcessor
     /**
      * using cluster value of each point to update cluster center value
      */
-    private void calcClusterCenters(ClusterPoint points[], ClusterCenter centers[])
+    private void calcClusterCenters(ClusterPoint[] points, ClusterCenter[] centers)
     {
         // clear the points now
         for (int i = 0; i < centers.length; i++)
