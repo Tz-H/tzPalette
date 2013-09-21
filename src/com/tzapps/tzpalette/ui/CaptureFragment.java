@@ -1,13 +1,18 @@
 package com.tzapps.tzpalette.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -19,7 +24,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.utils.ClipboardUtils;
 import com.tzapps.tzpalette.utils.ColorUtils;
 
-public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
 {
     private static final String TAG = "CaptureFragment";
     
@@ -40,6 +45,9 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         View view = inflater.inflate(R.layout.capture_view, container, false);
         
         mImageView = (ImageView) view.findViewById(R.id.img_palette_picture);
+        mImageView.setOnClickListener(this);
+        
+        
         mTitleButtons = (View) view.findViewById(R.id.title_buttons);
         mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
@@ -64,15 +72,14 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         {
             mImageView.setBackgroundColor(getResources().getColor(R.color.color_transparent));
             mImageView.setImageBitmap(bitmap);
-            mTitleButtons.setVisibility(View.VISIBLE);
             mPicButtons.setVisibility(View.GONE);
         }
         else
         {
             mImageView.setImageBitmap(null);
             mImageView.setBackgroundColor(getResources().getColor(R.color.img_pic_init_bg));
-            mTitleButtons.setVisibility(View.GONE);
             mPicButtons.setVisibility(View.VISIBLE);
+            mTitleButtons.setVisibility(View.GONE);
         }
     }
 
@@ -80,6 +87,38 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     {
         Log.d(TAG, "updateColors");
         mColorsAdapter.setColors(colors);
+    }
+    
+    public void showTitleButtons()
+    {
+        mTitleButtons.setVisibility(View.VISIBLE);
+        
+        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_then_out_anim);
+        anim.setAnimationListener(new AnimationListener(){
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                mTitleButtons.setVisibility(View.GONE);
+            }
+            
+            @Override
+            public void onAnimationStart(Animation animation){}
+
+            @Override
+            public void onAnimationRepeat(Animation animation){}
+        });
+        
+        mTitleButtons.startAnimation(anim);
+    }
+    
+    @Override
+    public void onClick(View v)
+    {
+        if (v == mImageView)
+        {
+            if (mTitleButtons.getVisibility() == View.GONE)
+                showTitleButtons();
+        }
     }
 
     @Override
@@ -165,3 +204,4 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         }
     }
 }
+

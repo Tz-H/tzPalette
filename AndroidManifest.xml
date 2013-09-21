@@ -4,12 +4,8 @@
     android:versionCode="1"
     android:versionName="0.0.1" xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
-    
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18" />
     <uses-feature android:name="android.hardware.camera"/>
-    
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -40,6 +36,7 @@
 		        <data android:mimeType="image/*"/>
 		    </intent-filter>
         </activity>
+        
     </application>
 
 </manifest>

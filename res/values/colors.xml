@@ -15,5 +15,7 @@
     <color name="color_gray">#888888</color>
     
     <color name="color_palette_card_title_bg">#222222</color>
+    <color name="color_palette_card_border">#4fa5d5</color>
+    <color name="color_palette_card_colors_bar_bg">#E6DCCA</color>
     
 </resources>
