@@ -32,10 +32,11 @@ import android.widget.Toast;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.utils.ActivityUtils;
-import com.tzapps.tzpalette.utils.BitmapUtils;
+import com.tzapps.ui.OnFragmentStatusChangedListener;
+import com.tzapps.utils.ActivityUtils;
+import com.tzapps.utils.BitmapUtils;
 
-public class MainActivity extends Activity implements BaseFragment.OnFragmentStatusChangedListener
+public class MainActivity extends Activity implements OnFragmentStatusChangedListener
 {
     private final static String TAG = "MainActivity";
     
@@ -71,10 +72,6 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        mCaptureFrag = null;
-        mPaletteListFragment = null;
-        fragment3 = null;
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
@@ -286,6 +283,9 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     {
         if (fragment instanceof CaptureFragment)
             mCaptureFrag = (CaptureFragment) fragment;
+        
+        if (fragment instanceof PaletteListFragment)
+            mPaletteListFragment = (PaletteListFragment) fragment;
 
         refresh();
     }
@@ -345,8 +345,9 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
         if (mCurrentPalette == null)
             return;
-
-        //TODO save or update the current platte data into database
+        
+        if (mPaletteListFragment != null)
+            mPaletteListFragment.save(mCurrentPalette);
     }
 
     @Override

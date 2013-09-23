@@ -3,7 +3,6 @@ package com.tzapps.tzpalette.ui;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,8 +19,9 @@ import android.widget.TextView;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataSource;
+import com.tzapps.ui.BaseListFragment;
 
-public class PaletteListFragment extends ListFragment implements OnClickListener
+public class PaletteListFragment extends BaseListFragment implements OnClickListener
 {
     private static final String TAG = "PaletteListFragment";
     
@@ -38,18 +37,18 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
             mSource = new PaletteDataSource(activity);
         
         mSource.open();
+        
+        List<PaletteData> items = mSource.getAllPaletteData();
+        
+        if (mAdapter == null)
+            mAdapter = new PaletteDataAdapter<PaletteData>(getActivity(), 
+                    R.layout.palette_list_view_item, items);
     }
     
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        
-        List<PaletteData> items = mSource.getAllPaletteData();
-        
-        if (mAdapter == null)
-            mAdapter = new PaletteDataAdapter<PaletteData>(getActivity(), 
-                    android.R.layout.simple_list_item_1, items);
         
         setListAdapter(mAdapter);
     }
@@ -98,6 +97,16 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
     {
         mSource.close();
         super.onPause();
+    }
+    
+    public void save(PaletteData data)
+    {
+        mSource.save(data);
+        mAdapter.add(data);
+        
+        Log.d(TAG, "palette data " + data.getId() + " saved");
+        
+        mAdapter.notifyDataSetChanged();
     }
     
     private PaletteData getMocedUpPaletteData()
@@ -169,11 +178,12 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
         {
             ImageView thumb = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
             TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
-            GridView colors = (GridView)itemView.findViewById(R.id.palette_item_colors);
+            PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
             
             title.setText(data.getId() + "");
+            colors.setColors(data.getColors());
       
-            // TODO: udpate other palette data values into item view
+            // TODO: update other palette data values into item view
         }
     }
     

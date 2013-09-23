@@ -1,21 +1,13 @@
 package com.tzapps.tzpalette.data;
 
-import java.util.Arrays;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
-import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
-import com.tzapps.tzpalette.db.PaletteDataDbHelper;
-import com.tzapps.tzpalette.utils.BitmapUtils;
-import com.tzapps.tzpalette.utils.ColorUtils;
+import com.tzapps.utils.BitmapUtils;
+import com.tzapps.utils.ColorUtils;
 
 public class PaletteDataHelper
 {
