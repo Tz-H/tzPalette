@@ -28,5 +28,7 @@
     <string name="btn_takePhoto_desc">The button used to take a photo</string>
     <string name="btn_loadPicture_desc">The button used to load a picture</string>
     <string name="btn_analysis_desc">The button used to analysis the picture</string>
+    <string name="palette_thumb_desc">The palette item\'s thumbnail</string>
+    <string name="palette_option_btn_desc">The palette item\'s edit options</string>
     
 </resources>
