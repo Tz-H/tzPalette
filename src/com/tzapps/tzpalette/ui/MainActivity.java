@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
     ShareActionProvider mShareActionProvider;
 
     CaptureFragment mCaptureFrag;
-    MyPaletteListFragment mPaletteListFragment;
+    PaletteListFragment mPaletteListFragment;
     CaptureFragment fragment3;
 
     @Override
@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), MyPaletteListFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
         
         // Get intent, action and MIME type

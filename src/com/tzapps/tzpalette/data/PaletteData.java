@@ -131,5 +131,10 @@ public class PaletteData
     {
         this.id = id;
     }
+    
+    public String toString()
+    {
+        return id + "";
+    }
 
 }

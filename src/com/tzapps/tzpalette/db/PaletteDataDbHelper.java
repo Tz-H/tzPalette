@@ -21,7 +21,7 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static final String COMMA_SEP    = ",";
     
     private static String SQL_CREATE_ENTRIES =
-            "CREATE TABLE" + PaletteDataEntry.TABLE_NAME + " (" +
+            "CREATE TABLE " + PaletteDataEntry.TABLE_NAME + " (" +
             PaletteDataEntry._ID + " INTEGER PRIMARY KEY," +
             PaletteDataEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
             PaletteDataEntry.COLUMN_NAME_COLORS + TEXT_TYPE + COMMA_SEP +
