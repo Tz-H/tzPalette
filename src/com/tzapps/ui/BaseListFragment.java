@@ -1,18 +1,14 @@
-package com.tzapps.tzpalette.ui;
+package com.tzapps.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 
-public class BaseFragment extends Fragment
+public class BaseListFragment extends ListFragment
 {
     OnFragmentStatusChangedListener mCallback;
-    
-    public interface OnFragmentStatusChangedListener 
-    {
-        public void onFragmentViewCreated(Fragment fragment);
-    }
     
     public void onAttach(Activity activity)
     {
