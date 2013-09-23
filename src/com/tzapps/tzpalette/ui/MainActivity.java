@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -262,14 +261,14 @@ public class MainActivity extends Activity implements BaseFragment.OnFragmentSta
         
         assert(bitmap != null);
         
-        String name = mCurrentPalette.getName();
+        String title = mCurrentPalette.getTitle();
         
-        if (name == null)
-            name = getResources().getString(R.string.palette_title_default);
+        if (title == null)
+            title = getResources().getString(R.string.palette_title_default);
         
-        BitmapUtils.saveBitmapToSDCard(bitmap, FOLDER_HOME + File.separator + name);
+        BitmapUtils.saveBitmapToSDCard(bitmap, FOLDER_HOME + File.separator + title);
         
-        Toast.makeText(this, "Palette <" + name + "> has been exported", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Palette <" + title + "> has been exported", Toast.LENGTH_SHORT).show();
     }
 
     /** refresh fragments in main activity with persisted mPaletteData */

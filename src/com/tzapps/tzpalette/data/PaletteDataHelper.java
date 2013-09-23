@@ -1,11 +1,19 @@
 package com.tzapps.tzpalette.data;
 
+import java.util.Arrays;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
+import com.tzapps.tzpalette.db.PaletteDataDbHelper;
 import com.tzapps.tzpalette.utils.BitmapUtils;
 import com.tzapps.tzpalette.utils.ColorUtils;
 
@@ -23,29 +31,6 @@ public class PaletteDataHelper
         ColorToHSL
     };
     
-    /**
-     * Convert the color value into Cluster point values
-     */
-    private int[] convertColor(int color, PaletteDataHelper_DataType type)
-    {
-        switch(type)
-        {
-            case ColorToRGB:
-                return ColorUtils.colorToRGB(color);
-                
-            case ColorToHSV:
-                return ColorUtils.colorToHSV(color);
-                
-            case ColorToHSL:
-                return ColorUtils.colorToHSL(color);
-               
-            default:
-                int[] values = new int[1];
-                values[0] = color;
-                return values;
-        }
-    }
-    
     private static PaletteDataHelper instance = new PaletteDataHelper();
     
     private PaletteDataHelper(){};
@@ -54,7 +39,7 @@ public class PaletteDataHelper
     {
         return instance;
     }
-    
+
     public void analysis(PaletteData data, boolean reset)
     {
         analysis(data, reset, 8, 5, PaletteDataHelper_DataType.ColorToHSL);
@@ -133,4 +118,28 @@ public class PaletteDataHelper
             data.addColor(color);
         }
     }
+    
+    /**
+     * Convert the color value into Cluster point values
+     */
+    private int[] convertColor(int color, PaletteDataHelper_DataType type)
+    {
+        switch(type)
+        {
+            case ColorToRGB:
+                return ColorUtils.colorToRGB(color);
+                
+            case ColorToHSV:
+                return ColorUtils.colorToHSV(color);
+                
+            case ColorToHSL:
+                return ColorUtils.colorToHSL(color);
+               
+            default:
+                int[] values = new int[1];
+                values[0] = color;
+                return values;
+        }
+    }
+    
 }

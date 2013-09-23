@@ -6,15 +6,14 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 
-import com.tzapps.tzpalette.utils.BitmapUtils;
-
 public class PaletteData
 {
     private static final String TAG = "PaletteData";
        
-    Bitmap mThumb;
-    List<Integer> mColors;
-    String mName;
+    private long   id;
+    private Bitmap mThumb;
+    private String mTitle;
+    private List<Integer> mColors;
     
     public PaletteData()
     {
@@ -26,9 +25,10 @@ public class PaletteData
         this(null, thumb);
     }
 
-    public PaletteData(String name, Bitmap thumb)
+    public PaletteData(String title, Bitmap thumb)
     {
-        mName = name;
+        id     = -1;
+        mTitle = title;
         mThumb = thumb;
         mColors = new ArrayList<Integer>();
     }
@@ -55,6 +55,23 @@ public class PaletteData
     public void addColor(int color)
     {
         mColors.add(color);
+    }
+    
+    public void removeColor(int color)
+    {
+        int index = -1;
+        
+        for (int i = 0; i < mColors.size(); i++)
+        {
+            if (mColors.get(i) == color)
+            {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index != -1)
+            mColors.remove(index);
     }
     
     public void addColors(int[] colors, boolean reset)
@@ -95,13 +112,24 @@ public class PaletteData
         clearColors();
     }
 
-    public String getName()
+    public String getTitle()
     {
-        return mName;
+        return mTitle;
+    }
+
+    public void setTitle(String title)
+    {
+       mTitle = title;
+    }
+
+    public long getId()
+    {
+        return id;
     }
     
-    public void setName(String name)
+    public void setId(long id)
     {
-        mName = name;
+        this.id = id;
     }
+
 }
