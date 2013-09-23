@@ -1,4 +1,4 @@
-package com.tzapps.tzpalette.utils;
+package com.tzapps.utils;
 
 import android.graphics.Color;
 
