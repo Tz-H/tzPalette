@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -23,7 +27,7 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
     private static final String TAG = "PaletteListFragment";
     
     private PaletteDataSource mSource;
-    ArrayAdapter<PaletteData> mAdapter;
+    PaletteDataAdapter<PaletteData> mAdapter;
     
     @Override
     public void onAttach(Activity activity)
@@ -44,7 +48,7 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
         List<PaletteData> items = mSource.getAllPaletteData();
         
         if (mAdapter == null)
-            mAdapter = new ArrayAdapter<PaletteData>(getActivity(), 
+            mAdapter = new PaletteDataAdapter<PaletteData>(getActivity(), 
                     android.R.layout.simple_list_item_1, items);
         
         setListAdapter(mAdapter);
@@ -131,5 +135,48 @@ public class PaletteListFragment extends ListFragment implements OnClickListener
         
         mAdapter.notifyDataSetChanged();
     }    
+    
+    public class PaletteDataAdapter<T> extends ArrayAdapter<T>
+    {
+        private Context mContext;
+
+        public PaletteDataAdapter(Context context, int resource, List<T> objects)
+        {
+            super(context, resource, objects);
+            
+            mContext = context;
+        }
+        
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) 
+        {
+            View itemView = convertView;
+            PaletteData data = (PaletteData)getItem(position);
+            
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            
+            if (itemView == null)
+            {
+                itemView = inflater.inflate(R.layout.palette_list_view_item, parent, false);
+            }
+            
+            updateViewByData(itemView, data);
+            
+            return itemView;
+        }
+        
+        private void updateViewByData(View itemView, PaletteData data)
+        {
+            ImageView thumb = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
+            TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
+            GridView colors = (GridView)itemView.findViewById(R.id.palette_item_colors);
+            
+            title.setText(data.getId() + "");
+      
+            // TODO: udpate other palette data values into item view
+        }
+    }
+    
+    
 }
 

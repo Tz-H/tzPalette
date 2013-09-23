@@ -1,6 +1,5 @@
 package com.tzapps.tzpalette.ui;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,8 +23,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     private static final String TAG = "CaptureFragment";
     
     ImageView mImageView;
-    GridView mColoursGrid;
-    ColorAdapter mColorsAdapter;
+    PaletteColorGrid mColoursGrid;
     View mTitleButtons;
     View mPicButtons;
     
@@ -48,10 +44,8 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mTitleButtons = (View) view.findViewById(R.id.title_buttons);
         mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
-        mColorsAdapter = new ColorAdapter(getActivity());
         
-        mColoursGrid = (GridView) view.findViewById(R.id.grid_colors);
-        mColoursGrid.setAdapter(mColorsAdapter);
+        mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_card_colors);
         mColoursGrid.setOnItemClickListener(this);
         mColoursGrid.setOnItemLongClickListener(this);
         
@@ -83,7 +77,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     public void updateColors(int[] colors)
     {
         Log.d(TAG, "updateColors");
-        mColorsAdapter.setColors(colors);
+        mColoursGrid.setColors(colors);
     }
     
     public void showTitleButtons()
@@ -121,7 +115,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColorsAdapter.getColor(position);
+        int color = mColoursGrid.getColor(position);
         
         Toast.makeText(getActivity(), ColorUtils.colorToHtml(color), Toast.LENGTH_SHORT).show();
     }
@@ -129,76 +123,13 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColorsAdapter.getColor(position);
+        int color = mColoursGrid.getColor(position);
         
         //TODO add strings into resources
         ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
         Toast.makeText(getActivity(), "Color[" + ColorUtils.colorToHtml(color) + "] has been added into clipboard", Toast.LENGTH_SHORT).show();
         
         return true;
-    }
-
-    private class ColorAdapter extends BaseAdapter
-    {
-        private int[] colors;
-        private Context mContext;
-
-        public ColorAdapter(Context c)
-        {
-            mContext = c;
-            colors = new int[0];
-        }
-        
-        public int getColor(int position)
-        {
-            return colors[position];
-        }
-
-        public void setColors(int[] colors)
-        {
-            this.colors = colors;
-            this.notifyDataSetChanged();
-        }
-
-        public int getCount()
-        {
-            return colors.length;
-        }
-
-        public Object getItem(int position)
-        {
-            return null;
-        }
-
-        public long getItemId(int position)
-        {
-            return 0;
-        }
-
-        // create a new ImageView for each item referenced by the Adapter
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            View cellView = convertView;
-            PaletteColorView colorView;
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            
-            if (cellView != null)
-            {
-                colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
-            }
-            else
-            {
-                cellView = inflater.inflate(R.layout.color_item, parent, false);
-                colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
-                
-                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
-                cellView.startAnimation(fadeInAnim);
-            }
-            
-            colorView.setColor(colors[position]);
-            
-            return cellView;
-        }
     }
 }
 

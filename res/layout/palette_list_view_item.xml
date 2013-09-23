@@ -5,36 +5,36 @@
     android:orientation="horizontal" >
     
     <ImageView 
-        android:id="@+id/palette_thumb"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/color_darkgray"
+        android:id="@+id/palette_item_thumb"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:background="@color/color_gray"
         android:contentDescription="@string/palette_thumb_desc"/>
     
     <TextView 
-        android:id="@+id/palette_title"
+        android:id="@+id/palette_item_title"
         android:layout_width="fill_parent"
         android:layout_height="25dp"
-        android:layout_toRightOf="@+id/palette_thumb"
+        android:layout_toRightOf="@+id/palette_item_thumb"
         android:layout_alignParentTop="true"
         android:layout_marginRight="50dp"
         android:gravity="center|left"
         android:text="@string/palette_title_default" />
     
      <LinearLayout 
-         android:id="@+id/palette_colors_bar"
+         android:id="@+id/palette_item_colors_bar"
          android:layout_width="fill_parent"
          android:layout_height="25dp"
          android:layout_marginRight="50dp"
-         android:layout_toRightOf="@+id/palette_thumb"
-         android:layout_alignBottom="@+id/palette_thumb"
-         android:background="@color/palette_card_colors_bar_bg"
+         android:layout_toRightOf="@+id/palette_item_thumb"
+         android:layout_alignBottom="@+id/palette_item_thumb"
          android:gravity="center"
          android:orientation="vertical" >
          
-         <GridView
-             android:id="@+id/palette_colors"
-             android:layout_width="wrap_content"
+         <com.tzapps.tzpalette.ui.PaletteColorGrid
+             android:id="@+id/palette_item_colors"
+             android:layout_width="fill_parent"
              android:layout_height="25dp"
              android:gravity="center"
              android:horizontalSpacing="2dp"
@@ -46,12 +46,12 @@
      </LinearLayout>
      
      <ImageButton 
-         android:id="@+id/palette_option_btn"
+         android:id="@+id/palette_item_options"
          android:layout_width="40dp"
          android:layout_height="40dp"
          android:layout_marginRight="5dp"
          android:layout_marginTop="5dp"
-         android:background="@android:drawable/ic_menu_edit"
+         android:background="@android:drawable/ic_menu_more"
          android:layout_alignParentRight="true"
          android:contentDescription="@string/palette_option_btn_desc"/>
     

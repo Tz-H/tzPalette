@@ -3,12 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:minWidth="30dp"
+    android:minHeight="30dp"
     android:gravity="center">
 
     <com.tzapps.tzpalette.ui.PaletteColorView
         android:id="@+id/item_color"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>
