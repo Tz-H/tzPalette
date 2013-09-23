@@ -6,3 +6,4 @@ public interface OnFragmentStatusChangedListener
 {
     public void onFragmentViewCreated(Fragment fragment);
 }
+
