@@ -5,6 +5,7 @@
     android:layout_height="fill_parent"
     android:minWidth="30dp"
     android:minHeight="30dp"
+    android:padding="2dp"
     android:gravity="center">
 
     <com.tzapps.tzpalette.ui.PaletteColorView

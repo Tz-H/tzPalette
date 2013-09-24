@@ -180,7 +180,7 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
             TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
             
-            title.setText(data.getId() + "");
+            title.setText(data.getTitle() + "");
             colors.setColors(data.getColors());
       
             // TODO: update other palette data values into item view

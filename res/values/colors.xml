@@ -21,4 +21,7 @@
     <color name="palette_card_title_bg">#222222</color>
     <color name="palette_card_colors_bar_bg">#FAFAFA</color>
     
+    <color name="palette_item_bg">#FCFCFC</color>
+    <color name="palette_item_border">#222222</color>
+    
 </resources>

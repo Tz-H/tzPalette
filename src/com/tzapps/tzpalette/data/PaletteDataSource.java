@@ -49,7 +49,11 @@ public class PaletteDataSource
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
-        values.put(PaletteDataEntry.COLUMN_NAME_COLORS, Arrays.toString(data.getColors()));
+        
+        String colorsStr = Arrays.toString(data.getColors());
+        Log.d(TAG, "colors saved: " + colorsStr);
+        
+        values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
         values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, System.currentTimeMillis());
         
         // Insert the new row, returning the primary key values of the new row
@@ -70,7 +74,10 @@ public class PaletteDataSource
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
-        values.put(PaletteDataEntry.COLUMN_NAME_COLORS, Arrays.toString(data.getColors()));
+        
+        String colorsStr = Arrays.toString(data.getColors());
+        Log.d(TAG, "colors updated: " + colorsStr);
+        values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
         values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, System.currentTimeMillis());
         
         // Issue SQL statement
@@ -138,9 +145,11 @@ public class PaletteDataSource
         return data;
     }
     
-    private int[] convertColorStrToColors(String colorStrArr)
+    private int[] convertColorStrToColors(String colorsStr)
     {
-        String[] items = colorStrArr.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+        Log.d(TAG, "colors from db: " + colorsStr);
+        
+        String[] items = colorsStr.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").split(",");
         
         int[] colors = new int[items.length];
         

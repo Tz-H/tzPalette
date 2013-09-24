@@ -1,59 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:background="@drawable/palette_item_frame" >
     
-    <ImageView 
-        android:id="@+id/palette_item_thumb"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="5dp"
-        android:background="@color/color_gray"
-        android:contentDescription="@string/palette_thumb_desc"/>
+    <LinearLayout 
+        android:id="@+id/palette_item_thumb_frame" 
+        android:orientation="horizontal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center">
+        
+        <ImageView 
+            android:id="@+id/palette_item_thumb"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/color_gray"
+            android:contentDescription="@string/palette_thumb_desc"/>
+        
+    </LinearLayout>
     
     <TextView 
         android:id="@+id/palette_item_title"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:layout_toRightOf="@+id/palette_item_thumb"
+        android:layout_toRightOf="@+id/palette_item_thumb_frame"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="50dp"
         android:gravity="center|left"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_darkgray"
         android:text="@string/palette_title_default" />
+    
+     <ImageButton 
+         android:id="@+id/palette_item_options"
+         android:layout_width="40dp"
+         android:layout_height="30dp"
+         android:layout_marginRight="5dp"
+         android:layout_marginTop="10dp"
+         android:src="@android:drawable/ic_menu_more"
+         android:background="@color/color_transparent"
+         android:layout_alignParentRight="true"
+         android:contentDescription="@string/palette_option_btn_desc"/>
     
      <LinearLayout 
          android:id="@+id/palette_item_colors_bar"
          android:layout_width="fill_parent"
          android:layout_height="40dp"
-         android:layout_marginRight="50dp"
-         android:layout_toRightOf="@+id/palette_item_thumb"
-         android:layout_alignBottom="@+id/palette_item_thumb"
+         android:layout_toRightOf="@+id/palette_item_thumb_frame"
+         android:layout_alignBottom="@+id/palette_item_thumb_frame"
          android:gravity="center"
          android:orientation="vertical" >
          
          <com.tzapps.tzpalette.ui.PaletteColorGrid
              android:id="@+id/palette_item_colors"
              android:layout_width="fill_parent"
-             android:layout_height="40dp"
+             android:layout_height="30dp"
              android:gravity="center"
+             android:clickable="false"
              android:horizontalSpacing="2dp"
              android:verticalSpacing="5dp"
-             android:columnWidth="25dp"
+             android:columnWidth="28dp"
              android:numColumns="auto_fit"
              android:stretchMode="columnWidth" />
          
      </LinearLayout>
      
-     <ImageButton 
-         android:id="@+id/palette_item_options"
-         android:layout_width="40dp"
-         android:layout_height="40dp"
-         android:layout_marginRight="5dp"
-         android:layout_marginTop="15dp"
-         android:background="@android:drawable/ic_menu_more"
-         android:layout_alignParentRight="true"
-         android:contentDescription="@string/palette_option_btn_desc"/>
+
     
 
 </RelativeLayout>

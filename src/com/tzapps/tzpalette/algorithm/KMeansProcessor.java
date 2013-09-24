@@ -107,7 +107,7 @@ public class KMeansProcessor
          * The kpp() algorithm is still not quite correct, so
          * comment it out for now...
          */
-        kpp(points, mCenters);
+        //kpp(points, mCenters);
 
         // create random points as the cluster centers
         Random random = new Random();
