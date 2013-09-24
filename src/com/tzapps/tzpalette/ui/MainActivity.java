@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,7 +37,7 @@ import com.tzapps.ui.OnFragmentStatusChangedListener;
 import com.tzapps.utils.ActivityUtils;
 import com.tzapps.utils.BitmapUtils;
 
-public class MainActivity extends Activity implements OnFragmentStatusChangedListener
+public class MainActivity extends Activity implements OnFragmentStatusChangedListener, DialogInterface.OnClickListener
 {
     private final static String TAG = "MainActivity";
     
@@ -200,7 +201,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
             case R.id.action_settings:
                 // openSettings();
-                sharePalette(item.getActionView());
+                //sharePalette(item.getActionView());
                 return true;
 
             case R.id.action_about:
@@ -231,8 +232,19 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case R.id.palette_item_options:
                 long dataId = (Long)view.getTag();
                 Log.d(TAG, "Palette Data + " + dataId + " show options");
+                PaletteItemOptionsDialogFragment dialogFrag =
+                        PaletteItemOptionsDialogFragment.newInstance("Untitled");
+                //dialogFrag.getDialog().setCanceledOnTouchOutside(true);
+                dialogFrag.show(getFragmentManager(), "dialog");
                 break;
         }
+    }
+    
+    @Override
+    public void onClick(DialogInterface dialog, int which)
+    {
+        Log.d(TAG, "Dialog" +
+        		"option " + which + " is clicked");
     }
     
     private void sharePalette(View view)
@@ -581,4 +593,5 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void onTabReselected(Tab tab, FragmentTransaction ft)
         {}
     }
+
 }

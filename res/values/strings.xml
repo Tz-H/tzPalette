@@ -31,4 +31,9 @@
     <string name="palette_thumb_desc">The palette item\'s thumbnail</string>
     <string name="palette_option_btn_desc">The palette item\'s edit options</string>
     
+    <string-array name="palette_item_options">
+        <item name="rename">Rename</item>
+        <item name="delete">Delete</item>
+    </string-array>
+    
 </resources>
