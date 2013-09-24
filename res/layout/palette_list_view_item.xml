@@ -10,13 +10,20 @@
         android:orientation="horizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:padding="5dp"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
         android:gravity="center">
         
         <ImageView 
             android:id="@+id/palette_item_thumb"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:background="@color/color_gray"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:focusable="false"
             android:contentDescription="@string/palette_thumb_desc"/>
         
     </LinearLayout>
@@ -27,8 +34,9 @@
         android:layout_height="30dp"
         android:layout_toRightOf="@+id/palette_item_thumb_frame"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="50dp"
+        android:paddingLeft="5dp"
         android:gravity="center|left"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -38,9 +46,7 @@
      <ImageButton 
          android:id="@+id/palette_item_options"
          android:layout_width="40dp"
-         android:layout_height="30dp"
-         android:layout_marginRight="5dp"
-         android:layout_marginTop="10dp"
+         android:layout_height="40dp"
          android:src="@android:drawable/ic_menu_more"
          android:background="@color/color_transparent"
          android:layout_alignParentRight="true"
@@ -53,6 +59,9 @@
          android:layout_toRightOf="@+id/palette_item_thumb_frame"
          android:layout_alignBottom="@+id/palette_item_thumb_frame"
          android:gravity="center"
+         android:focusableInTouchMode="false"
+         android:clickable="false"
+         android:focusable="false"
          android:orientation="vertical" >
          
          <com.tzapps.tzpalette.ui.PaletteColorGrid

@@ -11,8 +11,10 @@ public class PaletteData
     private static final String TAG = "PaletteData";
        
     private long   id;
+    private long   mUpdated;
     private Bitmap mThumb;
     private String mTitle;
+    private String mImageUrl;
     private List<Integer> mColors;
     
     public PaletteData()
@@ -130,6 +132,42 @@ public class PaletteData
     public void setId(long id)
     {
         this.id = id;
+    }
+    
+    public long getUpdated()
+    {
+        return mUpdated;
+    }
+    
+    public void setUpdated(long updated)
+    {
+        mUpdated = updated;
+    }
+    
+    public String getImageUrl()
+    {
+        return mImageUrl;
+    }
+    
+    public void setImageUrl(String imageUrl)
+    {
+        mImageUrl = imageUrl;
+    }
+    
+    @Override
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append("[ ")
+              .append("id=").append(id).append(",")
+              .append("title=").append(mTitle).append(",")
+              .append("colors=").append(Arrays.toString(getColors())).append(",")
+              .append("imageUrl=").append(mImageUrl).append(",")
+              .append("thumb=").append(mThumb)
+              .append(" ]");
+        
+        return buffer.toString();
     }
 
 }

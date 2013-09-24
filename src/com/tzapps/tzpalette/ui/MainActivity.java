@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
+        //mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
         
         // Get intent, action and MIME type
         Intent intent = getIntent();

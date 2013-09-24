@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class PaletteDataSource
@@ -26,6 +27,7 @@ public class PaletteDataSource
             PaletteDataEntry.COLUMN_NAME_TITLE,
             PaletteDataEntry.COLUMN_NAME_COLORS,
             PaletteDataEntry.COLUMN_NAME_UPDATED,
+            PaletteDataEntry.COLUMN_NAME_IMAGEURL,
             PaletteDataEntry.COLUMN_NAME_THUMB
         };
     
@@ -130,17 +132,28 @@ public class PaletteDataSource
     private PaletteData cursorToPaletteData(Cursor cursor)
     {
         PaletteData data = new PaletteData();
+         
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(PaletteDataEntry._ID));
+        data.setId(id);
         
-        data.setId(cursor.getLong(cursor.getColumnIndexOrThrow(PaletteDataEntry._ID)));
-        data.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_TITLE)));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_TITLE));
+        data.setTitle(title);
         
         String colorStr = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_COLORS));
         data.addColors(convertColorStrToColors(colorStr), /*reset*/true);
         
-        /* TODO:
-         * 1. update time
-         * 2. thumb
-         */
+        long updated = cursor.getLong(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_UPDATED));
+        data.setUpdated(updated);
+        
+        String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_IMAGEURL));
+        data.setImageUrl(imageUrl);
+        
+        byte[] thumb = cursor.getBlob(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_THUMB));
+        
+        if (thumb != null)
+            data.setThumb(BitmapFactory.decodeByteArray(thumb, 0, thumb.length));
+                    
+        Log.d(TAG, "PaletteData fetched from db: " + data.toString());
         
         return data;
     }

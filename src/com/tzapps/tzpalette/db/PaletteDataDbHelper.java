@@ -12,7 +12,7 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static final String TAG = "PaletteDataDbHelper";
     
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "TzPalette.db";
     
     private static final String TEXT_TYPE    = " TEXT";
@@ -23,10 +23,11 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + PaletteDataEntry.TABLE_NAME + " (" +
             PaletteDataEntry._ID + " INTEGER PRIMARY KEY," +
-            PaletteDataEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
-            PaletteDataEntry.COLUMN_NAME_COLORS + TEXT_TYPE + COMMA_SEP +
-            PaletteDataEntry.COLUMN_NAME_UPDATED + INTEGER_TYPE + COMMA_SEP +
-            PaletteDataEntry.COLUMN_NAME_THUMB + BLOB_TYPE + 
+            PaletteDataEntry.COLUMN_NAME_TITLE    + TEXT_TYPE    + COMMA_SEP +
+            PaletteDataEntry.COLUMN_NAME_COLORS   + TEXT_TYPE    + COMMA_SEP +
+            PaletteDataEntry.COLUMN_NAME_UPDATED  + INTEGER_TYPE + COMMA_SEP +
+            PaletteDataEntry.COLUMN_NAME_IMAGEURL + TEXT_TYPE    + COMMA_SEP +
+            PaletteDataEntry.COLUMN_NAME_THUMB    + BLOB_TYPE    + 
             ")";
     
     private static final String SQL_DELETE_ENTRIES =

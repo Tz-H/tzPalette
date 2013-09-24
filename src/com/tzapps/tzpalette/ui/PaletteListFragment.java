@@ -10,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzapps.tzpalette.R;
@@ -21,7 +22,7 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataSource;
 import com.tzapps.ui.BaseListFragment;
 
-public class PaletteListFragment extends BaseListFragment implements OnClickListener
+public class PaletteListFragment extends BaseListFragment implements OnClickListener, OnItemClickListener
 {
     private static final String TAG = "PaletteListFragment";
     
@@ -70,14 +71,18 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
         
         return view;
     }
-     
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
+    
+    public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        @SuppressWarnings("unchecked")
-        ArrayAdapter<PaletteData> adapter = (ArrayAdapter<PaletteData>) getListAdapter();
-        PaletteData data = adapter.getItem(position);
+        super.onViewCreated(view, savedInstanceState);
         
+        getListView().setOnItemClickListener(this);
+    }
+    
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        PaletteData data = mAdapter.getItem(position);
         Log.i(TAG, "palette data " + data.getId() + " clicked");
         
         //mSource.delete(data);
@@ -185,8 +190,7 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
       
             // TODO: update other palette data values into item view
         }
-    }
-    
+    }  
     
 }
 

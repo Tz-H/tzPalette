@@ -16,6 +16,7 @@ public final class PaletteDataContract
         public static final String COLUMN_NAME_COLORS   = "colors";
         public static final String COLUMN_NAME_UPDATED  = "updated";
         public static final String COLUMN_NAME_THUMB    = "thumb";
+        public static final String COLUMN_NAME_IMAGEURL = "imageurl";
         
         public static final String COLUMN_NAME_NULLABLE = "title";
     }
