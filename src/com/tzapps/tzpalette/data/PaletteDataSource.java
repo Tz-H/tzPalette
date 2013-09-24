@@ -6,11 +6,13 @@ import java.util.List;
 
 import com.tzapps.tzpalette.db.PaletteDataDbHelper;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
+import com.tzapps.utils.BitmapUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
@@ -46,6 +48,11 @@ public class PaletteDataSource
         dbHelper.close();
     }
     
+    /**
+     * Save a new PaletteData record into db
+     * 
+     * @param data         the palette data to save
+     */
     public void save(PaletteData data)
     {
         // Create a new map of values, where column names are the keys
@@ -53,10 +60,17 @@ public class PaletteDataSource
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
         
         String colorsStr = Arrays.toString(data.getColors());
-        Log.d(TAG, "colors saved: " + colorsStr);
         
         values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
-        values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, System.currentTimeMillis());
+        values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
+        values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
+        
+        long updated = System.currentTimeMillis();
+        values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, updated);
+        
+        Bitmap thumb = data.getThumb();
+        thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
+        values.put(PaletteDataEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
         
         // Insert the new row, returning the primary key values of the new row
         long insertId;
@@ -65,11 +79,18 @@ public class PaletteDataSource
                              values);
         
         data.setId(insertId);
+        data.setUpdated(updated);
         
         Log.d(TAG, "PaletteData saved with id:" + insertId);
     }
     
-    public void update(PaletteData data)
+    /**
+     * Update an existing PaletteData record in db
+     * 
+     * @param data         the palette data to update
+     * @param updateThumb  flag to indicate if update thumb data
+     */
+    public void update(PaletteData data, boolean updateThumb)
     {
         long id = data.getId();
       
@@ -78,9 +99,18 @@ public class PaletteDataSource
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
         
         String colorsStr = Arrays.toString(data.getColors());
-        Log.d(TAG, "colors updated: " + colorsStr);
         values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
-        values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, System.currentTimeMillis());
+        
+        long updated = System.currentTimeMillis();
+        values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, updated);
+        
+        if (updateThumb)
+        {
+            values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
+            Bitmap thumb = data.getThumb();
+            thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
+            values.put(PaletteDataEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+        }
         
         // Issue SQL statement
         db.update(PaletteDataEntry.TABLE_NAME, 
@@ -88,9 +118,16 @@ public class PaletteDataSource
                   PaletteDataEntry._ID + " = " + id,
                   null);
         
+        data.setUpdated(updated);
+        
         Log.d(TAG, "PaletteData updated with id:" + id);
     }
     
+    /**
+     * Delete a PaletteData record from db
+     * 
+     * @param data the palette data to delete
+     */
     public void delete(PaletteData data)
     {
         long id = data.getId();
@@ -102,6 +139,11 @@ public class PaletteDataSource
                   null);
     }
     
+    /**
+     * Get all PaletteData records from db
+     * 
+     * @return the array list with all PaletteData records
+     */
     public List<PaletteData> getAllPaletteData()
     {
         List<PaletteData> dataList = new ArrayList<PaletteData>();
@@ -160,8 +202,6 @@ public class PaletteDataSource
     
     private int[] convertColorStrToColors(String colorsStr)
     {
-        Log.d(TAG, "colors from db: " + colorsStr);
-        
         String[] items = colorsStr.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").split(",");
         
         int[] colors = new int[items.length];

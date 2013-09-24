@@ -5,15 +5,14 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataSource;
 import com.tzapps.ui.BaseListFragment;
 
-public class PaletteListFragment extends BaseListFragment implements OnClickListener, OnItemClickListener
+public class PaletteListFragment extends BaseListFragment implements OnItemClickListener
 {
     private static final String TAG = "PaletteListFragment";
     
@@ -62,12 +61,6 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
         
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.palette_list_view, container, false);
-        
-        final Button addBtn = (Button)view.findViewById(R.id.add);
-        addBtn.setOnClickListener(this);
-        
-        final Button deleteBtn = (Button)view.findViewById(R.id.delete);
-        deleteBtn.setOnClickListener(this);
         
         return view;
     }
@@ -114,42 +107,6 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
         mAdapter.notifyDataSetChanged();
     }
     
-    private PaletteData getMocedUpPaletteData()
-    {
-        PaletteData data = new PaletteData();
-        data.setId(1000);
-        data.setTitle("test");
-        
-        return data;
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        PaletteData data = getMocedUpPaletteData();
-        
-        switch (v.getId())
-        {
-            case R.id.add:
-                Log.d(TAG, "add a new palette data");
-                mSource.save(data);
-                mAdapter.add(data);
-                break;
-                
-            case R.id.delete:
-                Log.d(TAG, "delete a palette data");
-                if (mAdapter.getCount() > 0)
-                {
-                    data = mAdapter.getItem(0);
-                    mSource.delete(data);
-                    mAdapter.remove(data);
-                }
-                break;
-        }
-        
-        mAdapter.notifyDataSetChanged();
-    }    
-    
     public class PaletteDataAdapter<T> extends ArrayAdapter<T>
     {
         private Context mContext;
@@ -183,10 +140,20 @@ public class PaletteListFragment extends BaseListFragment implements OnClickList
         {
             ImageView thumb = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
             TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
+            TextView updated = (TextView)itemView.findViewById(R.id.palette_item_updated);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
             
-            title.setText(data.getTitle() + "");
+            if (data.getTitle() != null)
+                title.setText(data.getTitle());
+            else
+                title.setText(mContext.getResources().getString(R.string.palette_title_default));
+            
+            String dateStr = DateUtils.formatDateTime(mContext, data.getUpdated(), DateUtils.FORMAT_SHOW_TIME |
+                                                                                   DateUtils.FORMAT_SHOW_DATE |
+                                                                                   DateUtils.FORMAT_NUMERIC_DATE);
+            updated.setText(dateStr);
             colors.setColors(data.getColors());
+            thumb.setImageBitmap(data.getThumb());
       
             // TODO: update other palette data values into item view
         }

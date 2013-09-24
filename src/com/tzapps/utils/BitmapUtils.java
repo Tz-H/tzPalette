@@ -1,9 +1,11 @@
 package com.tzapps.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -135,5 +137,12 @@ public class BitmapUtils
         }
         
         return file;
+    }
+    
+    public static byte[] convertBitmapToByteArray(Bitmap bitmap)
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(CompressFormat.JPEG, 85, outputStream);
+        return outputStream.toByteArray();
     }
 }
