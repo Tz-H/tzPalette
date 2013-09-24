@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -142,6 +143,11 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
             TextView updated = (TextView)itemView.findViewById(R.id.palette_item_updated);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
+            ImageButton options = (ImageButton)itemView.findViewById(R.id.palette_item_options);
+            
+            // set PaletteData id onto the options button, so that we could retrieve it when
+            // we need to do perform operations on the palette item
+            options.setTag(data.getId());
             
             if (data.getTitle() != null)
                 title.setText(data.getTitle());

@@ -224,6 +224,17 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
     }
     
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.palette_item_options:
+                long dataId = (Long)view.getTag();
+                Log.d(TAG, "Palette Data + " + dataId + " show options");
+                break;
+        }
+    }
+    
     private void sharePalette(View view)
     {
         if (mCurrentPalette == null)

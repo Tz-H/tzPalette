@@ -34,6 +34,7 @@
          android:layout_alignBottom="@+id/palette_item_thumb_frame"
          android:src="@android:drawable/ic_menu_more"
          android:layout_alignParentRight="true"
+         android:onClick="onClick"
          android:contentDescription="@string/palette_option_btn_desc"/>
     
     <TextView 
