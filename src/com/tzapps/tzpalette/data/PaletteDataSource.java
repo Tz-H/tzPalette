@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.db.PaletteDataDbHelper;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
 import com.tzapps.utils.BitmapUtils;
+import com.tzapps.utils.StringUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,6 +22,7 @@ public class PaletteDataSource
 {
     private static final String TAG = "PaletteDataSource";
     
+    private Context mContext;
     // Database fields
     private SQLiteDatabase db;
     private PaletteDataDbHelper dbHelper;
@@ -35,6 +38,7 @@ public class PaletteDataSource
     
     public PaletteDataSource(Context context)
     {
+        mContext = context;
         dbHelper = new PaletteDataDbHelper(context);
     }
     
@@ -63,8 +67,13 @@ public class PaletteDataSource
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
         
         String colorsStr = Arrays.toString(data.getColors());
-        
         values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
+        
+        String title =  data.getTitle();
+        
+        if (StringUtils.isEmpty(title))
+            mContext.getResources().getString(R.string.palette_title_default);
+        
         values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
         values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
         

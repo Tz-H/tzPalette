@@ -78,6 +78,11 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         // adapter.notifyDataSetChanged();
     }
     
+    public void refresh()
+    {
+        mAdapter.notifyDataSetChanged();
+    }
+    
     public void removeAll()
     {
         mAdapter.clear();

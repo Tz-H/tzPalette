@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -27,6 +28,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
@@ -251,6 +256,67 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
     }
     
+    private void updatePaletteDataTitle(int position, long dataId, String title)
+    {
+        assert(mPaletteListFragment != null);
+        
+        PaletteData data = mPaletteListFragment.getItem(position);
+        
+        if (data == null)
+            return;
+        
+        data.setTitle(title);
+        mDataHelper.update(data, false);
+        
+        mPaletteListFragment.refresh();
+    }
+    
+    private void showRenameDialog(final int position, final long dataId)
+    {
+        assert(mPaletteListFragment != null);
+        
+        PaletteData data = mPaletteListFragment.getItem(position);
+        
+        if (data == null)
+            return;
+        
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);        
+        final EditText input = new EditText(this);
+        
+        input.setText(data.getTitle());
+        input.setSelectAllOnFocus(true);
+
+        
+        alert.setMessage("Palette name:")
+             .setView(input)
+             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which)
+                  {
+                      String text = input.getText().toString();
+                      updatePaletteDataTitle(position, dataId, text);
+                  }
+              })
+              .setNegativeButton("Cancel", null);
+        
+        final AlertDialog dialog = alert.create();
+              
+        input.setOnFocusChangeListener(new OnFocusChangeListener() 
+            {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) 
+                {
+                   if(hasFocus)
+                   {
+                       dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                   }
+                }
+            }
+        );
+        
+        dialog.show();
+    }
+    
     @Override
     public void onClick(int position, long dataId, PaletteItemOption option)
     {
@@ -265,6 +331,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         {
             case Rename:
                 Log.d(TAG, "Rename palatte item/data at position " + position + ", dataId is " + dataId);
+                showRenameDialog(position, dataId);
                 break;
                 
             case Delete:
