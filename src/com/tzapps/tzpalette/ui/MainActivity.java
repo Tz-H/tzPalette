@@ -470,10 +470,16 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mCurrentPalette == null)
             return;
         
-        mDataHelper.add(mCurrentPalette);
-        
-        if (mPaletteListFragment != null)
+        if (mCurrentPalette.getId() == -1)
+        {
+            mDataHelper.add(mCurrentPalette);
             mPaletteListFragment.add(mCurrentPalette);
+        }
+        else
+        {
+            mDataHelper.update(mCurrentPalette, /*updateThumb*/false);
+            mPaletteListFragment.refresh();
+        }
     }
 
     @Override
