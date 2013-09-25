@@ -15,6 +15,8 @@
     <string name="action_clear">Clear</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
     
     <string name="palette_title_default">Untitled</string>
     <string name="palette_title_hint">Palette Name</string>
@@ -32,8 +34,8 @@
     <string name="palette_option_btn_desc">The palette item\'s edit options</string>
     
     <string-array name="palette_item_options">
-        <item name="rename">Rename</item>
-        <item name="delete">Delete</item>
+        <item>@string/action_rename</item>
+        <item>@string/action_delete</item>
     </string-array>
     
 </resources>

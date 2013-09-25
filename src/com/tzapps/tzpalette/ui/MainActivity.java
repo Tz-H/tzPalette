@@ -33,11 +33,13 @@ import android.widget.Toast;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.OnClickPaletteItemOptionListener;
+import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.PaletteItemOption;
 import com.tzapps.ui.OnFragmentStatusChangedListener;
 import com.tzapps.utils.ActivityUtils;
 import com.tzapps.utils.BitmapUtils;
 
-public class MainActivity extends Activity implements OnFragmentStatusChangedListener, DialogInterface.OnClickListener
+public class MainActivity extends Activity implements OnFragmentStatusChangedListener, OnClickPaletteItemOptionListener
 {
     private final static String TAG = "MainActivity";
     
@@ -233,21 +235,45 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         switch (view.getId())
         {
             case R.id.palette_item_options:
-                long dataId = (Long)view.getTag();
-                Log.d(TAG, "Palette Data + " + dataId + " show options");
-                PaletteItemOptionsDialogFragment dialogFrag =
-                        PaletteItemOptionsDialogFragment.newInstance("Untitled");
+                long dataId = (Long)view.getTag(R.id.TAG_PALETTE_DATA_ID);
+                int  itemPosition = (Integer)view.getTag(R.id.TAG_PALETTE_ITEM_POSITION);
+                
+                PaletteData data = mPaletteListFragment.getItem(itemPosition);
+                
+                Log.d(TAG, "Show options on palette data + " + data);
+                
+                PaletteItemOptionsDialogFragment optionDialogFrag =
+                        PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
+                
                 //dialogFrag.getDialog().setCanceledOnTouchOutside(true);
-                dialogFrag.show(getFragmentManager(), "dialog");
+                optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
         }
     }
     
     @Override
-    public void onClick(DialogInterface dialog, int which)
+    public void onClick(int position, long dataId, PaletteItemOption option)
     {
-        Log.d(TAG, "Dialog" +
-        		"option " + which + " is clicked");
+        assert(mPaletteListFragment != null);
+        
+        PaletteData data = mPaletteListFragment.getItem(position);
+        
+        if (data == null)
+            return;
+        
+        switch(option)
+        {
+            case Rename:
+                Log.d(TAG, "Rename palatte item/data at position " + position + ", dataId is " + dataId);
+                break;
+                
+            case Delete:
+                Log.d(TAG, "Delete palatte item/data at position " + position + ", dataId is " + dataId);
+                mPaletteListFragment.remove(data);
+                mDataHelper.delete(data);
+                break;
+        }
+        
     }
     
     private void sharePalette(View view)
@@ -599,5 +625,4 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void onTabReselected(Tab tab, FragmentTransaction ft)
         {}
     }
-
 }
