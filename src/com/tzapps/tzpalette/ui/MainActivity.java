@@ -30,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
@@ -129,7 +128,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         super.onSaveInstanceState(outState);
 
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-
+        
+        // TODO: convert the PaletteData to parcelable
+        
         if (mCurrentPalette != null)
         {
             outState.putParcelable("bitmap", mCurrentPalette.getThumb());
@@ -266,7 +267,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             return;
         
         data.setTitle(title);
-        mDataHelper.update(data, false);
+        mDataHelper.update(data, /*updateThumb*/false);
         
         mPaletteListFragment.refresh();
     }
@@ -284,10 +285,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         final EditText input = new EditText(this);
         
         input.setText(data.getTitle());
+        input.setSingleLine(true);
         input.setSelectAllOnFocus(true);
 
         
-        alert.setMessage("Palette name:")
+        alert.setTitle(R.string.action_rename)
              .setView(input)
              .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                   @Override

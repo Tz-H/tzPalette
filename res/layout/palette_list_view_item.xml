@@ -45,6 +45,7 @@
         android:layout_toLeftOf="@+id/palette_item_options"
         android:paddingLeft="5dp"
         android:gravity="center|left"
+        android:singleLine="true"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/color_darkgray"
