@@ -56,11 +56,11 @@ public class PaletteDataSource
     }
     
     /**
-     * Save a new PaletteData record into db
+     * insert a new PaletteData record into db
      * 
      * @param data         the palette data to save
      */
-    public void save(PaletteData data)
+    public void add(PaletteData data)
     {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -70,11 +70,10 @@ public class PaletteDataSource
         values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);
         
         String title =  data.getTitle();
-        
         if (StringUtils.isEmpty(title))
-            mContext.getResources().getString(R.string.palette_title_default);
+            title = mContext.getResources().getString(R.string.palette_title_default);
         
-        values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
+        values.put(PaletteDataEntry.COLUMN_NAME_TITLE, title);
         values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
         
         long updated = System.currentTimeMillis();
@@ -91,6 +90,7 @@ public class PaletteDataSource
                              values);
         
         data.setId(insertId);
+        data.setTitle(title);
         data.setUpdated(updated);
         
         Log.d(TAG, "PaletteData saved with id:" + insertId);
@@ -108,7 +108,14 @@ public class PaletteDataSource
       
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(PaletteDataEntry.COLUMN_NAME_TITLE, data.getTitle());
+        
+        String title =  data.getTitle();
+        if (StringUtils.isEmpty(title))
+        {
+            title = mContext.getResources().getString(R.string.palette_title_default);
+            data.setTitle(title);
+        }
+        values.put(PaletteDataEntry.COLUMN_NAME_TITLE, title);
         
         String colorsStr = Arrays.toString(data.getColors());
         values.put(PaletteDataEntry.COLUMN_NAME_COLORS, colorsStr);

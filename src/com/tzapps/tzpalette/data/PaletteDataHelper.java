@@ -67,7 +67,7 @@ public class PaletteDataHelper
     {
         mDataSource.open(true);
         
-        mDataSource.save(data);
+        mDataSource.add(data);
         
         mDataSource.close();
     }
