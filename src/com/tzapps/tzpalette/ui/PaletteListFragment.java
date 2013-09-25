@@ -1,5 +1,6 @@
 package com.tzapps.tzpalette.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -26,7 +27,6 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 {
     private static final String TAG = "PaletteListFragment";
     
-    private PaletteDataSource mSource;
     PaletteDataAdapter<PaletteData> mAdapter;
     
     @Override
@@ -34,12 +34,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     {
         super.onAttach(activity);
         
-        if (mSource == null)
-            mSource = new PaletteDataSource(activity);
-        
-        mSource.open();
-        
-        List<PaletteData> items = mSource.getAllPaletteData();
+        List<PaletteData> items = new ArrayList<PaletteData>();
         
         if (mAdapter == null)
             mAdapter = new PaletteDataAdapter<PaletteData>(getActivity(), 
@@ -84,26 +79,30 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         //adapter.notifyDataSetChanged();
     }
     
-    @Override
-    public void onResume()
+    public void removeAll()
     {
-        mSource.open();
-        super.onResume();
+        mAdapter.clear();
     }
     
-    @Override
-    public void onPause()
+    public void addAll(List<PaletteData> dataList)
     {
-        mSource.close();
-        super.onPause();
+        mAdapter.addAll(dataList);
     }
     
-    public void save(PaletteData data)
+    public void add(PaletteData data)
     {
-        mSource.save(data);
         mAdapter.add(data);
         
-        Log.d(TAG, "palette data " + data.getId() + " saved");
+        Log.d(TAG, "palette data " + data.getId() + " added");
+        
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    public void remove(PaletteData data)
+    {
+        mAdapter.remove(data);
+        
+        Log.d(TAG, "palette data " + data.getId() + " added");
         
         mAdapter.notifyDataSetChanged();
     }

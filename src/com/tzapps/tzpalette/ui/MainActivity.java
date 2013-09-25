@@ -52,7 +52,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     ViewPager mViewPager;
     TabsAdapter mTabsAdapter;
     
-    PaletteData mCurrentPalette;
+    PaletteData       mCurrentPalette;
+    PaletteDataHelper mDataHelper;
     
     ShareActionProvider mShareActionProvider;
 
@@ -66,6 +67,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         super.onCreate(savedInstanceState);
         
         ActivityUtils.forceToShowOverflowOptionsOnActoinBar(this);
+        
+        mDataHelper = PaletteDataHelper.getInstance(this);
 
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.pager);
@@ -308,7 +311,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             mCaptureFrag = (CaptureFragment) fragment;
         
         if (fragment instanceof PaletteListFragment)
+        {
             mPaletteListFragment = (PaletteListFragment) fragment;
+            mPaletteListFragment.addAll(mDataHelper.getAllData());
+        }
 
         refresh();
     }
@@ -369,8 +375,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mCurrentPalette == null)
             return;
         
+        mDataHelper.add(mCurrentPalette);
+        
         if (mPaletteListFragment != null)
-            mPaletteListFragment.save(mCurrentPalette);
+            mPaletteListFragment.add(mCurrentPalette);
     }
 
     @Override
@@ -477,9 +485,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         {
             PaletteData data = dataArray[0];
 
-            PaletteDataHelper helper = PaletteDataHelper.getInstance();
-
-            helper.analysis(data, /* reset */true);
+            mDataHelper.analysis(data, /* reset */true);
 
             return data;
         }

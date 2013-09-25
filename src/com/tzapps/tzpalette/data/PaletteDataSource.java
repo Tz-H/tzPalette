@@ -38,9 +38,12 @@ public class PaletteDataSource
         dbHelper = new PaletteDataDbHelper(context);
     }
     
-    public void open()
+    public void open(boolean writable)
     {
-        db = dbHelper.getWritableDatabase();
+        if (writable)
+            db = dbHelper.getWritableDatabase();
+        else
+            db = dbHelper.getReadableDatabase();
     }
     
     public void close()
@@ -130,8 +133,16 @@ public class PaletteDataSource
      */
     public void delete(PaletteData data)
     {
-        long id = data.getId();
-        
+        delete(data.getId());
+    }
+    
+    /**
+     * Delete a PaletteData record based on its id
+     * 
+     * @param id the palette data id
+     */
+    public void delete(long id)
+    {
         Log.d(TAG, "PaletteData deleted with id:" + id);
         
         db.delete(PaletteDataEntry.TABLE_NAME, 

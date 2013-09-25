@@ -1,5 +1,8 @@
 package com.tzapps.tzpalette.data;
 
+import java.util.List;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -15,7 +18,7 @@ public class PaletteDataHelper
     
     private static final int THUMB_MAX_WIDTH  = 500;
     private static final int THUMB_MAX_HEIGHT = 500;
-    
+     
     public enum PaletteDataHelper_DataType
     {
         ColorToRGB,
@@ -23,13 +26,72 @@ public class PaletteDataHelper
         ColorToHSL
     };
     
-    private static PaletteDataHelper instance = new PaletteDataHelper();
+    private static PaletteDataHelper instance;
     
-    private PaletteDataHelper(){};
+    private Context mContext;
+    private PaletteDataSource mDataSource;
     
-    public static PaletteDataHelper getInstance()
+    private PaletteDataHelper(Context context)
     {
+        mContext = context;
+        mDataSource = new PaletteDataSource(context);
+    };
+    
+    public static PaletteDataHelper getInstance(Context context)
+    {
+        if (instance == null)
+            instance = new PaletteDataHelper(context);
+        
         return instance;
+    }
+    
+    public void delete(PaletteData data)
+    {
+        mDataSource.open(true);
+        
+        mDataSource.delete(data);
+        
+        mDataSource.close();
+    }
+    
+    public void delete(long id)
+    {
+        mDataSource.open(true);
+        
+        mDataSource.delete(id);
+        
+        mDataSource.close();
+    }
+    
+    public void add(PaletteData data)
+    {
+        mDataSource.open(true);
+        
+        mDataSource.save(data);
+        
+        mDataSource.close();
+    }
+    
+    public void update(PaletteData data, boolean updateThumb)
+    {
+        mDataSource.open(true);
+        
+        mDataSource.update(data, updateThumb);
+        
+        mDataSource.close();
+    }
+    
+    public List<PaletteData> getAllData()
+    {
+        List<PaletteData> dataList = null;
+        
+        mDataSource.open(false);
+        
+        dataList = mDataSource.getAllPaletteData();
+        
+        mDataSource.close();
+        
+        return dataList;
     }
 
     public void analysis(PaletteData data, boolean reset)
