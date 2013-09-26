@@ -72,6 +72,19 @@ public class PaletteDataHelper
         mDataSource.close();
     }
     
+    public PaletteData get(long id)
+    {
+        PaletteData data = null;
+        
+        mDataSource.open(false);
+        
+        data = mDataSource.get(id);
+        
+        mDataSource.close();
+        
+        return data;
+    }
+    
     public void update(PaletteData data, boolean updateThumb)
     {
         mDataSource.open(true);

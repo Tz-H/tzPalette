@@ -81,6 +81,12 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mColoursGrid.setColors(colors);
     }
     
+    public void clear()
+    {
+        updateImageView(null);
+        mColoursGrid.clear();
+    }
+    
     public void showTitleButtons()
     {
         mTitleButtons.setVisibility(View.VISIBLE);

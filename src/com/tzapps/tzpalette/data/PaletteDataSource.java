@@ -167,6 +167,37 @@ public class PaletteDataSource
     }
     
     /**
+     * Get a PaletteData record based on its id
+     * 
+     * @param id    the palette data id
+     * @return the PaletteData
+     */
+    public PaletteData get(long id)
+    {
+        Cursor cursor = db.query(
+                PaletteDataEntry.TABLE_NAME,
+                allColumns,
+                PaletteDataEntry._ID + " = " + id,
+                null,
+                null,
+                null,
+                null
+                );
+        
+        if (cursor.getCount() == 0)
+        {
+            Log.e(TAG, "get palette data with id=" + id + "failed");
+            return null;
+        }
+        else
+        {
+            cursor.moveToFirst();
+            PaletteData data = cursorToPaletteData(cursor);
+            return data;
+        }
+    }
+    
+    /**
      * Get all PaletteData records from db
      * 
      * @return the array list with all PaletteData records

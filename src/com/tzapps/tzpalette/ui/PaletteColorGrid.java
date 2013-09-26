@@ -56,6 +56,11 @@ public class PaletteColorGrid extends GridView
         return mColorsAdapter.getColor(position);
     }
     
+    public void clear()
+    {
+        mColorsAdapter.clear();
+    }
+    
     private class ColorAdapter extends BaseAdapter
     {
         private List<Integer> mColors;
@@ -70,6 +75,7 @@ public class PaletteColorGrid extends GridView
         public void clear()
         {
             mColors.clear();
+            notifyDataSetChanged();
         }
 
         public int getColor(int position)
@@ -82,7 +88,7 @@ public class PaletteColorGrid extends GridView
             for (int i = 0; i < colors.length; i++)
                 mColors.add(colors[i]);
             
-            this.notifyDataSetChanged();
+            notifyDataSetChanged();
         }
 
         public int getCount()
