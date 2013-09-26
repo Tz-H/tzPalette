@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
-public class PaletteData
+public class PaletteData implements Parcelable
 {
     private static final String TAG = "PaletteData";
        
@@ -16,6 +19,20 @@ public class PaletteData
     private String mTitle;
     private String mImageUrl;
     private List<Integer> mColors;
+    
+    public static final Parcelable.Creator<PaletteData> CREATOR = 
+        new Parcelable.Creator<PaletteData>()
+        {
+            public PaletteData createFromParcel(Parcel source)
+            {
+                return new PaletteData(source);
+            }
+            
+            public PaletteData[] newArray(int size)
+            {
+                return new PaletteData[size];
+            }
+        };
     
     public PaletteData()
     {
@@ -33,6 +50,45 @@ public class PaletteData
         mTitle = title;
         mThumb = thumb;
         mColors = new ArrayList<Integer>();
+    }
+    
+    /**
+     * This will be used only by the MyCreator
+     * @param source
+     */
+    public PaletteData(Parcel source)
+    {
+        /*
+         * Reconstruct from the Parcel
+         */
+        Log.v(TAG, "ParcelData(Parcel source): put back parcel data");
+        
+        id = source.readLong();
+        mUpdated = source.readLong();
+        mTitle = source.readString();
+        mImageUrl = source.readString();
+        mThumb = source.readParcelable(Bitmap.class.getClassLoader());
+        mColors = source.readArrayList(Integer.class.getClassLoader());
+    }
+    
+    @Override
+    public int describeContents()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        Log.v(TAG, "writeToParcel..." + flags);
+        
+        dest.writeLong(id);
+        dest.writeLong(mUpdated);
+        dest.writeString(mTitle);
+        dest.writeString(mImageUrl);
+        dest.writeParcelable(mThumb, PARCELABLE_WRITE_RETURN_VALUE);
+        dest.writeList(mColors);
     }
     
     public void setThumb(Bitmap thumb)
@@ -169,5 +225,4 @@ public class PaletteData
         
         return buffer.toString();
     }
-
 }

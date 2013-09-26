@@ -129,13 +129,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
         
-        // TODO: convert the PaletteData to parcelable
-        
         if (mCurrentPalette != null)
-        {
-            outState.putParcelable("bitmap", mCurrentPalette.getThumb());
-            outState.putIntArray("colors", mCurrentPalette.getColors());
-        }
+            outState.putParcelable("currentPaletteData", mCurrentPalette);
     }
 
     @Override
@@ -144,15 +139,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         super.onRestoreInstanceState(savedInstanceState);
 
         mTabsAdapter.setSelectedTab(savedInstanceState.getInt("tab", 0));
-
-        Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable("bitmap");
-        int[] colors = savedInstanceState.getIntArray("colors");
-
-        if (mCurrentPalette == null)
-            mCurrentPalette = new PaletteData();
-
-        mCurrentPalette.setThumb(bitmap);
-        mCurrentPalette.addColors(colors, /* reset */true);
+        mCurrentPalette = savedInstanceState.getParcelable("currentPaletteData");
 
         refresh();
     }
@@ -250,8 +237,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 
                 PaletteItemOptionsDialogFragment optionDialogFrag =
                         PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
-                
-                //dialogFrag.getDialog().setCanceledOnTouchOutside(true);
                 optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
         }
@@ -575,7 +560,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         {
             super.onPreExecute();
             startAnalysis();
-
         }
 
         /*
