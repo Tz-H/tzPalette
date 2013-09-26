@@ -128,6 +128,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         if (mCurrentPalette != null)
             outState.putParcelable("currentPaletteData", mCurrentPalette);
+        
+        if (mCurrentPhotoPath != null)
+            outState.putString("currentPhotoPath", mCurrentPhotoPath);
     }
 
     @Override
@@ -137,6 +140,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         mTabsAdapter.setSelectedTab(savedInstanceState.getInt("tab", 0));
         mCurrentPalette = savedInstanceState.getParcelable("currentPaletteData");
+        mCurrentPhotoPath = savedInstanceState.getString("currentPhotoPath");
 
         refresh();
     }
@@ -380,7 +384,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         if (mCaptureFrag != null && mCurrentPalette != null)
         {
-            Uri imageUrl = Uri.parse(mCurrentPalette.getImageUrl());
+            String imagePath = mCurrentPalette.getImageUrl();
+            
+            Uri imageUrl = imagePath == null ? null : Uri.parse(imagePath);
             if (imageUrl != null)
             {
                 InputStream imageStream;
@@ -525,8 +531,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         switch (requestCode)
         {
             case TAKE_PHOTE_RESULT:
-                if (resultCode == RESULT_OK)
+                if (resultCode == RESULT_OK && mCurrentPhotoPath != null)
                 {
+                    
                     Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
 
                     if (selectedImage != null)
