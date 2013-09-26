@@ -166,6 +166,10 @@ public class PaletteData implements Parcelable
 
     public void clear()
     {
+        id        = -1;
+        mUpdated  = -1;
+        mTitle    = null;
+        mImageUrl = null;
         setThumb(null);
         clearColors();
     }
