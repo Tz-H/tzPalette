@@ -15,6 +15,9 @@ public class MediaHelper
     
     public static int getPictureOrientation(String filename)
     {
+        if (filename == null)
+            return -1;
+        
         int orientation = ExifInterface.ORIENTATION_NORMAL;
 
         try
