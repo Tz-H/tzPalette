@@ -1,9 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,6 +44,7 @@ import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.PaletteItemOptio
 import com.tzapps.ui.OnFragmentStatusChangedListener;
 import com.tzapps.utils.ActivityUtils;
 import com.tzapps.utils.BitmapUtils;
+import com.tzapps.utils.MediaHelper;
 import com.tzapps.utils.StringUtils;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
@@ -142,7 +140,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mCurrentPalette = savedInstanceState.getParcelable("currentPaletteData");
         mCurrentPhotoPath = savedInstanceState.getString("currentPhotoPath");
 
-        refresh();
+        udpateCaptureVeiw();
     }
 
     @Override
@@ -204,7 +202,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_about:
-                mTabsAdapter.setSelectedTab(2);
+                //mTabsAdapter.setSelectedTab(2);
                 return true;
 
             case R.id.action_save:
@@ -223,6 +221,33 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    @Override
+    public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option)
+    {
+        assert (mPaletteListFragment != null);
+
+        PaletteData data = mPaletteListFragment.getItem(position);
+
+        if (data == null)
+            return;
+
+        switch (option)
+        {
+            case Rename:
+                Log.d(TAG, "Rename palatte item/data at position " + position + ", dataId is "
+                        + dataId);
+                showRenameDialog(position, dataId);
+                break;
+
+            case Delete:
+                Log.d(TAG, "Delete palatte item/data at position " + position + ", dataId is "
+                        + dataId);
+                mPaletteListFragment.remove(data);
+                mDataHelper.delete(data);
+                break;
+        }
+    }
 
     public void onClick(View view)
     {
@@ -237,8 +262,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 Log.d(TAG, "Show options on palette data + " + data);
 
                 PaletteItemOptionsDialogFragment optionDialogFrag =
-                        PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition,
-                                dataId);
+                        PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
                 optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
         }
@@ -306,34 +330,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         dialog.show();
     }
 
-    @Override
-    public void onClick(int position, long dataId, PaletteItemOption option)
-    {
-        assert (mPaletteListFragment != null);
-
-        PaletteData data = mPaletteListFragment.getItem(position);
-
-        if (data == null)
-            return;
-
-        switch (option)
-        {
-            case Rename:
-                Log.d(TAG, "Rename palatte item/data at position " + position + ", dataId is "
-                        + dataId);
-                showRenameDialog(position, dataId);
-                break;
-
-            case Delete:
-                Log.d(TAG, "Delete palatte item/data at position " + position + ", dataId is "
-                        + dataId);
-                mPaletteListFragment.remove(data);
-                mDataHelper.delete(data);
-                break;
-        }
-
-    }
-
     private void sharePalette(View view)
     {
         if (mCurrentPalette == null)
@@ -379,46 +375,50 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 .show();
     }
 
-    /** refresh fragments in main activity with persisted mPaletteData */
-    private void refresh()
+    /** refresh capture view fragment in main activity with persisted mPaletteData */
+    private void udpateCaptureVeiw()
     {
-        if (mCaptureFrag != null && mCurrentPalette != null)
+        if (mCaptureFrag == null || mCurrentPalette == null)
+            return;
+        
+        Bitmap bitmap    = null;
+        String imagePath = mCurrentPalette.getImageUrl();
+        Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
+        
+        bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
+        
+        if (bitmap != null)
         {
-            String imagePath = mCurrentPalette.getImageUrl();
+            int orientation;
             
-            Uri imageUrl = imagePath == null ? null : Uri.parse(imagePath);
-            if (imageUrl != null)
-            {
-                InputStream imageStream;
-                try
-                {
-                    imageStream = getContentResolver().openInputStream(imageUrl);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    mCaptureFrag.updateImageView(bitmap);
-                }
-                catch (FileNotFoundException e)
-                {
-                    Log.e(TAG, "update capture fragment image view failed");
-                }
-            }
+            /*
+             * This is a quick fix on picture orientation for the picture taken
+             * from the camera, as it will be always rotated to landscape 
+             * incorrectly even if we take it in portrait mode...
+             */
+            orientation = MediaHelper.getPictureOrientation(this, imageUri);
+            bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
             
-            mCaptureFrag.updateColors(mCurrentPalette.getColors());
+            mCaptureFrag.updateImageView(bitmap);
         }
+        
+        mCaptureFrag.updateColors(mCurrentPalette.getColors());
     }
 
     @Override
     public void onFragmentViewCreated(Fragment fragment)
     {
         if (fragment instanceof CaptureFragment)
+        {
             mCaptureFrag = (CaptureFragment) fragment;
+            udpateCaptureVeiw();
+        }
 
         if (fragment instanceof PaletteListFragment)
         {
             mPaletteListFragment = (PaletteListFragment) fragment;
             mPaletteListFragment.addAll(mDataHelper.getAllData());
         }
-
-        refresh();
     }
 
     private File getAlbumDir()
@@ -494,13 +494,18 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     /** Called when the user performs the Clear action */
     public void clearCaptureView(View view)
     {
-        Log.d(TAG, "clear the picture");
-
-        if (mCurrentPalette == null)
-            return;
+        Log.d(TAG, "clear the capture view and current palette data");
 
         mCaptureFrag.clear();
-        mCurrentPalette.clear();
+        
+        if (mCurrentPalette != null)
+        {
+            mCurrentPalette.clear();
+            mCurrentPalette = null;
+        }
+        
+        if (mCurrentPhotoPath != null)
+            mCurrentPhotoPath = null;
     }
 
     /** Called when the user performs the Save action */
@@ -514,7 +519,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mCurrentPalette.getId() == -1)
         {
             mDataHelper.add(mCurrentPalette);
-            
             mPaletteListFragment.add(mDataHelper.get(mCurrentPalette.getId()));
         }
         else
@@ -535,21 +539,18 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 {
                     
                     Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
-
+                    
                     if (selectedImage != null)
+                    {
+                        /* invoke the system's media scanner to add the photo to
+                         * the Media Provider's database
+                         */
+                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        mediaScanIntent.setData(selectedImage);
+                        sendBroadcast(mediaScanIntent);
+                        
                         handlePicture(selectedImage);
-                    
-                    /*
-                     * TODO: maybe we should only save and invoke the scanner after
-                     * the user really saves the current palette data...
-                     */
-                    
-                    /* invoke the system's media scanner to add the photo to
-                     * the Media Provider's database
-                     */
-                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    mediaScanIntent.setData(selectedImage);
-                    sendBroadcast(mediaScanIntent);
+                    }
                 }
                 break;
 
@@ -605,32 +606,19 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         assert(selectedImage != null);
         
-        Bitmap bitmap = null;
-        
-        if (selectedImage != null)
-        {
-            InputStream imageStream;
-            try
-            {
-                imageStream = getContentResolver().openInputStream(selectedImage);
-                bitmap = BitmapFactory.decodeStream(imageStream);
-            }
-            catch (FileNotFoundException e)
-            {
-                Log.e(TAG, "load picture failed");
-            }
-        }
+        Bitmap bitmap = BitmapUtils.getBitmapFromUri(this, selectedImage);
         
         assert (bitmap != null);
 
         mCurrentPalette = new PaletteData();
-
         mCurrentPalette.setThumb(bitmap);
+        
+        //TODO something is still wrong on file title fetching logic
         mCurrentPalette.setTitle(getPictureTilteFromUri(selectedImage));
         mCurrentPalette.setImageUrl(selectedImage.toString());
 
-        refresh();
-
+        udpateCaptureVeiw();
+        
         // start to analysis the picture immediately after loading it
         new PaletteDataAnalysisTask().execute(mCurrentPalette);
     }
@@ -681,8 +669,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
          */
         protected void onPostExecute(PaletteData result)
         {
-            refresh();
             stopAnalysis();
+            
+            if (mCaptureFrag != null)
+                mCaptureFrag.updateColors(result.getColors());
         }
     }
 

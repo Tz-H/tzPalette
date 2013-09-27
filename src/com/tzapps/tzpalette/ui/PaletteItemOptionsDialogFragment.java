@@ -22,7 +22,7 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     
     public interface OnClickPaletteItemOptionListener
     {
-        public void onClick(int position, long dataId, PaletteItemOption option);
+        public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option);
     }
     
     public enum PaletteItemOption
@@ -113,6 +113,6 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        mCallback.onClick(mPosition, mDataId, mOptions[which]);
+        mCallback.onPaletteItemOptionClicked(mPosition, mDataId, mOptions[which]);
     }
 }
