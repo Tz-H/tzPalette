@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="pref_setColorNumber_default">8</integer>
+    <integer name="pref_setColorNumber_min">8</integer>
+    <integer name="pref_setColorNumber_max">16</integer>
+</resources>

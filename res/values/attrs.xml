@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- note: to re-use an existing Android attribute not already used by the superclass, name should have prefix "android:" and do not define a format -->
+    <declare-styleable name="NumberPickerDialogPreference">
+        <attr name="max" format="integer" />
+        <attr name="min" format="integer" />
+    </declare-styleable>
+    
+    <declare-styleable name="SeekBarDialogPreference">
+        <attr name="progressMax" format="integer" />
+        <attr name="progressMin" format="integer" />
+        <attr name="progressStep" format="integer" />
+        <attr name="progressTextSuffix" format="string" />
+    </declare-styleable>
+
+</resources>
