@@ -39,6 +39,7 @@
         
         <activity 
             android:name="com.tzapps.tzpalette.ui.SettingsActivity"
+            android:label="@string/title_settings_view"
             android:parentActivityName="com.tzapps.tzpalette.ui.MainActivity" />
         
     </application>

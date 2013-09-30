@@ -3,8 +3,8 @@
 
     <string name="app_name">tzPalette</string>
     
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_show_picture">Picture</string>
+    <string name="title_settings_view">Settings</string>
+    <string name="title_palette_card">Palette Card</string>
     
     <string name="action_takePhoto">Take a photo</string>
     <string name="action_loadPicture">Load a picture</string>
