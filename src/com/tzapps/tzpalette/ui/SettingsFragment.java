@@ -1,13 +1,12 @@
 package com.tzapps.tzpalette.ui;
 
-import com.tzapps.tzpalette.R;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
+
+import com.tzapps.tzpalette.R;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
 {
@@ -23,6 +22,22 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+        
+        // Initialize the pref summary label
+        loadPrefs();
+    }
+    
+    private void loadPrefs()
+    {
+        SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
+        
+        String colorType = sp.getString(KEY_PREF_COLOR_TYPE, getString(R.string.pref_analysisColorType_default));
+        Preference colorTypePref = findPreference(KEY_PREF_COLOR_TYPE);
+        colorTypePref.setSummary(colorType);
+        
+        int colurNumber = sp.getInt(KEY_PREF_COLOR_NUMBER, getResources().getInteger(R.integer.pref_setColorNumber_default));
+        Preference colorNumberPref = findPreference(KEY_PREF_COLOR_NUMBER);
+        colorNumberPref.setSummary(colurNumber+"");
     }
 
     @Override
@@ -31,8 +46,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         if (key.equals(KEY_PREF_COLOR_TYPE))
         {
             Preference colorTypePref = findPreference(key);
-            String defaultColorType = getResources().getString(R.string.pref_analysisColorType_default);
-            String colorType = sharedPreferences.getString(key, defaultColorType);
+            String colorType = sharedPreferences.getString(key, getString(R.string.pref_analysisColorType_default));
             colorTypePref.setSummary(colorType);
         }
         else if (key.equals(KEY_PREF_COLOR_NUMBER))
