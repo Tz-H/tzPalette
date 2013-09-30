@@ -193,7 +193,7 @@ public class BitmapUtils
         
         if(saveBitmapToFile(bitmap, file))
         { 
-            Log.d(TAG, "save bitmap to" + file.getPath());
+            Log.d(TAG, "save bitmap to " + file.getPath());
         }
         
         return file;

@@ -90,6 +90,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
@@ -197,7 +198,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_settings:
-                // openSettings();
+                openSettings();
                 // sharePalette(item.getActionView());
                 return true;
 
@@ -222,6 +223,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
     }
     
+    private void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option)
     {

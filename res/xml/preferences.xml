@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:title="@string/pref_analysisColorType_Title"
+        android:key="pref_key_analysisColorType_settings">
+        <CheckBoxPreference 
+            android:key="pref_enableCheckColorType"
+            android:title="@string/pref_enableCheckColorType"
+            android:summary="@string/pref_enableCheckColorType_summ"
+            android:defaultValue="false" />
+        <ListPreference 
+            android:dependency="pref_enableCheckColorType"
+            android:key="pref_analysisColorType"
+            android:title="@string/pref_analysisColorType"
+            android:dialogTitle="@string/pref_analysisColorType"
+            android:entries="@array/pref_analysisColorType_entries"
+            android:entryValues="@array/pref_analysisColorType_values"
+            android:defaultValue="@string/pref_analysisColorType_default" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

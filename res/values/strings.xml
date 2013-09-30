@@ -34,9 +34,14 @@
     <string name="palette_thumb_desc">The palette item\'s thumbnail</string>
     <string name="palette_option_btn_desc">The palette item\'s edit options</string>
     
-    <string-array name="palette_item_options">
-        <item>@string/action_rename</item>
-        <item>@string/action_delete</item>
-    </string-array>
+    <string name="pref_enableCheckColorType">Enable change color type</string>
+    <string name="pref_enableCheckColorType_summ">Enable to change the color type in analysis process</string>
+    <string name="pref_analysisColorType_Title">Color Analysis Settings</string>
+    
+    <string name="pref_analysisColorType">Color Type</string>
+    <string name="pref_analysisColorType_rgb">RGB</string>
+    <string name="pref_analysisColorType_hsv">HSV</string>
+    <string name="pref_analysisColorType_hsl">HSL</string>
+    <string name="pref_analysisColorType_default">@string/pref_analysisColorType_rgb</string>
     
 </resources>

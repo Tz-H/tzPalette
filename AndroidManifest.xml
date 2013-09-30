@@ -37,6 +37,10 @@
 		    </intent-filter>
         </activity>
         
+        <activity 
+            android:name="com.tzapps.tzpalette.ui.SettingsActivity"
+            android:parentActivityName="com.tzapps.tzpalette.ui.MainActivity" />
+        
     </application>
 
 </manifest>

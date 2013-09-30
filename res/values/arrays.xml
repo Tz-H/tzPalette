@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="palette_item_options">
+        <item>@string/action_rename</item>
+        <item>@string/action_delete</item>
+    </string-array>
+    
+    <array name="pref_analysisColorType_entries">
+        <item>@string/pref_analysisColorType_rgb</item>
+        <item>@string/pref_analysisColorType_hsv</item>
+        <item>@string/pref_analysisColorType_hsl</item>
+    </array>
+    
+    <array name="pref_analysisColorType_values">
+        <item>@string/pref_analysisColorType_rgb</item>
+        <item>@string/pref_analysisColorType_hsv</item>
+        <item>@string/pref_analysisColorType_hsl</item>
+    </array>
+
+</resources>
