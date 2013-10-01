@@ -635,8 +635,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             mDialog = new ProgressDialog(this);
 
         mDialog.setMessage(getResources().getText(R.string.analysis_picture_in_process));
-        mDialog.setIndeterminate(false);
-        mDialog.setCancelable(true);
+        mDialog.setIndeterminate(true);
+        mDialog.setCancelable(false);
         mDialog.show();
     }
 
