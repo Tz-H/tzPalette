@@ -1,8 +1,5 @@
 package com.tzapps.tzpalette.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -25,28 +22,10 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
         public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option);
     }
     
-    public enum PaletteItemOption
-    {
-        Rename(R.string.action_rename),
-        Delete(R.string.action_delete);
-        
-        private final int resId;    
-        
-        private PaletteItemOption(int resId)
-        {
-            this.resId = resId;
-        }
-        
-        public int getResId()
-        {
-            return resId;
-        }
-    }
-    
     private int mPosition;
     private long mDataId;
-    private PaletteItemOption mOptions[];
-    private String mOptionNames[];
+    private String mOptionEntries[];
+    private String mOptionValues[];
     
     public static PaletteItemOptionsDialogFragment newInstance(String title, int position, long dataId)
     {
@@ -76,12 +55,6 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
             throw new ClassCastException(activity.toString()
                     + " must implement DialogInterface.OnClickListener");
         }
-        
-        mOptions = PaletteItemOption.values();
-        mOptionNames = new String[mOptions.length];
-        
-        for (int i = 0; i < mOptions.length; i++)
-            mOptionNames[i] = getActivity().getResources().getString(mOptions[i].getResId());
     }
 
     @Override
@@ -89,13 +62,15 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     {
         String title = getArguments().getString("title");
         
-        mPosition = getArguments().getInt("position");
-        mDataId   = getArguments().getLong("dataId");
+        mPosition      = getArguments().getInt("position");
+        mDataId        = getArguments().getLong("dataId");
+        mOptionEntries = getResources().getStringArray(R.array.palette_itemOption_entries);
+        mOptionValues  = getResources().getStringArray(R.array.palette_itemOption_valeus);
 
         AlertDialog.Builder builder = new Builder(getActivity());
         builder.setTitle(title);
         builder.setNegativeButton(android.R.string.cancel, null);
-        builder.setItems(mOptionNames, this);
+        builder.setItems(mOptionEntries, this);
 
         return builder.create();
     }
@@ -113,6 +88,6 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        mCallback.onPaletteItemOptionClicked(mPosition, mDataId, mOptions[which]);
+        mCallback.onPaletteItemOptionClicked(mPosition, mDataId, PaletteItemOption.fromString(mOptionValues[which]));
     }
 }
