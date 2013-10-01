@@ -32,6 +32,7 @@
          android:layout_height="fill_parent"
          android:layout_alignTop="@+id/palette_item_thumb_frame"
          android:layout_alignBottom="@+id/palette_item_thumb_frame"
+         android:background="@drawable/button"
          android:src="@android:drawable/ic_menu_more"
          android:layout_alignParentRight="true"
          android:onClick="onClick"
