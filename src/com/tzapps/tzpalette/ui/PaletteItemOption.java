@@ -2,6 +2,7 @@ package com.tzapps.tzpalette.ui;
 
 public enum PaletteItemOption
 {
+    View("View"),
     Rename("Rename"),
     Delete("Delete");
     

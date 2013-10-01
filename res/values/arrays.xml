@@ -2,11 +2,13 @@
 <resources>
 
     <string-array name="palette_itemOption_entries">
+        <item>@string/action_view</item>
         <item>@string/action_rename</item>
         <item>@string/action_delete</item>
     </string-array>
     
     <string-array name="palette_itemOption_valeus">
+        <item>VIEW</item>
         <item>RENAME</item>
         <item>DELETE</item>
     </string-array>

@@ -18,6 +18,7 @@
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
     <string name="action_open">Open</string>
+    <string name="action_view">View</string>
     
     <string name="palette_title_default">Untitled</string>
     <string name="palette_title_hint">Palette Name</string>

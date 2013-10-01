@@ -241,16 +241,19 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         switch (option)
         {
             case Rename:
-                Log.d(TAG, "Rename palatte item/data at position " + position + ", dataId is "
-                        + dataId);
+                Log.d(TAG, "Rename palatte item(position=" + position + " , id=" + dataId + ")");
                 showRenameDialog(position, dataId);
                 break;
 
             case Delete:
-                Log.d(TAG, "Delete palatte item/data at position " + position + ", dataId is "
-                        + dataId);
+                Log.d(TAG, "Delete palatte item(position=" + position + " , id=" + dataId + ")");
                 mPaletteListFragment.remove(data);
                 mDataHelper.delete(data);
+                break;
+                
+            case View:
+                Log.d(TAG, "View palette item (position=" + position + " , id=" + dataId + ")");
+                //TODO: view palette item
                 break;
         }
     }
