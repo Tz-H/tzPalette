@@ -68,7 +68,7 @@ public class PaletteData implements Parcelable
         mTitle = source.readString();
         mImageUrl = source.readString();
         mThumb = source.readParcelable(Bitmap.class.getClassLoader());
-        mColors = source.readArrayList(Integer.class.getClassLoader());
+        source.readList(mColors, Integer.class.getClassLoader());
     }
     
     @Override
