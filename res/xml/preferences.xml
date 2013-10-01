@@ -9,7 +9,7 @@
         <com.tzapps.ui.preference.NumberPickerDialogPreference 
             android:key="pref_setColorNumber"
             android:title="@string/pref_setColorNumber"
-            android:summary="@integer/pref_setColorNumber_default"
+            android:summary="@string/pref_setColorNumber_summ"
             android:inputType="number"
             custom:max="@integer/pref_setColorNumber_max"
             custom:min="@integer/pref_setColorNumber_min"
@@ -29,19 +29,28 @@
         -->
         
         <CheckBoxPreference 
-            android:key="pref_enableCheckColorType"
-            android:title="@string/pref_enableCheckColorType"
-            android:summary="@string/pref_enableCheckColorType_summ"
+            android:key="pref_enableAdvancedChange"
+            android:title="@string/pref_enableAdvancedChange"
+            android:summary="@string/pref_enableAdvancedChange_summ"
             android:defaultValue="false" />
         <ListPreference 
-            android:dependency="pref_enableCheckColorType"
+            android:dependency="pref_enableAdvancedChange"
             android:key="pref_analysisColorType"
             android:title="@string/pref_analysisColorType"
-            android:summary="@string/pref_analysisColorType_default"
+            android:summary="@string/pref_analysisColorType_summ"
             android:dialogTitle="@string/pref_analysisColorType"
             android:entries="@array/pref_analysisColorType_entries"
             android:entryValues="@array/pref_analysisColorType_values"
             android:defaultValue="@string/pref_analysisColorType_default" />
+        <ListPreference 
+            android:dependency="pref_enableAdvancedChange"
+            android:key="pref_analysisAccuracy"
+            android:title="@string/pref_analysisColorAccuracy"
+            android:summary="@string/pref_analysisColorAccuracy_summ"
+            android:dialogTitle="@string/pref_analysisColorAccuracy"
+            android:entries="@array/pref_analysisColorAccuracy_entries"
+            android:entryValues="@array/pref_analysisColorAccuracy_values"
+            android:defaultValue="@string/pref_analysisColorAccuracy_default" />
     </PreferenceCategory>
 
 </PreferenceScreen>

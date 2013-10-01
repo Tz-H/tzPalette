@@ -14,6 +14,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     
     public static final String KEY_PREF_COLOR_TYPE = "pref_analysisColorType";
     public static final String KEY_PREF_COLOR_NUMBER = "pref_setColorNumber";
+    public static final String KEY_PREF_ANALYSIS_ACCURACY = "pref_analysisAccuracy";
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -23,7 +24,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
         
-        // Initialize the pref summary label
+        // Initialize the prefs title/summary label
         loadPrefs();
     }
     
@@ -33,29 +34,31 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         
         String colorType = sp.getString(KEY_PREF_COLOR_TYPE, getString(R.string.pref_analysisColorType_default));
         Preference colorTypePref = findPreference(KEY_PREF_COLOR_TYPE);
-        colorTypePref.setSummary(colorType);
+        
+        String strColorTypeSumm = getString(R.string.pref_analysisColorType);
+        strColorTypeSumm = String.format(strColorTypeSumm, colorType);
+        colorTypePref.setTitle(strColorTypeSumm);
         
         int colurNumber = sp.getInt(KEY_PREF_COLOR_NUMBER, getResources().getInteger(R.integer.pref_setColorNumber_default));
         Preference colorNumberPref = findPreference(KEY_PREF_COLOR_NUMBER);
-        colorNumberPref.setSummary(colurNumber+"");
+        
+        String strColorNumberSumm = getString(R.string.pref_setColorNumber);
+        strColorNumberSumm = String.format(strColorNumberSumm, colurNumber);
+        colorNumberPref.setTitle(strColorNumberSumm);
+        
+        String accuracy = sp.getString(KEY_PREF_ANALYSIS_ACCURACY, getString(R.string.pref_analysisColorAccuracy_default));
+        Preference accuracyPref = findPreference(KEY_PREF_ANALYSIS_ACCURACY);
+        
+        String strAccuracySumm = getString(R.string.pref_analysisColorAccuracy);
+        strAccuracySumm = String.format(strAccuracySumm, accuracy);
+        accuracyPref.setTitle(strAccuracySumm);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
-        if (key.equals(KEY_PREF_COLOR_TYPE))
-        {
-            Preference colorTypePref = findPreference(key);
-            String colorType = sharedPreferences.getString(key, getString(R.string.pref_analysisColorType_default));
-            colorTypePref.setSummary(colorType);
-        }
-        else if (key.equals(KEY_PREF_COLOR_NUMBER))
-        {
-            Preference colorNumberPref = findPreference(key);
-            int defaultColorNumber = getResources().getInteger(R.integer.pref_setColorNumber_default);
-            int colorNumber = sharedPreferences.getInt(key, defaultColorNumber);
-            colorNumberPref.setSummary(colorNumber + "");
-        }
+        // Just simply reload all preferences to refresh them...
+        loadPrefs();
     }
     
     @Override

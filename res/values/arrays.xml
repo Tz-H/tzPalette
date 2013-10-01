@@ -17,5 +17,17 @@
         <item>@string/pref_analysisColorType_hsv</item>
         <item>@string/pref_analysisColorType_hsl</item>
     </array>
+    
+    <array name="pref_analysisColorAccuracy_entries">
+        <item>@string/pref_analysisColorAccuracy_high</item>
+        <item>@string/pref_analysisColorAccuracy_normal</item>
+        <item>@string/pref_analysisColorAccuracy_low</item>
+    </array>
+    
+    <array name="pref_analysisColorAccuracy_values">
+        <item>@string/pref_analysisColorAccuracy_high</item>
+        <item>@string/pref_analysisColorAccuracy_normal</item>
+        <item>@string/pref_analysisColorAccuracy_low</item>
+    </array>
 
 </resources>

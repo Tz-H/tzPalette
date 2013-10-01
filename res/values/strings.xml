@@ -36,17 +36,24 @@
     
     <string name="pref_analysisColorType_Title">Color Analysis Settings</string>
     
-    <string name="pref_setColorNumber">Color Number</string>
+    <string name="pref_setColorNumber">Color grids number: %1$s</string>
+    <string name="pref_setColorNumber_summ">The total number of color grids stored in a palette.</string>
     
-    <string name="pref_enableCheckColorType">Enable to change color type</string>
-    <string name="pref_enableCheckColorType_summ">Enable to change the color type in analysis process</string>
+    <string name="pref_enableAdvancedChange">Enable advanced options</string>
+    <string name="pref_enableAdvancedChange_summ">Enable advanced options in color analysis process</string>
     
-    <string name="pref_analysisColorType">Color Type</string>
+    <string name="pref_analysisColorType">Color type: %1$s</string>
+    <string name="pref_analysisColorType_summ">Change the color type in analysis. Different color type affects the analysis result.</string>
     <string name="pref_analysisColorType_rgb">RGB</string>
     <string name="pref_analysisColorType_hsv">HSV</string>
     <string name="pref_analysisColorType_hsl">HSL</string>
     <string name="pref_analysisColorType_default">@string/pref_analysisColorType_rgb</string>
     
-    
+    <string name="pref_analysisColorAccuracy">Analysis accuracy: %1$s</string>
+    <string name="pref_analysisColorAccuracy_summ">Choose the color analysis accuracy. Higher accuracy takes more time to analysis.</string>
+    <string name="pref_analysisColorAccuracy_high">High</string>
+    <string name="pref_analysisColorAccuracy_normal">Normal</string>
+    <string name="pref_analysisColorAccuracy_low">Low</string>
+    <string name="pref_analysisColorAccuracy_default">@string/pref_analysisColorAccuracy_normal</string>
     
 </resources>
