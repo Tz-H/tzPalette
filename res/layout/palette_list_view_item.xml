@@ -83,8 +83,5 @@
              android:stretchMode="columnWidth" />
          
      </LinearLayout>
-     
-
-    
 
 </RelativeLayout>
