@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/palette_item_frame" >
+    android:background="@drawable/palette_item" >
     
     <LinearLayout 
         android:id="@+id/palette_item_thumb_frame" 
@@ -11,9 +11,6 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:padding="5dp"
-        android:focusableInTouchMode="false"
-        android:clickable="false"
-        android:focusable="false"
         android:gravity="center">
         
         <ImageView 
@@ -26,7 +23,7 @@
         
     </LinearLayout>
     
-    <ImageButton 
+    <ImageView 
          android:id="@+id/palette_item_options"
          android:layout_width="40dp"
          android:layout_height="fill_parent"
@@ -72,9 +69,6 @@
          android:layout_toLeftOf="@+id/palette_item_options"
          android:layout_alignBottom="@+id/palette_item_thumb_frame"
          android:gravity="center"
-         android:focusableInTouchMode="false"
-         android:clickable="false"
-         android:focusable="false"
          android:orientation="vertical" >
          
          <com.tzapps.tzpalette.ui.PaletteColorGrid
@@ -82,7 +76,6 @@
              android:layout_width="fill_parent"
              android:layout_height="30dp"
              android:gravity="center"
-             android:clickable="false"
              android:horizontalSpacing="2dp"
              android:verticalSpacing="5dp"
              android:columnWidth="28dp"

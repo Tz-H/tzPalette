@@ -13,25 +13,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.ui.BaseListFragment;
+import com.tzapps.ui.OnFragmentStatusChangedListener;
 
-public class PaletteListFragment extends BaseListFragment implements OnItemClickListener
+public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
     private static final String TAG = "PaletteListFragment";
     
     private PaletteDataAdapter<PaletteData> mAdapter;
+    private OnClickPaletteItemListener mCallback;
+    
+    public interface OnClickPaletteItemListener
+    {
+        void onPaletteItemClick(int position, long dataId, PaletteData data);
+        void onPaletteItemLongClick(int position, long dataId, PaletteData data);
+    }
 
     @Override
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
+        
+        // This makes sure the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try
+        {
+            mCallback = (OnClickPaletteItemListener) activity;
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnClickPaletteItemListener");
+        }
 
         List<PaletteData> items = new ArrayList<PaletteData>();
 
@@ -52,8 +72,6 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.d(TAG, "onCreateView()");
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.palette_list_view, container, false);
 
@@ -65,17 +83,22 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         super.onViewCreated(view, savedInstanceState);
 
         getListView().setOnItemClickListener(this);
+        getListView().setOnItemLongClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         PaletteData data = mAdapter.getItem(position);
-        Log.i(TAG, "palette data " + data.getId() + " clicked");
-
-        // mSource.delete(data);
-        // adapter.remove(data);
-        // adapter.notifyDataSetChanged();
+        mCallback.onPaletteItemClick(position, data.getId(), data);
+    }
+    
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        PaletteData data = mAdapter.getItem(position);
+        mCallback.onPaletteItemLongClick(position, data.getId(), data);
+        return true;
     }
     
     public void refresh()
@@ -152,7 +175,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
             TextView updated = (TextView)itemView.findViewById(R.id.palette_item_updated);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
-            ImageButton options = (ImageButton)itemView.findViewById(R.id.palette_item_options);
+            ImageView options = (ImageView)itemView.findViewById(R.id.palette_item_options);
             
             /* set PaletteData id and position info into the options button, so that 
              * we could retrieve it when we need to do perform operations on the palette item
@@ -169,10 +192,14 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
                                                                                    DateUtils.FORMAT_SHOW_DATE |
                                                                                    DateUtils.FORMAT_NUMERIC_DATE);
             updated.setText(dateStr);
+            
+            //disable the colors grid to make it not clickable
             colors.setColors(data.getColors());
+            colors.setFocusable(false);
+            colors.setEnabled(false);
+            
+            // TODO: async the thumb/imageurl load logic
             thumb.setImageBitmap(data.getThumb());
-      
-            // TODO: update other palette data values into item view
         }
     }
 

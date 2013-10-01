@@ -40,6 +40,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.OnClickPaletteItemOptionListener;
+import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
 import com.tzapps.ui.OnFragmentStatusChangedListener;
 import com.tzapps.utils.ActivityUtils;
 import com.tzapps.utils.BitmapUtils;
@@ -47,7 +48,7 @@ import com.tzapps.utils.MediaHelper;
 import com.tzapps.utils.StringUtils;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
-        OnClickPaletteItemOptionListener
+        OnClickPaletteItemOptionListener, OnClickPaletteItemListener
 {
     private final static String TAG = "MainActivity";
 
@@ -276,6 +277,25 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 break;
         }
     }
+    
+    @Override
+    public void onPaletteItemClick(int position, long dataId, PaletteData data)
+    {
+        // TODO view the palette data
+        Log.i(TAG, "palette data " + data.getId() + " clicked");
+        
+    }
+
+    @Override
+    public void onPaletteItemLongClick(int position, long dataId, PaletteData data)
+    {
+        Log.i(TAG, "palette data " + data.getId() + " long clicked");
+        
+        PaletteItemOptionsDialogFragment optionDialogFrag =
+                PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), position, dataId);
+        optionDialogFrag.show(getFragmentManager(), "dialog");
+    }
+
 
     private void updatePaletteDataTitle(int position, long dataId, String title)
     {
@@ -783,4 +803,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void onTabReselected(Tab tab, FragmentTransaction ft)
         {}
     }
+
+
+
 }
