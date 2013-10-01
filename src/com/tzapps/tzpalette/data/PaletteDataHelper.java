@@ -3,12 +3,16 @@ package com.tzapps.tzpalette.data;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
+import com.tzapps.tzpalette.ui.SettingsFragment;
 import com.tzapps.utils.BitmapUtils;
 import com.tzapps.utils.ColorUtils;
 
@@ -18,13 +22,6 @@ public class PaletteDataHelper
     
     private static final int THUMB_MAX_WIDTH  = 500;
     private static final int THUMB_MAX_HEIGHT = 500;
-     
-    public enum PaletteDataHelper_DataType
-    {
-        ColorToRGB,
-        ColorToHSV,
-        ColorToHSL
-    };
     
     private static PaletteDataHelper instance;
     
@@ -106,10 +103,42 @@ public class PaletteDataHelper
         
         return dataList;
     }
+    
+    private int getInt(int resId)
+    {
+        return mContext.getResources().getInteger(resId);
+    }
+    
+    private String getString(int resId)
+    {
+        return mContext.getResources().getString(resId);
+    }
 
     public void analysis(PaletteData data, boolean reset)
     {
-        analysis(data, reset, 8, 5, PaletteDataHelper_DataType.ColorToHSL);
+        int numOfColors, deviation;
+        PaletteDataType dataType; 
+        
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        
+        numOfColors = sp.getInt(SettingsFragment.KEY_PREF_COLOR_NUMBER, getInt(R.integer.pref_setColorNumber_default));
+        String accuracy = sp.getString(SettingsFragment.KEY_PREF_ANALYSIS_ACCURACY, getString(R.string.pref_analysisColorAccuracy_default));
+        
+        if (accuracy.equalsIgnoreCase("HIGH"))
+            deviation = 0;
+        else if (accuracy.equalsIgnoreCase("NORMAL"))
+            deviation = 5;
+        else if (accuracy.equalsIgnoreCase("LOW"))
+            deviation = 10;
+        else
+            deviation = 5;
+        
+        String colorType = sp.getString(SettingsFragment.KEY_PREF_COLOR_TYPE, getString(R.string.pref_analysisColorType_default));
+        dataType = PaletteDataType.fromString(colorType);
+        
+        Log.d(TAG, "analysis: numOfColors=" + numOfColors + " deviation=" + deviation + " dataType=" + dataType);
+        
+        analysis(data, reset, numOfColors, deviation, dataType);
     }
     
     /**
@@ -122,7 +151,7 @@ public class PaletteDataHelper
      * @param deviation     deviation to control how precise the analysis it is (the default value is 5)
      * @param dataType      the color type (RGB or HSV) when do the color analysis
      */
-    public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, PaletteDataHelper_DataType dataType)
+    public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, PaletteDataType dataType)
     {
         Log.d(TAG, "palette data analysis()");
         
@@ -189,7 +218,7 @@ public class PaletteDataHelper
     /**
      * Convert the color value into Cluster point values
      */
-    private int[] convertColor(int color, PaletteDataHelper_DataType type)
+    private int[] convertColor(int color, PaletteDataType type)
     {
         switch(type)
         {
