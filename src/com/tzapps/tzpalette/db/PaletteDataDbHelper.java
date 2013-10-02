@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
+import com.tzapps.tzpalette.db.PaletteDataContract.PaletteThumbEntry;
 
 public class PaletteDataDbHelper extends SQLiteOpenHelper
 {
     private static final String TAG = "PaletteDataDbHelper";
     
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "TzPalette.db";
     
     private static final String TEXT_TYPE    = " TEXT";
@@ -20,18 +21,27 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static final String BLOB_TYPE    = " BLOB";
     private static final String COMMA_SEP    = ",";
     
-    private static String SQL_CREATE_ENTRIES =
+    private static String SQL_CREATE_PALETTE_TABLE =
             "CREATE TABLE " + PaletteDataEntry.TABLE_NAME + " (" +
             PaletteDataEntry._ID + " INTEGER PRIMARY KEY," +
             PaletteDataEntry.COLUMN_NAME_TITLE    + TEXT_TYPE    + COMMA_SEP +
             PaletteDataEntry.COLUMN_NAME_COLORS   + TEXT_TYPE    + COMMA_SEP +
             PaletteDataEntry.COLUMN_NAME_UPDATED  + INTEGER_TYPE + COMMA_SEP +
-            PaletteDataEntry.COLUMN_NAME_IMAGEURL + TEXT_TYPE    + COMMA_SEP +
-            PaletteDataEntry.COLUMN_NAME_THUMB    + BLOB_TYPE    + 
+            PaletteDataEntry.COLUMN_NAME_IMAGEURL + TEXT_TYPE    +
             ")";
     
-    private static final String SQL_DELETE_ENTRIES =
+    private static String SQL_CREATE_THUMB_TABLE = 
+            "CREATE TABLE " + PaletteThumbEntry.TABLE_NAME + " (" +
+                    PaletteThumbEntry._ID + " INTEGER PRIMARY KEY," +
+                    PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + TEXT_TYPE    + COMMA_SEP +
+                    PaletteThumbEntry.COLUMN_NAME_THUMB    + BLOB_TYPE    + 
+                    ")";
+    
+    private static final String SQL_DELETE_PALETTE_TABLE =
             "DROP TABLE IF EXISTS " + PaletteDataEntry.TABLE_NAME;
+    
+    private static final String SQL_DELETE_THUMB_TABLE =
+            "DROP TABLE IF EXISTS " + PaletteThumbEntry.TABLE_NAME;
     
     public PaletteDataDbHelper(Context context)
     {
@@ -41,7 +51,8 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_PALETTE_TABLE);
+        db.execSQL(SQL_CREATE_THUMB_TABLE);
     }
 
     @Override
@@ -50,7 +61,8 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
         Log.w(TAG, "Upgrading database from version " + oldVersion + " to " 
                    + newVersion + ", which will destroy all old data");
         // The upgrade policy is to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_PALETTE_TABLE);
+        db.execSQL(SQL_DELETE_THUMB_TABLE);
         onCreate(db);
     }
     

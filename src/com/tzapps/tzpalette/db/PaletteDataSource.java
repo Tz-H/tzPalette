@@ -7,6 +7,7 @@ import java.util.List;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
+import com.tzapps.tzpalette.db.PaletteDataContract.PaletteThumbEntry;
 import com.tzapps.utils.BitmapUtils;
 import com.tzapps.utils.StringUtils;
 
@@ -26,14 +27,20 @@ public class PaletteDataSource
     // Database fields
     private SQLiteDatabase db;
     private PaletteDataDbHelper dbHelper;
-    private String[] allColumns = 
+    private String[] paletteDataColumns = 
         {
             PaletteDataEntry._ID,
             PaletteDataEntry.COLUMN_NAME_TITLE,
             PaletteDataEntry.COLUMN_NAME_COLORS,
             PaletteDataEntry.COLUMN_NAME_UPDATED,
-            PaletteDataEntry.COLUMN_NAME_IMAGEURL,
-            PaletteDataEntry.COLUMN_NAME_THUMB
+            PaletteDataEntry.COLUMN_NAME_IMAGEURL
+        };
+    
+    private String[] paletteThumbColumns =
+        {
+            PaletteThumbEntry._ID,
+            PaletteThumbEntry.COLUMN_NAME_PALETTE_ID,
+            PaletteThumbEntry.COLUMN_NAME_THUMB
         };
     
     public PaletteDataSource(Context context)
@@ -79,10 +86,6 @@ public class PaletteDataSource
         long updated = System.currentTimeMillis();
         values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, updated);
         
-        Bitmap thumb = data.getThumb();
-        thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
-        values.put(PaletteDataEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
-        
         // Insert the new row, returning the primary key values of the new row
         long insertId;
         insertId = db.insert(PaletteDataEntry.TABLE_NAME, 
@@ -93,7 +96,25 @@ public class PaletteDataSource
         data.setTitle(title);
         data.setUpdated(updated);
         
+        // Insert the thumb into the thumb table
+        Bitmap thumb = data.getThumb();
+        thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
+        addThumb(insertId, thumb);
+        
         Log.d(TAG, "PaletteData saved with id:" + insertId);
+    }
+    
+    private void addThumb(long dataId, Bitmap thumb)
+    {
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        
+        values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
+        
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+        
+        // Insert the thumb into database...
+        db.insert(PaletteThumbEntry.TABLE_NAME, null, values);
     }
     
     /**
@@ -128,7 +149,7 @@ public class PaletteDataSource
             values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
             Bitmap thumb = data.getThumb();
             thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
-            values.put(PaletteDataEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+            updateThumb(id, thumb);
         }
         
         // Issue SQL statement
@@ -140,6 +161,21 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         Log.d(TAG, "PaletteData updated with id:" + id);
+    }
+    
+    private void updateThumb(long dataId, Bitmap thumb)
+    {
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        
+        values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+        
+        // Issue SQL statement
+        db.update(PaletteThumbEntry.TABLE_NAME, 
+                  values,
+                  PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + " = " + dataId,
+                  null);
     }
     
     /**
@@ -164,6 +200,42 @@ public class PaletteDataSource
         db.delete(PaletteDataEntry.TABLE_NAME, 
                   PaletteDataEntry._ID + " = " + id, 
                   null);
+        
+        db.delete(PaletteThumbEntry.TABLE_NAME,
+                  PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + " = " + id, 
+                  null);
+    }
+    
+    public Bitmap getThumb(long dataId)
+    {
+        Bitmap bitmap = null;
+        
+        Cursor cursor = db.query(
+                PaletteThumbEntry.TABLE_NAME,
+                paletteThumbColumns,
+                PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + " = " + dataId,
+                null,
+                null,
+                null,
+                null
+                );
+        
+        if (cursor.getCount() != 0)
+        {
+            cursor.moveToFirst();
+            
+            byte[] thumb = cursor.getBlob(cursor.getColumnIndexOrThrow(PaletteThumbEntry.COLUMN_NAME_THUMB));
+            bitmap = BitmapFactory.decodeByteArray(thumb, 0, thumb.length); 
+        }
+        else
+        {
+            Log.d(TAG, "the palette data =" + dataId + " doesn't have a thumb");
+        }
+        
+        // Make sure to close the cursor
+        cursor.close();
+        
+        return bitmap;
     }
     
     /**
@@ -174,9 +246,11 @@ public class PaletteDataSource
      */
     public PaletteData get(long id)
     {
+        PaletteData data = null;
+        
         Cursor cursor = db.query(
                 PaletteDataEntry.TABLE_NAME,
-                allColumns,
+                paletteDataColumns,
                 PaletteDataEntry._ID + " = " + id,
                 null,
                 null,
@@ -184,17 +258,20 @@ public class PaletteDataSource
                 null
                 );
         
-        if (cursor.getCount() == 0)
+        if (cursor.getCount() != 0)
         {
-            Log.e(TAG, "get palette data with id=" + id + "failed");
-            return null;
+            cursor.moveToFirst();
+            data = cursorToPaletteData(cursor);
         }
         else
         {
-            cursor.moveToFirst();
-            PaletteData data = cursorToPaletteData(cursor);
-            return data;
+            Log.e(TAG, "get palette data with id=" + id + "failed");
         }
+        
+        // Make sure to close the cursor
+        cursor.close();
+        
+        return data;
     }
     
     /**
@@ -208,7 +285,7 @@ public class PaletteDataSource
         
         Cursor cursor = db.query(
                 PaletteDataEntry.TABLE_NAME,
-                allColumns,
+                paletteDataColumns,
                 null,
                 null,
                 null,
@@ -248,11 +325,9 @@ public class PaletteDataSource
         String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_IMAGEURL));
         data.setImageUrl(imageUrl);
         
-        byte[] thumb = cursor.getBlob(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_THUMB));
+        //TODO: do not fetch and update thumb when get the palette data from database...
+        data.setThumb(getThumb(id));
         
-        if (thumb != null)
-            data.setThumb(BitmapFactory.decodeByteArray(thumb, 0, thumb.length));
-                    
         Log.d(TAG, "PaletteData fetched from db: " + data.toString());
         
         return data;
