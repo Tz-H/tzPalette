@@ -1,4 +1,4 @@
-package com.tzapps.ui.preference;
+package com.tzapps.common.ui.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;

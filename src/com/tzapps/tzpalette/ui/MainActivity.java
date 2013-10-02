@@ -36,16 +36,16 @@ import android.widget.EditText;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
+import com.tzapps.common.ui.OnFragmentStatusChangedListener;
+import com.tzapps.common.utils.ActivityUtils;
+import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.MediaHelper;
+import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.OnClickPaletteItemOptionListener;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
-import com.tzapps.ui.OnFragmentStatusChangedListener;
-import com.tzapps.utils.ActivityUtils;
-import com.tzapps.utils.BitmapUtils;
-import com.tzapps.utils.MediaHelper;
-import com.tzapps.utils.StringUtils;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
         OnClickPaletteItemOptionListener, OnClickPaletteItemListener

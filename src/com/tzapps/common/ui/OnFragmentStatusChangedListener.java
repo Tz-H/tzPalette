@@ -1,4 +1,4 @@
-package com.tzapps.ui;
+package com.tzapps.common.ui;
 
 import android.app.Fragment;
 

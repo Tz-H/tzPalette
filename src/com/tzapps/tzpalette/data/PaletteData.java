@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tzapps.utils.BitmapUtils;
+import com.tzapps.common.utils.BitmapUtils;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;

@@ -14,10 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.tzapps.common.ui.BaseFragment;
+import com.tzapps.common.utils.ClipboardUtils;
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
-import com.tzapps.ui.BaseFragment;
-import com.tzapps.utils.ClipboardUtils;
-import com.tzapps.utils.ColorUtils;
 
 public class CaptureFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
 {

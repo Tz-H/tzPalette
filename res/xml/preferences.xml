@@ -6,7 +6,7 @@
         android:title="@string/pref_colorAnalysis_Title"
         android:key="pref_key_colorAnalysis_settings">
         
-        <com.tzapps.ui.preference.NumberPickerDialogPreference 
+        <com.tzapps.common.ui.preference.NumberPickerDialogPreference 
             android:key="pref_setColorNumber"
             android:title="@string/pref_setColorNumber"
             android:dialogTitle="@string/pref_setColorNumber_dialogTitle"
@@ -17,7 +17,7 @@
             android:defaultValue="@integer/pref_setColorNumber_default" />
         
         <!-- Example of how to use the SeekBarDialogPreference
-        <com.tzapps.ui.preference.SeekBarDialogPreference
+        <com.tzapps.common.ui.preference.SeekBarDialogPreference
             android:key="pref_setColorNumber"
             android:title="@string/pref_setColorNumber"
             android:summary="@integer/pref_setColorNumber_default"

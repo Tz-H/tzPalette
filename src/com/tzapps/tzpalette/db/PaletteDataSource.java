@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteThumbEntry;
-import com.tzapps.utils.BitmapUtils;
-import com.tzapps.utils.StringUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

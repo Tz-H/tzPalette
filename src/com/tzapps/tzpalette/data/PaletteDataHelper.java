@@ -9,14 +9,14 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
 import com.tzapps.tzpalette.db.PaletteDataSource;
 import com.tzapps.tzpalette.ui.SettingsFragment;
-import com.tzapps.utils.BitmapUtils;
-import com.tzapps.utils.ColorUtils;
 
 public class PaletteDataHelper
 {
