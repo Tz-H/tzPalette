@@ -145,9 +145,7 @@ public class PaletteDataSource
         if (updateThumb)
         {
             values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
-            Bitmap thumb = data.getThumb();
-            thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
-            updateThumb(id, thumb);
+            updateThumb(id, data.getThumb());
         }
         
         // Issue SQL statement
