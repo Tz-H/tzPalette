@@ -17,7 +17,7 @@
             android:id="@+id/palette_item_thumb"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/color_gray"
+            android:background="@color/color_photogray"
             android:scaleType="centerCrop"
             android:contentDescription="@string/palette_thumb_desc"/>
         

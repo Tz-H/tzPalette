@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.tzapps.utils.BitmapUtils;
+
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,6 +13,9 @@ import android.util.Log;
 
 public class PaletteData implements Parcelable
 {
+    public static final int THUMB_WIDTH_MAX = 500;
+    public static final int THUMB_HEIGHT_MAX = 500;
+    
     private static final String TAG = "PaletteData";
        
     private long   id;
@@ -92,16 +97,10 @@ public class PaletteData implements Parcelable
     
     public void setThumb(Bitmap thumb)
     {
-        if (mThumb != null)
-            mThumb.recycle();
-        
-        if (thumb == null)
-        {
-            mThumb = null;
-            return;
-        }
-        
-        mThumb = thumb;
+        if (thumb.getWidth() > THUMB_WIDTH_MAX || thumb.getHeight() > THUMB_HEIGHT_MAX)
+            mThumb = BitmapUtils.resizeBitmapToFitFrame(thumb, THUMB_WIDTH_MAX, THUMB_HEIGHT_MAX);
+        else
+            mThumb = thumb;
     }
     
     public Bitmap getThumb()

@@ -97,9 +97,7 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         // Insert the thumb into the thumb table
-        Bitmap thumb = data.getThumb();
-        thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, 500, 500);
-        addThumb(insertId, thumb);
+        addThumb(insertId, data.getThumb());
         
         Log.d(TAG, "PaletteData saved with id:" + insertId);
     }
@@ -324,9 +322,6 @@ public class PaletteDataSource
         
         String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_IMAGEURL));
         data.setImageUrl(imageUrl);
-        
-        //TODO: do not fetch and update thumb when get the palette data from database...
-        data.setThumb(getThumb(id));
         
         Log.d(TAG, "PaletteData fetched from db: " + data.toString());
         

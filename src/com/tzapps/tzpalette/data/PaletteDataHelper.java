@@ -71,6 +71,19 @@ public class PaletteDataHelper
         mDataSource.close();
     }
     
+    public Bitmap getThumb(long id)
+    {
+        Bitmap bitmap = null;
+        
+        mDataSource.open(false);
+        
+        bitmap = mDataSource.getThumb(id);
+        
+        mDataSource.close();
+        
+        return bitmap;
+    }
+    
     public PaletteData get(long id)
     {
         PaletteData data = null;

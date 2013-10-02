@@ -1,16 +1,21 @@
 package com.tzapps.tzpalette.ui;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -20,8 +25,8 @@ import android.widget.TextView;
 
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.ui.BaseListFragment;
-import com.tzapps.ui.OnFragmentStatusChangedListener;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
@@ -54,9 +59,10 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         }
 
         List<PaletteData> items = new ArrayList<PaletteData>();
+        
 
         if (mAdapter == null)
-            mAdapter = new PaletteDataAdapter<PaletteData>(getActivity(),
+            mAdapter = new PaletteDataAdapter<PaletteData>(activity,
                     R.layout.palette_list_view_item, items);
     }
 
@@ -171,11 +177,11 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
         private void updateViewByData(View itemView, PaletteData data, int position)
         {
-            ImageView thumb = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
-            TextView title = (TextView)itemView.findViewById(R.id.palette_item_title);
-            TextView updated = (TextView)itemView.findViewById(R.id.palette_item_updated);
+            ImageView thumb         = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
+            TextView title          = (TextView)itemView.findViewById(R.id.palette_item_title);
+            TextView updated        = (TextView)itemView.findViewById(R.id.palette_item_updated);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
-            ImageView options = (ImageView)itemView.findViewById(R.id.palette_item_options);
+            ImageView options       = (ImageView)itemView.findViewById(R.id.palette_item_options);
             
             /* set PaletteData id and position info into the options button, so that 
              * we could retrieve it when we need to do perform operations on the palette item
@@ -198,8 +204,45 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             colors.setFocusable(false);
             colors.setEnabled(false);
             
-            // TODO: async the thumb/imageurl load logic
-            thumb.setImageBitmap(data.getThumb());
+            // clean up the current thumb and reload it in thumb update task
+            thumb.setImageBitmap(null);
+            
+            new PaletteThumbUpdateTask(mContext, thumb).execute(data);
+        }
+    }
+    
+    class PaletteThumbUpdateTask extends AsyncTask<PaletteData, Void, Bitmap>
+    {
+        private Context mContext;
+        private final WeakReference<ImageView> imageViewRef;
+        
+        public PaletteThumbUpdateTask(Context context, ImageView imageView)
+        {
+            mContext = context;
+            imageViewRef = new WeakReference<ImageView>(imageView);
+        }
+        
+        @Override
+        protected Bitmap doInBackground(PaletteData...dataArray)
+        {
+            PaletteData data = dataArray[0];
+            return PaletteDataHelper.getInstance(mContext).getThumb(data.getId());
+        }
+        
+        @Override
+        protected void onPostExecute(Bitmap bitmap)
+        {
+            if (imageViewRef != null)
+            {
+                ImageView imageView = imageViewRef.get();
+                if (imageView != null)
+                {
+                    imageView.setImageBitmap(bitmap);
+                    
+                    Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
+                    imageView.startAnimation(fadeInAnim);
+                }
+            }
         }
     }
 

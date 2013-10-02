@@ -120,8 +120,8 @@ public class PaletteColorGrid extends GridView
             colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
             colorView.setColor(mColors.get(position));
             
-            Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
-            cellView.startAnimation(fadeInAnim);
+            //Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
+            //cellView.startAnimation(fadeInAnim);
             
             return cellView;
         }

@@ -6,6 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -21,6 +26,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -94,6 +100,62 @@ public class BitmapUtils
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
+    }
+    
+    /**
+     * Get the bitmap from the indicated http url address
+     * 
+     * @param url the http url address
+     * @return the bitmap retrieved
+     */
+    public static Bitmap getBitmapFromInternet(String url)
+    {
+        final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
+        final HttpGet getRequest = new HttpGet(url);
+        
+        try
+        {
+            HttpResponse response = client.execute(getRequest);
+            final int statusCode = response.getStatusLine().getStatusCode();
+            
+            if (statusCode != HttpStatus.SC_OK)
+            {
+                Log.w(TAG, "Error " + statusCode + " while retrieving bitmap from " + url);
+                return null;
+            }
+            
+            final HttpEntity entity = response.getEntity();
+            if (entity != null)
+            {
+                InputStream inputStream = null;
+                try
+                {
+                    inputStream = entity.getContent();
+                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    return bitmap;
+                }
+                finally
+                {
+                    if (inputStream != null)
+                        inputStream.close();
+                    
+                    entity.consumeContent();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // Could provide a more explicit error message for IOException or IllegalStateException
+            getRequest.abort();
+            Log.w(TAG, "Error while retrieving bitmap from " + url);
+        }
+        finally
+        {
+            if (client != null)
+                client.close();
+        }
+        
+        return null;
     }
     
     /**
