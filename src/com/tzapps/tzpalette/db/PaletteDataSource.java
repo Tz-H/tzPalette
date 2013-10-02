@@ -1,11 +1,11 @@
-package com.tzapps.tzpalette.data;
+package com.tzapps.tzpalette.db;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.db.PaletteDataDbHelper;
+import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
 import com.tzapps.utils.BitmapUtils;
 import com.tzapps.utils.StringUtils;
