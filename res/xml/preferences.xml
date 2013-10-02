@@ -52,6 +52,12 @@
             android:entries="@array/pref_analysisColorAccuracy_entries"
             android:entryValues="@array/pref_analysisColorAccuracy_values"
             android:defaultValue="@string/pref_analysisColorAccuracy_default" />
+        <CheckBoxPreference 
+            android:dependency="pref_enableAdvancedChange"
+            android:key="pref_enableKpp"
+            android:title="@string/pref_enableKpp"
+            android:summary="@string/pref_enableKpp_summ"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

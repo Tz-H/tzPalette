@@ -12,6 +12,7 @@ public class KMeansProcessor
     private int numOfCluster;
     private int deviation;
     private int maxRound;
+    private boolean enableKpp;
     
     private ClusterCenter[] mCenters;
     private ClusterCenter[] mNewCenters;
@@ -21,12 +22,14 @@ public class KMeansProcessor
      * @param numOfCluster the number of clusters
      * @param deviation    the deviation allowed
      * @param maxRound     the max rounds to iteration
+     * @param enableKpp    flag to indicate if enable the kpp process
      */
-    public KMeansProcessor(int numOfCluster, int deviation, int maxRound)
+    public KMeansProcessor(int numOfCluster, int deviation, int maxRound, boolean enableKpp)
     {
         this.numOfCluster = numOfCluster;
         this.deviation    = deviation;
         this.maxRound     = maxRound;
+        this.enableKpp    = enableKpp;
     }
     
     public ClusterCenter[] getClusterCenters()
@@ -95,28 +98,35 @@ public class KMeansProcessor
             mNewCenters[i] = new ClusterCenter();
         }
         
-        /*
-         * TODO: currently I just pick up the random cluster points as 
-         * the initial cluster center points, which is not a good solution
-         * and will cause the cluster result unstable.
-         * 
-         * It should be changed to a better way to handle with. e.g.
-         * the "k-means++" clustering algorithm. see
-         * http://rosettacode.org/wiki/K-means%2B%2B_clustering
-         *
-         * The kpp() algorithm is still not quite correct, so
-         * comment it out for now...
-         */
-        //kpp(points, mCenters);
 
-        // create random points as the cluster centers
-        Random random = new Random();
-        for (int i = 0; i < numOfCluster; i++)
+        if (enableKpp)
+        {        
+            /*
+             * TODO: currently I just pick up the random cluster points as 
+             * the default process to get the intial cluster center points, 
+             * which is not a good solution and will cause the cluster result 
+             * unstable.
+             * 
+             * It should be changed to a better way to handle with. e.g.
+             * the "k-means++" clustering algorithm. see
+             * http://rosettacode.org/wiki/K-means%2B%2B_clustering
+             *
+             * However, the kpp() algorithm is still not quite stable, so
+             * just make it optional for now...
+             */
+            kpp(points, mCenters);
+        }
+        else
         {
-            int index = random.nextInt(points.length);
-            
-            mCenters[i].setValues(points[index].getValues());
-            mCenters[i].setClusterIndex(i);
+            // create random points as the cluster centers
+            Random random = new Random();
+            for (int i = 0; i < numOfCluster; i++)
+            {
+                int index = random.nextInt(points.length);
+                
+                mCenters[i].setValues(points[index].getValues());
+                mCenters[i].setClusterIndex(i);
+            }
         }
     }
     

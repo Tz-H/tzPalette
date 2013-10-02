@@ -42,7 +42,7 @@
     <string name="pref_setColorNumber_summ">The total number of color grids stored in a palette.</string>
     
     <string name="pref_enableAdvancedChange">Enable advanced options</string>
-    <string name="pref_enableAdvancedChange_summ">Enable advanced options in color analys is process.</string>
+    <string name="pref_enableAdvancedChange_summ">Enable advanced options in color analysis process.</string>
     
     <string name="pref_analysisColorType">Color type: %1$s</string>
     <string name="pref_analysisColorType_dialogTitle">Choose Color Type</string>
@@ -59,5 +59,8 @@
     <string name="pref_analysisColorAccuracy_normal">Normal</string>
     <string name="pref_analysisColorAccuracy_low">Low</string>
     <string name="pref_analysisColorAccuracy_default">@string/pref_analysisColorAccuracy_normal</string>
+    
+    <string name="pref_enableKpp">Enable KPP</string>
+    <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
     
 </resources>

@@ -136,9 +136,11 @@ public class PaletteDataHelper
         String colorType = sp.getString(SettingsFragment.KEY_PREF_COLOR_TYPE, getString(R.string.pref_analysisColorType_default));
         dataType = PaletteDataType.fromString(colorType);
         
-        Log.d(TAG, "analysis: numOfColors=" + numOfColors + " deviation=" + deviation + " dataType=" + dataType);
+        boolean enableKpp = sp.getBoolean(SettingsFragment.KEY_PREF_ENABLE_KPP, true);
         
-        analysis(data, reset, numOfColors, deviation, dataType);
+        Log.d(TAG, "analysis: numOfColors=" + numOfColors + " deviation=" + deviation + " dataType=" + dataType + " enableKpp=" + enableKpp);
+        
+        analysis(data, reset, numOfColors, deviation, dataType, enableKpp);
     }
     
     /**
@@ -150,8 +152,9 @@ public class PaletteDataHelper
      * @param numOfColors   number of colors to pick up (default value is 10)
      * @param deviation     deviation to control how precise the analysis it is (the default value is 5)
      * @param dataType      the color type (RGB or HSV) when do the color analysis
+     * @param enableKpp     flag to indicate if enable the kpp process
      */
-    public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, PaletteDataType dataType)
+    public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, PaletteDataType dataType, boolean enableKpp)
     {
         Log.d(TAG, "palette data analysis()");
         
@@ -187,7 +190,7 @@ public class PaletteDataHelper
         for (int i = 0; i < inPixels.length; i++)
             points[i] = new ClusterPoint(convertColor(inPixels[i], dataType));
         
-        KMeansProcessor proc = new KMeansProcessor(numOfColors, deviation, /*maxRound*/99);   
+        KMeansProcessor proc = new KMeansProcessor(numOfColors, deviation, /*maxRound*/99, false);   
         proc.processKMean(points);
         
         for (ClusterCenter center : proc.getClusterCenters())

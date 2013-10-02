@@ -3,6 +3,7 @@ package com.tzapps.tzpalette.ui;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
@@ -15,6 +16,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public static final String KEY_PREF_COLOR_TYPE = "pref_analysisColorType";
     public static final String KEY_PREF_COLOR_NUMBER = "pref_setColorNumber";
     public static final String KEY_PREF_ANALYSIS_ACCURACY = "pref_analysisAccuracy";
+    public static final String KEY_PREF_ENABLE_KPP = "pref_enableKpp";
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -52,6 +54,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         String strAccuracySumm = getString(R.string.pref_analysisColorAccuracy);
         strAccuracySumm = String.format(strAccuracySumm, accuracy);
         accuracyPref.setTitle(strAccuracySumm);
+        
+        boolean enableKpp = sp.getBoolean(KEY_PREF_ENABLE_KPP, false);
+        CheckBoxPreference enableKppPref = (CheckBoxPreference)findPreference(KEY_PREF_ENABLE_KPP);
+        
+        enableKppPref.setChecked(enableKpp);
     }
 
     @Override
