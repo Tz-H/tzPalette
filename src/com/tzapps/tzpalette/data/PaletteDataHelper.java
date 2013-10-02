@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -21,8 +22,8 @@ public class PaletteDataHelper
 {
     private static final String TAG = "PaletteDataHelper";
     
-    private static final int THUMB_MAX_WIDTH  = 500;
-    private static final int THUMB_MAX_HEIGHT = 500;
+    private static final int PICTURE_ANALYSIS_MAX_WIDTH  = 500;
+    private static final int PICTURE_ANALYSIS_MAX_HEIGHT = 500;
     
     private static PaletteDataHelper instance;
     
@@ -150,8 +151,8 @@ public class PaletteDataHelper
      * 
      * @param data          the PaletteData data to analysis
      * @param reset         flag to indicate if remove the existing colors
-     * @param numOfColors   number of colors to pick up (default value is 10)
-     * @param deviation     deviation to control how precise the analysis it is (the default value is 5)
+     * @param numOfColors   number of colors to pick up
+     * @param deviation     deviation to control how precise the analysis it is
      * @param dataType      the color type (RGB or HSV) when do the color analysis
      * @param enableKpp     flag to indicate if enable the kpp process
      */
@@ -159,13 +160,22 @@ public class PaletteDataHelper
     {
         Log.d(TAG, "palette data analysis()");
         
-        Bitmap bitmap = data.getThumb();
+        Bitmap bitmap;
+        
+        /* we could try to fetch the original image from uri first,
+         * and if it doesn't exist, then we could get it from palette 
+         * data's thumb, well then the analysis accuracy would be ba
+         */
+        if (data.getImageUrl() != null)
+            bitmap = BitmapUtils.getBitmapFromUri(mContext, Uri.parse(data.getImageUrl()));
+        else
+            bitmap = data.getThumb();
         
         assert(bitmap != null);
         
         if (bitmap == null)
         {
-            Log.e(TAG, "palette data doesn't have a thumb!");
+            Log.e(TAG, "cannot load a picture from palette data!");
             return;
         }
         
@@ -176,10 +186,10 @@ public class PaletteDataHelper
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         
-        // scale the bitmap to limit the k-mean processor with a reasonable process time
-        if (width > THUMB_MAX_WIDTH || height > THUMB_MAX_HEIGHT)
+        // scale the bitmap to limit its size, so the k-mean processor could have a reasonable process time
+        if (width > PICTURE_ANALYSIS_MAX_WIDTH || height > PICTURE_ANALYSIS_MAX_HEIGHT)
         {
-            bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
+            bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, PICTURE_ANALYSIS_MAX_WIDTH, PICTURE_ANALYSIS_MAX_HEIGHT);
             width = bitmap.getWidth();
             height = bitmap.getHeight();
         }

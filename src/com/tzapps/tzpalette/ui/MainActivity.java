@@ -640,7 +640,21 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         assert (bitmap != null);
 
         mCurrentPalette = new PaletteData();
-        mCurrentPalette.setThumb(bitmap);
+        
+        if (bitmap != null)
+        {
+            int orientation;
+            
+            /*
+             * This is a quick fix on picture orientation for the picture taken
+             * from the camera, as it will be always rotated to landscape 
+             * incorrectly even if we take it in portrait mode...
+             */
+            orientation = MediaHelper.getPictureOrientation(this, selectedImage);
+            bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+            
+            mCurrentPalette.setThumb(bitmap);
+        }
         
         //TODO something is still wrong on file title fetching logic
         mCurrentPalette.setTitle(getPictureTilteFromUri(selectedImage));

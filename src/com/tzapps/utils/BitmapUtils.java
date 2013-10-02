@@ -33,7 +33,7 @@ public class BitmapUtils
      * Get a rotated bitmap based on the indicated orientation
      * 
      * @param source        the source bitmap
-     * @param orientation   the orientation to rotate
+     * @param orientation   the orientation code to rotate
      * @return              the rotated bitmap
      */
     public static Bitmap getRotatedBitmap(Bitmap source, int orientation)
