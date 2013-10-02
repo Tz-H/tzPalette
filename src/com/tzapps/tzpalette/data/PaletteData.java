@@ -97,6 +97,13 @@ public class PaletteData implements Parcelable
     
     public void setThumb(Bitmap thumb)
     {
+        if (thumb == null)
+        {
+            mThumb.recycle();
+            mThumb = null;
+            return;
+        }
+        
         if (thumb.getWidth() > THUMB_WIDTH_MAX || thumb.getHeight() > THUMB_HEIGHT_MAX)
             mThumb = BitmapUtils.resizeBitmapToFitFrame(thumb, THUMB_WIDTH_MAX, THUMB_HEIGHT_MAX);
         else
