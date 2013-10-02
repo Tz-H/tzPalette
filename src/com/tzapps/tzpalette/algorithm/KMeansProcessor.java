@@ -154,6 +154,10 @@ public class KMeansProcessor
             else
                 udpateClusterCenter(mCenters, mNewCenters);
         }
+        
+        // find out the nearest center point for each cluster
+        findNearestPoint(points, mCenters);
+        timings.addSplit("findNearestPoint()");
       
         timings.addSplit("processKMean done");
         timings.dumpToLog();
@@ -206,6 +210,38 @@ public class KMeansProcessor
         }
         
         return clusterIndex;
+    }
+    
+    /**
+     * Find out the nearest point for each cluster center
+     */
+    private void findNearestPoint(ClusterPoint[] points, ClusterCenter[] centers)
+    {
+        int dist[] = new int[centers.length];
+        int nearestPointIndex[] = new int[centers.length];
+        
+        for (int i = 0; i < dist.length; i ++)
+            dist[i] = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < points.length; i++)
+        {
+            ClusterPoint point = points[i];
+            int cIndex = point.clusterIndex;
+            
+            ClusterCenter center = centers[cIndex];
+            
+            if (dist[cIndex] > ClusterPoint.calcEuclideanDistanceSquare(center, point))
+            {
+                dist[cIndex] = ClusterPoint.calcEuclideanDistanceSquare(center, point);
+                nearestPointIndex[cIndex] = i;
+            }
+        }
+        
+        for (int i = 0; i < centers.length; i++)
+        {
+            ClusterCenter center = centers[i];
+            center.setNearestPoint(points[nearestPointIndex[i]]);
+        }
     }
     
     /**

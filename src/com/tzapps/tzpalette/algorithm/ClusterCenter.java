@@ -4,7 +4,10 @@ public class ClusterCenter extends ClusterPoint
 {
     private static final String TAG = "ClusterCenter";
     
+    /** The total number of points in this cluster */
     protected int numOfPoints;
+    /** The nearest point to the cluster center */
+    protected ClusterPoint nearestPoint;
     
     public ClusterCenter(int...values)
     {
@@ -20,12 +23,30 @@ public class ClusterCenter extends ClusterPoint
     {
         this.numOfPoints = numOfPoints;
     }
+    
+    public void setNearestPoint(ClusterPoint point)
+    {
+        this.nearestPoint = point;
+    }
+    
+    public ClusterPoint getNearestPoint()
+    {
+        return nearestPoint;
+    }
 
     public void addPoints()
     {
         numOfPoints++;
     }
 
+    public void copy(ClusterCenter c)
+    {
+        this.numOfPoints  = c.numOfPoints;
+        this.values       = c.values;
+        this.clusterIndex = c.clusterIndex;
+        this.nearestPoint = c.nearestPoint;
+    }
+    
     public static boolean equals(ClusterCenter c1, ClusterCenter c2, int deviation)
     {
         int dist = ClusterPoint.calcEuclideanDistanceSquare(c1, c2);
@@ -36,12 +57,5 @@ public class ClusterCenter extends ClusterPoint
          * "equals"  
          */
         return dist <= deviation*deviation;
-    }
-
-    public void copy(ClusterCenter c)
-    {
-        this.numOfPoints  = c.numOfPoints;
-        this.values       = c.values;
-        this.clusterIndex = c.clusterIndex;
     }
 }

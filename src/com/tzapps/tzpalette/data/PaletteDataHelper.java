@@ -219,7 +219,13 @@ public class PaletteDataHelper
         
         for (ClusterCenter center : proc.getClusterCenters())
         {
-            int[] values = center.getValues();
+            /*
+             * So we use the nearest point values rather than the
+             * cluster center directly, in case that some times
+             * there will be some weird non-existing colors caught
+             * after the analysis...
+             */
+            int[] values = center.getNearestPoint().getValues();
             
             int color = 0;
             
