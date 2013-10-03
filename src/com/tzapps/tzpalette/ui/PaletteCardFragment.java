@@ -20,6 +20,7 @@ import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 
 public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener
 {
@@ -68,15 +69,32 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
             mColors.setColors(mData.getColors());
         
         if (mThumb != null)
-            updateThumb(mData.getImageUrl());
+            updateThumb();
     }
     
-    private void updateThumb(String imageUrl)
+    private void updateThumb()
     {
+        String imageUrl = mData.getImageUrl();
+        
         assert (imageUrl != null);
         
         Bitmap bitmap    = null;
         Uri    imageUri  = Uri.parse(imageUrl);
+        
+        /* try to get the original image first, if it doesn't exist then
+         * to use the thumbnail stored in local db instead 
+         */
+        
+        /*
+         * FIXME: it cannot handle with the imageUri correctly if its
+         * content is "content://com.google.android.gallery3d.provider/picasa"
+         * i.e. the picture from picasa app, it refers to the uri permission
+         * grant logic, and might be worse in previous android version (3.0, 4.0, 
+         * 4.1). I will need to test it and evaluate this bug on other lower 
+         * android version.
+         * 
+         * A useful reference: http://dimitar.me/how-to-get-picasa-images-using-the-image-picker-on-android-devices-running-any-os-version/
+         */
         
         bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri);
         
@@ -87,6 +105,11 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
             if (orientation != ExifInterface.ORIENTATION_NORMAL)
                 bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
             
+            mThumb.setImageBitmap(bitmap);
+        }
+        else
+        {
+            bitmap = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
             mThumb.setImageBitmap(bitmap);
         }
     }

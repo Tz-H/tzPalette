@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
@@ -186,12 +187,15 @@ public class BitmapUtils
         
         try
         {
-            InputStream imageStream = context.getContentResolver().openInputStream(uri);
-            bitmap = BitmapFactory.decodeStream(imageStream);
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
         }
-        catch (FileNotFoundException e)
+        catch (IOException e)
         {
             Log.e(TAG, "getBitmapFromUri failed. uri is " + uri.toString());
+        }
+        catch (SecurityException se)
+        {
+            Log.e(TAG, "getBitmapFromUri failed for security reason. uri is " + uri.toString() + " message: " + se.getLocalizedMessage());
         }
         
         return bitmap;
