@@ -10,6 +10,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteThumbEntry;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -99,7 +100,8 @@ public class PaletteDataSource
         // Insert the thumb into the thumb table
         addThumb(insertId, data.getThumb());
         
-        Log.d(TAG, "PaletteData saved with id:" + insertId);
+        if (MyDebug.LOG)
+            Log.d(TAG, "PaletteData saved with id:" + insertId);
     }
     
     private void addThumb(long dataId, Bitmap thumb)
@@ -156,7 +158,8 @@ public class PaletteDataSource
         
         data.setUpdated(updated);
         
-        Log.d(TAG, "PaletteData updated with id:" + id);
+        if (MyDebug.LOG)
+            Log.d(TAG, "PaletteData updated with id:" + id);
     }
     
     private void updateThumb(long dataId, Bitmap thumb)
@@ -191,7 +194,8 @@ public class PaletteDataSource
      */
     public void delete(long id)
     {
-        Log.d(TAG, "PaletteData deleted with id:" + id);
+        if (MyDebug.LOG)
+            Log.d(TAG, "PaletteData deleted with id:" + id);
         
         db.delete(PaletteDataEntry.TABLE_NAME, 
                   PaletteDataEntry._ID + " = " + id, 
@@ -225,7 +229,8 @@ public class PaletteDataSource
         }
         else
         {
-            Log.d(TAG, "the palette data =" + dataId + " doesn't have a thumb");
+            if (MyDebug.LOG)
+                Log.d(TAG, "the palette data =" + dataId + " doesn't have a thumb");
         }
         
         // Make sure to close the cursor
@@ -261,7 +266,8 @@ public class PaletteDataSource
         }
         else
         {
-            Log.e(TAG, "get palette data with id=" + id + "failed");
+            if (MyDebug.LOG)
+                Log.e(TAG, "get palette data with id=" + id + "failed");
         }
         
         // Make sure to close the cursor
@@ -338,7 +344,8 @@ public class PaletteDataSource
         String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_IMAGEURL));
         data.setImageUrl(imageUrl);
         
-        Log.d(TAG, "PaletteData fetched from db: " + data.toString());
+        if (MyDebug.LOG)
+            Log.d(TAG, "PaletteData fetched from db: " + data.toString());
         
         return data;
     }
