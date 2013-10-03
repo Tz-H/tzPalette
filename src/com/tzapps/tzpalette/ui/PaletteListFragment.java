@@ -170,6 +170,14 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
                 itemView = inflater.inflate(R.layout.palette_list_view_item, parent, false);
             }
 
+            /*
+             * TODO: currently we will update/refresh all palette data in the visible range
+             * when notifyDataSetChanged() is called. Which is inefficient and causes 
+             * the incorrect flash fade in/out effect on the existing palette item. So the
+             * following updateViewByData() needs to modify/refine to fix this issue
+             * later, it needs to have some kind of flag to check whether the current
+             * palette data matches the current palette item and refresh it if necessary...     
+             */
             updateViewByData(itemView, data, position);
 
             return itemView;
@@ -206,7 +214,6 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             
             // clean up the current thumb and reload it in thumb update task
             thumb.setImageBitmap(null);
-            
             new PaletteThumbUpdateTask(mContext, thumb).execute(data);
         }
     }
