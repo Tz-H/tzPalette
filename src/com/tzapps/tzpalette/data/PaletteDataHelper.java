@@ -106,6 +106,22 @@ public class PaletteDataHelper
         mDataSource.close();
     }
     
+    /**
+     * Get the palette data count stored in database
+     * 
+     * @return the count of palette data
+     */
+    public int getDataCount()
+    {
+        int count = 0;
+        
+        mDataSource.open(false);
+        count = mDataSource.count();
+        mDataSource.close();
+        
+        return count;
+    }
+    
     public List<PaletteData> getAllData()
     {
         List<PaletteData> dataList = null;

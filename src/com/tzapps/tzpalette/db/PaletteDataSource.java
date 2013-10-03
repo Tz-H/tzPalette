@@ -271,6 +271,23 @@ public class PaletteDataSource
     }
     
     /**
+     * Get the palette data count from db
+     * 
+     * @return the count of palette data
+     */
+    public int count()
+    {
+        String sql = "SELECT COUNT(*) FROM " + PaletteDataEntry.TABLE_NAME;
+        
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        
+        return count;
+    }
+    
+    /**
      * Get all PaletteData records from db
      * 
      * @return the array list with all PaletteData records

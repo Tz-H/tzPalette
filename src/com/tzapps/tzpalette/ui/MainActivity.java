@@ -92,13 +92,15 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(false);
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
         mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class,
-                null);
+        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class,null);
         // mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
+        
+        // Open "My Palettes" view directly if we do have a few records in db
+        if (mDataHelper.getDataCount() > 0)
+            mTabsAdapter.setSelectedTab(1);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
