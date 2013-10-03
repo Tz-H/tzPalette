@@ -28,6 +28,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
     private TextView mTitle;
     private ImageView mThumb;
     private PaletteColorGrid mColors;
+    private PaletteData mData;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -44,21 +45,30 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         mColors = (PaletteColorGrid)view.findViewById(R.id.palette_card_colors);
         mColors.setOnItemLongClickListener(this);
         
+        refresh();
+        
         return view;
     }
-
-    /**
-     * Update palette card view by indicated PaletteData
-     * @param data  the PaletteData to set
-     */
-    public void update(PaletteData data)
+    
+    public void setData(PaletteData data)
     {
-        assert(data != null);
+        mData = data;
+        refresh();
+    }
+    
+    private void refresh()
+    {
+        if (mData == null)
+            return;
         
-        mTitle.setText(data.getTitle());
-        mColors.setColors(data.getColors());
+        if (mTitle != null)
+            mTitle.setText(mData.getTitle());
         
-        updateThumb(data.getImageUrl());
+        if (mColors != null)
+            mColors.setColors(mData.getColors());
+        
+        if (mThumb != null)
+            updateThumb(mData.getImageUrl());
     }
     
     private void updateThumb(String imageUrl)
@@ -94,4 +104,5 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         
         return true;
     }
+
 }

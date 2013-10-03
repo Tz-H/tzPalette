@@ -1,41 +1,47 @@
 package com.tzapps.tzpalette.ui;
 
+import java.util.List;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ShareActionProvider;
-
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
 {
     private static final String TAG = "PaletteCardActivity";
     
-    private PaletteData mPaletteData;
-    private PaletteCardFragment mPaletteCardFragment;
+    private ViewPager mViewPager;
+    private PaletteCardAdapter mCardAdapter;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         
-        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_CARD_DATA_ID);
-        mPaletteData = PaletteDataHelper.getInstance(this).get(dataId);
+        mViewPager = new ViewPager(this);
+        mViewPager.setId(R.id.palette_card_pager);
+        setContentView(mViewPager);
         
-        // Display the fragment as the main content
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new PaletteCardFragment())
-                .commit();
-
+        mCardAdapter = new PaletteCardAdapter(this, mViewPager);
+        
+        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_CARD_DATA_ID);
+        mCardAdapter.setCurrentCard(dataId);
+        
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         {
@@ -45,31 +51,11 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     }
     
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-
-        if (mPaletteData != null)
-            outState.putParcelable("currentPaletteData", mPaletteData);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mPaletteData = savedInstanceState.getParcelable("currentPaletteData");
-
-        updatePaletteCardFragment();
-    }
-    
-    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.palette_card_view_actions, menu);
-
 
         // Locate MenuItem with ShareActionProvider
         //MenuItem item = menu.findItem(R.id.action_share);
@@ -77,7 +63,6 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         // Fetch and store ShareActionProvider
         //mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
-        // TODO adjust the share item contents based on the palette data
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -106,21 +91,70 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     }
 
     @Override
-    public void onFragmentViewCreated(Fragment fragment)
-    {
-        if (fragment instanceof PaletteCardFragment)
-        {
-            mPaletteCardFragment = (PaletteCardFragment)fragment;
-            updatePaletteCardFragment();
-        }
-    }
+    public void onFragmentViewCreated(Fragment fragment){}
     
-    private void updatePaletteCardFragment()
+    public static class PaletteCardAdapter extends FragmentPagerAdapter
     {
-        if (mPaletteCardFragment == null || mPaletteData == null)
-            return;
+        private Context mContext;
+        private ViewPager mViewPager;
+        private List<PaletteData> dataList;
+
+        public PaletteCardAdapter(Activity activity, ViewPager pager)
+        {
+            super(activity.getFragmentManager());
+            mContext = activity;
+            mViewPager = pager;
+            
+            dataList = PaletteDataHelper.getInstance(mContext).getAllData();
+            mViewPager.setAdapter(this);
+        }
+
+        public void setCurrentCard(long dataId)
+        {
+            int index = 0;
+            
+            for (int i = 0; i < dataList.size(); i++)
+            {
+                PaletteData data = dataList.get(i);
+                
+                if (data.getId() == dataId)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            
+            mViewPager.setCurrentItem(index);
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            PaletteData data = dataList.get(position);
+            
+            PaletteCardFragment fragment = (PaletteCardFragment)Fragment.instantiate(mContext, 
+                                        PaletteCardFragment.class.getName(), null);
+            fragment.setData(data);
+            
+            return fragment;
+        }
         
-        mPaletteCardFragment.update(mPaletteData);
+        @Override
+        public Object instantiateItem(ViewGroup container, int position)
+        {
+            PaletteCardFragment fragment = (PaletteCardFragment)super.instantiateItem(container, position);
+            
+            PaletteData data = dataList.get(position);
+            fragment.setData(data);
+            
+            return fragment;
+        }
+        
+        @Override
+        public int getCount()
+        {
+            return dataList.size();
+        }
     }
 
 }
