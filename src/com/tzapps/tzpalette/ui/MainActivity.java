@@ -284,6 +284,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         // TODO view the palette data
         Log.i(TAG, "palette data " + data.getId() + " clicked");
         
+        Intent intent = new Intent(this, PaletteCardActivity.class);
+        
+        startActivity(intent);
     }
 
     @Override
