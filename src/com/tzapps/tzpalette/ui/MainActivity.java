@@ -256,7 +256,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 
             case View:
                 Log.d(TAG, "View palette item (position=" + position + " , id=" + dataId + ")");
-                //TODO: view palette item
+                openPaletteCardView(dataId);
                 break;
         }
     }
@@ -286,6 +286,13 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         // TODO view the palette data
         Log.i(TAG, "palette data " + data.getId() + " clicked");
         
+        openPaletteCardView(dataId);
+        
+        
+    }
+    
+    private void openPaletteCardView(long dataId)
+    {
         Intent intent = new Intent(this, PaletteCardActivity.class);
         
         intent.putExtra(PALETTE_CARD_DATA_ID, dataId);
