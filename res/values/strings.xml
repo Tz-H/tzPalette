@@ -19,6 +19,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_open">Open</string>
     <string name="action_view">View</string>
+    <string name="action_sendEmail">Send Email</string>
     
     <string name="palette_title_default">Untitled</string>
     <string name="palette_title_hint">Palette Name</string>
@@ -62,5 +63,6 @@
     
     <string name="pref_enableKpp">Enable KPP</string>
     <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
+    
     
 </resources>
