@@ -8,16 +8,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tzapps.common.ui.BaseFragment;
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.ClipboardUtils;
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 
-public class PaletteCardFragment extends BaseFragment
+public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener
 {
     private static final String TAG = "PaletteCardFragment";
     
@@ -38,6 +42,7 @@ public class PaletteCardFragment extends BaseFragment
         mTitle = (TextView)view.findViewById(R.id.palette_card_title);
         mThumb = (ImageView)view.findViewById(R.id.palette_card_thumb);
         mColors = (PaletteColorGrid)view.findViewById(R.id.palette_card_colors);
+        mColors.setOnItemLongClickListener(this);
         
         return view;
     }
@@ -74,5 +79,19 @@ public class PaletteCardFragment extends BaseFragment
             
             mThumb.setImageBitmap(bitmap);
         }
+    }
+    
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColors.getColor(position);
+        
+        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
+        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
+        
+        ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
+        Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
+        
+        return true;
     }
 }
