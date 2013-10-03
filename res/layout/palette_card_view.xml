@@ -27,7 +27,9 @@
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
 	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
 	            android:gravity="center_vertical|left"
+	            android:singleLine="true"
 	            android:text="@string/palette_title_default"
 	            android:textColor="@color/color_lightgray"
 	            android:textSize="18sp"
@@ -43,7 +45,6 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
-            android:background="@color/palette_card_pic_init_bg"
             android:contentDescription="@string/img_pic_desc" />
     
         <LinearLayout 

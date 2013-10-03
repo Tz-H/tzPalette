@@ -58,6 +58,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     static final int TAKE_PHOTE_RESULT = 1;
     /** Called when the user clicks the LoadPicture button */
     static final int LOAD_PICTURE_RESULT = 2;
+    
+    public final static String PALETTE_CARD_DATA_ID = "com.tzapps.tzpalette.PaletteCardDataId";
 
     private static final String TZPALETTE_FILE_PREFIX = "MyPalette";
 
@@ -286,6 +288,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         Intent intent = new Intent(this, PaletteCardActivity.class);
         
+        intent.putExtra(PALETTE_CARD_DATA_ID, dataId);
         startActivity(intent);
     }
 

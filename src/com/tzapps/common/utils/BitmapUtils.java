@@ -25,6 +25,7 @@ import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.Environment;
@@ -50,15 +51,15 @@ public class BitmapUtils
         
         switch(orientation)
         {
-            case 3:
+            case ExifInterface.ORIENTATION_ROTATE_180:
                 rotation = 180;
                 break;
                 
-            case 6:
+            case ExifInterface.ORIENTATION_ROTATE_90:
                 rotation = 90;
                 break;
                 
-            case 8:
+            case ExifInterface.ORIENTATION_ROTATE_270:
                 rotation = 270;
                 break;
                 
