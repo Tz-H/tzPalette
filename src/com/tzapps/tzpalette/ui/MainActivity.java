@@ -145,7 +145,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mCurrentPalette = savedInstanceState.getParcelable("currentPaletteData");
         mCurrentPhotoPath = savedInstanceState.getString("currentPhotoPath");
 
-        udpateCaptureVeiw();
+        updateCaptureVeiw(true);
     }
 
     @Override
@@ -438,30 +438,33 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** refresh capture view fragment in main activity with persisted mPaletteData */
-    private void udpateCaptureVeiw()
+    private void updateCaptureVeiw(boolean updatePicture)
     {
         if (mCaptureFrag == null || mCurrentPalette == null)
             return;
         
-        Bitmap bitmap    = null;
-        String imagePath = mCurrentPalette.getImageUrl();
-        Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
-        
-        bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
-        
-        if (bitmap != null)
+        if (updatePicture)
         {
-            int orientation;
+            Bitmap bitmap    = null;
+            String imagePath = mCurrentPalette.getImageUrl();
+            Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
             
-            /*
-             * This is a quick fix on picture orientation for the picture taken
-             * from the camera, as it will be always rotated to landscape 
-             * incorrectly even if we take it in portrait mode...
-             */
-            orientation = MediaHelper.getPictureOrientation(this, imageUri);
-            bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+            bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
             
-            mCaptureFrag.updateImageView(bitmap);
+            if (bitmap != null)
+            {
+                int orientation;
+                
+                /*
+                 * This is a quick fix on picture orientation for the picture taken
+                 * from the camera, as it will be always rotated to landscape 
+                 * incorrectly even if we take it in portrait mode...
+                 */
+                orientation = MediaHelper.getPictureOrientation(this, imageUri);
+                bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+                
+                mCaptureFrag.updateImageView(bitmap);
+            }
         }
         
         mCaptureFrag.updateColors(mCurrentPalette.getColors());
@@ -473,7 +476,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (fragment instanceof CaptureFragment)
         {
             mCaptureFrag = (CaptureFragment) fragment;
-            udpateCaptureVeiw();
+            updateCaptureVeiw(true);
         }
 
         if (fragment instanceof PaletteListFragment)
@@ -693,7 +696,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mCurrentPalette.setTitle(getPictureTilteFromUri(selectedImage));
         mCurrentPalette.setImageUrl(selectedImage.toString());
 
-        udpateCaptureVeiw();
+        updateCaptureVeiw(true);
         
         // start to analysis the picture immediately after loading it
         new PaletteDataAnalysisTask().execute(mCurrentPalette);
@@ -746,9 +749,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         protected void onPostExecute(PaletteData result)
         {
             stopAnalysis();
-            
-            if (mCaptureFrag != null)
-                mCaptureFrag.updateColors(result.getColors());
+            updateCaptureVeiw(false);
         }
     }
 

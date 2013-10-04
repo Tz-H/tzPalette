@@ -33,8 +33,10 @@
                 android:id="@+id/btn_takePhoto"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@android:drawable/ic_menu_camera"
+                android:background="@drawable/button"
+                android:src="@android:drawable/ic_menu_camera"
                 android:contentDescription="@string/btn_takePhoto_desc"
+                android:scaleType="fitCenter"
                 android:onClick="onClick"
                 android:soundEffectsEnabled="true" />
 
@@ -51,8 +53,10 @@
                 android:id="@+id/btn_loadPicture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@android:drawable/ic_menu_gallery"
+                android:background="@drawable/button"
+                android:src="@android:drawable/ic_menu_gallery"
                 android:contentDescription="@string/btn_loadPicture_desc"
+                android:scaleType="fitCenter"
                 android:onClick="onClick"
                 android:soundEffectsEnabled="true" />
         </LinearLayout>
@@ -74,7 +78,7 @@
     </RelativeLayout>
     
     <LinearLayout
-        android:id="@+id/bottom_colors_bar"
+        android:id="@+id/capture_view_colors_bar"
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
@@ -84,6 +88,7 @@
         android:paddingRight="5dp"
         android:background="@drawable/capture_view_colors_bar_frame"
         android:gravity="center"
+        android:visibility="invisible"
         android:orientation="horizontal" >
         
         <ImageView
@@ -123,6 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/color_gray"
+        android:visibility="invisible"
         android:orientation="horizontal" >
 
         <ImageButton

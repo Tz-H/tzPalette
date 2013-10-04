@@ -25,8 +25,9 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     
     ImageView mImageView;
     PaletteColorGrid mColoursGrid;
-    View mBottomButtons;
-    View mPicButtons;
+    View mBottomBar;
+    View mPictureBar;
+    View mColorsBar;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,9 +42,10 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mImageView = (ImageView) view.findViewById(R.id.capture_view_picture);
         mImageView.setOnClickListener(this);
         
+        mColorsBar = (View) view.findViewById(R.id.capture_view_colors_bar);
+        mBottomBar = (View) view.findViewById(R.id.capture_view_bottom_bar);
+        mPictureBar = (View) view.findViewById(R.id.pic_buttons);
         
-        mBottomButtons = (View) view.findViewById(R.id.capture_view_bottom_bar);
-        mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
         
         mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.capture_view_colors);
@@ -63,13 +65,15 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         if (bitmap != null)
         {
             mImageView.setImageBitmap(bitmap);
-            mPicButtons.setVisibility(View.GONE);
+            mPictureBar.setVisibility(View.GONE);
+            mBottomBar.setVisibility(View.VISIBLE);
         }
         else
         {
             mImageView.setImageBitmap(null);
-            mPicButtons.setVisibility(View.VISIBLE);
-            //mBottomButtons.setVisibility(View.GONE);
+            mPictureBar.setVisibility(View.VISIBLE);
+            mBottomBar.setVisibility(View.INVISIBLE);
+            mColorsBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -77,6 +81,9 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     {
         Log.d(TAG, "updateColors");
         mColoursGrid.setColors(colors);
+        
+        if (colors.length != 0)
+            showColorsBar();
     }
     
     public void clear()
@@ -85,26 +92,15 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mColoursGrid.clear();
     }
     
-    public void showTitleButtons()
+    private void showColorsBar()
     {
-        mBottomButtons.setVisibility(View.VISIBLE);
-        
-        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_then_out_anim);
-        anim.setAnimationListener(new AnimationListener(){
-            @Override
-            public void onAnimationEnd(Animation animation)
-            {
-                mBottomButtons.setVisibility(View.GONE);
-            }
+        if (mColorsBar.getVisibility() != View.VISIBLE)
+        {
+            mColorsBar.setVisibility(View.VISIBLE);
             
-            @Override
-            public void onAnimationStart(Animation animation){}
-
-            @Override
-            public void onAnimationRepeat(Animation animation){}
-        });
-        
-        mBottomButtons.startAnimation(anim);
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
+            mColorsBar.startAnimation(anim);
+        }
     }
     
     @Override
@@ -112,8 +108,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     {
         if (v == mImageView)
         {
-            //if (mBottomButtons.getVisibility() == View.GONE)
-            //    showTitleButtons();
+            //TODO: pick the color on image view
         }
     }
 
@@ -130,9 +125,11 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     {
         int color = mColoursGrid.getColor(position);
         
-        //TODO add strings into resources
+        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
+        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
+        
         ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
-        Toast.makeText(getActivity(), "Color[" + ColorUtils.colorToHtml(color) + "] has been added into clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
         
         return true;
     }
