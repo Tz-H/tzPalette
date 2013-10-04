@@ -12,6 +12,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.BaseFragment;
@@ -23,11 +24,12 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
 {
     private static final String TAG = "CaptureFragment";
     
-    ImageView mImageView;
-    PaletteColorGrid mColoursGrid;
-    View mBottomBar;
-    View mPictureBar;
-    View mColorsBar;
+    private ImageView mImageView;
+    private PaletteColorGrid mColoursGrid;
+    private View mBottomBar;
+    private View mPictureBar;
+    private View mColorsBar;
+    private TextView mTitle;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,7 +48,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mBottomBar = (View) view.findViewById(R.id.capture_view_bottom_bar);
         mPictureBar = (View) view.findViewById(R.id.pic_buttons);
         
-        
+        mTitle = (TextView) view.findViewById(R.id.capture_view_title);
         
         mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.capture_view_colors);
         mColoursGrid.setOnItemClickListener(this);
@@ -74,6 +76,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
             mPictureBar.setVisibility(View.VISIBLE);
             mBottomBar.setVisibility(View.INVISIBLE);
             mColorsBar.setVisibility(View.INVISIBLE);
+            mTitle.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -84,6 +87,14 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         
         if (colors.length != 0)
             showColorsBar();
+    }
+    
+    public void udpateTitle(String title)
+    {
+        Log.d(TAG, "update title" + title);
+        mTitle.setText(title);
+        
+        showTitleBar();
     }
     
     public void clear()
@@ -100,6 +111,17 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
             
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
             mColorsBar.startAnimation(anim);
+        }
+    }
+    
+    private void showTitleBar()
+    {
+        if (mTitle.getVisibility() != View.VISIBLE)
+        {
+            mTitle.setVisibility(View.VISIBLE);
+            
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
+            mTitle.startAnimation(anim);
         }
     }
     

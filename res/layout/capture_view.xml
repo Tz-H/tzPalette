@@ -34,11 +34,11 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/button"
-                android:src="@android:drawable/ic_menu_camera"
                 android:contentDescription="@string/btn_takePhoto_desc"
-                android:scaleType="fitCenter"
                 android:onClick="onClick"
-                android:soundEffectsEnabled="true" />
+                android:scaleType="fitCenter"
+                android:soundEffectsEnabled="true"
+                android:src="@android:drawable/ic_menu_camera" />
 
             <ImageView
                 android:id="@+id/pic_separator"
@@ -54,55 +54,66 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/button"
-                android:src="@android:drawable/ic_menu_gallery"
                 android:contentDescription="@string/btn_loadPicture_desc"
-                android:scaleType="fitCenter"
                 android:onClick="onClick"
-                android:soundEffectsEnabled="true" />
+                android:scaleType="fitCenter"
+                android:soundEffectsEnabled="true"
+                android:src="@android:drawable/ic_menu_gallery" />
         </LinearLayout>
+    </RelativeLayout>
 
-        <!--
+    <LinearLayout
+        android:id="@+id/capture_view_title_bar"
+        android:layout_width="350dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center|left"
+        android:orientation="vertical" >
+
         <TextView
-            android:id="@+id/tv_palette_title"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/color_palette_card_title_bg"
-            android:paddingLeft="10dp"
+            android:id="@+id/capture_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/capture_view_title_bar_frame"
             android:gravity="center_vertical|left"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:visibility="invisible"
             android:text="@string/palette_title_default"
             android:textColor="@color/color_lightgray"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-        -->
-    </RelativeLayout>
-    
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/capture_view_colors_bar"
         android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         android:background="@drawable/capture_view_colors_bar_frame"
         android:gravity="center"
-        android:visibility="invisible"
-        android:orientation="horizontal" >
-        
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="invisible" >
+
         <ImageView
             android:id="@+id/btn_analysis"
             android:layout_width="40dp"
             android:layout_height="fill_parent"
-            android:padding="3dp"
             android:background="@drawable/button"
-            android:src="@android:drawable/ic_menu_view"
             android:contentDescription="@string/btn_analysis_desc"
             android:onClick="onClick"
-            android:soundEffectsEnabled="true" />
-        
-       <ImageView
+            android:padding="3dp"
+            android:soundEffectsEnabled="true"
+            android:src="@android:drawable/ic_menu_view" />
+
+        <ImageView
             android:layout_width="1dp"
             android:layout_height="36dp"
             android:layout_margin="2dp"
@@ -128,29 +139,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/color_gray"
-        android:visibility="invisible"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="invisible" >
 
         <ImageButton
             android:id="@+id/btn_clear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="@string/btn_clear_desc"
             android:onClick="onClick"
-            android:soundEffectsEnabled="true" />
-        
+            android:soundEffectsEnabled="true"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
         <ImageButton
             android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_save"
             android:contentDescription="@string/btn_save_desc"
             android:onClick="onClick"
-            android:soundEffectsEnabled="true" />
-        
+            android:soundEffectsEnabled="true"
+            android:src="@android:drawable/ic_menu_save" />
     </LinearLayout>
 
 </RelativeLayout>

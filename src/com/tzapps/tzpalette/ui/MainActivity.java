@@ -376,18 +376,18 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         final AlertDialog dialog = alert.create();
 
         input.setOnFocusChangeListener(new OnFocusChangeListener()
-        {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus)
             {
-                if (hasFocus)
+                @Override
+                public void onFocusChange(View v, boolean hasFocus)
                 {
-                    dialog.getWindow().setSoftInputMode(
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    if (hasFocus)
+                    {
+                        dialog.getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
                 }
             }
-        }
-                );
+        );
 
         dialog.show();
     }
@@ -468,6 +468,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
         
         mCaptureFrag.updateColors(mCurrentPalette.getColors());
+        mCaptureFrag.udpateTitle(mCurrentPalette.getTitle());
     }
 
     @Override
