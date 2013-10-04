@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mDataHelper = PaletteDataHelper.getInstance(this);
 
         mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.pager);
+        mViewPager.setId(R.id.main_pager);
         setContentView(mViewPager);
 
         final ActionBar actionBar = getActionBar();
