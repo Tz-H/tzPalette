@@ -309,7 +309,7 @@ public class PaletteDataSource
                 null,
                 null,
                 null,
-                null
+                PaletteDataEntry.COLUMN_NAME_UPDATED + " DESC"
                 );
         
         cursor.moveToFirst();

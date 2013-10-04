@@ -27,6 +27,7 @@ import com.tzapps.common.ui.BaseListFragment;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.data.PaletteDataUpdatedComparator;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
@@ -59,7 +60,6 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         }
 
         List<PaletteData> items = new ArrayList<PaletteData>();
-        
 
         if (mAdapter == null)
             mAdapter = new PaletteDataAdapter<PaletteData>(activity,
@@ -109,6 +109,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     public void refresh()
     {
+        mAdapter.sort(new PaletteDataUpdatedComparator());
         mAdapter.notifyDataSetChanged();
     }
     
@@ -128,6 +129,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
         Log.d(TAG, "palette data " + data.getId() + " added");
 
+        mAdapter.sort(new PaletteDataUpdatedComparator());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -135,7 +137,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     {
         mAdapter.remove(data);
 
-        Log.d(TAG, "palette data " + data.getId() + " added");
+        Log.d(TAG, "palette data " + data.getId() + " removed");
 
         mAdapter.notifyDataSetChanged();
     }
