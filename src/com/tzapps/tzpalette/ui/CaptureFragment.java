@@ -46,7 +46,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
         
-        mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_card_colors);
+        mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.capture_view_colors);
         mColoursGrid.setOnItemClickListener(this);
         mColoursGrid.setOnItemLongClickListener(this);
         

@@ -75,17 +75,23 @@
     
     <LinearLayout
         android:id="@+id/bottom_colors_bar"
-        android:layout_width="fill_parent"
+        android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/capture_view_bottom_bar"
-        android:background="@color/color_semitransparent2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/capture_view_colors_bar_frame"
         android:gravity="center"
         android:orientation="horizontal" >
         
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_analysis"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="fill_parent"
+            android:padding="3dp"
+            android:background="@drawable/button"
             android:src="@android:drawable/ic_menu_view"
             android:contentDescription="@string/btn_analysis_desc"
             android:onClick="onClick"
@@ -99,7 +105,7 @@
             tools:ignore="ContentDescription" />
 
         <com.tzapps.tzpalette.ui.PaletteColorGrid
-            android:id="@+id/palette_card_colors"
+            android:id="@+id/capture_view_colors"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:columnWidth="35dp"
@@ -116,7 +122,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="5dp"
         android:background="@color/color_gray"
         android:orientation="horizontal" >
 

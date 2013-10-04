@@ -26,5 +26,7 @@
     <color name="palette_item_bg_pressed">#EFEFEF</color>
     <color name="palette_item_border">#222222</color>
     
+    <color name="button_highlight_bg">#EFEFEF</color>
+    
     
 </resources>
