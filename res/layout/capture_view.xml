@@ -35,7 +35,7 @@
                 android:layout_height="60dp"
                 android:background="@android:drawable/ic_menu_camera"
                 android:contentDescription="@string/btn_takePhoto_desc"
-                android:onClick="takePhoto"
+                android:onClick="onClick"
                 android:soundEffectsEnabled="true" />
 
             <ImageView
@@ -53,7 +53,7 @@
                 android:layout_height="60dp"
                 android:background="@android:drawable/ic_menu_gallery"
                 android:contentDescription="@string/btn_loadPicture_desc"
-                android:onClick="loadPicture"
+                android:onClick="onClick"
                 android:soundEffectsEnabled="true" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
             android:layout_height="fill_parent"
             android:src="@android:drawable/ic_menu_view"
             android:contentDescription="@string/btn_analysis_desc"
-            android:onClick="analysisPicture"
+            android:onClick="onClick"
             android:soundEffectsEnabled="true" />
         
        <ImageView
@@ -127,7 +127,7 @@
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="@string/btn_clear_desc"
-            android:onClick="clearCaptureView"
+            android:onClick="onClick"
             android:soundEffectsEnabled="true" />
         
         <ImageButton
@@ -137,7 +137,7 @@
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_save"
             android:contentDescription="@string/btn_save_desc"
-            android:onClick="savePalette"
+            android:onClick="onClick"
             android:soundEffectsEnabled="true" />
         
     </LinearLayout>

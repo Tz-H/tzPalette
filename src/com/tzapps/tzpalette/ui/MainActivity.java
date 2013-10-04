@@ -194,11 +194,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_takePhoto:
-                takePhoto(item.getActionView());
+                takePhoto();
                 return true;
 
             case R.id.action_loadPicture:
-                loadPicture(item.getActionView());
+                loadPicture();
                 return true;
 
             case R.id.action_settings:
@@ -211,15 +211,15 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_save:
-                savePalette(item.getActionView());
+                savePalette();
                 return true;
 
             case R.id.action_clear:
-                clearCaptureView(item.getActionView());
+                clearCaptureView();
                 return true;
 
             case R.id.action_analysis:
-                analysisPicture(item.getActionView());
+                analysisPicture();
                 return true;
 
             default:
@@ -279,6 +279,26 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                         PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
                 optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
+                
+            case R.id.btn_analysis:
+                analysisPicture();
+                break;
+                
+            case R.id.btn_clear:
+                clearCaptureView();
+                break;
+                
+            case R.id.btn_save:
+                savePalette();
+                break;
+                
+            case R.id.btn_loadPicture:
+                loadPicture();
+                break;
+                 
+            case R.id.btn_takePhoto:
+                takePhoto();
+                break;
         }
     }
     
@@ -289,8 +309,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         Log.i(TAG, "palette data " + data.getId() + " clicked");
         
         openPaletteCardView(dataId);
-        
-        
     }
     
     private void openPaletteCardView(long dataId)
@@ -490,7 +508,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** Called when the user performs the Take Photo action */
-    public void takePhoto(View view)
+    private void takePhoto()
     {
         Log.d(TAG, "take a photo");
 
@@ -516,7 +534,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** Called when the user performs the Load Picture action */
-    public void loadPicture(View view)
+    private void loadPicture()
     {
         Log.d(TAG, "load a picture");
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -525,7 +543,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** Called when the user performs the Analysis action */
-    public void analysisPicture(View view)
+    private void analysisPicture()
     {
         Log.d(TAG, "analysis the picture");
 
@@ -536,7 +554,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** Called when the user performs the Clear action */
-    public void clearCaptureView(View view)
+    private void clearCaptureView()
     {
         Log.d(TAG, "clear the capture view and current palette data");
 
@@ -553,7 +571,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     /** Called when the user performs the Save action */
-    public void savePalette(View view)
+    private void savePalette()
     {
         Log.d(TAG, "save the palette");
 
