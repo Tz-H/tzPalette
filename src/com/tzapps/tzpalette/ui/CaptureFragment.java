@@ -25,7 +25,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     
     ImageView mImageView;
     PaletteColorGrid mColoursGrid;
-    View mTitleButtons;
+    View mBottomButtons;
     View mPicButtons;
     
     @Override
@@ -38,11 +38,11 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.capture_view, container, false);
         
-        mImageView = (ImageView) view.findViewById(R.id.img_palette_picture);
+        mImageView = (ImageView) view.findViewById(R.id.capture_view_picture);
         mImageView.setOnClickListener(this);
         
         
-        mTitleButtons = (View) view.findViewById(R.id.title_buttons);
+        mBottomButtons = (View) view.findViewById(R.id.capture_view_bottom_bar);
         mPicButtons = (View) view.findViewById(R.id.pic_buttons);
         
         
@@ -62,16 +62,14 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
         
         if (bitmap != null)
         {
-            mImageView.setBackgroundColor(getResources().getColor(R.color.color_transparent));
             mImageView.setImageBitmap(bitmap);
             mPicButtons.setVisibility(View.GONE);
         }
         else
         {
             mImageView.setImageBitmap(null);
-            mImageView.setBackgroundColor(getResources().getColor(R.color.palette_card_pic_init_bg));
             mPicButtons.setVisibility(View.VISIBLE);
-            mTitleButtons.setVisibility(View.GONE);
+            //mBottomButtons.setVisibility(View.GONE);
         }
     }
 
@@ -89,14 +87,14 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     
     public void showTitleButtons()
     {
-        mTitleButtons.setVisibility(View.VISIBLE);
+        mBottomButtons.setVisibility(View.VISIBLE);
         
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_then_out_anim);
         anim.setAnimationListener(new AnimationListener(){
             @Override
             public void onAnimationEnd(Animation animation)
             {
-                mTitleButtons.setVisibility(View.GONE);
+                mBottomButtons.setVisibility(View.GONE);
             }
             
             @Override
@@ -106,7 +104,7 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
             public void onAnimationRepeat(Animation animation){}
         });
         
-        mTitleButtons.startAnimation(anim);
+        mBottomButtons.startAnimation(anim);
     }
     
     @Override
@@ -114,8 +112,8 @@ public class CaptureFragment extends BaseFragment implements AdapterView.OnItemC
     {
         if (v == mImageView)
         {
-            if (mTitleButtons.getVisibility() == View.GONE)
-                showTitleButtons();
+            //if (mBottomButtons.getVisibility() == View.GONE)
+            //    showTitleButtons();
         }
     }
 

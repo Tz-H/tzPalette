@@ -4,39 +4,31 @@
     android:id="@+id/fragment_capture"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_photogray"
+    android:background="@color/palette_card_bg"
     tools:context=".ui.CaptureFragment" >
 
     <RelativeLayout
-        android:id="@+id/frame_palette_card"
-        android:layout_width="300dp"
-        android:layout_height="340dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/palette_card_frame">
-        
+        android:id="@+id/capture_view_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/capture_view_bottom_bar" >
+
         <ImageView
-            android:id="@+id/img_palette_picture"
+            android:id="@+id/capture_view_picture"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
-            android:background="@color/palette_card_pic_init_bg"
             android:contentDescription="@string/img_pic_desc" />
 
         <LinearLayout
-           android:id="@+id/pic_buttons"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignLeft="@+id/img_palette_picture"
-           android:layout_alignRight="@+id/img_palette_picture"
-           android:layout_alignTop="@+id/img_palette_picture"
-           android:layout_alignBottom="@+id/img_palette_picture"
-           android:gravity="center"
-           android:orientation="horizontal" >
-           
+            android:id="@+id/pic_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
             <ImageButton
                 android:id="@+id/btn_takePhoto"
                 android:layout_width="60dp"
@@ -45,7 +37,7 @@
                 android:contentDescription="@string/btn_takePhoto_desc"
                 android:onClick="takePhoto"
                 android:soundEffectsEnabled="true" />
-            
+
             <ImageView
                 android:id="@+id/pic_separator"
                 android:layout_width="2dp"
@@ -54,8 +46,8 @@
                 android:layout_marginRight="20dp"
                 android:background="@android:drawable/divider_horizontal_bright"
                 tools:ignore="ContentDescription" />
-            
-            <ImageButton 
+
+            <ImageButton
                 android:id="@+id/btn_loadPicture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -63,10 +55,9 @@
                 android:contentDescription="@string/btn_loadPicture_desc"
                 android:onClick="loadPicture"
                 android:soundEffectsEnabled="true" />
-           
         </LinearLayout>
-    
-        <!-- 
+
+        <!--
         <TextView
             android:id="@+id/tv_palette_title"
             android:layout_width="fill_parent"
@@ -79,80 +70,76 @@
             android:textColor="@color/color_lightgray"
             android:textSize="18sp"
             android:textStyle="bold"/>
-         -->
-         
-        <LinearLayout
-           android:id="@+id/title_buttons"
-           android:layout_width="wrap_content"
-           android:layout_height="40dp"
-           android:layout_marginTop="1dp"
-           android:layout_marginRight="1dp"
-           android:paddingLeft="5dp"
-           android:paddingRight="5dp"
-           android:layout_alignParentRight="true"
-           android:gravity="center_vertical|right"
-           android:visibility="gone"
-           android:background="@color/color_darkgray"
-           android:orientation="horizontal">
-           
-            <ImageButton 
-                android:id="@+id/btn_analysis"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:background="@android:drawable/ic_menu_view"
-                android:contentDescription="@string/btn_analysis_desc"
-                android:onClick="analysisPicture"
-                android:soundEffectsEnabled="true" />
-           
-            <ImageButton 
-                android:id="@+id/btn_save"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:background="@android:drawable/ic_menu_save"
-                android:contentDescription="@string/btn_save_desc"
-                android:onClick="savePalette"
-                android:soundEffectsEnabled="true" />
-        
-            <ImageButton
-                android:id="@+id/btn_clear"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:background="@android:drawable/ic_menu_close_clear_cancel"
-                android:contentDescription="@string/btn_clear_desc"
-                android:onClick="clearCaptureView"
-                android:soundEffectsEnabled="true" />
-           
-        </LinearLayout>
+        -->
+    </RelativeLayout>
     
-        <LinearLayout 
-            android:id="@+id/bottom_colors_bar"
+    <LinearLayout
+        android:id="@+id/bottom_colors_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/capture_view_bottom_bar"
+        android:background="@color/color_semitransparent2"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        
+        <ImageButton
+            android:id="@+id/btn_analysis"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:src="@android:drawable/ic_menu_view"
+            android:contentDescription="@string/btn_analysis_desc"
+            android:onClick="analysisPicture"
+            android:soundEffectsEnabled="true" />
+        
+       <ImageView
+            android:layout_width="1dp"
+            android:layout_height="36dp"
+            android:layout_margin="2dp"
+            android:background="@android:drawable/divider_horizontal_bright"
+            tools:ignore="ContentDescription" />
+
+        <com.tzapps.tzpalette.ui.PaletteColorGrid
+            android:id="@+id/palette_card_colors"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/palette_card_colors_bar_bg"
+            android:columnWidth="35dp"
             android:gravity="center"
-            android:orientation="vertical" >
-            
-            <com.tzapps.tzpalette.ui.PaletteColorGrid
-                android:id="@+id/palette_card_colors"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:paddingTop="5dp"
-                android:horizontalSpacing="2dp"
-                android:verticalSpacing="5dp"
-                android:columnWidth="35dp"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth" />
-            
-        </LinearLayout>
-    
-    </RelativeLayout>
+            android:horizontalSpacing="2dp"
+            android:numColumns="auto_fit"
+            android:paddingTop="5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/capture_view_bottom_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:background="@color/color_gray"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription="@string/btn_clear_desc"
+            android:onClick="clearCaptureView"
+            android:soundEffectsEnabled="true" />
+        
+        <ImageButton
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_save"
+            android:contentDescription="@string/btn_save_desc"
+            android:onClick="savePalette"
+            android:soundEffectsEnabled="true" />
+        
+    </LinearLayout>
 
 </RelativeLayout>

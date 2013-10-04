@@ -379,7 +379,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mCurrentPalette == null)
             return;
 
-        View paletteCard = (View) findViewById(R.id.frame_palette_card);
+        View paletteCard = (View) findViewById(R.id.capture_view_frame);
         Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
 
         assert (bitmap != null);
@@ -403,7 +403,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mCurrentPalette == null)
             return;
 
-        View paletteCard = (View) findViewById(R.id.frame_palette_card);
+        View paletteCard = (View) findViewById(R.id.capture_view_bottom_bar);
         Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
 
         assert (bitmap != null);
