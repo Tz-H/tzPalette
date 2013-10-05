@@ -260,6 +260,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 Log.d(TAG, "View palette item (position=" + position + " , id=" + dataId + ")");
                 openPaletteCardView(dataId);
                 break;
+                
+            case Edit:
+                Log.d(TAG, "Edit palette item (position=" + position + " , id=" + dataId + ")");
+                //TODO: open edit activity
+                break;
         }
     }
 

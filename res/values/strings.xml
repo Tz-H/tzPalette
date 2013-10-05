@@ -19,6 +19,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_open">Open</string>
     <string name="action_view">View</string>
+    <string name="action_edit">Edit</string>
     <string name="action_sendEmail">Send Email</string>
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
