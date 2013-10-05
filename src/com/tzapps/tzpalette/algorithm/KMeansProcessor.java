@@ -2,6 +2,8 @@ package com.tzapps.tzpalette.algorithm;
 
 import java.util.Random;
 
+import com.tzapps.tzpalette.debug.MyDebug;
+
 import android.util.Log;
 import android.util.TimingLogger;
 
@@ -255,9 +257,10 @@ public class KMeansProcessor
         {
             ClusterCenter oldCenter = oldCenters[i];
             ClusterCenter newCenter = newCenters[i];
-                     
-            Log.d(TAG, "cluster " + i + " old " + oldCenter.toString()
-                       + ", new " + newCenter.toString());
+            
+            if (MyDebug.LOG)
+                Log.d(TAG, "cluster " + i + " old " + oldCenter.toString()
+                        + ", new " + newCenter.toString());
             
             if (!ClusterCenter.equals(oldCenter, newCenter, deviation))
                 return false;

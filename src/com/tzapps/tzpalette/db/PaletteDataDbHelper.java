@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteThumbEntry;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteDataDbHelper extends SQLiteOpenHelper
 {
@@ -58,7 +59,8 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.w(TAG, "Upgrading database from version " + oldVersion + " to " 
+        if (MyDebug.LOG)
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " 
                    + newVersion + ", which will destroy all old data");
         // The upgrade policy is to simply to discard the data and start over
         db.execSQL(SQL_DELETE_PALETTE_TABLE);
