@@ -21,7 +21,7 @@ import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.data.PaletteDataUpdatedComparator;
+import com.tzapps.tzpalette.data.PaletteDataComparator;
 
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
 {
@@ -108,7 +108,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             mViewPager = pager;
             
             dataList = PaletteDataHelper.getInstance(mContext).getAllData();
-            Collections.sort(dataList, new PaletteDataUpdatedComparator());
+            Collections.sort(dataList, new PaletteDataComparator.UpdatedComparator());
             
             mViewPager.setAdapter(this);
         }

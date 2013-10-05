@@ -27,7 +27,7 @@ import com.tzapps.common.ui.BaseListFragment;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.data.PaletteDataUpdatedComparator;
+import com.tzapps.tzpalette.data.PaletteDataComparator;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
@@ -109,7 +109,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     public void refresh()
     {
-        mAdapter.sort(new PaletteDataUpdatedComparator());
+        mAdapter.sort(new PaletteDataComparator.UpdatedComparator());
         mAdapter.notifyDataSetChanged();
     }
     
@@ -129,7 +129,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
         Log.d(TAG, "palette data " + data.getId() + " added");
 
-        mAdapter.sort(new PaletteDataUpdatedComparator());
+        mAdapter.sort(new PaletteDataComparator.UpdatedComparator());
         mAdapter.notifyDataSetChanged();
     }
 
