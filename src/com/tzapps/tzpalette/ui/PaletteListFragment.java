@@ -109,7 +109,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     public void refresh()
     {
-        mAdapter.sort(new PaletteDataComparator.UpdatedComparator());
+        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
         mAdapter.notifyDataSetChanged();
     }
     
@@ -129,7 +129,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
         Log.d(TAG, "palette data " + data.getId() + " added");
 
-        mAdapter.sort(new PaletteDataComparator.UpdatedComparator());
+        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
         mAdapter.notifyDataSetChanged();
     }
 

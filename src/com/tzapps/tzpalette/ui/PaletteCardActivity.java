@@ -108,7 +108,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             mViewPager = pager;
             
             dataList = PaletteDataHelper.getInstance(mContext).getAllData();
-            Collections.sort(dataList, new PaletteDataComparator.UpdatedComparator());
+            Collections.sort(dataList, new PaletteDataComparator.UpdatedTime());
             
             mViewPager.setAdapter(this);
         }

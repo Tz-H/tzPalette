@@ -6,10 +6,10 @@ import java.util.Comparator;
 public final class PaletteDataComparator
 {
     /**
-     * Compare palatte data by the updated time to put the data which 
-     * latest updated at the top
+     * Compare palatte data by the updated time to put the latest updated 
+     * palette data at the top
      */
-    public static class UpdatedComparator implements Comparator<PaletteData>
+    public static class UpdatedTime implements Comparator<PaletteData>
     {
         @Override
         public int compare(PaletteData leftData, PaletteData rightData)
