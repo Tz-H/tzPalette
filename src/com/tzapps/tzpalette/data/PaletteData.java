@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -13,10 +14,10 @@ import android.util.Log;
 
 public class PaletteData implements Parcelable
 {
+    private static final String TAG = "PaletteData";
+    
     public static final int THUMB_WIDTH_MAX = 500;
     public static final int THUMB_HEIGHT_MAX = 500;
-    
-    private static final String TAG = "PaletteData";
        
     private long   id;
     private long   mUpdated;
@@ -66,7 +67,8 @@ public class PaletteData implements Parcelable
         /*
          * Reconstruct from the Parcel
          */
-        Log.v(TAG, "ParcelData(Parcel source): put back parcel data");
+        if (MyDebug.LOG)
+            Log.v(TAG, "ParcelData(Parcel source): put back parcel data");
         
         id = source.readLong();
         mUpdated = source.readLong();
@@ -85,7 +87,8 @@ public class PaletteData implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        Log.v(TAG, "writeToParcel..." + flags);
+        if (MyDebug.LOG)
+            Log.v(TAG, "writeToParcel..." + flags);
         
         dest.writeLong(id);
         dest.writeLong(mUpdated);

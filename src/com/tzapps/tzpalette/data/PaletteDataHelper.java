@@ -16,6 +16,7 @@ import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
 import com.tzapps.tzpalette.algorithm.KMeansProcessor;
 import com.tzapps.tzpalette.db.PaletteDataSource;
+import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.SettingsFragment;
 
 public class PaletteDataHelper
@@ -169,7 +170,8 @@ public class PaletteDataHelper
         
         boolean enableKpp = sp.getBoolean(SettingsFragment.KEY_PREF_ENABLE_KPP, true);
         
-        Log.d(TAG, "analysis: numOfColors=" + numOfColors + " deviation=" + deviation + " dataType=" + dataType + " enableKpp=" + enableKpp);
+        if (MyDebug.LOG)
+            Log.d(TAG, "analysis: numOfColors=" + numOfColors + " deviation=" + deviation + " dataType=" + dataType + " enableKpp=" + enableKpp);
         
         analysis(data, reset, numOfColors, deviation, dataType, enableKpp);
     }
@@ -187,7 +189,8 @@ public class PaletteDataHelper
      */
     public void analysis(PaletteData data, boolean reset, int numOfColors, int deviation, PaletteDataType dataType, boolean enableKpp)
     {
-        Log.d(TAG, "palette data analysis()");
+        if (MyDebug.LOG)
+            Log.d(TAG, "palette data analysis()");
         
         Bitmap bitmap;
         
@@ -204,7 +207,8 @@ public class PaletteDataHelper
         
         if (bitmap == null)
         {
-            Log.e(TAG, "cannot load a picture from palette data!");
+            if (MyDebug.LOG)
+                Log.e(TAG, "cannot load a picture from palette data!");
             return;
         }
         
