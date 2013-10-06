@@ -51,6 +51,9 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         else if (imageUrl != null)
         {
             handlePicture(imageUrl);
+            
+            // cleanup the data so we will not re-handle the picture when rotate the screen
+            getIntent().setData(null);
         }
         else
         {
@@ -68,8 +71,6 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new PaletteEditFragment())
                 .commit();
-        
-
         
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -112,7 +113,6 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         return super.onOptionsItemSelected(item);
     }
     
-
     public void onClick(View view)
     {
         switch (view.getId())
@@ -264,7 +264,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             cursor.close();
         }
         
-        //TODO: sometimes we cannot parse and get image file name correctly
+        // FIXME: sometimes we cannot parse and get image file name correctly
         if (StringUtils.isEmpty(filename))
             filename = getResources().getString(R.string.palette_title_default);
         
