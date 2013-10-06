@@ -113,6 +113,25 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         updateEditVeiw(true);
     }
     
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+
+        if (mCurrentData != null)
+            outState.putParcelable("currentPaletteData", mCurrentData);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mCurrentData = savedInstanceState.getParcelable("currentPaletteData");
+
+        updateEditVeiw(true);
+    }
+    
     /** Called when the user performs the Analysis action */
     private void analysisPicture()
     {
