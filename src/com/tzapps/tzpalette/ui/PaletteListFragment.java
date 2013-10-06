@@ -239,9 +239,13 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             colors.setFocusable(false);
             colors.setEnabled(false);
             
-            // clean up the current thumb and reload it in thumb update task
-            thumb.setImageBitmap(null);
-            new PaletteThumbUpdateTask(mContext, thumb).execute(data);
+            if (!data.getImageUrl().equals((String)thumb.getTag()))
+            {
+                // clean up the current thumb and reload it in thumb update task
+                thumb.setImageBitmap(null);
+                thumb.setTag(data.getImageUrl());
+                new PaletteThumbUpdateTask(mContext, thumb).execute(data);
+            }
         }
     }
     
