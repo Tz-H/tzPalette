@@ -238,24 +238,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         assert (bitmap != null);
 
         mCurrentData = new PaletteData();
-        
-        if (bitmap != null)
-        {
-            int orientation;
-            
-            /*
-             * This is a quick fix on picture orientation for the picture taken
-             * from the camera, as it will be always rotated to landscape 
-             * incorrectly even if we take it in portrait mode...
-             */
-            orientation = MediaHelper.getPictureOrientation(this, imageUrl);
-            
-            if (orientation != ExifInterface.ORIENTATION_NORMAL)
-                bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
-            
-            mCurrentData.setThumb(bitmap);
-        }
-        
+       
         //TODO something is still wrong on file title fetching logic
         mCurrentData.setTitle(getPictureTilteFromUri(imageUrl));
         mCurrentData.setImageUrl(imageUrl.toString());

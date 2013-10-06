@@ -15,13 +15,9 @@ import android.util.Log;
 public class PaletteData implements Parcelable
 {
     private static final String TAG = "PaletteData";
-    
-    public static final int THUMB_WIDTH_MAX = 500;
-    public static final int THUMB_HEIGHT_MAX = 500;
        
     private long   id;
     private long   mUpdated;
-    private Bitmap mThumb;
     private String mTitle;
     private String mImageUrl;
     private List<Integer> mColors;
@@ -54,7 +50,6 @@ public class PaletteData implements Parcelable
     {
         id     = -1;
         mTitle = title;
-        mThumb = thumb;
         mColors = new ArrayList<Integer>();
     }
     
@@ -74,7 +69,6 @@ public class PaletteData implements Parcelable
         mUpdated = source.readLong();
         mTitle = source.readString();
         mImageUrl = source.readString();
-        mThumb = source.readParcelable(Bitmap.class.getClassLoader());
         source.readList(mColors, Integer.class.getClassLoader());
     }
     
@@ -94,28 +88,7 @@ public class PaletteData implements Parcelable
         dest.writeLong(mUpdated);
         dest.writeString(mTitle);
         dest.writeString(mImageUrl);
-        dest.writeParcelable(mThumb, PARCELABLE_WRITE_RETURN_VALUE);
         dest.writeList(mColors);
-    }
-    
-    public void setThumb(Bitmap thumb)
-    {
-        if (thumb == null)
-        {
-            mThumb.recycle();
-            mThumb = null;
-            return;
-        }
-        
-        if (thumb.getWidth() > THUMB_WIDTH_MAX || thumb.getHeight() > THUMB_HEIGHT_MAX)
-            mThumb = BitmapUtils.resizeBitmapToFitFrame(thumb, THUMB_WIDTH_MAX, THUMB_HEIGHT_MAX);
-        else
-            mThumb = thumb;
-    }
-    
-    public Bitmap getThumb()
-    {
-        return mThumb;
     }
     
     public void addColor(int color)
@@ -178,7 +151,6 @@ public class PaletteData implements Parcelable
         mUpdated  = -1;
         mTitle    = null;
         mImageUrl = null;
-        setThumb(null);
         clearColors();
     }
 
@@ -232,7 +204,6 @@ public class PaletteData implements Parcelable
               .append("title=").append(mTitle).append(",")
               .append("colors=").append(Arrays.toString(getColors())).append(",")
               .append("imageUrl=").append(mImageUrl).append(",")
-              .append("thumb=").append(mThumb)
               .append(" ]");
         
         return buffer.toString();

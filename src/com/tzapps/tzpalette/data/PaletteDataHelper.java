@@ -201,7 +201,7 @@ public class PaletteDataHelper
         if (data.getImageUrl() != null)
             bitmap = BitmapUtils.getBitmapFromUri(mContext, Uri.parse(data.getImageUrl()));
         else
-            bitmap = data.getThumb();
+            bitmap = getThumb(data.getId());
         
         assert(bitmap != null);
         

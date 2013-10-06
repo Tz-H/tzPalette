@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -18,11 +19,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.util.Log;
 
 public class PaletteDataSource
 {
     private static final String TAG = "PaletteDataSource";
+    
+    public static final int THUMB_WIDTH_MAX = 512;
+    public static final int THUMB_HEIGHT_MAX = 512;
     
     private Context mContext;
     // Database fields
@@ -98,10 +104,36 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         // Insert the thumb into the thumb table
-        addThumb(insertId, data.getThumb());
+        addThumb(insertId, getThumb(data.getImageUrl()));
         
         if (MyDebug.LOG)
             Log.d(TAG, "PaletteData saved with id:" + insertId);
+    }
+    
+    private Bitmap getThumb(String imageUrl)
+    {
+        Uri uri = Uri.parse(imageUrl);
+        Bitmap bitmap = BitmapUtils.getBitmapFromUri(mContext, uri);
+        
+        if (bitmap != null)
+        {
+            int orientation;
+            
+            /*
+             * This is a quick fix on picture orientation for the picture taken
+             * from the camera, as it will be always rotated to landscape 
+             * incorrectly even if we take it in portrait mode...
+             */
+            orientation = MediaHelper.getPictureOrientation(mContext, uri);
+            
+            if (orientation != ExifInterface.ORIENTATION_NORMAL)
+                bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+            
+            if (bitmap.getWidth() > THUMB_WIDTH_MAX || bitmap.getHeight() > THUMB_HEIGHT_MAX)
+                bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, THUMB_WIDTH_MAX, THUMB_HEIGHT_MAX);
+        }
+        
+        return bitmap;
     }
     
     private void addThumb(long dataId, Bitmap thumb)
@@ -110,7 +142,6 @@ public class PaletteDataSource
         ContentValues values = new ContentValues();
         
         values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
-        
         values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
         
         // Insert the thumb into database...
@@ -147,7 +178,7 @@ public class PaletteDataSource
         if (updateThumb)
         {
             values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
-            updateThumb(id, data.getThumb());
+            updateThumb(id, getThumb(data.getImageUrl()));
         }
         
         // Issue SQL statement
