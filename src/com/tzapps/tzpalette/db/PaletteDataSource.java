@@ -72,9 +72,10 @@ public class PaletteDataSource
     /**
      * insert a new PaletteData record into db
      * 
-     * @param data         the palette data to save
+     * @param  data         the palette data to save
+     * @return id           the inserted id in database
      */
-    public void add(PaletteData data)
+    public long add(PaletteData data)
     {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -108,6 +109,8 @@ public class PaletteDataSource
         
         if (MyDebug.LOG)
             Log.d(TAG, "PaletteData saved with id:" + insertId);
+        
+        return insertId;
     }
     
     private Bitmap getThumb(String imageUrl)

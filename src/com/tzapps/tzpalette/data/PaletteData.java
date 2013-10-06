@@ -208,4 +208,18 @@ public class PaletteData implements Parcelable
         
         return buffer.toString();
     }
+
+    /**
+     * Copy palette data values from an indicated one
+     * 
+     * @param data the palette data to copy
+     */
+    public void copy(PaletteData data)
+    {
+        this.id        = data.id;
+        this.mColors   = data.mColors;
+        this.mTitle    = data.mTitle;
+        this.mImageUrl = data.mImageUrl;
+        this.mUpdated  = data.mUpdated;
+    }
 }

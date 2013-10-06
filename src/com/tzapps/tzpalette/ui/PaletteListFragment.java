@@ -135,10 +135,35 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
     public void remove(PaletteData data)
     {
-        mAdapter.remove(data);
+        for (int i = 0; i < mAdapter.getCount(); i++)
+        {
+            PaletteData d = mAdapter.getItem(i);
+            
+            if (d.getId() == data.getId())
+            {
+                mAdapter.remove(d);
+                break;
+            }
+        }
 
         Log.d(TAG, "palette data " + data.getId() + " removed");
-
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    public void update(PaletteData data)
+    {
+        for (int i = 0; i < mAdapter.getCount(); i++)
+        {
+            PaletteData d = mAdapter.getItem(i);
+            
+            if (d.getId() == data.getId())
+            {
+                d.copy(data);
+                break;
+            }
+        }
+        
+        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
         mAdapter.notifyDataSetChanged();
     }
     

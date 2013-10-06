@@ -3,9 +3,9 @@ package com.tzapps.tzpalette.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -25,6 +25,7 @@ import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteEditActivity extends Activity implements OnFragmentStatusChangedListener
 {
@@ -36,6 +37,27 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     private PaletteEditFragment mEditFragment;
     private ProgressDialog mProgresDialog;
     
+    private void init()
+    {
+        mDataHelper = PaletteDataHelper.getInstance(this);
+        
+        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_DATA_ID);
+        Uri imageUrl = getIntent().getData();
+        
+        if (dataId != -1)
+        {
+            mCurrentData = mDataHelper.get(dataId);
+        }
+        else if (imageUrl != null)
+        {
+            handlePicture(imageUrl);
+        }
+        else
+        {
+            if (MyDebug.LOG)
+                Log.e(TAG, "cannot initialize to get corrent palette data");
+        }
+    }
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -47,12 +69,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 .replace(android.R.id.content, new PaletteEditFragment())
                 .commit();
         
-        mDataHelper = PaletteDataHelper.getInstance(this);
-        
-        Uri imageUrl = getIntent().getData();
-        
-        if (imageUrl != null)
-            handlePicture(imageUrl);
+
         
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -60,6 +77,8 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             // Show the Up button in the action bar.
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        
+        init();
     }
     
     @Override
@@ -82,11 +101,11 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 return true;
                 
             case R.id.action_cancel:
-                onBackPressed();
+                doCancel();
                 return true;
                 
             case R.id.action_save:
-                savePaletteData();
+                doSave();
                 return true;
                 
         }
@@ -143,30 +162,53 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         new PaletteDataAnalysisTask().execute(mCurrentData);
     }
     
-    /** Called when the user performs the Save action */
-    private void savePaletteData()
+    /** Called when the user performs the Cancel action */
+    private void doCancel()
     {
-        Log.d(TAG, "save the palette");
+        if (MyDebug.LOG)
+            Log.d(TAG, "cancel the edit");
+        
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+    
+    /** Called when the user performs the Save action */
+    private void doSave()
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "save the edit");
 
         if (mCurrentData == null)
             return;
+        
+        long    id;
+        boolean addNew;
 
         if (mCurrentData.getId() == -1)
         {
-            mDataHelper.add(mCurrentData);
+            id = mDataHelper.add(mCurrentData);
+            addNew = true;
         }
         else
         {
             mDataHelper.update(mCurrentData, /*updateThumb*/false);
+            
+            id = mCurrentData.getId();
+            addNew = false;
         }
         
-        //TODO go back the main activity and refresh the palette item list view
+        Intent data = new Intent();
+        data.putExtra(MainActivity.PALETTE_DATA_ID, id);
+        data.putExtra(MainActivity.PALETTE_DATA_ADDNEW, addNew);
+        
+        setResult(RESULT_OK, data);
+        finish();
     }
     
     /** refresh edit fragment with persisted palette data */
     private void updateEditVeiw(boolean updatePicture)
     {
-        if (mEditFragment == null || mEditFragment == null)
+        if (mCurrentData == null || mEditFragment == null)
             return;
         
         if (updatePicture)
@@ -233,17 +275,11 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         assert(imageUrl != null);
         
-        Bitmap bitmap = BitmapUtils.getBitmapFromUri(this, imageUrl);
-        
-        assert (bitmap != null);
-
         mCurrentData = new PaletteData();
        
         //TODO something is still wrong on file title fetching logic
         mCurrentData.setTitle(getPictureTilteFromUri(imageUrl));
         mCurrentData.setImageUrl(imageUrl.toString());
-
-        updateEditVeiw(true);
         
         // start to analysis the picture immediately after loading it
         new PaletteDataAnalysisTask().execute(mCurrentData);

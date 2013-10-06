@@ -12,14 +12,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,8 +36,6 @@ import android.widget.Toast;
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.common.utils.BitmapUtils;
-import com.tzapps.common.utils.MediaHelper;
-import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -51,17 +46,24 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         OnClickPaletteItemOptionListener, OnClickPaletteItemListener
 {
     private final static String TAG = "MainActivity";
+    
+    public final static String PALETTE_DATA_ID = "com.tzapps.tzpalette.PaletteDataId";
+    public final static String PALETTE_DATA_ADDNEW = "com.tzapps.tzpalette.PaletteDataAddNew";
 
     private final static String FOLDER_HOME = "tzpalette";
 
     /** Called when the user clicks the TakePicture button */
-    static final int TAKE_PHOTE_RESULT = 1;
+    private static final int TAKE_PHOTE_RESULT = 1;
     /** Called when the user clicks the LoadPicture button */
-    static final int LOAD_PICTURE_RESULT = 2;
-    
-    public final static String PALETTE_DATA_ID = "com.tzapps.tzpalette.PaletteDataId";
+    private static final int LOAD_PICTURE_RESULT = 2;
+    /** Called when the user opens the Palette Edit view */
+    private static final int PALETTE_EDIT_RESULT = 3;
 
     private static final String TZPALETTE_FILE_PREFIX = "MyPalette";
+    
+    private static final int TAB_CAPTURE_VIEW_POSITION = 0;
+    private static final int TAB_PALETTE_LIST_POSITION = 1;
+    private static final int TAB_ABOUT_VIEW_POSITION   = 2;
 
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
@@ -94,9 +96,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class,null);
         // mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
         
-        // Open "My Palettes" view directly if we do have a few records in db
+        // Open palette list view directly if there has been already record in database
         if (mDataHelper.getDataCount() > 0)
-            mTabsAdapter.setSelectedTab(1);
+            mTabsAdapter.setSelectedTab(TAB_PALETTE_LIST_POSITION);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
@@ -123,7 +125,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+        outState.putInt("tab", mTabsAdapter.getSelectedNavigationIndex());
     }
 
     @Override
@@ -189,11 +191,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
             case R.id.action_settings:
                 openSettings();
-                // sharePalette(item.getActionView());
                 return true;
 
             case R.id.action_about:
-                //mTabsAdapter.setSelectedTab(2);
+                //mTabsAdapter.setSelectedTab(TAB_ABOUT_VIEW_POSITION);
                 return true;
 
             default:
@@ -237,7 +238,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 
             case Edit:
                 Log.d(TAG, "Edit palette item (position=" + position + " , id=" + dataId + ")");
-                //TODO: open edit activity
+                openEditView(dataId);
                 break;
         }
     }
@@ -502,16 +503,47 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                         openEditView(selectedImage);
                 }
                 break;
+                
+            case PALETTE_EDIT_RESULT:
+                if (resultCode == RESULT_OK)
+                {
+                    long dataId = intent.getLongExtra(PALETTE_DATA_ID, Long.valueOf(-1));
+                    boolean addNew = intent.getBooleanExtra(PALETTE_DATA_ADDNEW, false);
+                    
+                    PaletteData data = mDataHelper.get(dataId);
+                    
+                    if (data != null)
+                    {
+                        if (addNew)
+                            mPaletteListFragment.add(data);
+                        else
+                            mPaletteListFragment.update(data);
+                    }
+                    
+                    // navigate to the palette list view after saving/updating a palette data
+                    mTabsAdapter.setSelectedTab(TAB_PALETTE_LIST_POSITION);
+                }
+                break;
         }
+    }
+    
+    private void openEditView(long dataId)
+    {
+        Intent intent = new Intent(this, PaletteEditActivity.class);
+        
+        intent.putExtra(PALETTE_DATA_ID, dataId);
+        
+        startActivityForResult(intent, PALETTE_EDIT_RESULT);
     }
     
     private void openEditView(Uri selectedImage)
     {
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
+        intent.putExtra(PALETTE_DATA_ID, Long.valueOf(-1));
         intent.setData(selectedImage);
         
-        startActivity(intent);
+        startActivityForResult(intent, PALETTE_EDIT_RESULT);
     }
 
     /**
@@ -551,6 +583,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             mViewPager = pager;
             mViewPager.setAdapter(this);
             mViewPager.setOnPageChangeListener(this);
+        }
+
+        public int getSelectedNavigationIndex()
+        {
+            return mActionBar.getSelectedNavigationIndex();
         }
 
         public void setSelectedTab(int position)

@@ -63,13 +63,17 @@ public class PaletteDataHelper
         mDataSource.close();
     }
     
-    public void add(PaletteData data)
+    public long add(PaletteData data)
     {
+        long id = -1;
+        
         mDataSource.open(true);
         
-        mDataSource.add(data);
+        id = mDataSource.add(data);
         
         mDataSource.close();
+        
+        return id;
     }
     
     public Bitmap getThumb(long id)
