@@ -49,6 +49,11 @@
             android:label="@string/title_palette_card_view"
             android:parentActivityName="com.tzapps.tzpalette.ui.MainActivity" />
         
+        <activity 
+            android:name="com.tzapps.tzpalette.ui.PaletteEditActivity"
+            android:label="@string/title_palette_edit_view"
+            android:parentActivityName="com.tzapps.tzpalette.ui.MainActivity" />
+        
     </application>
 
 </manifest>

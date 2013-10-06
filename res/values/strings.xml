@@ -5,6 +5,7 @@
     
     <string name="title_settings_view">Settings</string>
     <string name="title_palette_card_view">Palette Card</string>
+    <string name="title_palette_edit_view">Edit Palette</string>
     
     <string name="action_takePhoto">Take a photo</string>
     <string name="action_loadPicture">Load a picture</string>
@@ -21,6 +22,7 @@
     <string name="action_view">View</string>
     <string name="action_edit">Edit</string>
     <string name="action_sendEmail">Send Email</string>
+    <string name="action_cancel">Cencel</string>
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     

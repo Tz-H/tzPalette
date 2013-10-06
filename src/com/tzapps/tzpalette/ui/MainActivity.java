@@ -620,7 +620,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                         mediaScanIntent.setData(selectedImage);
                         sendBroadcast(mediaScanIntent);
                         
-                        handlePicture(selectedImage);
+                        openEditView(selectedImage);
+                        //handlePicture(selectedImage);
                     }
                 }
                 break;
@@ -631,7 +632,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                     Uri selectedImage = data.getData();
 
                     if (selectedImage != null)
-                        handlePicture(selectedImage);
+                        openEditView(selectedImage);
+                        //handlePicture(selectedImage);
                 }
                 break;
 
@@ -671,6 +673,13 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             filename = getResources().getString(R.string.palette_title_default);
         
         return filename;
+    }
+    
+    private void openEditView(Uri selectedImage)
+    {
+        Intent intent = new Intent(this, PaletteEditActivity.class);
+        
+        startActivity(intent);
     }
 
     private void handlePicture(Uri selectedImage)
