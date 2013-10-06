@@ -9,8 +9,7 @@
     <RelativeLayout
         android:id="@+id/palette_edit_view_frame"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/palette_edit_view_bottom_bar" >
+        android:layout_height="fill_parent">
 
         <com.tzapps.common.ui.view.TouchImageView
             android:id="@+id/palette_edit_view_picture"
@@ -51,7 +50,7 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/palette_edit_view_colors_bar_frame"
         android:gravity="center"
         android:orientation="horizontal"
@@ -88,35 +87,6 @@
             android:paddingTop="5dp"
             android:stretchMode="columnWidth"
             android:verticalSpacing="5dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/palette_edit_view_bottom_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/color_gray"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/btn_clear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/btn_clear_desc"
-            android:onClick="onClick"
-            android:soundEffectsEnabled="true"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
-
-        <ImageButton
-            android:id="@+id/btn_save"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/btn_save_desc"
-            android:onClick="onClick"
-            android:soundEffectsEnabled="true"
-            android:src="@android:drawable/ic_menu_save" />
     </LinearLayout>
 
 </RelativeLayout>

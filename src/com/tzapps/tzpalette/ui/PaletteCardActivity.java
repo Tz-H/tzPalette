@@ -41,7 +41,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         
         mCardAdapter = new PaletteCardAdapter(this, mViewPager);
         
-        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_CARD_DATA_ID);
+        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_DATA_ID);
         mCardAdapter.setCurrentCard(dataId);
         
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs

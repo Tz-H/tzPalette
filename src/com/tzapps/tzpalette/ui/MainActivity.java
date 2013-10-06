@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     /** Called when the user clicks the LoadPicture button */
     static final int LOAD_PICTURE_RESULT = 2;
     
-    public final static String PALETTE_CARD_DATA_ID = "com.tzapps.tzpalette.PaletteCardDataId";
+    public final static String PALETTE_DATA_ID = "com.tzapps.tzpalette.PaletteDataId";
 
     private static final String TZPALETTE_FILE_PREFIX = "MyPalette";
 
@@ -320,7 +320,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         Intent intent = new Intent(this, PaletteCardActivity.class);
         
-        intent.putExtra(PALETTE_CARD_DATA_ID, dataId);
+        intent.putExtra(PALETTE_DATA_ID, dataId);
         startActivity(intent);
     }
 
@@ -600,7 +600,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
         // Check which request we are responding to
         switch (requestCode)
@@ -629,7 +629,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case LOAD_PICTURE_RESULT:
                 if (resultCode == RESULT_OK)
                 {
-                    Uri selectedImage = data.getData();
+                    Uri selectedImage = intent.getData();
 
                     if (selectedImage != null)
                         openEditView(selectedImage);
@@ -678,6 +678,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private void openEditView(Uri selectedImage)
     {
         Intent intent = new Intent(this, PaletteEditActivity.class);
+        
+        intent.setData(selectedImage);
         
         startActivity(intent);
     }

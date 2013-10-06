@@ -25,7 +25,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     private ImageView mImageView;
     private PaletteColorGrid mColoursGrid;
-    private View mBottomBar;
     private View mColorsBar;
     private TextView mTitle;
     
@@ -43,7 +42,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mImageView.setOnClickListener(this);
         
         mColorsBar = (View) view.findViewById(R.id.palette_edit_view_colors_bar);
-        mBottomBar = (View) view.findViewById(R.id.palette_edit_view_bottom_bar);
         mTitle = (TextView) view.findViewById(R.id.palette_edit_view_title);
         
         mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_edit_view_colors);
@@ -60,18 +58,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (mImageView == null)
             return;
         
-        if (bitmap != null)
-        {
-            mImageView.setImageBitmap(bitmap);
-            mBottomBar.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            mImageView.setImageBitmap(null);
-            mBottomBar.setVisibility(View.INVISIBLE);
-            mColorsBar.setVisibility(View.INVISIBLE);
-            mTitle.setVisibility(View.INVISIBLE);
-        }
+        mImageView.setImageBitmap(bitmap);
     }
 
     public void updateColors(int[] colors)
