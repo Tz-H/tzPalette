@@ -24,6 +24,7 @@
         
         <activity
             android:name="com.tzapps.tzpalette.ui.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:label="@string/app_name" >
             
             <intent-filter>
@@ -52,6 +53,7 @@
         <activity 
             android:name="com.tzapps.tzpalette.ui.PaletteEditActivity"
             android:label="@string/title_palette_edit_view"
+            android:windowSoftInputMode="adjustNothing"
             android:parentActivityName="com.tzapps.tzpalette.ui.MainActivity" />
         
     </application>
