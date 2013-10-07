@@ -24,6 +24,4 @@
         android:showAsAction="never"
         android:title="@string/action_sendEmail"/>
     
-
-
 </menu>

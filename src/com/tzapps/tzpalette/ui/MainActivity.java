@@ -135,26 +135,38 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         mTabsAdapter.setSelectedTab(savedInstanceState.getInt("tab", 0));
     }
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        //menu.clear();
+        return super.onPrepareOptionsMenu(menu);
+    }
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.capture_view_actions, menu);
+        
+        int position = mViewPager.getCurrentItem();
+        
+        switch (position)
+        {
+            case TAB_CAPTURE_VIEW_POSITION:
+                inflater.inflate(R.menu.capture_view_actions, menu);
+                break;
+                
+            case TAB_PALETTE_LIST_POSITION:
+                inflater.inflate(R.menu.palette_list_view_actions, menu);
+                break;
+                
+            case TAB_ABOUT_VIEW_POSITION:
+                inflater.inflate(R.menu.about_view_actions, menu);
+                break;
+        }
 
-        /*
-         * TODO adjust menu items dynamically based on: 1. the current tab 2. whether a palette data
-         * exists
-         */
-
-        // Locate MenuItem with ShareActionProvider
-        MenuItem item = menu.findItem(R.id.action_share);
-
-        // Fetch and store ShareActionProvider
-        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-
-        // TODO adjust the share item contents based on the palette data
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -545,6 +557,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         startActivityForResult(intent, PALETTE_EDIT_RESULT);
     }
+    
+    private void updateOptionMenu()
+    {
+        invalidateOptionsMenu();
+    }
 
     /**
      * This is a helper class that implements the management of tabs and all details of connecting a
@@ -555,7 +572,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
      * changes in tabs, and takes care of switch to the correct paged in the ViewPager whenever the
      * selected tab changes.
      */
-    public static class TabsAdapter extends FragmentPagerAdapter
+    public class TabsAdapter extends FragmentPagerAdapter
             implements ActionBar.TabListener, ViewPager.OnPageChangeListener
     {
         private final Context mContext;
@@ -563,7 +580,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         private final ViewPager mViewPager;
         private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
-        static final class TabInfo
+        final class TabInfo
         {
             private final Class<?> clss;
             private final Bundle args;
@@ -625,6 +642,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void onPageSelected(int position)
         {
             mActionBar.setSelectedNavigationItem(position);
+            
+            //Invalidate the options menu to re-create them
+            updateOptionMenu();
+            
         }
 
         @Override

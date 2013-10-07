@@ -23,6 +23,9 @@
     <string name="action_edit">Edit</string>
     <string name="action_sendEmail">Send Email</string>
     <string name="action_cancel">Cencel</string>
+    <string name="action_clearAll">Clear All</string>
+    <string name="action_sortBy">Sort By</string>
+    <string name="action_feedback">Feedback</string>
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     
@@ -68,6 +71,8 @@
     
     <string name="pref_enableKpp">Enable KPP</string>
     <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
+    
+    
     
     
 </resources>

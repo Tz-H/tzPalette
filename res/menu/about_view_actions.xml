@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
-    <!-- Re-pick colors. should always be in the overflow -->
-    <item
-        android:id="@+id/action_takePhoto"
-        android:showAsAction="never"
-        android:title="@string/action_takePhoto"/>
-    
-    <!-- Clear platte. should always be in the overflow -->
-    <item
-        android:id="@+id/action_loadPicture"
-        android:showAsAction="never"
-        android:title="@string/action_loadPicture"/>
+
+    <!-- Feedback. -->
+    <item 
+        android:id="@+id/action_feedback"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_feedback" />
     
     <!-- Settings. should always be in the overflow -->
     <item
