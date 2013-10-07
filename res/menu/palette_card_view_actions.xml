@@ -14,13 +14,6 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_edit" />
     
-    <!-- Delete palette card. should always be in the overflow -->
-    <item 
-        android:id="@+id/action_delete"
-        android:showAsAction="never"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="@string/action_delete" />
-    
     <!-- Export palette. should always be in the overflow -->
     <item 
         android:id="@+id/action_export"

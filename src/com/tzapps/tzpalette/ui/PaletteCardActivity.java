@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -22,13 +23,17 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.data.PaletteDataComparator;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
 {
     private static final String TAG = "PaletteCardActivity";
+
+    private static final int PALETTE_CARD_EDIT_RESULT = 0;
     
     private ViewPager mViewPager;
     private PaletteCardAdapter mCardAdapter;
+    private PaletteDataHelper mDataHelper;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -38,6 +43,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.palette_card_pager);
         setContentView(mViewPager);
+        
+        mDataHelper = PaletteDataHelper.getInstance(this);
         
         mCardAdapter = new PaletteCardAdapter(this, mViewPager);
         
@@ -71,22 +78,33 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        PaletteData data = null;
+        
         switch (item.getItemId())
         {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            
-            case R.id.action_sendEmail:
-                Log.d(TAG, "send email");
+                
+            case R.id.action_edit:
+                data = mCardAdapter.getCurrentData();
+                if (data != null)
+                {
+                    if (MyDebug.LOG)
+                        Log.d(TAG, "edit palette card: " + data);
+                    
+                    openEditView(data.getId());
+                }
                 return true;
                 
-            case R.id.action_delete:
-                Log.d(TAG, "delete palette card");
+            case R.id.action_sendEmail:
+                if (MyDebug.LOG)
+                    Log.d(TAG, "send email");
                 return true;
                 
             case R.id.action_export:
-                Log.d(TAG, "export palette card");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "export palette card");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -95,19 +113,50 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     @Override
     public void onFragmentViewCreated(Fragment fragment){}
     
-    public static class PaletteCardAdapter extends FragmentPagerAdapter
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        // Check which request we are responding to
+        switch (requestCode)
+        {
+            case PALETTE_CARD_EDIT_RESULT:
+                if (resultCode == RESULT_OK)
+                {
+                    long dataId = intent.getLongExtra(MainActivity.PALETTE_DATA_ID, Long.valueOf(-1));
+                    
+                    if (dataId != -1)
+                    {
+                        mCardAdapter.updateCard(dataId);
+                    }
+                }
+                break;
+        }
+    }
+    
+    private void openEditView(long dataId)
+    {
+        Intent intent = new Intent(this, PaletteEditActivity.class);
+        
+        intent.putExtra(MainActivity.PALETTE_DATA_ID, dataId);
+        
+        startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
+    }
+    
+    private class PaletteCardAdapter extends FragmentPagerAdapter
     {
         private Context mContext;
         private ViewPager mViewPager;
         private List<PaletteData> dataList;
+        private PaletteDataHelper mDataHelper;
 
         public PaletteCardAdapter(Activity activity, ViewPager pager)
         {
             super(activity.getFragmentManager());
             mContext = activity;
             mViewPager = pager;
+            mDataHelper = PaletteDataHelper.getInstance(mContext);
             
-            dataList = PaletteDataHelper.getInstance(mContext).getAllData();
+            dataList = mDataHelper.getAllData();
             Collections.sort(dataList, new PaletteDataComparator.UpdatedTime());
             
             mViewPager.setAdapter(this);
@@ -129,6 +178,27 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             }
             
             mViewPager.setCurrentItem(index);
+        }
+        
+        public PaletteData getCurrentData()
+        {
+            int index = mViewPager.getCurrentItem();
+            
+            return dataList.get(index);
+        }
+        
+        public void updateCard(long dataId)
+        {
+            for (PaletteData d : dataList)
+            {
+                if (d.getId() == dataId)
+                {
+                    d.copy(mDataHelper.get(dataId));
+                    Collections.sort(dataList, new PaletteDataComparator.UpdatedTime());
+                    notifyDataSetChanged();
+                    break;
+                }
+            }
         }
 
         @Override
