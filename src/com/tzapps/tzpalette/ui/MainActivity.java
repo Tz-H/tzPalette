@@ -61,9 +61,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
     private static final String TZPALETTE_FILE_PREFIX = "MyPalette";
     
-    private static final int TAB_CAPTURE_VIEW_POSITION = 0;
-    private static final int TAB_PALETTE_LIST_POSITION = 1;
-    private static final int TAB_ABOUT_VIEW_POSITION   = 2;
+    private static final int PAGE_CAPTURE_VIEW_POSITION = 0;
+    private static final int PAGE_PALETTE_LIST_POSITION = 1;
+    private static final int PAGE_ABOUT_VIEW_POSITION   = 2;
 
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
@@ -98,7 +98,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         // Open palette list view directly if there has been already record in database
         if (mDataHelper.getDataCount() > 0)
-            mTabsAdapter.setSelectedTab(TAB_PALETTE_LIST_POSITION);
+            mTabsAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
@@ -154,15 +154,15 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         switch (position)
         {
-            case TAB_CAPTURE_VIEW_POSITION:
+            case PAGE_CAPTURE_VIEW_POSITION:
                 inflater.inflate(R.menu.capture_view_actions, menu);
                 break;
                 
-            case TAB_PALETTE_LIST_POSITION:
+            case PAGE_PALETTE_LIST_POSITION:
                 inflater.inflate(R.menu.palette_list_view_actions, menu);
                 break;
                 
-            case TAB_ABOUT_VIEW_POSITION:
+            case PAGE_ABOUT_VIEW_POSITION:
                 inflater.inflate(R.menu.about_view_actions, menu);
                 break;
         }
@@ -533,7 +533,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                     }
                     
                     // navigate to the palette list view after saving/updating a palette data
-                    mTabsAdapter.setSelectedTab(TAB_PALETTE_LIST_POSITION);
+                    mTabsAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
                 }
                 break;
         }
@@ -610,6 +610,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void setSelectedTab(int position)
         {
             mActionBar.setSelectedNavigationItem(position);
+        }
+        
+        public void setSelectedPage(int position)
+        {
+            mViewPager.setCurrentItem(position);
         }
 
         public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args)
