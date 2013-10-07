@@ -347,7 +347,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         alert.setTitle(R.string.action_rename)
                 .setView(input)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
@@ -355,7 +355,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                         updatePaletteDataTitle(position, dataId, text);
                     }
                 })
-                .setNegativeButton("Cancel", null);
+                .setNegativeButton(android.R.string.cancel, null);
 
         final AlertDialog dialog = alert.create();
 

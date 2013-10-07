@@ -1,8 +1,10 @@
 package com.tzapps.tzpalette.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.View.OnFocusChangeListener;
+import android.widget.EditText;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.BitmapUtils;
@@ -120,6 +125,10 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             case R.id.btn_analysis:
                 analysisPicture();
                 break;
+                
+            case R.id.palette_edit_view_title:
+                showRenameDialog();
+                break;
         }
     }
 
@@ -162,6 +171,53 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         new PaletteDataAnalysisTask().execute(mCurrentData);
     }
     
+    /** Called when the user performs change title action */
+    private void showRenameDialog()
+    {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+
+        input.setText(mCurrentData.getTitle());
+        input.setSingleLine(true);
+        input.setSelectAllOnFocus(true);
+
+        alert.setTitle(R.string.title_palette_edit_view_rename)
+                .setView(input)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        String text = input.getText().toString();
+                        updatePaletteDataTitle(text);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null);
+
+        final AlertDialog dialog = alert.create();
+
+        input.setOnFocusChangeListener(new OnFocusChangeListener()
+            {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus)
+                {
+                    if (hasFocus)
+                    {
+                        dialog.getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
+                }
+            }
+        );
+
+        dialog.show();
+    }
+    
+    protected void updatePaletteDataTitle(String text)
+    {
+        mCurrentData.setTitle(text);
+        mEditFragment.udpateTitle(text);
+    }
+
     /** Called when the user performs the Cancel action */
     private void doCancel()
     {

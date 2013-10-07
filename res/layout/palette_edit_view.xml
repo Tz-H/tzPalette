@@ -19,30 +19,31 @@
         
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/palette_edit_view_title_bar"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:gravity="center|left"
-        android:orientation="vertical" >
+        android:layout_marginTop="20dp" >
 
         <TextView
             android:id="@+id/palette_edit_view_title"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="fill_parent"
             android:background="@drawable/palette_edit_view_title_bar_frame"
             android:gravity="center_vertical|left"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:clickable="true"
+            android:onClick="onClick"
             android:singleLine="true"
             android:text="@string/palette_title_default"
             android:textColor="@color/color_lightgray"
             android:textSize="16sp"
             android:textStyle="bold" />
-    </LinearLayout>
+        
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/palette_edit_view_colors_bar"

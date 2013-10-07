@@ -74,7 +74,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         Log.d(TAG, "update title" + title);
         mTitle.setText(title);
-        
         showTitleBar();
     }
     

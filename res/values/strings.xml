@@ -8,6 +8,7 @@
     <string name="title_about_view">About</string>
     <string name="title_palette_card_view">Palette Card</string>
     <string name="title_palette_edit_view">Edit Palette</string>
+    <string name="title_palette_edit_view_rename">Change Title</string>
     <string name="title_settings_view">Settings</string>
     
     <string name="action_takePhoto">Take a photo</string>
