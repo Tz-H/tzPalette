@@ -92,9 +92,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(actionBar.newTab().setText("Capture"), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText("My Palettes"), PaletteListFragment.class,null);
-        // mTabsAdapter.addTab(actionBar.newTab().setText("About"), CaptureFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_capture_view)), CaptureFragment.class, null);
+        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_palette_list_view)), PaletteListFragment.class,null);
+        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_about_view)), AboutFragment.class, null);
         
         // Open palette list view directly if there has been already record in database
         if (mDataHelper.getDataCount() > 0)
@@ -206,7 +206,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_about:
-                //mTabsAdapter.setSelectedTab(TAB_ABOUT_VIEW_POSITION);
+                mTabsAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
+                return true;
+                
+            case R.id.action_feedback:
+                //Send feedback email
                 return true;
 
             default:

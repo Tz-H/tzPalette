@@ -3,9 +3,12 @@
 
     <string name="app_name">tzPalette</string>
     
-    <string name="title_settings_view">Settings</string>
+    <string name="title_capture_view">Capture</string>
+    <string name="title_palette_list_view">My Palettes</string>
+    <string name="title_about_view">About</string>
     <string name="title_palette_card_view">Palette Card</string>
     <string name="title_palette_edit_view">Edit Palette</string>
+    <string name="title_settings_view">Settings</string>
     
     <string name="action_takePhoto">Take a photo</string>
     <string name="action_loadPicture">Load a picture</string>
@@ -26,6 +29,7 @@
     <string name="action_clearAll">Clear All</string>
     <string name="action_sortBy">Sort By</string>
     <string name="action_feedback">Feedback</string>
+    <string name="action_contactUs">Contact Us</string>
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     
@@ -72,7 +76,5 @@
     <string name="pref_enableKpp">Enable KPP</string>
     <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
     
-    
-    
-    
+    <string name="about_feedback"><u>Feedback</u></string>
 </resources>
