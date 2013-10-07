@@ -8,7 +8,7 @@
     android:layout_centerVertical="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/palette_card_bg" >
+    android:background="@color/app_bg" >
 
     <ImageView
         android:id="@+id/about_title_icon"

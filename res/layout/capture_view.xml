@@ -8,9 +8,8 @@
     android:layout_centerVertical="true"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="@color/palette_card_bg" >
+    android:background="@color/app_bg" >
 
-	
     <ImageButton
         android:id="@+id/btn_takePhoto"
         android:layout_width="60dp"

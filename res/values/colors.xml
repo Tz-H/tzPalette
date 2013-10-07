@@ -14,7 +14,7 @@
     <color name="color_lightgray">#F8F8F8</color>
     <color name="color_gray">#888888</color>
     
-    <color name="app_bg">#EEEAE7</color>
+    <color name="app_bg">#F3F1EC</color>
     
     <color name="palette_card_bg">#F3F1EC</color>
     <color name="palette_card_border">#222222</color>
@@ -22,8 +22,8 @@
     <color name="palette_card_title_bg">#222222</color>
     <color name="palette_card_colors_bar_bg">#FAFAFA</color>
     
-    <color name="palette_item_bg">#FCFCFC</color>
-    <color name="palette_item_bg_pressed">#EFEFEF</color>
+    <color name="palette_item_bg">#F3F1EC</color>
+    <color name="palette_item_bg_pressed">#BBDBE7</color>
     <color name="palette_item_border">#222222</color>
     
     <color name="capture_view_colors_bar_border">#ECECEC</color>
