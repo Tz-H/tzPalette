@@ -18,9 +18,11 @@ import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 
 public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener
 {

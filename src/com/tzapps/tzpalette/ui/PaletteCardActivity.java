@@ -23,7 +23,7 @@ import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.data.PaletteDataComparator;
+import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
@@ -35,6 +35,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     private ViewPager mViewPager;
     private PaletteCardAdapter mCardAdapter;
     private PaletteDataHelper mDataHelper;
+    
+    private Sorter mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -114,6 +116,16 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     @Override
     public void onFragmentViewCreated(Fragment fragment){}
     
+    public void setSorter(Sorter sorter)
+    {
+        mSorter = sorter;
+    }
+    
+    public Sorter getSorter()
+    {
+        return mSorter;
+    }
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
@@ -158,7 +170,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             mDataHelper = PaletteDataHelper.getInstance(mContext);
             
             dataList = mDataHelper.getAllData();
-            Collections.sort(dataList, new PaletteDataComparator.UpdatedTime());
+            Collections.sort(dataList, mSorter.getComparator());
             
             mViewPager.setAdapter(this);
         }
@@ -195,7 +207,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 if (d.getId() == dataId)
                 {
                     d.copy(mDataHelper.get(dataId));
-                    Collections.sort(dataList, new PaletteDataComparator.UpdatedTime());
+                    Collections.sort(dataList, mSorter.getComparator());
                     notifyDataSetChanged();
                     break;
                 }

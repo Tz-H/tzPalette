@@ -24,10 +24,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzapps.common.ui.BaseListFragment;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.data.PaletteDataComparator;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
@@ -35,6 +36,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     private PaletteDataAdapter<PaletteData> mAdapter;
     private OnClickPaletteItemListener mCallback;
+    private Sorter mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
     
     public interface OnClickPaletteItemListener
     {
@@ -109,7 +111,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     public void refresh()
     {
-        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
+        mAdapter.sort(mSorter.getComparator());
         mAdapter.notifyDataSetChanged();
     }
     
@@ -121,7 +123,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     public void addAll(List<PaletteData> dataList)
     {
         mAdapter.addAll(dataList);
-        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
+        mAdapter.sort(mSorter.getComparator());
     }
 
     public void add(PaletteData data)
@@ -130,7 +132,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 
         Log.d(TAG, "palette data " + data.getId() + " added");
 
-        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
+        mAdapter.sort(mSorter.getComparator());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -164,8 +166,19 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             }
         }
         
-        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
+        mAdapter.sort(mSorter.getComparator());
         mAdapter.notifyDataSetChanged();
+    }
+    
+    public void setSorter(Sorter sorter)
+    {
+        mSorter = sorter;
+        refresh();
+    }
+    
+    public Sorter getSorter()
+    {
+        return mSorter;
     }
     
     public PaletteData getItem(int position)

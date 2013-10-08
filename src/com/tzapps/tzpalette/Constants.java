@@ -1,5 +1,7 @@
 package com.tzapps.tzpalette;
 
+import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
+
 public final class Constants
 {
     /** The key name for passing palette data id between activities */
@@ -21,4 +23,7 @@ public final class Constants
     public static final int THUMB_WIDTH_MAX = 1024;
     /** The maximum thumb height stored in local db. */
     public static final int THUMB_HEIGHT_MAX = 1024;
+    
+     /** The default palette data sorter */
+    public static final Sorter PALETTE_DATA_SORTER_DEFAULT = Sorter.Title;
 }
