@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_version">0.0.1</string>
-    <string name="app_contact">tianzi.hou+tzpalette@gmail.com</string>
-    
     <string name="app_author">Tianzi Hou</string>
+    <string name="app_contact">tianzi.hou+tzpalette@gmail.com</string>
     <string name="app_author_webpage">LINKEDIN.COM/in/tianzihou</string>
     <string name="app_project_website">GITHUB.COM/TianziHou/tzPalette</string>
-    
 </resources>

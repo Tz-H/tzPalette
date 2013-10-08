@@ -81,5 +81,6 @@
     <string name="pref_enableKpp">Enable KPP</string>
     <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
     
+    <string name="about_version">ver %1$s</string>
     <string name="about_feedback"><u>Feedback</u></string>
 </resources>

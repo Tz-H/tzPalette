@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:textSize="18sp"
-        android:text="@string/app_version" />
+        android:text="@string/about_version" />
     
     <TextView
         android:id="@+id/about_author"

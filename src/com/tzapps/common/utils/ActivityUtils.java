@@ -3,8 +3,10 @@ package com.tzapps.common.utils;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.view.ViewConfiguration;
@@ -12,13 +14,13 @@ import android.view.ViewConfiguration;
 public class ActivityUtils
 {
     /**
-     * Activity util used to check if the indicated action 
-     * intent is available
+     * Activity util used to check if the indicated action intent is available
      * 
-     * @param context the context wants to call this intent
-     * @param action  the intent's action name
-     * @return true to indicate the intent is available,
-     *         otherwise false
+     * @param context
+     *            the context wants to call this intent
+     * @param action
+     *            the intent's action name
+     * @return true to indicate the intent is available, otherwise false
      */
     public static boolean isIntentAvailable(Context context, String action)
     {
@@ -28,15 +30,15 @@ public class ActivityUtils
                 packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
-    
+
     /**
-     * A hacky way to force the app to show the overflow options on action bar
-     * no matter whether the device have a physical menu button.
+     * A hacky way to force the app to show the overflow options on action bar no matter whether the
+     * device have a physical menu button.
      * 
-     * NOTE: it only works for native ActionBar introduced in Android 3.0, not
-     * ActionBarSherlock.
+     * NOTE: it only works for native ActionBar introduced in Android 3.0, not ActionBarSherlock.
      * 
-     * @param context The app context
+     * @param context
+     *            The app context
      */
     public static void forceToShowOverflowOptionsOnActoinBar(Context context)
     {
@@ -53,6 +55,27 @@ public class ActivityUtils
         catch (Exception ex)
         {
             // Ignore
+        }
+    }
+
+    /**
+     * Fetch the versionName from the AndroicManifest.xml
+     * 
+     * @param context
+     * @return the versionName
+     */
+    public static String getVersionName(Context context)
+    {
+        try
+        {
+            ComponentName comp = new ComponentName(context, context.getClass());
+            PackageInfo pinfo = context.getPackageManager()
+                    .getPackageInfo(comp.getPackageName(), 0);
+            return pinfo.versionName;
+        }
+        catch (android.content.pm.PackageManager.NameNotFoundException e)
+        {
+            return null;
         }
     }
 }
