@@ -22,7 +22,7 @@
         android:id="@+id/about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:paddingTop="5dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="30sp" />
@@ -31,27 +31,49 @@
         android:id="@+id/about_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:textSize="18sp"
         android:text="@string/app_version" />
     
     <TextView
         android:id="@+id/about_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:autoLink="web"
         android:text="@string/app_author" />
     
     <TextView 
         android:id="@+id/action_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:paddingTop="5dp"
         android:clickable="true"
         android:onClick="onClick"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/selector_clickable_text"
         android:text="@string/about_feedback" />
-
+    
+    <TextView 
+        android:id="@+id/about_linkedin_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:textSize="14sp"
+        android:autoLink="web"
+        android:text="@string/app_author_webpage"/>
+    
+    <TextView 
+        android:id="@+id/about_project_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:textSize="14sp"
+        android:autoLink="web"
+        android:text="@string/app_project_website"/>
+    
 </LinearLayout>
