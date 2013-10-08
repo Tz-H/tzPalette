@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnFocusChangeListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
@@ -129,6 +130,12 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 
             case R.id.palette_edit_view_title:
                 showRenameDialog();
+                break;
+                
+            case R.id.action_favourite:
+                CheckBox chk = (CheckBox)view;
+                boolean favourite = chk.isChecked();
+                mCurrentData.setFavourite(favourite);
                 break;
         }
     }
