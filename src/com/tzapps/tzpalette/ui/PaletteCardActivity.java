@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -48,7 +49,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         
         mCardAdapter = new PaletteCardAdapter(this, mViewPager);
         
-        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_DATA_ID);
+        long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
         mCardAdapter.setCurrentCard(dataId);
         
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
@@ -122,7 +123,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             case PALETTE_CARD_EDIT_RESULT:
                 if (resultCode == RESULT_OK)
                 {
-                    long dataId = intent.getLongExtra(MainActivity.PALETTE_DATA_ID, Long.valueOf(-1));
+                    long dataId = intent.getLongExtra(Constants.PALETTE_DATA_ID, Long.valueOf(-1));
                     
                     if (dataId != -1)
                     {
@@ -137,7 +138,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     {
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
-        intent.putExtra(MainActivity.PALETTE_DATA_ID, dataId);
+        intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
         
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }

@@ -27,6 +27,7 @@ import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.common.utils.StringUtils;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -46,7 +47,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         mDataHelper = PaletteDataHelper.getInstance(this);
         
-        long dataId = getIntent().getExtras().getLong(MainActivity.PALETTE_DATA_ID);
+        long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
         Uri imageUrl = getIntent().getData();
         
         if (dataId != -1)
@@ -254,8 +255,8 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         }
         
         Intent data = new Intent();
-        data.putExtra(MainActivity.PALETTE_DATA_ID, id);
-        data.putExtra(MainActivity.PALETTE_DATA_ADDNEW, addNew);
+        data.putExtra(Constants.PALETTE_DATA_ID, id);
+        data.putExtra(Constants.PALETTE_DATA_ADDNEW, addNew);
         
         setResult(RESULT_OK, data);
         finish();

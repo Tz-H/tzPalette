@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -46,11 +47,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         OnClickPaletteItemOptionListener, OnClickPaletteItemListener
 {
     private final static String TAG = "MainActivity";
-    
-    public final static String PALETTE_DATA_ID = "com.tzapps.tzpalette.PaletteDataId";
-    public final static String PALETTE_DATA_ADDNEW = "com.tzapps.tzpalette.PaletteDataAddNew";
-
-    private final static String FOLDER_HOME = "tzpalette";
 
     /** Called when the user clicks the TakePicture button */
     private static final int TAKE_PHOTE_RESULT = 1;
@@ -58,8 +54,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private static final int LOAD_PICTURE_RESULT = 2;
     /** Called when the user opens the Palette Edit view */
     private static final int PALETTE_EDIT_RESULT = 3;
-
-    private static final String TZPALETTE_FILE_PREFIX = "MyPalette";
     
     private static final int PAGE_CAPTURE_VIEW_POSITION = 0;
     private static final int PAGE_PALETTE_LIST_POSITION = 1;
@@ -299,7 +293,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         Intent intent = new Intent(this, PaletteCardActivity.class);
         
-        intent.putExtra(PALETTE_DATA_ID, dataId);
+        intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
         startActivity(intent);
     }
 
@@ -385,7 +379,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         // TODO make the share function work rather than just a trial version
 
-        String name = FOLDER_HOME + File.separator + "share";
+        String name = Constants.FOLDER_HOME + File.separator + "share";
 
         File file = BitmapUtils.saveBitmapToSDCard(bitmap, name);
 
@@ -409,7 +403,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (title == null)
             title = getResources().getString(R.string.palette_title_default);
 
-        BitmapUtils.saveBitmapToSDCard(bitmap, FOLDER_HOME + File.separator + title);
+        BitmapUtils.saveBitmapToSDCard(bitmap, Constants.FOLDER_HOME + File.separator + title);
 
         Toast.makeText(this, "Palette <" + title + "> has been exported", Toast.LENGTH_SHORT)
                 .show();
@@ -429,7 +423,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         File storageDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                FOLDER_HOME);
+                Constants.FOLDER_HOME);
 
         if (!storageDir.isDirectory())
             storageDir.mkdirs();
@@ -441,7 +435,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = TZPALETTE_FILE_PREFIX + "_" + timeStamp;
+        String imageFileName = Constants.TZPALETTE_FILE_PREFIX + "_" + timeStamp;
         File image = File.createTempFile(imageFileName, ".jpg", getAlbumDir());
 
         mCurrentPhotoPath = image.getAbsolutePath();
@@ -523,8 +517,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case PALETTE_EDIT_RESULT:
                 if (resultCode == RESULT_OK)
                 {
-                    long dataId = intent.getLongExtra(PALETTE_DATA_ID, Long.valueOf(-1));
-                    boolean addNew = intent.getBooleanExtra(PALETTE_DATA_ADDNEW, false);
+                    long dataId = intent.getLongExtra(Constants.PALETTE_DATA_ID, Long.valueOf(-1));
+                    boolean addNew = intent.getBooleanExtra(Constants.PALETTE_DATA_ADDNEW, false);
                     
                     PaletteData data = mDataHelper.get(dataId);
                     
@@ -547,7 +541,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
-        intent.putExtra(PALETTE_DATA_ID, dataId);
+        intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
         
         startActivityForResult(intent, PALETTE_EDIT_RESULT);
     }
@@ -556,7 +550,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
-        intent.putExtra(PALETTE_DATA_ID, Long.valueOf(-1));
+        intent.putExtra(Constants.PALETTE_DATA_ID, Long.valueOf(-1));
         intent.setData(selectedImage);
         
         startActivityForResult(intent, PALETTE_EDIT_RESULT);
