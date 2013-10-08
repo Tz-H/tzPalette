@@ -83,7 +83,7 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
             // need to write new SQL statement for each new column added
             switch (oldVersion)
             {
-                case 4:
+                case 3:
                     // Upgrade from version 3 to 4.
                     try
                     {
@@ -98,7 +98,7 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
                         
                     }
                     // fall through for further upgrades
-                case 5:
+                case 4:
                     // add more columns here
                     break;
                 
