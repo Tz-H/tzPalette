@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ColorUtils;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.algorithm.ClusterCenter;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
@@ -22,9 +23,6 @@ import com.tzapps.tzpalette.ui.SettingsFragment;
 public class PaletteDataHelper
 {
     private static final String TAG = "PaletteDataHelper";
-    
-    private static final int PICTURE_ANALYSIS_MAX_WIDTH  = 500;
-    private static final int PICTURE_ANALYSIS_MAX_HEIGHT = 500;
     
     private static PaletteDataHelper instance;
     
@@ -223,10 +221,13 @@ public class PaletteDataHelper
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         
+        int maxWidth = Constants.PICTURE_ANALYSIS_MAX_WIDTH;
+        int maxHeight = Constants.PICTURE_ANALYSIS_MAX_HEIGHT;
+        
         // scale the bitmap to limit its size, so the k-mean processor could have a reasonable process time
-        if (width > PICTURE_ANALYSIS_MAX_WIDTH || height > PICTURE_ANALYSIS_MAX_HEIGHT)
+        if (width > maxWidth || height > maxHeight )
         {
-            bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, PICTURE_ANALYSIS_MAX_WIDTH, PICTURE_ANALYSIS_MAX_HEIGHT);
+            bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, maxWidth, maxHeight);
             width = bitmap.getWidth();
             height = bitmap.getHeight();
         }

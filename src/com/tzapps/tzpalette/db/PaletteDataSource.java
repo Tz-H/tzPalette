@@ -7,6 +7,7 @@ import java.util.List;
 import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.common.utils.StringUtils;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.db.PaletteDataContract.PaletteDataEntry;
@@ -26,9 +27,6 @@ import android.util.Log;
 public class PaletteDataSource
 {
     private static final String TAG = "PaletteDataSource";
-    
-    public static final int THUMB_WIDTH_MAX = 512;
-    public static final int THUMB_HEIGHT_MAX = 512;
     
     private Context mContext;
     // Database fields
@@ -132,8 +130,11 @@ public class PaletteDataSource
             if (orientation != ExifInterface.ORIENTATION_NORMAL)
                 bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
             
-            if (bitmap.getWidth() > THUMB_WIDTH_MAX || bitmap.getHeight() > THUMB_HEIGHT_MAX)
-                bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, THUMB_WIDTH_MAX, THUMB_HEIGHT_MAX);
+            int maxWidth = Constants.THUMB_WIDTH_MAX;
+            int maxHeight = Constants.THUMB_HEIGHT_MAX;
+            
+            if (bitmap.getWidth() > maxWidth || bitmap.getHeight() > maxHeight)
+                bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, maxWidth, maxHeight);
         }
         
         return bitmap;
