@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tzapps.common.utils.BitmapUtils;
-import com.tzapps.tzpalette.debug.MyDebug;
-
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteData implements Parcelable
 {
@@ -21,6 +20,7 @@ public class PaletteData implements Parcelable
     private String mTitle;
     private String mImageUrl;
     private List<Integer> mColors;
+    private boolean isFavourite;
     
     public static final Parcelable.Creator<PaletteData> CREATOR = 
         new Parcelable.Creator<PaletteData>()
@@ -70,6 +70,8 @@ public class PaletteData implements Parcelable
         mTitle = source.readString();
         mImageUrl = source.readString();
         source.readList(mColors, Integer.class.getClassLoader());
+        
+        isFavourite = (source.readByte() != 0); // isFavourite == true if byte != 0
     }
     
     @Override
@@ -89,6 +91,8 @@ public class PaletteData implements Parcelable
         dest.writeString(mTitle);
         dest.writeString(mImageUrl);
         dest.writeList(mColors);
+        
+        dest.writeByte((byte)(isFavourite ? 1 : 0));
     }
     
     public void addColor(int color)
@@ -151,6 +155,7 @@ public class PaletteData implements Parcelable
         mUpdated  = -1;
         mTitle    = null;
         mImageUrl = null;
+        isFavourite = false;
         clearColors();
     }
 
@@ -194,6 +199,16 @@ public class PaletteData implements Parcelable
         mImageUrl = imageUrl;
     }
     
+    public boolean isFavourite()
+    {
+        return isFavourite;
+    }
+    
+    public void setFavourite(boolean favourite)
+    {
+        isFavourite = favourite;
+    }
+    
     @Override
     public String toString()
     {
@@ -204,6 +219,7 @@ public class PaletteData implements Parcelable
               .append("title=").append(mTitle).append(",")
               .append("colors=").append(Arrays.toString(getColors())).append(",")
               .append("imageUrl=").append(mImageUrl).append(",")
+              .append("isFavourite=").append(isFavourite)
               .append(" ]");
         
         return buffer.toString();
@@ -216,10 +232,11 @@ public class PaletteData implements Parcelable
      */
     public void copy(PaletteData data)
     {
-        this.id        = data.id;
-        this.mColors   = data.mColors;
-        this.mTitle    = data.mTitle;
-        this.mImageUrl = data.mImageUrl;
-        this.mUpdated  = data.mUpdated;
+        this.id          = data.id;
+        this.mColors     = data.mColors;
+        this.mTitle      = data.mTitle;
+        this.mImageUrl   = data.mImageUrl;
+        this.mUpdated    = data.mUpdated;
+        this.isFavourite = data.isFavourite;
     }
 }

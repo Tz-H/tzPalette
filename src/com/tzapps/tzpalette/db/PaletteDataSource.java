@@ -38,7 +38,8 @@ public class PaletteDataSource
             PaletteDataEntry.COLUMN_NAME_TITLE,
             PaletteDataEntry.COLUMN_NAME_COLORS,
             PaletteDataEntry.COLUMN_NAME_UPDATED,
-            PaletteDataEntry.COLUMN_NAME_IMAGEURL
+            PaletteDataEntry.COLUMN_NAME_IMAGEURL,
+            PaletteDataEntry.COLUMN_NAME_ISFAVOURITE
         };
     
     private String[] paletteThumbColumns =
@@ -91,6 +92,9 @@ public class PaletteDataSource
         
         long updated = System.currentTimeMillis();
         values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, updated);
+        
+        int is_favourite = data.isFavourite() ? 1 : 0;
+        values.put(PaletteDataEntry.COLUMN_NAME_ISFAVOURITE, is_favourite);
         
         // Insert the new row, returning the primary key values of the new row
         long insertId;
@@ -178,6 +182,9 @@ public class PaletteDataSource
         
         long updated = System.currentTimeMillis();
         values.put(PaletteDataEntry.COLUMN_NAME_UPDATED, updated);
+        
+        int is_favourite = data.isFavourite() ? 1 : 0;
+        values.put(PaletteDataEntry.COLUMN_NAME_ISFAVOURITE, is_favourite);
         
         if (updateThumb)
         {
@@ -378,6 +385,10 @@ public class PaletteDataSource
         
         String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_IMAGEURL));
         data.setImageUrl(imageUrl);
+        
+        int is_favourite = cursor.getInt(cursor.getColumnIndexOrThrow(PaletteDataEntry.COLUMN_NAME_ISFAVOURITE));
+        boolean favourite = (is_favourite != 0);
+        data.setFavourite(favourite);
         
         if (MyDebug.LOG)
             Log.d(TAG, "PaletteData fetched from db: " + data.toString());
