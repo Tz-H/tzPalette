@@ -15,6 +15,16 @@
         <item>DELETE</item>
     </string-array>
     
+    <string-array name="palette_data_sorter_entries">
+        <item>@string/action_sortBy_title</item>
+        <item>@string/action_sortBy_updated</item>
+    </string-array>
+    
+    <string-array name="palette_data_sorter_values">
+        <item>Title</item>
+        <item>Updated</item>
+    </string-array>
+    
     <array name="pref_analysisColorType_entries">
         <item>@string/pref_analysisColorType_rgb</item>
         <item>@string/pref_analysisColorType_hsv</item>

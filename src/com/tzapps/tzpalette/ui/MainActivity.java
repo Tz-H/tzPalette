@@ -39,12 +39,15 @@ import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.OnClickPaletteItemOptionListener;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment.OnClickPaletteDataSorterListener;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
-        OnClickPaletteItemOptionListener, OnClickPaletteItemListener
+        OnClickPaletteItemOptionListener, OnClickPaletteItemListener, OnClickPaletteDataSorterListener
 {
     private final static String TAG = "MainActivity";
 
@@ -63,7 +66,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private TabsAdapter mTabsAdapter;
 
     private String mCurrentPhotoPath;
+    
     private PaletteDataHelper mDataHelper;
+    private Sorter mDataSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
 
     private ShareActionProvider mShareActionProvider;
 
@@ -194,6 +199,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case R.id.action_loadPicture:
                 loadPicture();
                 return true;
+                
+            case R.id.action_sortBy:
+                PaletteDataSortByDialogFragment dialogFrag =
+                        PaletteDataSortByDialogFragment.newInstance(getString(R.string.action_sortBy));
+                dialogFrag.show(getFragmentManager(), "dialog");
+                return true;
 
             case R.id.action_settings:
                 openSettings();
@@ -252,6 +263,16 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 break;
         }
     }
+    
+    @Override
+    public void onPaletteDataSorterClicked(Sorter sorter)
+    {
+        Log.d(TAG, "sorter " + sorter + " selected");
+        
+        mDataSorter = sorter;
+        mPaletteListFragment.setSorter(sorter);
+    }
+
 
     public void onClick(View view)
     {
@@ -294,6 +315,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         Intent intent = new Intent(this, PaletteCardActivity.class);
         
         intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
+        intent.putExtra(Constants.PALETTE_DATA_SORTER_NAME, mDataSorter.getName());
         startActivity(intent);
     }
 
@@ -673,7 +695,4 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         public void onTabReselected(Tab tab, FragmentTransaction ft)
         {}
     }
-
-
-
 }

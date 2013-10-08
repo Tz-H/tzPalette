@@ -36,19 +36,24 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     private PaletteCardAdapter mCardAdapter;
     private PaletteDataHelper mDataHelper;
     
-    private Sorter mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
+    private Sorter mSorter;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         
+        String sorterName = getIntent().getExtras().getString(Constants.PALETTE_DATA_SORTER_NAME);
+        mSorter = Sorter.fromString(sorterName);
+        
+        if (mSorter == null)
+            mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
+        
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.palette_card_pager);
         setContentView(mViewPager);
         
         mDataHelper = PaletteDataHelper.getInstance(this);
-        
         mCardAdapter = new PaletteCardAdapter(this, mViewPager);
         
         long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
