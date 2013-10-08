@@ -232,7 +232,10 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             String dateStr = DateUtils.formatDateTime(mContext, data.getUpdated(), DateUtils.FORMAT_SHOW_TIME |
                                                                                    DateUtils.FORMAT_SHOW_DATE |
                                                                                    DateUtils.FORMAT_NUMERIC_DATE);
-            updated.setText(dateStr);
+            
+            String updatedStr = getString(R.string.palette_item_updated);
+            updatedStr = String.format(updatedStr, dateStr);
+            updated.setText(updatedStr);
             
             //disable the colors grid to make it not clickable
             colors.setColors(data.getColors());

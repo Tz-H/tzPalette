@@ -37,6 +37,8 @@
     <string name="palette_title_default">Untitled</string>
     <string name="palette_title_hint">Palette Name</string>
     
+    <string name="palette_item_updated">Updated by %1$s</string>
+    
     <string name="analysis_picture_in_process">Analysing...</string>
     
     <string name="img_pic_desc">The picture displayed in capture view</string>
