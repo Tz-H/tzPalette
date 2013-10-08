@@ -11,13 +11,16 @@ public final class PaletteDataContract
     /* Inner class that defines the palettes table contents */
     public static abstract class PaletteDataEntry implements BaseColumns
     {
-        public static final String TABLE_NAME           = "Palettes";
-        public static final String COLUMN_NAME_TITLE    = "title";
-        public static final String COLUMN_NAME_COLORS   = "colors";
-        public static final String COLUMN_NAME_UPDATED  = "updated";
-        public static final String COLUMN_NAME_IMAGEURL = "imageurl";
+        public static final String TABLE_NAME              = "Palettes";
+        public static final String COLUMN_NAME_TITLE       = "title";
+        public static final String COLUMN_NAME_COLORS      = "colors";
+        public static final String COLUMN_NAME_UPDATED     = "updated";
+        public static final String COLUMN_NAME_IMAGEURL    = "imageurl";
         
         public static final String COLUMN_NAME_NULLABLE = "title";
+        
+        // Added since version 4
+        public static final String COLUMN_NAME_ISFAVOURITE = "is_favourite";
     }
     
     /* Inner class that defines the thumbs table contents */

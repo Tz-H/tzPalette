@@ -105,7 +105,7 @@ public class KMeansProcessor
         {        
             /*
              * TODO: currently I just pick up the random cluster points as 
-             * the default process to get the intial cluster center points, 
+             * the default process to get the initial cluster center points, 
              * which is not a good solution and will cause the cluster result 
              * unstable.
              * 
