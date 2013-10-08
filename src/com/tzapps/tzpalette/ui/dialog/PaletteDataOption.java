@@ -1,6 +1,6 @@
-package com.tzapps.tzpalette.ui;
+package com.tzapps.tzpalette.ui.dialog;
 
-public enum PaletteItemOption
+public enum PaletteDataOption
 {
     View("View"),
     Edit("Edit"),
@@ -9,7 +9,7 @@ public enum PaletteItemOption
     
     private String name;    
     
-    private PaletteItemOption(String name)
+    private PaletteDataOption(String name)
     {
         this.name = name;
     }
@@ -19,11 +19,11 @@ public enum PaletteItemOption
         return this.name;
     }
     
-    public static PaletteItemOption fromString(String name)
+    public static PaletteDataOption fromString(String name)
     {
         if (name != null)
         {
-            for (PaletteItemOption option : PaletteItemOption.values())
+            for (PaletteDataOption option : PaletteDataOption.values())
             {
                 if (name.equalsIgnoreCase(option.name))
                     return option;

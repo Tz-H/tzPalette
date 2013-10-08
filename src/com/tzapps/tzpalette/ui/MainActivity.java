@@ -41,9 +41,11 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.ui.PaletteItemOptionsDialogFragment.OnClickPaletteItemOptionListener;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataOption;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment.OnClickPaletteItemOptionListener;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment.OnClickPaletteDataSorterListener;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
@@ -230,7 +232,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
 
     @Override
-    public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option)
+    public void onPaletteItemOptionClicked(int position, long dataId, PaletteDataOption option)
     {
         assert (mPaletteListFragment != null);
 
@@ -286,8 +288,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
                 Log.d(TAG, "Show options on palette data + " + data);
 
-                PaletteItemOptionsDialogFragment optionDialogFrag =
-                        PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
+                PaletteDataOptionsDialogFragment optionDialogFrag =
+                        PaletteDataOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
                 optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
                 
@@ -324,8 +326,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         Log.i(TAG, "palette data " + data.getId() + " long clicked");
         
-        PaletteItemOptionsDialogFragment optionDialogFrag =
-                PaletteItemOptionsDialogFragment.newInstance(data.getTitle(), position, dataId);
+        PaletteDataOptionsDialogFragment optionDialogFrag =
+                PaletteDataOptionsDialogFragment.newInstance(data.getTitle(), position, dataId);
         optionDialogFrag.show(getFragmentManager(), "dialog");
     }
 

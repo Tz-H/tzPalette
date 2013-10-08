@@ -1,4 +1,4 @@
-package com.tzapps.tzpalette.ui;
+package com.tzapps.tzpalette.ui.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 
 import com.tzapps.tzpalette.R;
 
-public class PaletteItemOptionsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener
+public class PaletteDataOptionsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener
 {
     private OnClickPaletteItemOptionListener mCallback;
     
     public interface OnClickPaletteItemOptionListener
     {
-        public void onPaletteItemOptionClicked(int position, long dataId, PaletteItemOption option);
+        public void onPaletteItemOptionClicked(int position, long dataId, PaletteDataOption option);
     }
     
     private int mPosition;
@@ -27,9 +27,9 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     private String mOptionEntries[];
     private String mOptionValues[];
     
-    public static PaletteItemOptionsDialogFragment newInstance(String title, int position, long dataId)
+    public static PaletteDataOptionsDialogFragment newInstance(String title, int position, long dataId)
     {
-        PaletteItemOptionsDialogFragment frag = new PaletteItemOptionsDialogFragment();
+        PaletteDataOptionsDialogFragment frag = new PaletteDataOptionsDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putInt("position", position);
@@ -88,6 +88,6 @@ public class PaletteItemOptionsDialogFragment extends DialogFragment implements 
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        mCallback.onPaletteItemOptionClicked(mPosition, mDataId, PaletteItemOption.fromString(mOptionValues[which]));
+        mCallback.onPaletteItemOptionClicked(mPosition, mDataId, PaletteDataOption.fromString(mOptionValues[which]));
     }
 }
