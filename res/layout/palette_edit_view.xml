@@ -43,7 +43,7 @@
             android:textStyle="bold" />
         
         <CheckBox
-            android:id="@+id/action_favourite"
+            android:id="@+id/palette_edit_view_favourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

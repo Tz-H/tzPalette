@@ -132,7 +132,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 showRenameDialog();
                 break;
                 
-            case R.id.action_favourite:
+            case R.id.palette_edit_view_favourite:
                 CheckBox chk = (CheckBox)view;
                 boolean favourite = chk.isChecked();
                 mCurrentData.setFavourite(favourite);
@@ -299,6 +299,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             }
         }
         
+        mEditFragment.updateFavourite(mCurrentData.isFavourite());
         mEditFragment.updateColors(mCurrentData.getColors());
         mEditFragment.udpateTitle(mCurrentData.getTitle());
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.tzapps.common.ui.BaseFragment;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
 {
@@ -27,6 +29,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     private PaletteColorGrid mColoursGrid;
     private View mColorsBar;
     private TextView mTitle;
+    private CheckBox mFavourite;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -43,6 +46,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mColorsBar = (View) view.findViewById(R.id.palette_edit_view_colors_bar);
         mTitle = (TextView) view.findViewById(R.id.palette_edit_view_title);
+        mFavourite = (CheckBox) view.findViewById(R.id.palette_edit_view_favourite);
         
         mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_edit_view_colors);
         mColoursGrid.setOnItemClickListener(this);
@@ -63,7 +67,9 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
 
     public void updateColors(int[] colors)
     {
-        Log.d(TAG, "updateColors");
+        if (MyDebug.LOG)
+            Log.d(TAG, "updateColors");
+        
         mColoursGrid.setColors(colors);
         
         if (colors.length != 0)
@@ -72,9 +78,19 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     public void udpateTitle(String title)
     {
-        Log.d(TAG, "update title" + title);
+        if (MyDebug.LOG)
+            Log.d(TAG, "update title " + title);
+        
         mTitle.setText(title);
         showTitleBar();
+    }
+    
+    public void updateFavourite(boolean favourite)
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "update favourite" + favourite);
+        
+        mFavourite.setChecked(favourite);
     }
     
     public void clear()

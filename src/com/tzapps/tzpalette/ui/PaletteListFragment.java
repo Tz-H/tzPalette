@@ -217,6 +217,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             TextView updated        = (TextView)itemView.findViewById(R.id.palette_item_updated);
             PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
             ImageView options       = (ImageView)itemView.findViewById(R.id.palette_item_options);
+            ImageView favourite     = (ImageView)itemView.findViewById(R.id.palette_item_favourite_icon);
             
             /* set PaletteData id and position info into the options button, so that 
              * we could retrieve it when we need to do perform operations on the palette item
@@ -241,6 +242,11 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             colors.setColors(data.getColors());
             colors.setFocusable(false);
             colors.setEnabled(false);
+            
+            if (data.isFavourite())
+                favourite.setVisibility(View.VISIBLE);
+            else
+                favourite.setVisibility(View.INVISIBLE);
             
             if (!data.getImageUrl().equals((String)thumb.getTag()))
             {
