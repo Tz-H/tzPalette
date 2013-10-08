@@ -121,6 +121,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     public void addAll(List<PaletteData> dataList)
     {
         mAdapter.addAll(dataList);
+        mAdapter.sort(new PaletteDataComparator.UpdatedTime());
     }
 
     public void add(PaletteData data)
