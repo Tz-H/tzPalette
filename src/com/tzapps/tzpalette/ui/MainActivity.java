@@ -320,6 +320,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                  
             case R.id.btn_takePhoto:
                 takePhoto();
+                break;
                 
             case R.id.btn_feedback:
                 sendFeedback();
