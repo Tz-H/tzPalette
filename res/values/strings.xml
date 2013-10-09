@@ -25,6 +25,8 @@
     <string name="action_open">Open</string>
     <string name="action_view">View</string>
     <string name="action_edit">Edit</string>
+    <string name="action_favourite">Mask as favourite</string>
+    <string name="action_unfavourite">Remove favourite</string>
     <string name="action_sendEmail">Send Email</string>
     <string name="action_cancel">Cencel</string>
     <string name="action_clearAll">Clear All</string>

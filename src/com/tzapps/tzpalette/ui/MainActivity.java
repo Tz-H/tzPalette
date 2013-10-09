@@ -270,6 +270,20 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 Log.d(TAG, "Edit palette item (position=" + position + " , id=" + dataId + ")");
                 openEditView(dataId);
                 break;
+                
+            case Favourite:
+                Log.d(TAG, "Favourite palette (position=" + position + " , id=" + dataId + ")");
+                data.setFavourite(true);
+                mDataHelper.update(data, false);
+                mPaletteListFragment.update(data);
+                break;
+                
+            case UnFavourite:
+                Log.d(TAG, "Unfavourite palette (position=" + position + " , id=" + dataId + ")");
+                data.setFavourite(false);
+                mDataHelper.update(data, false);
+                mPaletteListFragment.update(data);
+                break;
         }
     }
     
@@ -296,7 +310,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 Log.d(TAG, "Show options on palette data + " + data);
 
                 PaletteDataOptionsDialogFragment optionDialogFrag =
-                        PaletteDataOptionsDialogFragment.newInstance(data.getTitle(), itemPosition, dataId);
+                        PaletteDataOptionsDialogFragment.newInstance(itemPosition, dataId, data);
                 optionDialogFrag.show(getFragmentManager(), "dialog");
                 break;
                 
@@ -337,7 +351,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         Log.i(TAG, "palette data " + data.getId() + " long clicked");
         
         PaletteDataOptionsDialogFragment optionDialogFrag =
-                PaletteDataOptionsDialogFragment.newInstance(data.getTitle(), position, dataId);
+                PaletteDataOptionsDialogFragment.newInstance(position, dataId, data);
         optionDialogFrag.show(getFragmentManager(), "dialog");
     }
 

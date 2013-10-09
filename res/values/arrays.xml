@@ -6,13 +6,17 @@
         <item>@string/action_edit</item>
         <item>@string/action_rename</item>
         <item>@string/action_delete</item>
+        <item>@string/action_favourite</item>
+        <item>@string/action_unfavourite</item>
     </string-array>
     
     <string-array name="palette_itemOption_valeus">
-        <item>VIEW</item>
-        <item>EDIT</item>
-        <item>RENAME</item>
-        <item>DELETE</item>
+        <item>View</item>
+        <item>Edit</item>
+        <item>Rename</item>
+        <item>Delete</item>
+        <item>Favourite</item>
+        <item>UnFavourite</item>
     </string-array>
     
     <string-array name="palette_data_sorter_entries">

@@ -5,7 +5,10 @@ public enum PaletteDataOption
     View("View"),
     Edit("Edit"),
     Rename("Rename"),
-    Delete("Delete");
+    Delete("Delete"),
+    Favourite("Favourite"),
+    UnFavourite("UnFavourite");
+    
     
     private String name;    
     

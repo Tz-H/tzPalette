@@ -1,5 +1,8 @@
 package com.tzapps.tzpalette.ui.dialog;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.data.PaletteData;
 
 public class PaletteDataOptionsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener
 {
@@ -22,18 +26,20 @@ public class PaletteDataOptionsDialogFragment extends DialogFragment implements 
         public void onPaletteItemOptionClicked(int position, long dataId, PaletteDataOption option);
     }
     
+    private PaletteData mData;
     private int mPosition;
     private long mDataId;
     private String mOptionEntries[];
     private String mOptionValues[];
     
-    public static PaletteDataOptionsDialogFragment newInstance(String title, int position, long dataId)
+    public static PaletteDataOptionsDialogFragment newInstance(int position, long dataId, PaletteData data)
     {
         PaletteDataOptionsDialogFragment frag = new PaletteDataOptionsDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString("title", data.getTitle());
         args.putInt("position", position);
         args.putLong("dataId", dataId);
+        args.putParcelable("data", data);
         frag.setArguments(args);
         return frag;
     }
@@ -64,8 +70,21 @@ public class PaletteDataOptionsDialogFragment extends DialogFragment implements 
         
         mPosition      = getArguments().getInt("position");
         mDataId        = getArguments().getLong("dataId");
+        mData          = getArguments().getParcelable("data");
+        
         mOptionEntries = getResources().getStringArray(R.array.palette_itemOption_entries);
         mOptionValues  = getResources().getStringArray(R.array.palette_itemOption_valeus);
+        
+        if (mData.isFavourite())
+        {
+            mOptionEntries = removeElements(mOptionEntries, getString(R.string.action_favourite));
+            mOptionValues = removeElements(mOptionValues, PaletteDataOption.Favourite.getName());
+        }
+        else
+        {
+            mOptionEntries = removeElements(mOptionEntries, getString(R.string.action_unfavourite));
+            mOptionValues = removeElements(mOptionValues, PaletteDataOption.UnFavourite.getName());
+        }
 
         AlertDialog.Builder builder = new Builder(getActivity());
         builder.setTitle(title);
@@ -73,6 +92,22 @@ public class PaletteDataOptionsDialogFragment extends DialogFragment implements 
         builder.setItems(mOptionEntries, this);
 
         return builder.create();
+    }
+    
+    public static String[] removeElements(String[] input, String...removeElements)
+    {
+        List<String> result = new LinkedList<String>();
+        
+        for (String item : input)
+        {
+            for (String removed : removeElements)
+            {
+                if (!removed.equals(item))
+                    result.add(item);
+            }
+        }
+        
+        return result.toArray(new String[]{});
     }
 
     @Override
