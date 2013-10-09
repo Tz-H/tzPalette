@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.view.ViewConfiguration;
 
 public class ActivityUtils
@@ -77,5 +78,23 @@ public class ActivityUtils
         {
             return null;
         }
+    }
+    
+    /**
+     * Send an email via available mail activity
+     * 
+     * @param context   the app context
+     * @param to        the email address send to
+     * @param subject   the email subject
+     * @param body      the email body
+     */
+    public static void sendEmail(Context context, String to, String subject, String body)
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", to, null));
+        
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+        
+        context.startActivity(Intent.createChooser(emailIntent, null));
     }
 }

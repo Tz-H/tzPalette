@@ -4,4 +4,19 @@
     <string name="app_contact">tianzi.hou+tzpalette@gmail.com</string>
     <string name="app_author_webpage">LINKEDIN.COM/in/tianzihou</string>
     <string name="app_project_website">GITHUB.COM/TianziHou/tzPalette</string>
+    
+    <string name="app_feedback_debugInfo">
+        \n\n\n
+        ------------------\n
+        App Information:\n\n
+        App version: %1$s\n
+        API level: %2$d\n
+        OS version: %3$s\n
+        Model: %4$s\n
+        Locale: %5$s\n
+        Screen Density: %6$d\n
+        Screen Dimensions: %7$d x %8$d\n
+        Device Dimensions: %9$d x %10$d\n
+    </string>
+    
 </resources>

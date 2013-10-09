@@ -83,4 +83,7 @@
     
     <string name="about_version">ver %1$s</string>
     <string name="about_feedback"><u>Feedback</u></string>
+    
+    <string name="feedback_subject">[Feedback] %1$s ver %2$s</string>
+    
 </resources>
