@@ -3,8 +3,8 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto">
     
     <PreferenceCategory
-        android:title="@string/pref_colorAnalysis_Title"
-        android:key="pref_key_colorAnalysis_settings">
+        android:key="pref_key_colorAnalysis_settings"
+        android:title="@string/pref_colorAnalysis_Title">
         
         <com.tzapps.common.ui.preference.NumberPickerDialogPreference 
             android:key="pref_setColorNumber"
@@ -29,35 +29,51 @@
             android:defaultValue="@integer/pref_setColorNumber_default" />
         -->
         
-        <CheckBoxPreference 
-            android:key="pref_enableAdvancedChange"
-            android:title="@string/pref_enableAdvancedChange"
-            android:summary="@string/pref_enableAdvancedChange_summ"
-            android:defaultValue="false" />
-        <ListPreference 
-            android:dependency="pref_enableAdvancedChange"
-            android:key="pref_analysisColorType"
-            android:title="@string/pref_analysisColorType"
-            android:summary="@string/pref_analysisColorType_summ"
-            android:dialogTitle="@string/pref_analysisColorType_dialogTitle"
-            android:entries="@array/pref_analysisColorType_entries"
-            android:entryValues="@array/pref_analysisColorType_values"
-            android:defaultValue="@string/pref_analysisColorType_default" />
-        <ListPreference 
-            android:dependency="pref_enableAdvancedChange"
-            android:key="pref_analysisAccuracy"
-            android:title="@string/pref_analysisColorAccuracy"
-            android:summary="@string/pref_analysisColorAccuracy_summ"
-            android:dialogTitle="@string/pref_analysisColorAccuracy_dialogTitle"
-            android:entries="@array/pref_analysisColorAccuracy_entries"
-            android:entryValues="@array/pref_analysisColorAccuracy_values"
-            android:defaultValue="@string/pref_analysisColorAccuracy_default" />
-        <CheckBoxPreference 
-            android:dependency="pref_enableAdvancedChange"
-            android:key="pref_enableKpp"
-            android:title="@string/pref_enableKpp"
-            android:summary="@string/pref_enableKpp_summ"
-            android:defaultValue="false" />
+        <PreferenceScreen
+            android:key="pref_analysisAdvancedOptions"
+            android:title="@string/pref_analysisAdvancedOptions"
+            android:summary="@string/pref_analysisAdvancedOptions_summ">
+            
+            <ListPreference 
+			    android:key="pref_analysisColorType"
+			    android:title="@string/pref_analysisColorType"
+			    android:summary="@string/pref_analysisColorType_summ"
+			    android:dialogTitle="@string/pref_analysisColorType_dialogTitle"
+			    android:entries="@array/pref_analysisColorType_entries"
+			    android:entryValues="@array/pref_analysisColorType_values"
+			    android:defaultValue="@string/pref_analysisColorType_default" />
+			
+			<ListPreference 
+			    android:key="pref_analysisAccuracy"
+			    android:title="@string/pref_analysisColorAccuracy"
+			    android:summary="@string/pref_analysisColorAccuracy_summ"
+			    android:dialogTitle="@string/pref_analysisColorAccuracy_dialogTitle"
+			    android:entries="@array/pref_analysisColorAccuracy_entries"
+			    android:entryValues="@array/pref_analysisColorAccuracy_values"
+			    android:defaultValue="@string/pref_analysisColorAccuracy_default" />
+			
+			<CheckBoxPreference 
+			    android:key="pref_enableKpp"
+			    android:title="@string/pref_enableKpp"
+			    android:summary="@string/pref_enableKpp_summ"
+			    android:defaultValue="false" />
+			
+        </PreferenceScreen>
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="@string/pref_system_title"
+        android:key="pref_system_settings">
+        
+        <Preference 
+            android:key="pref_system_version"
+            android:title="@string/pref_version_title"/>
+        
+        <Preference 
+            android:key="pref_system_feedback"
+            android:title="@string/pref_feedback_title"/>
+        
     </PreferenceCategory>
 
 </PreferenceScreen>

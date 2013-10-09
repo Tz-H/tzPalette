@@ -42,6 +42,7 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.DebugInfo;
+import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOption;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment;
@@ -228,28 +229,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     
     private void sendFeedback()
     {
-        DebugInfo info = DebugInfo.getDebugInfo(this);
-        
-        String feedbackStr = getString(R.string.app_feedback_debugInfo);
-        String subjectStr = getString(R.string.feedback_subject);
-        
-        String to      = getString(R.string.app_contact);
-        String subject = String.format(subjectStr, 
-                                       getString(R.string.app_name),
-                                       info.appVersion);
-        String body    = String.format(feedbackStr,
-                                        info.appVersion,
-                                        info.apiLevel,
-                                        info.osVersion,
-                                        info.deviceModel,
-                                        info.locale,
-                                        info.screenDensity,
-                                        info.screenWidth,
-                                        info.screenHeight,
-                                        info.deviceWidth,
-                                        info.deviceHeight);
-        
-        ActivityUtils.sendEmail(this, to, subject, body);
+        MyDebug.sendFeedback(this);
     }
     
     private void openSettings()

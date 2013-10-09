@@ -1,12 +1,12 @@
 package com.tzapps.tzpalette.ui;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-public class SettingsActivity extends Activity
+public class SettingsActivity extends PreferenceActivity 
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
