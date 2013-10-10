@@ -248,6 +248,18 @@ public class PaletteDataSource
                   null);
     }
     
+    /**
+     * Delete all PaletteData records in database
+     */
+    public void deleteAll()
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "Delete all PaletteData");
+        
+        db.delete(PaletteDataEntry.TABLE_NAME, null, null);
+        db.delete(PaletteThumbEntry.TABLE_NAME, null, null);
+    }
+    
     public Bitmap getThumb(long dataId)
     {
         Bitmap bitmap = null;

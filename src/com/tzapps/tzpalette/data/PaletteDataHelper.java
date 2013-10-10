@@ -61,6 +61,15 @@ public class PaletteDataHelper
         mDataSource.close();
     }
     
+    public void deleteAll()
+    {
+        mDataSource.open(true);
+        
+        mDataSource.deleteAll();
+        
+        mDataSource.close();
+    }
+    
     public long add(PaletteData data)
     {
         long id = -1;

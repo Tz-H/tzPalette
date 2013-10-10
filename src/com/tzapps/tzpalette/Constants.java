@@ -1,7 +1,6 @@
 package com.tzapps.tzpalette;
 
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
-import com.tzapps.tzpalette.data.PaletteDataType;
 
 public final class Constants
 {

@@ -1,6 +1,8 @@
 package com.tzapps.tzpalette.ui;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.LinearLayout;
 
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class SettingsFragment extends PreferenceFragment implements 
@@ -51,6 +54,11 @@ public class SettingsFragment extends PreferenceFragment implements
 
         // Initialize the prefs title/summary label
         loadPrefs();
+    }
+    
+    private void removeAllData()
+    {
+        PaletteDataHelper.getInstance(getActivity()).deleteAll();
     }
     
     private void sendFeedback()
@@ -115,7 +123,17 @@ public class SettingsFragment extends PreferenceFragment implements
         }
         else if (key.equals(KEY_PREF_CACHE_CLEARALL))
         {
-            // TODO alert dialog to force user confirm this operation
+            // alert dialog to force user confirm this operation
+            new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.pref_cache_clearAll_dialogTitle)
+                .setMessage(R.string.pref_cache_clearAll_dialogContent)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) { 
+                        removeAllData();
+                    }
+                 })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
         }
         
         return false;

@@ -140,12 +140,28 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     }
     
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
+    public void onResume()
     {
-        //menu.clear();
-        return super.onPrepareOptionsMenu(menu);
+        super.onResume();
+        
+        if (mPaletteListFragment != null)
+        {
+            /* 
+             * TODO: this operation is very inefficient and cost
+             * a lots memory. We need to find a better way to 
+             * handle with palette list refresh logic in three cases:
+             * 
+             * 1. do not need to refresh (e.g. just open a palette 
+             * card view and back without any motification)
+             * 2. need to have a partial refresh (e.g. a new palette
+             * data added)
+             * 3. need to update all (e.g. all palette data are deleted
+             * in settings view)
+             */
+            mPaletteListFragment.removeAll();
+            mPaletteListFragment.addAll(mDataHelper.getAllData());
+        }
     }
-    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

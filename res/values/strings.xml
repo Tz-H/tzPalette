@@ -90,6 +90,9 @@
     <string name="pref_cache_thumbQuality_low">Low</string>
     
     <string name="pref_cache_clearAll">Clear all records</string>
+    <string name="pref_cache_clearAll_summ">Delete all palette data saved in database. This operstion is unrecoverable.</string>
+    <string name="pref_cache_clearAll_dialogTitle">Clear all records</string>
+    <string name="pref_cache_clearAll_dialogContent">Are you sure you want to delete all records?</string>
     
     <string name="pref_system_title">System Settings</string>
     <string name="pref_version_title">Version</string>

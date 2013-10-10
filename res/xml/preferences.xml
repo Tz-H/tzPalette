@@ -75,7 +75,8 @@
             
         <Preference 
             android:key="pref_cache_clearAll"
-            android:title="@string/pref_cache_clearAll"/>
+            android:title="@string/pref_cache_clearAll"
+            android:summary="@string/pref_cache_clearAll_summ"/>
         
     </PreferenceCategory>
     
