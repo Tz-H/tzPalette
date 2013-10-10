@@ -229,16 +229,13 @@ public class PaletteDataHelper
         if (MyDebug.LOG)
             Log.d(TAG, "palette data analysis()");
         
-        Bitmap bitmap;
+        Bitmap bitmap = getThumb(data.getId());
         
-        /* we could try to fetch the original image from uri first,
-         * and if it doesn't exist, then we could get it from palette 
-         * data's thumb, well then the analysis accuracy would be ba
+        /* try to get the bitmap from cached thumb directly, and if 
+         * it doesn't exist then get it from its original url
          */
-        if (data.getImageUrl() != null)
+        if (bitmap == null)
             bitmap = BitmapUtils.getBitmapFromUri(mContext, Uri.parse(data.getImageUrl()));
-        else
-            bitmap = getThumb(data.getId());
         
         assert(bitmap != null);
         

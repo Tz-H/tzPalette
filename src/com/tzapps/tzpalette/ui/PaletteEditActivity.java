@@ -278,25 +278,31 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         if (updatePicture)
         {
             Bitmap bitmap    = null;
-            String imagePath = mCurrentData.getImageUrl();
-            Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
             
-            bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
+            bitmap = mDataHelper.getThumb(mCurrentData.getId());
             
-            if (bitmap != null)
+            if (bitmap == null)
             {
-                int orientation;
+                String imagePath = mCurrentData.getImageUrl();
+                Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
                 
-                /*
-                 * This is a quick fix on picture orientation for the picture taken
-                 * from the camera, as it will be always rotated to landscape 
-                 * incorrectly even if we take it in portrait mode...
-                 */
-                orientation = MediaHelper.getPictureOrientation(this, imageUri);
-                bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+                bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
                 
-                mEditFragment.updateImageView(bitmap);
+                if (bitmap != null)
+                {
+                    int orientation;
+                    
+                    /*
+                     * This is a quick fix on picture orientation for the picture taken
+                     * from the camera, as it will be always rotated to landscape 
+                     * incorrectly even if we take it in portrait mode...
+                     */
+                    orientation = MediaHelper.getPictureOrientation(this, imageUri);
+                    bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+                } 
             }
+            
+            mEditFragment.updateImageView(bitmap);
         }
         
         mEditFragment.updateFavourite(mCurrentData.isFavourite());

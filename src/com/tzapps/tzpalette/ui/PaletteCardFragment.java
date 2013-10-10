@@ -18,11 +18,9 @@ import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
-import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 
 public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener
 {
@@ -80,40 +78,38 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         
         assert (imageUrl != null);
         
-        Bitmap bitmap    = null;
-        Uri    imageUri  = Uri.parse(imageUrl);
+        Bitmap bitmap    = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
         
-        /* try to get the original image first, if it doesn't exist then
-         * to use the thumbnail stored in local db instead 
+        /* try to get the cached image first, if it doesn't exist then
+         * to fetch its original image instead 
          */
-        
-        /*
-         * FIXME: it cannot handle with the imageUri correctly if its
-         * content is "content://com.google.android.gallery3d.provider/picasa"
-         * i.e. the picture from picasa app, it refers to the uri permission
-         * grant logic, and might be worse in previous android version (3.0, 4.0, 
-         * 4.1). I will need to test it and evaluate this bug on other lower 
-         * android version.
-         * 
-         * A useful reference: http://dimitar.me/how-to-get-picasa-images-using-the-image-picker-on-android-devices-running-any-os-version/
-         */
-        
-        bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri);
-        
-        if (bitmap != null)
+        if (bitmap == null)
         {
-            int orientation = MediaHelper.getPictureOrientation(getActivity(), imageUri);
-            
-            if (orientation != ExifInterface.ORIENTATION_NORMAL)
-                bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
-            
-            mThumb.setImageBitmap(bitmap);
+            Uri imageUri  = Uri.parse(imageUrl);
+
+            /*
+             * FIXME: it cannot handle with the imageUri correctly if its
+             * content is "content://com.google.android.gallery3d.provider/picasa"
+             * i.e. the picture from picasa app, it refers to the uri permission
+             * grant logic, and might be worse in previous android version (3.0, 4.0, 
+             * 4.1). I will need to test it and evaluate this bug on other lower 
+             * android version.
+             * 
+             * A useful reference: http://dimitar.me/how-to-get-picasa-images-using-the-image-picker-on-android-devices-running-any-os-version/
+             */
+        
+            bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri);
+        
+            if (bitmap != null)
+            {
+                int orientation = MediaHelper.getPictureOrientation(getActivity(), imageUri);
+                
+                if (orientation != ExifInterface.ORIENTATION_NORMAL)
+                    bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+            }
         }
-        else
-        {
-            bitmap = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
-            mThumb.setImageBitmap(bitmap);
-        }
+        
+        mThumb.setImageBitmap(bitmap);
     }
     
     @Override
