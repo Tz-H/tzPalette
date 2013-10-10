@@ -35,36 +35,52 @@
             android:summary="@string/pref_analysisAdvancedOptions_summ">
             
             <ListPreference 
-			    android:key="pref_analysisColorType"
-			    android:title="@string/pref_analysisColorType"
-			    android:summary="@string/pref_analysisColorType_summ"
-			    android:dialogTitle="@string/pref_analysisColorType_dialogTitle"
-			    android:entries="@array/pref_analysisColorType_entries"
-			    android:entryValues="@array/pref_analysisColorType_values"
-			    android:defaultValue="@string/pref_analysisColorType_default" />
-			
-			<ListPreference 
-			    android:key="pref_analysisAccuracy"
-			    android:title="@string/pref_analysisColorAccuracy"
-			    android:summary="@string/pref_analysisColorAccuracy_summ"
-			    android:dialogTitle="@string/pref_analysisColorAccuracy_dialogTitle"
-			    android:entries="@array/pref_analysisColorAccuracy_entries"
-			    android:entryValues="@array/pref_analysisColorAccuracy_values"
-			    android:defaultValue="@string/pref_analysisColorAccuracy_default" />
-			
-			<CheckBoxPreference 
-			    android:key="pref_enableKpp"
-			    android:title="@string/pref_enableKpp"
-			    android:summary="@string/pref_enableKpp_summ"
-			    android:defaultValue="false" />
-			
+                android:key="pref_analysisColorType"
+                android:title="@string/pref_analysisColorType"
+                android:summary="@string/pref_analysisColorType_summ"
+                android:dialogTitle="@string/pref_analysisColorType_dialogTitle"
+                android:entries="@array/pref_analysisColorType_entries"
+                android:entryValues="@array/pref_analysisColorType_values"
+                android:defaultValue="RGB" />
+            
+            <ListPreference 
+                android:key="pref_analysisAccuracy"
+                android:title="@string/pref_analysisColorAccuracy"
+                android:summary="@string/pref_analysisColorAccuracy_summ"
+                android:dialogTitle="@string/pref_analysisColorAccuracy_dialogTitle"
+                android:entries="@array/pref_analysisColorAccuracy_entries"
+                android:entryValues="@array/pref_analysisColorAccuracy_values"
+                android:defaultValue="NORMAL" />
+            
+            <CheckBoxPreference 
+                android:key="pref_enableKpp"
+                android:title="@string/pref_enableKpp"
+                android:summary="@string/pref_enableKpp_summ"
+                android:defaultValue="false" />
+            
         </PreferenceScreen>
         
     </PreferenceCategory>
     
     <PreferenceCategory
-        android:title="@string/pref_system_title"
-        android:key="pref_system_settings">
+        android:title="@string/pref_cache_title">
+        
+        <ListPreference 
+	        android:key="pref_cache_thumbQuality"
+	        android:title="@string/pref_cache_thumbQuality"
+	        android:dialogTitle="@string/pref_cache_thumbQuality_dialogTitle"
+	        android:entries="@array/pref_cache_thumbQuality_entries"
+	        android:entryValues="@array/pref_cache_thumbQuality_values"
+	        android:defaultValue="MEDIUM" />
+            
+        <Preference 
+            android:key="pref_cache_clearAll"
+            android:title="@string/pref_cache_clearAll"/>
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="@string/pref_system_title">
         
         <Preference 
             android:key="pref_system_version"

@@ -70,7 +70,6 @@
     <string name="pref_analysisColorType_rgb">RGB</string>
     <string name="pref_analysisColorType_hsv">HSV</string>
     <string name="pref_analysisColorType_hsl">HSL</string>
-    <string name="pref_analysisColorType_default">@string/pref_analysisColorType_rgb</string>
     
     <string name="pref_analysisColorAccuracy">Analysis accuracy: %1$s</string>
     <string name="pref_analysisColorAccuracy_dialogTitle">Choose Accuracy</string>
@@ -78,10 +77,19 @@
     <string name="pref_analysisColorAccuracy_high">High</string>
     <string name="pref_analysisColorAccuracy_normal">Normal</string>
     <string name="pref_analysisColorAccuracy_low">Low</string>
-    <string name="pref_analysisColorAccuracy_default">@string/pref_analysisColorAccuracy_normal</string>
     
     <string name="pref_enableKpp">Enable KPP</string>
     <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
+    
+    <string name="pref_cache_title">Cache Settings</string>
+    
+    <string name="pref_cache_thumbQuality">Thumb quality</string>
+    <string name="pref_cache_thumbQuality_dialogTitle">Choose Thumb Quality</string>
+    <string name="pref_cache_thumbQuality_high">High</string>
+    <string name="pref_cache_thumbQuality_medium">Medium</string>
+    <string name="pref_cache_thumbQuality_low">Low</string>
+    
+    <string name="pref_cache_clearAll">Clear all records</string>
     
     <string name="pref_system_title">System Settings</string>
     <string name="pref_version_title">Version</string>

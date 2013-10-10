@@ -156,7 +156,7 @@ public class PaletteDataHelper
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         
         numOfColors = sp.getInt(SettingsFragment.KEY_PREF_COLOR_NUMBER, getInt(R.integer.pref_setColorNumber_default));
-        String accuracy = sp.getString(SettingsFragment.KEY_PREF_ANALYSIS_ACCURACY, getString(R.string.pref_analysisColorAccuracy_default));
+        String accuracy = sp.getString(SettingsFragment.KEY_PREF_ANALYSIS_ACCURACY, Constants.ANALYSIS_ACCURACY_DEFAULT);
         
         if (accuracy.equalsIgnoreCase("HIGH"))
             deviation = 0;
@@ -167,7 +167,7 @@ public class PaletteDataHelper
         else
             deviation = 5;
         
-        String colorType = sp.getString(SettingsFragment.KEY_PREF_COLOR_TYPE, getString(R.string.pref_analysisColorType_default));
+        String colorType = sp.getString(SettingsFragment.KEY_PREF_COLOR_TYPE, Constants.ANALYSIS_COLOR_TYPE_DEFAULT);
         dataType = PaletteDataType.fromString(colorType);
         
         boolean enableKpp = sp.getBoolean(SettingsFragment.KEY_PREF_ENABLE_KPP, true);

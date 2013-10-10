@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
@@ -20,7 +21,8 @@ import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.debug.MyDebug;
 
-public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragment implements 
+            OnSharedPreferenceChangeListener, OnPreferenceClickListener
 {
     private static final String TAG = "SettingsFragment";
 
@@ -30,6 +32,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public static final String KEY_PREF_ENABLE_KPP = "pref_enableKpp";
     public static final String KEY_PREF_SYSTEM_VERSION = "pref_system_version";
     public static final String KEY_PREF_SYSTEM_FEEDBACK = "pref_system_feedback";
+    public static final String KEY_PREF_CACHE_THUMB_QUALITY = "pref_cache_thumbQuality";
+    public static final String KEY_PREF_CACHE_CLEARALL = "pref_cache_clearAll";
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -40,15 +44,10 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         addPreferencesFromResource(R.xml.preferences);
         
         Preference feedbackPref = (Preference) findPreference(KEY_PREF_SYSTEM_FEEDBACK);
-        feedbackPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
-                @Override
-                public boolean onPreferenceClick(Preference preference)
-                {
-                    sendFeedback();
-                    return false;
-                }
-            }
-        );
+        feedbackPref.setOnPreferenceClickListener(this);
+        
+        Preference cacheClearPref = (Preference) findPreference(KEY_PREF_CACHE_CLEARALL);
+        cacheClearPref.setOnPreferenceClickListener(this);
 
         // Initialize the prefs title/summary label
         loadPrefs();
@@ -63,13 +62,12 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     {
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
 
-        String colorType = sp.getString(KEY_PREF_COLOR_TYPE,
-                getString(R.string.pref_analysisColorType_default));
-        Preference colorTypePref = findPreference(KEY_PREF_COLOR_TYPE);
+        ListPreference colorTypePref = (ListPreference)findPreference(KEY_PREF_COLOR_TYPE);
+        String colorType = colorTypePref.getEntry().toString();
 
-        String strColorTypeSumm = getString(R.string.pref_analysisColorType);
-        strColorTypeSumm = String.format(strColorTypeSumm, colorType);
-        colorTypePref.setTitle(strColorTypeSumm);
+        String strColorType = getString(R.string.pref_analysisColorType);
+        strColorType = String.format(strColorType, colorType);
+        colorTypePref.setTitle(strColorType);
 
         int colurNumber = sp.getInt(KEY_PREF_COLOR_NUMBER,
                 getResources().getInteger(R.integer.pref_setColorNumber_default));
@@ -79,14 +77,13 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         strColorNumberSumm = String.format(strColorNumberSumm, colurNumber);
         colorNumberPref.setTitle(strColorNumberSumm);
 
-        String accuracy = sp.getString(KEY_PREF_ANALYSIS_ACCURACY,
-                getString(R.string.pref_analysisColorAccuracy_default));
-        Preference accuracyPref = findPreference(KEY_PREF_ANALYSIS_ACCURACY);
-
+        ListPreference accuracyPref = (ListPreference)findPreference(KEY_PREF_ANALYSIS_ACCURACY);
+        String accuracy = accuracyPref.getEntry().toString();
+        
         String strAccuracySumm = getString(R.string.pref_analysisColorAccuracy);
         strAccuracySumm = String.format(strAccuracySumm, accuracy);
         accuracyPref.setTitle(strAccuracySumm);
-
+        
         boolean enableKpp = sp.getBoolean(KEY_PREF_ENABLE_KPP, false);
         CheckBoxPreference enableKppPref = (CheckBoxPreference) findPreference(KEY_PREF_ENABLE_KPP);
         enableKppPref.setChecked(enableKpp);
@@ -94,6 +91,10 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         String versionSumm = ActivityUtils.getVersionName(getActivity());
         Preference versionPref = (Preference) findPreference(KEY_PREF_SYSTEM_VERSION);
         versionPref.setSummary(versionSumm);
+        
+        ListPreference thumbQualityPref = (ListPreference)findPreference(KEY_PREF_CACHE_THUMB_QUALITY);
+        String strThumbQualitySumm = thumbQualityPref.getEntry().toString();
+        thumbQualityPref.setSummary(strThumbQualitySumm);
     }
 
     @Override
@@ -101,6 +102,23 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     {
         // Just simply reload all preferences to refresh them...
         loadPrefs();
+    }
+    
+    @Override
+    public boolean onPreferenceClick(Preference preference)
+    {
+        String key = preference.getKey();
+        
+        if (key.equals(KEY_PREF_SYSTEM_FEEDBACK))
+        {
+            sendFeedback();
+        }
+        else if (key.equals(KEY_PREF_CACHE_CLEARALL))
+        {
+            // TODO alert dialog to force user confirm this operation
+        }
+        
+        return false;
     }
 
     @Override
@@ -186,6 +204,4 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             }
         }
     }
-
-
 }

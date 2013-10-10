@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette;
 
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
+import com.tzapps.tzpalette.data.PaletteDataType;
 
 public final class Constants
 {
@@ -29,4 +30,12 @@ public final class Constants
     /** The default palette data sorter */
     public static final Sorter PALETTE_DATA_SORTER_DEFAULT = Sorter.Title;
     
+    /** The default color analysis accuracy. */
+    public static final String ANALYSIS_ACCURACY_DEFAULT = "NORMAL";
+    /** The default color analysis type */
+    public static final String ANALYSIS_COLOR_TYPE_DEFAULT = "RGB";
+    /** The default thumb quality */
+    public static final String CACHE_THUMB_QUALITY_DEFAULT = "MEDIUM";
 }
+
+

@@ -52,5 +52,17 @@
         <item>NORMAL</item>
         <item>LOW</item>
     </array>
+    
+    <array name="pref_cache_thumbQuality_entries">
+        <item>@string/pref_cache_thumbQuality_high</item>
+        <item>@string/pref_cache_thumbQuality_medium</item>
+        <item>@string/pref_cache_thumbQuality_low</item>
+    </array>
+    
+    <array name="pref_cache_thumbQuality_values">
+        <item>HIGH</item>
+        <item>MEDIUM</item>
+        <item>LOW</item>
+    </array>
 
 </resources>
