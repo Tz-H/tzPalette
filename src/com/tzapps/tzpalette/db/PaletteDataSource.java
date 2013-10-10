@@ -119,7 +119,7 @@ public class PaletteDataSource
     private Bitmap getThumb(String imageUrl)
     {
         Uri uri = Uri.parse(imageUrl);
-        Bitmap bitmap = BitmapUtils.getBitmapFromUri(mContext, uri);
+        Bitmap bitmap = BitmapUtils.getBitmapFromUri(mContext, uri, Constants.THUMB_MAX_SIZE);
         
         if (bitmap != null)
         {
@@ -135,8 +135,8 @@ public class PaletteDataSource
             if (orientation != ExifInterface.ORIENTATION_NORMAL)
                 bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
             
-            int maxWidth = Constants.THUMB_WIDTH_MAX;
-            int maxHeight = Constants.THUMB_HEIGHT_MAX;
+            int maxWidth = Constants.THUMB_MAX_SIZE;
+            int maxHeight = Constants.THUMB_MAX_SIZE;
             
             if (bitmap.getWidth() > maxWidth || bitmap.getHeight() > maxHeight)
                 bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, maxWidth, maxHeight);

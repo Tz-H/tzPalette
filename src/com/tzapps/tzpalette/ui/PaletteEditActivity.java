@@ -261,11 +261,11 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             addNew = false;
         }
         
-        Intent data = new Intent();
-        data.putExtra(Constants.PALETTE_DATA_ID, id);
-        data.putExtra(Constants.PALETTE_DATA_ADDNEW, addNew);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Constants.PALETTE_DATA_ID, id);
+        intent.putExtra(Constants.PALETTE_DATA_ADDNEW, addNew);
         
-        setResult(RESULT_OK, data);
+        setResult(RESULT_OK, intent);
         finish();
     }
     
@@ -286,7 +286,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 String imagePath = mCurrentData.getImageUrl();
                 Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
                 
-                bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
+                bitmap = BitmapUtils.getBitmapFromUri(this, imageUri, Constants.THUMB_MAX_SIZE);
                 
                 if (bitmap != null)
                 {

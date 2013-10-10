@@ -16,15 +16,10 @@ public final class Constants
     /** The prefix for file in tzpalette app */
     public static final String TZPALETTE_FILE_PREFIX = "MyPalette";
     
-    /** The maximum picture width in color analysis process. */
-    public static final int PICTURE_ANALYSIS_MAX_WIDTH  = 512;
-    /** The maximum picture height in color analysis process. */
-    public static final int PICTURE_ANALYSIS_MAX_HEIGHT = 512;
-    
-    /** The maximum thumb width stored in local db. */
-    public static final int THUMB_WIDTH_MAX = 1024;
-    /** The maximum thumb height stored in local db. */
-    public static final int THUMB_HEIGHT_MAX = 1024;
+    /** The maximum picture size in color analysis process. */
+    public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;
+    /** The maximum thumb size stored in local db. */
+    public static final int THUMB_MAX_SIZE = 1024;
     
     /** The default palette data sorter */
     public static final Sorter PALETTE_DATA_SORTER_DEFAULT = Sorter.Title;
@@ -35,6 +30,7 @@ public final class Constants
     public static final String ANALYSIS_COLOR_TYPE_DEFAULT = "RGB";
     /** The default thumb quality */
     public static final String CACHE_THUMB_QUALITY_DEFAULT = "MEDIUM";
+    
 }
 
 

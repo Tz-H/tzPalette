@@ -2,7 +2,6 @@ package com.tzapps.common.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,19 +11,22 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 
+import com.tzapps.tzpalette.Constants;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -181,13 +183,37 @@ public class BitmapUtils
         return bitmap;
     }
     
-    public static Bitmap getBitmapFromUri(Context context, Uri uri)
+    public static Bitmap getBitmapFromUri(Context context, Uri uri, int maxSize)
     {
         Bitmap bitmap = null;
+        InputStream imageStream;
         
         try
         {
-            bitmap = android.provider.MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            imageStream = context.getContentResolver().openInputStream(uri);
+            
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(imageStream, null, options);
+            
+            //Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            if (options.outWidth > maxSize || options.outHeight > maxSize)
+            {
+                scale = (int)Math.pow(2, (int)Math.round(Math.log(maxSize / 
+                        (double)Math.max(options.outWidth, options.outHeight))/ Math.log(0.5)));
+            }
+            
+            imageStream.close();
+            
+            //Decode with inSampleSize
+            BitmapFactory.Options options2 = new BitmapFactory.Options();
+            options2.inSampleSize = scale;
+            
+            imageStream = context.getContentResolver().openInputStream(uri);
+            bitmap = BitmapFactory.decodeStream(imageStream, null, options2);
+            
+            imageStream.close();
         }
         catch (IOException e)
         {

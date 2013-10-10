@@ -235,7 +235,7 @@ public class PaletteDataHelper
          * it doesn't exist then get it from its original url
          */
         if (bitmap == null)
-            bitmap = BitmapUtils.getBitmapFromUri(mContext, Uri.parse(data.getImageUrl()));
+            bitmap = BitmapUtils.getBitmapFromUri(mContext, Uri.parse(data.getImageUrl()), Constants.THUMB_MAX_SIZE);
         
         assert(bitmap != null);
         
@@ -253,8 +253,8 @@ public class PaletteDataHelper
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         
-        int maxWidth = Constants.PICTURE_ANALYSIS_MAX_WIDTH;
-        int maxHeight = Constants.PICTURE_ANALYSIS_MAX_HEIGHT;
+        int maxWidth = Constants.PICTURE_ANALYSIS_MAX_SIZE;
+        int maxHeight = Constants.PICTURE_ANALYSIS_MAX_SIZE;
         
         // scale the bitmap to limit its size, so the k-mean processor could have a reasonable process time
         if (width > maxWidth || height > maxHeight )

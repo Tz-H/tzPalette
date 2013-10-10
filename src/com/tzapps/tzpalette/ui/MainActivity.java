@@ -496,9 +496,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         return storageDir;
     }
 
-    private File createImageFile() throws IOException
+    private File createTempImageFile() throws IOException
     {
-        // Create an image file name
+        // Create a temp image file
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = Constants.TZPALETTE_FILE_PREFIX + "_" + timeStamp;
         File image = File.createTempFile(imageFileName, ".jpg", getAlbumDir());
@@ -517,9 +517,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         {
             try
             {
-                File file = createImageFile();
+                File file = createTempImageFile();
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(takePictureIntent, TAKE_PHOTE_RESULT);
             }

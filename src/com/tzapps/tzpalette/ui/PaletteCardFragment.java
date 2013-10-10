@@ -18,6 +18,7 @@ import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -78,7 +79,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         
         assert (imageUrl != null);
         
-        Bitmap bitmap    = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
+        Bitmap bitmap = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
         
         /* try to get the cached image first, if it doesn't exist then
          * to fetch its original image instead 
@@ -98,7 +99,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
              * A useful reference: http://dimitar.me/how-to-get-picasa-images-using-the-image-picker-on-android-devices-running-any-os-version/
              */
         
-            bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri);
+            bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri, Constants.THUMB_MAX_SIZE);
         
             if (bitmap != null)
             {
