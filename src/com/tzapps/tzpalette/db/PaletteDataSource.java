@@ -72,9 +72,10 @@ public class PaletteDataSource
      * insert a new PaletteData record into db
      * 
      * @param  data         the palette data to save
+     * @param  quality      the thumb quality
      * @return id           the inserted id in database
      */
-    public long add(PaletteData data)
+    public long add(PaletteData data, int quality)
     {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -107,10 +108,10 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         // Insert the thumb into the thumb table
-        addThumb(insertId, getThumb(data.getImageUrl()));
+        addThumb(insertId, getThumb(data.getImageUrl()), quality);
         
         if (MyDebug.LOG)
-            Log.d(TAG, "PaletteData saved with id:" + insertId);
+            Log.d(TAG, "PaletteData saved with id:" + insertId + " thumb quality:" + quality);
         
         return insertId;
     }
@@ -144,13 +145,13 @@ public class PaletteDataSource
         return bitmap;
     }
     
-    private void addThumb(long dataId, Bitmap thumb)
+    private void addThumb(long dataId, Bitmap thumb, int quality)
     {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         
         values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
-        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb, quality));
         
         // Insert the thumb into database...
         db.insert(PaletteThumbEntry.TABLE_NAME, null, values);
@@ -161,8 +162,9 @@ public class PaletteDataSource
      * 
      * @param data         the palette data to update
      * @param updateThumb  flag to indicate if update thumb data
+     * @param quality      the thumb quality
      */
-    public void update(PaletteData data, boolean updateThumb)
+    public void update(PaletteData data, boolean updateThumb, int quality)
     {
         long id = data.getId();
       
@@ -189,7 +191,7 @@ public class PaletteDataSource
         if (updateThumb)
         {
             values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
-            updateThumb(id, getThumb(data.getImageUrl()));
+            updateThumb(id, getThumb(data.getImageUrl()), quality);
         }
         
         // Issue SQL statement
@@ -201,16 +203,16 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         if (MyDebug.LOG)
-            Log.d(TAG, "PaletteData updated with id:" + id);
+            Log.d(TAG, "PaletteData updated with id:" + id + " thumb quality:" + quality);
     }
     
-    private void updateThumb(long dataId, Bitmap thumb)
+    private void updateThumb(long dataId, Bitmap thumb, int quality)
     {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         
         values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
-        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb));
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb, quality));
         
         // Issue SQL statement
         db.update(PaletteThumbEntry.TABLE_NAME, 

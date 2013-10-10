@@ -266,10 +266,17 @@ public class BitmapUtils
         return file;
     }
     
-    public static byte[] convertBitmapToByteArray(Bitmap bitmap)
+    /**
+     * Convert bitmap to byte array
+     * 
+     * @param bitmap    the bitmap to convert
+     * @param quality   the bitmap convert quality (0 to 100)
+     * @return the byte array conerted
+     */
+    public static byte[] convertBitmapToByteArray(Bitmap bitmap, int quality)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.JPEG, 85, outputStream);
+        bitmap.compress(CompressFormat.JPEG, quality, outputStream);
         return outputStream.toByteArray();
     }
 }

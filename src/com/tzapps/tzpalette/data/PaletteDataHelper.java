@@ -76,7 +76,7 @@ public class PaletteDataHelper
         
         mDataSource.open(true);
         
-        id = mDataSource.add(data);
+        id = mDataSource.add(data, getThumbQuality());
         
         mDataSource.close();
         
@@ -113,7 +113,7 @@ public class PaletteDataHelper
     {
         mDataSource.open(true);
         
-        mDataSource.update(data, updateThumb);
+        mDataSource.update(data, updateThumb, getThumbQuality());
         
         mDataSource.close();
     }
@@ -152,11 +152,37 @@ public class PaletteDataHelper
         return mContext.getResources().getInteger(resId);
     }
     
-    private String getString(int resId)
+    /** 
+     * Get thumb quality settings from shared perference and 
+     * convert it to int values
+     */
+    private int getThumbQuality()
     {
-        return mContext.getResources().getString(resId);
+        int quality;
+        
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String qualityStr = sp.getString(SettingsFragment.KEY_PREF_CACHE_THUMB_QUALITY, 
+                                         Constants.CACHE_THUMB_QUALITY_DEFAULT);
+        
+        if (qualityStr.equalsIgnoreCase("HIGH"))
+            quality = 100;
+        else if (qualityStr.equalsIgnoreCase("MEDIUM"))
+            quality = 85;
+        else if (qualityStr.equalsIgnoreCase("LOW"))
+            quality = 70;
+        else
+            quality = 85;
+        
+        return quality;
     }
 
+    /**
+     * Analysis the thumb in palette data to pick up its main colors
+     * automatically.
+     * 
+     * @param data          the PaletteData data to analysis
+     * @param reset         flag to indicate if remove the existing colors
+     */
     public void analysis(PaletteData data, boolean reset)
     {
         int numOfColors, deviation;
