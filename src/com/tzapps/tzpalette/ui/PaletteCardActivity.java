@@ -1,5 +1,6 @@
 package com.tzapps.tzpalette.ui;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -16,9 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
+import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -113,6 +119,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             case R.id.action_export:
                 if (MyDebug.LOG)
                     Log.d(TAG, "export palette card");
+                
+                exportPaletteCard();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -149,6 +157,33 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 }
                 break;
         }
+    }
+    
+    private void exportPaletteCard()
+    {
+        View paletteCard = (View) findViewById(R.id.palette_card_frame);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
+
+        assert (bitmap != null);
+
+        String title = mCardAdapter.getCurrentData().getTitle();
+
+        if (title == null)
+            title = getResources().getString(R.string.palette_title_default);
+        
+        String folderName = Constants.FOLDER_HOME + File.separator + Constants.SUBFOLDER_EXPORT;
+        String fileName = Constants.TZPALETTE_FILE_PREFIX + title.replace(" ", "_");
+
+        File file = BitmapUtils.saveBitmapToSDCard(bitmap, folderName + File.separator + fileName);
+
+        /* invoke the system's media scanner to add the photo to
+         * the Media Provider's database
+         */
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(Uri.fromFile(file));
+        sendBroadcast(mediaScanIntent);
+        
+        Toast.makeText(this, "Palette Card <" + title + "> exported", Toast.LENGTH_SHORT).show();
     }
     
     private void openEditView(long dataId)

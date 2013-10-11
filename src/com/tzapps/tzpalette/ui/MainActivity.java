@@ -208,10 +208,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 sharePalette();
                 return true;
 
-            case R.id.action_export:
-                exportPalette();
-                return true;
-
             case R.id.action_takePhoto:
                 takePhoto();
                 return true;
@@ -454,24 +450,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         sendIntent.putExtra(Intent.EXTRA_TEXT, "My Palette");
         startActivity(Intent.createChooser(sendIntent, "share"));
-    }
-
-    private void exportPalette()
-    {
-        View paletteCard = null; //(View) findViewById(R.id.capture_view_bottom_bar);
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
-
-        assert (bitmap != null);
-
-        String title = null; //mCurrentPalette.getTitle();
-
-        if (title == null)
-            title = getResources().getString(R.string.palette_title_default);
-
-        BitmapUtils.saveBitmapToSDCard(bitmap, Constants.FOLDER_HOME + File.separator + title);
-
-        Toast.makeText(this, "Palette <" + title + "> has been exported", Toast.LENGTH_SHORT)
-                .show();
     }
 
     @Override

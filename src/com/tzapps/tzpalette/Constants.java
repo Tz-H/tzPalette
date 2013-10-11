@@ -13,8 +13,10 @@ public final class Constants
     
     /** The folder home of tzpalette app */
     public static final String FOLDER_HOME = "tzpalette";
+    /** The sub export directory under the home folder */ 
+    public static final String SUBFOLDER_EXPORT = "export";
     /** The prefix for file in tzpalette app */
-    public static final String TZPALETTE_FILE_PREFIX = "MyPalette";
+    public static final String TZPALETTE_FILE_PREFIX = "MyPalette_";
     
     /** The maximum picture size in color analysis process. */
     public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;
