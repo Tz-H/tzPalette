@@ -49,6 +49,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_palette_card);
         
         String sorterName = getIntent().getExtras().getString(Constants.PALETTE_DATA_SORTER_NAME);
         mSorter = Sorter.fromString(sorterName);
@@ -56,9 +57,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         if (mSorter == null)
             mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
         
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.palette_card_pager);
-        setContentView(mViewPager);
+        mViewPager = (ViewPager) findViewById(R.id.palette_card_pager);
         
         mDataHelper = PaletteDataHelper.getInstance(this);
         mCardAdapter = new PaletteCardAdapter(this, mViewPager);
@@ -285,7 +284,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             // http://stackoverflow.com/questions/10849552/android-viewpager-cant-update-dynamically
             return POSITION_NONE;
         }
-
+        
         @Override
         public Fragment getItem(int position)
         {
