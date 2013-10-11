@@ -67,7 +67,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
 
-    private String mCurrentPhotoPath;
+    /** temp file used to cache the picture or photo, it should be cleanup when the app is exit. */
+    private File mTempFile;
     
     private PaletteDataHelper mDataHelper;
     private Sorter mDataSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
@@ -111,6 +112,19 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             if (type.startsWith("image/"))
                 handleSendImage(intent);
         }
+    }
+    
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        clearTemp();
+    }
+    
+    private void clearTemp()
+    {
+        if (mTempFile != null)
+            mTempFile.delete();
     }
 
     private void handleSendImage(Intent intent)
@@ -460,28 +474,17 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
     }
 
-    private File getAlbumDir()
+    private File getTempFile(String filename)
     {
-        File storageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                Constants.FOLDER_HOME);
-
-        if (!storageDir.isDirectory())
-            storageDir.mkdirs();
-
-        return storageDir;
-    }
-
-    private File createTempImageFile() throws IOException
-    {
-        // Create a temp image file
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = Constants.TZPALETTE_FILE_PREFIX + "_" + timeStamp;
-        File image = File.createTempFile(imageFileName, ".jpg", getAlbumDir());
-
-        mCurrentPhotoPath = image.getAbsolutePath();
-
-        return image;
+        String path = Environment.getExternalStorageDirectory().toString();
+        File file = new File(path + File.separator + Constants.FOLDER_HOME + File.separator + 
+                             Constants.SUBFOLDER_TEMP + File.separator + filename);
+        file.getParentFile().mkdirs();
+        
+        if (file.exists())
+            file.delete();
+        
+        return file;
     }
 
     /** Called when the user performs the Take Photo action */
@@ -491,24 +494,18 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         if (ActivityUtils.isIntentAvailable(getBaseContext(), MediaStore.ACTION_IMAGE_CAPTURE))
         {
-            try
-            {
-                File file = createTempImageFile();
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(takePictureIntent, TAKE_PHOTE_RESULT);
-            }
-            catch (IOException e)
-            {
-                Log.e(TAG, "take a photo failed");
-            }
+            mTempFile = getTempFile(Constants.TZPALETTE_TEMP_FILE_NAME);
+            
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTempFile));
+            startActivityForResult(takePictureIntent, TAKE_PHOTE_RESULT);
         }
         else
         {
             Log.e(TAG, "no camera found");
         }
     }
-
+    
     /** Called when the user performs the Load Picture action */
     private void loadPicture()
     {
@@ -525,32 +522,22 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         switch (requestCode)
         {
             case TAKE_PHOTE_RESULT:
-                if (resultCode == RESULT_OK && mCurrentPhotoPath != null)
+                if (resultCode == RESULT_OK)
                 {
+                    Uri imageUri = Uri.fromFile(mTempFile);
                     
-                    Uri selectedImage = Uri.fromFile(new File(mCurrentPhotoPath));
-                    
-                    if (selectedImage != null)
-                    {
-                        /* invoke the system's media scanner to add the photo to
-                         * the Media Provider's database
-                         */
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        mediaScanIntent.setData(selectedImage);
-                        sendBroadcast(mediaScanIntent);
-                        
-                        openEditView(selectedImage);
-                    }
+                    if (imageUri != null)
+                        openEditView(imageUri);
                 }
                 break;
 
             case LOAD_PICTURE_RESULT:
                 if (resultCode == RESULT_OK)
                 {
-                    Uri selectedImage = intent.getData();
-
-                    if (selectedImage != null)
-                        openEditView(selectedImage);
+                    Uri imageUri = intent.getData();
+                    
+                    if (imageUri != null)
+                        openEditView(imageUri);
                 }
                 break;
                 
@@ -573,6 +560,9 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                     // navigate to the palette list view after saving/updating a palette data
                     mTabsAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
                 }
+                
+                /* clean up the temp file when return from the edit view */
+                clearTemp();
                 break;
         }
     }

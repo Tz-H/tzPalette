@@ -17,6 +17,10 @@ public final class Constants
     public static final String SUBFOLDER_EXPORT = "export";
     /** The prefix for file in tzpalette app */
     public static final String TZPALETTE_FILE_PREFIX = "MyPalette_";
+    /** The sub temp directory under the home folder */
+    public static final String SUBFOLDER_TEMP = "temp";
+    /** The temporary file name in the temp folder */
+    public static final String TZPALETTE_TEMP_FILE_NAME = "MyPalette";
     
     /** The maximum picture size in color analysis process. */
     public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;
