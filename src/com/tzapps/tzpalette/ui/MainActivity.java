@@ -31,7 +31,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ShareActionProvider;
-import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
@@ -41,13 +40,12 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.debug.DebugInfo;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOption;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment;
-import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment.OnClickPaletteItemOptionListener;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment.OnClickPaletteDataSorterListener;
 
 public class MainActivity extends Activity implements OnFragmentStatusChangedListener,
