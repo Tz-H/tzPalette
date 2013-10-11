@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -28,8 +29,8 @@ import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
-import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
@@ -161,11 +162,13 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     
     private void exportPaletteCard()
     {
-        View paletteCard = (View) findViewById(R.id.palette_card_frame);
+        View view = mCardAdapter.getCurrentView();
+        View paletteCard = view.findViewById(R.id.palette_card_frame);
+        
         Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
 
         assert (bitmap != null);
-
+        
         String title = mCardAdapter.getCurrentData().getTitle();
 
         if (title == null)
@@ -195,12 +198,13 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }
     
-    private class PaletteCardAdapter extends FragmentPagerAdapter
+    private class PaletteCardAdapter extends FragmentStatePagerAdapter
     {
         private Context mContext;
         private ViewPager mViewPager;
         private List<PaletteData> dataList;
         private PaletteDataHelper mDataHelper;
+        private View mCurrentView;
 
         public PaletteCardAdapter(Activity activity, ViewPager pager)
         {
@@ -240,6 +244,11 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             return dataList.get(index);
         }
         
+        public View getCurrentView()
+        {
+            return mCurrentView;
+        }
+        
         public void updateCard(long dataId)
         {
             for (PaletteData d : dataList)
@@ -253,6 +262,29 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 }
             }
         }
+        
+        @Override 
+        public void setPrimaryItem(ViewGroup container, int position, Object object)
+        {
+            super.setPrimaryItem(container, position, object);
+            
+            mCurrentView = ((Fragment)object).getView();
+        }
+        
+        @Override
+        public int getItemPosition(Object object)
+        {
+            // force to destroy and recreate palette card in given 
+            // fragment, it will fix the issue that the palette card
+            // view cannot updated when open it in edit view and then
+            // save the change to back. However, it is inefficient 
+            // and might have the performance issue. And if so
+            // it will need to have a further tweaking. 
+            //
+            // see more detailed discussion on 
+            // http://stackoverflow.com/questions/10849552/android-viewpager-cant-update-dynamically
+            return POSITION_NONE;
+        }
 
         @Override
         public Fragment getItem(int position)
@@ -265,7 +297,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             
             return fragment;
         }
-        
+
         @Override
         public Object instantiateItem(ViewGroup container, int position)
         {

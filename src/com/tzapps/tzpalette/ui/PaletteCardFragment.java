@@ -58,6 +58,11 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         refresh();
     }
     
+    public PaletteData getData()
+    {
+        return mData;
+    }
+    
     private void refresh()
     {
         if (mData == null)
