@@ -562,7 +562,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                     
                     PaletteData data = mDataHelper.get(dataId);
                     
-                    if (data != null)
+                    if (data != null && mPaletteListFragment != null)
                     {
                         if (addNew)
                             mPaletteListFragment.add(data);
