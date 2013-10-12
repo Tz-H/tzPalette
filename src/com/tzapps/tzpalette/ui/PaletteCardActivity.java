@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.os.Environment;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -37,13 +37,15 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
 {
     private static final String TAG = "PaletteCardActivity";
 
-    private static final int PALETTE_CARD_EDIT_RESULT = 0;
+    private static final int PALETTE_CARD_EDIT_RESULT  = 0;
+    private static final int PALETTE_CARD_SHARE_RESULT = 1;
     
     private ViewPager mViewPager;
     private PaletteCardAdapter mCardAdapter;
     private PaletteDataHelper mDataHelper;
     
     private Sorter mSorter;
+    private File mTempShareFile;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -74,17 +76,27 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     }
     
     @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        clearTemp();
+    }
+    
+    private void clearTemp()
+    {
+        if (mTempShareFile != null)
+            mTempShareFile.delete();
+    }
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.palette_card_view_actions, menu);
 
-        // Locate MenuItem with ShareActionProvider
-        //MenuItem item = menu.findItem(R.id.action_share);
-
-        // Fetch and store ShareActionProvider
-        //mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        //Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -92,12 +104,14 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        PaletteData data = null;
-        
         switch (item.getItemId())
         {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+                
+            case R.id.action_share:
+                sharePaletteCard();
                 return true;
                 
             case R.id.action_edit:
@@ -159,14 +173,54 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                     }
                 }
                 break;
+                
+            case PALETTE_CARD_SHARE_RESULT:
+                if (mTempShareFile != null)
+                    mTempShareFile.delete();
+                break;
         }
+    }
+    
+    private File getTempFile(String filename)
+    {
+        String path = Environment.getExternalStorageDirectory().toString();
+        File file = new File(path + File.separator + Constants.FOLDER_HOME + File.separator + 
+                             Constants.SUBFOLDER_TEMP + File.separator + filename);
+        file.getParentFile().mkdirs();
+        
+        if (file.exists())
+            file.delete();
+        
+        return file;
+    }
+    
+    private void sharePaletteCard()
+    {
+        View view = mCardAdapter.getCurrentView();
+        View paletteCard = view.findViewById(R.id.palette_card_frame);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
+
+        assert (bitmap != null);
+
+        mTempShareFile = getTempFile(Constants.TZPALETTE_TEMP_SHARE_FILE_NAME);
+        BitmapUtils.saveBitmapToFile(bitmap, mTempShareFile);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+
+        shareIntent.setType("image/jpeg");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mTempShareFile));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mCardAdapter.getCurrentData().getTitle());
+        
+        String actionTitle = getString(R.string.title_share_action);
+        
+        startActivityForResult(Intent.createChooser(shareIntent, actionTitle),
+                               PALETTE_CARD_SHARE_RESULT);
     }
     
     private void exportPaletteCard()
     {
         View view = mCardAdapter.getCurrentView();
         View paletteCard = view.findViewById(R.id.palette_card_frame);
-        
         Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
 
         assert (bitmap != null);
@@ -208,7 +262,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }
     
-    private class PaletteCardAdapter extends FragmentStatePagerAdapter
+    private class PaletteCardAdapter extends FragmentStatePagerAdapter 
     {
         private Context mContext;
         private ViewPager mViewPager;
@@ -324,6 +378,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         {
             return dataList.size();
         }
+
     }
 
 }

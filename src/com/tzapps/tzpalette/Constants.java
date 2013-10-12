@@ -21,6 +21,8 @@ public final class Constants
     public static final String SUBFOLDER_TEMP = "temp";
     /** The temporary file name in the temp folder */
     public static final String TZPALETTE_TEMP_FILE_NAME = "MyPalette";
+    /** The temporary file name in the temp folder */
+    public static final String TZPALETTE_TEMP_SHARE_FILE_NAME = "Share.jpg";
     
     /** The maximum picture size in color analysis process. */
     public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;

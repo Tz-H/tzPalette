@@ -1,10 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -15,7 +12,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,11 +26,9 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ShareActionProvider;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
-import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -72,8 +66,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     
     private PaletteDataHelper mDataHelper;
     private Sorter mDataSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
-
-    private ShareActionProvider mShareActionProvider;
 
     private PaletteListFragment mPaletteListFragment;
 
@@ -201,25 +193,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         return super.onCreateOptionsMenu(menu);
     }
 
-    // Call to update the share intent
-    private void setShareIntent(Intent shareIntent)
-    {
-        if (mShareActionProvider != null)
-        {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         // Handle presses on the action bar items
         switch (item.getItemId())
         {
-            case R.id.action_share:
-                sharePalette();
-                return true;
-
             case R.id.action_takePhoto:
                 takePhoto();
                 return true;
@@ -243,7 +222,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
                 
             case R.id.action_feedback:
-               sendFeedback();
+                sendFeedback();
                 return true;
 
             default:
@@ -441,27 +420,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         );
 
         dialog.show();
-    }
-
-    private void sharePalette()
-    {
-        View paletteCard = null; //(View) findViewById(R.id.capture_view_frame);
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
-
-        assert (bitmap != null);
-
-        // TODO make the share function work rather than just a trial version
-
-        String name = Constants.FOLDER_HOME + File.separator + "share";
-
-        File file = BitmapUtils.saveBitmapToSDCard(bitmap, name);
-
-        Intent sendIntent = new Intent(Intent.ACTION_SEND);
-
-        sendIntent.setType("image/jpeg");
-        sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "My Palette");
-        startActivity(Intent.createChooser(sendIntent, "share"));
     }
 
     @Override
