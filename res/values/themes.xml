@@ -2,25 +2,14 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarTabBarStyle">@style/Actionbar_TabBar</item>
-        <item name="android:actionBarTabStyle">@style/ActionBar_Tab</item>
-        <item name="android:actionBarTabTextStyle">@style/ActionBar_TabText</item>
+    <style name="MyTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarSize">40dp</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
     
-    <!-- ActionBar tab bar style -->
-    <style name="Actionbar_TabBar" parent="@android:style/Widget.Holo.ActionBar.TabBar">
-	    <item name="android:divider">@null</item>
-	</style>
-    
-    <!-- ActionBar tab style -->
-    <style name="ActionBar_Tab" parent="@android:style/Widget.Holo.ActionBar.TabView">
-    </style>
-    
-    <!-- ActoinBar tab text style -->
-    <style name="ActionBar_TabText" parent="@android:style/Theme.Holo.Light">
-        <item name="android:textSize">16sp</item>
+    <!--  ActionBar style -->
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/action_bar_bg</item>
     </style>
     
 </resources>

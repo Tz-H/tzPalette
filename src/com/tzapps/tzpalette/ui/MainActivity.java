@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private static final int PAGE_ABOUT_VIEW_POSITION   = 2;
 
     private ViewPager mViewPager;
-    private TabsAdapter mTabsAdapter;
+    private PageAdapter mPageAdapter;
 
     /** temp file used to cache the picture or photo, it should be cleanup when the app is exit. */
     private File mTempFile;
@@ -73,26 +73,23 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         ActivityUtils.forceToShowOverflowOptionsOnActoinBar(this);
 
         mDataHelper = PaletteDataHelper.getInstance(this);
 
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.main_pager);
-        setContentView(mViewPager);
+        mViewPager = (ViewPager) findViewById(R.id.main_pager);
 
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        mTabsAdapter = new TabsAdapter(this, mViewPager);
-        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_capture_view)), CaptureFragment.class, null);
-        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_palette_list_view)), PaletteListFragment.class,null);
-        mTabsAdapter.addTab(actionBar.newTab().setText(getString(R.string.title_about_view)), AboutFragment.class, null);
+        mPageAdapter = new PageAdapter(this, mViewPager);
+        
+        mPageAdapter.addPage(getString(R.string.title_capture_view), CaptureFragment.class, null);
+        mPageAdapter.addPage(getString(R.string.title_palette_list_view), PaletteListFragment.class,null);
+        mPageAdapter.addPage(getString(R.string.title_about_view), AboutFragment.class, null);
         
         // Open palette list view directly if there has been already record in database
         if (mDataHelper.getDataCount() > 0)
-            mTabsAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
+            mPageAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
@@ -132,7 +129,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("tab", mTabsAdapter.getSelectedNavigationIndex());
+        outState.putInt("selectedPage", mPageAdapter.getSelectedPage());
     }
 
     @Override
@@ -140,7 +137,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onRestoreInstanceState(savedInstanceState);
 
-        mTabsAdapter.setSelectedTab(savedInstanceState.getInt("tab", 0));
+        mPageAdapter.setSelectedPage(savedInstanceState.getInt("selectedPage", 0));
     }
     
     @Override
@@ -218,7 +215,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_about:
-                mTabsAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
+                mPageAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
                 return true;
                 
             case R.id.action_feedback:
@@ -516,7 +513,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                     }
                     
                     // navigate to the palette list view after saving/updating a palette data
-                    mTabsAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
+                    mPageAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
                 }
                 
                 /* clean up the temp file when return from the edit view */
@@ -558,73 +555,69 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
      * changes in tabs, and takes care of switch to the correct paged in the ViewPager whenever the
      * selected tab changes.
      */
-    public class TabsAdapter extends FragmentPagerAdapter
-            implements ActionBar.TabListener, ViewPager.OnPageChangeListener
+    public class PageAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener
     {
         private final Context mContext;
-        private final ActionBar mActionBar;
         private final ViewPager mViewPager;
-        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
+        private final ArrayList<PageInfo> mPages = new ArrayList<PageInfo>();
 
-        final class TabInfo
+        final class PageInfo
         {
+            private final String title;
             private final Class<?> clss;
             private final Bundle args;
 
-            TabInfo(Class<?> _class, Bundle _args)
+            PageInfo(String _title, Class<?> _class, Bundle _args)
             {
+                title = _title;
                 clss = _class;
                 args = _args;
             }
         }
 
-        public TabsAdapter(Activity activity, ViewPager pager)
+        public PageAdapter(Activity activity, ViewPager pager)
         {
             super(activity.getFragmentManager());
             mContext = activity;
-            mActionBar = activity.getActionBar();
             mViewPager = pager;
             mViewPager.setAdapter(this);
             mViewPager.setOnPageChangeListener(this);
         }
 
-        public int getSelectedNavigationIndex()
+        public int getSelectedPage()
         {
-            return mActionBar.getSelectedNavigationIndex();
+            return mViewPager.getCurrentItem();
         }
 
-        public void setSelectedTab(int position)
-        {
-            mActionBar.setSelectedNavigationItem(position);
-        }
-        
         public void setSelectedPage(int position)
         {
             mViewPager.setCurrentItem(position);
         }
 
-        public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args)
+        public void addPage(String title, Class<?> clss, Bundle args)
         {
-            TabInfo info = new TabInfo(clss, args);
-            tab.setTag(info);
-            tab.setTabListener(this);
+            PageInfo info = new PageInfo(title, clss, args);
 
-            mTabs.add(info);
-            mActionBar.addTab(tab);
-
+            mPages.add(info);
             notifyDataSetChanged();
+        }
+        
+        @Override
+        public CharSequence getPageTitle(int position)
+        {
+            return mPages.get(position).title;
         }
 
         @Override
         public int getCount()
         {
-            return mTabs.size();
+            return mPages.size();
         }
 
         @Override
         public Fragment getItem(int position)
         {
-            TabInfo info = mTabs.get(position);
+            PageInfo info = mPages.get(position);
 
             return Fragment.instantiate(mContext, info.clss.getName(), info.args);
         }
@@ -632,11 +625,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         @Override
         public void onPageSelected(int position)
         {
-            mActionBar.setSelectedNavigationItem(position);
-            
             //Invalidate the options menu to re-create them
             updateOptionMenu();
-            
         }
 
         @Override
@@ -645,20 +635,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         @Override
         public void onPageScrollStateChanged(int state)
-        {}
-
-        @Override
-        public void onTabSelected(Tab tab, FragmentTransaction ft)
-        {
-            mViewPager.setCurrentItem(tab.getPosition());
-        }
-
-        @Override
-        public void onTabUnselected(Tab tab, FragmentTransaction ft)
-        {}
-
-        @Override
-        public void onTabReselected(Tab tab, FragmentTransaction ft)
         {}
     }
 }

@@ -16,5 +16,12 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <!-- Pager Title Sritp Text style -->
+    <style name="PagerTitleStripText">
+      <item name="android:textSize">14sp</item>
+      <item name="android:textStyle">bold</item>
+      <item name="android:textColor">@color/pager_title_strip_text</item>
+    </style>
 
 </resources>
