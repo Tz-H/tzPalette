@@ -11,19 +11,41 @@
         android:layout_height="match_parent" >
     </android.support.v4.view.ViewPager>
     
-    <ImageButton 
-        android:id="@+id/btn_edit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <LinearLayout 
+        android:id="@+id/palette_card_view_action_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:padding="5dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:src="@android:drawable/ic_menu_edit"
-        android:scaleType="fitCenter"
-        android:background="@drawable/button_dark_bg" 
-        android:contentDescription="@string/btn_edit_desc"/>
+        android:padding="10dp"
+        android:gravity="left"
+        android:orientation="horizontal">
+        
+	    <ImageButton 
+	        android:id="@+id/btn_edit"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:padding="5dp"
+	        android:clickable="true"
+	        android:onClick="onClick"
+	        android:src="@android:drawable/ic_menu_edit"
+	        android:scaleType="fitCenter"
+	        android:background="@drawable/button_dark_bg" 
+	        android:contentDescription="@string/btn_edit_desc"/>
+	    
+	    <ImageButton 
+	        android:id="@+id/btn_share"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:layout_marginLeft="10dp"
+	        android:padding="5dp"
+	        android:clickable="true"
+	        android:onClick="onClick"
+	        android:src="@android:drawable/ic_menu_share"
+	        android:scaleType="fitCenter"
+	        android:background="@drawable/button_dark_bg" 
+	        android:contentDescription="@string/btn_share_desc"/>
+    
+    </LinearLayout>
 
 </RelativeLayout>

@@ -140,6 +140,10 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             case R.id.btn_edit:
                 openEditView();
                 break;
+                
+            case R.id.btn_share:
+                sharePaletteCard();
+                break;
         }
     }
 
