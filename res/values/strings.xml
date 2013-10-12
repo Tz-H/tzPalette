@@ -27,7 +27,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_favourite">Mask as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
-    <string name="action_sendEmail">Send Email</string>
+    <string name="action_emailPalette">Email palette</string>
     <string name="action_cancel">Cencel</string>
     <string name="action_clearAll">Clear All</string>
     <string name="action_feedback">Feedback</string>

@@ -104,9 +104,9 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 openEditView();
                 return true;
                 
-            case R.id.action_sendEmail:
+            case R.id.action_emailPalette:
                 if (MyDebug.LOG)
-                    Log.d(TAG, "send email");
+                    Log.d(TAG, "send palette card via email");
                 return true;
                 
             case R.id.action_export:

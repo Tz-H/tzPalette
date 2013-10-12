@@ -22,8 +22,8 @@
     
     <!-- Send palette via email. should always be in the overflow -->
     <item
-        android:id="@+id/action_sendEmail"
+        android:id="@+id/action_emailPalette"
         android:showAsAction="never"
-        android:title="@string/action_sendEmail"/>
+        android:title="@string/action_emailPalette"/>
     
 </menu>
