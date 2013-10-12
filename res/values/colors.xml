@@ -28,7 +28,9 @@
     
     <color name="capture_view_colors_bar_border">#ECECEC</color>
     
-    <color name="button_highlight_bg">#BBDBE7</color>
+    <color name="button_no_bg_highlight">#BBDBE7</color>
+    <color name="button_dark_bg">#80000000</color>
+    <color name="button_dark_bg_highlight">#40000000</color>
     
     <color name="clickable_text">#1F6181</color>
     <color name="clickable_text_pressed">#66A4BD</color>

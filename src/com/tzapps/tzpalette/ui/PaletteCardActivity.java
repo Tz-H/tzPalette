@@ -101,14 +101,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 return true;
                 
             case R.id.action_edit:
-                data = mCardAdapter.getCurrentData();
-                if (data != null)
-                {
-                    if (MyDebug.LOG)
-                        Log.d(TAG, "edit palette card: " + data);
-                    
-                    openEditView(data.getId());
-                }
+                openEditView();
                 return true;
                 
             case R.id.action_sendEmail:
@@ -124,6 +117,16 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.btn_edit:
+                openEditView();
+                break;
+        }
     }
 
     @Override
@@ -188,11 +191,19 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         Toast.makeText(this, "Palette Card <" + title + "> exported", Toast.LENGTH_SHORT).show();
     }
     
-    private void openEditView(long dataId)
+    private void openEditView()
     {
+        PaletteData data = mCardAdapter.getCurrentData();
+        
+        if (data == null)
+            return;
+        
+        if (MyDebug.LOG)
+            Log.d(TAG, "edit palette card: " + data);
+        
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
-        intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
+        intent.putExtra(Constants.PALETTE_DATA_ID, data.getId());
         
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }

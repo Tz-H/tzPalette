@@ -45,7 +45,7 @@
          android:id="@+id/palette_item_options"
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"
-         android:background="@drawable/button"
+         android:background="@drawable/button_no_bg"
          android:src="@android:drawable/ic_menu_more"
          android:onClick="onClick"
          android:contentDescription="@string/palette_option_btn_desc"/>
