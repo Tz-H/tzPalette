@@ -118,6 +118,10 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 openEditView();
                 return true;
                 
+            case R.id.action_delete:
+                deletePaletteCard();
+                return true;
+                
             case R.id.action_emailPalette:
                 if (MyDebug.LOG)
                     Log.d(TAG, "send palette card via email");
@@ -143,6 +147,10 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 
             case R.id.btn_share:
                 sharePaletteCard();
+                break;
+                
+            case R.id.btn_delete:
+                deletePaletteCard();
                 break;
         }
     }
@@ -173,7 +181,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                     
                     if (dataId != -1)
                     {
-                        mCardAdapter.updateCard(dataId);
+                        PaletteData data = mDataHelper.get(dataId);
+                        mCardAdapter.updateCard(data);
                     }
                 }
                 break;
@@ -266,6 +275,20 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }
     
+    private void deletePaletteCard()
+    {
+        PaletteData data = mCardAdapter.getCurrentData();
+        
+        if (data == null)
+            return;
+        
+        if (MyDebug.LOG)
+            Log.d(TAG, "delete paletted card: " + data);
+        
+        mCardAdapter.deleteCard(data);
+        mDataHelper.delete(data);
+    }
+    
     private class PaletteCardAdapter extends FragmentStatePagerAdapter 
     {
         private Context mContext;
@@ -317,17 +340,37 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             return mCurrentView;
         }
         
-        public void updateCard(long dataId)
+        public void updateCard(PaletteData data)
         {
             for (PaletteData d : dataList)
             {
-                if (d.getId() == dataId)
+                if (d.getId() == data.getId() && !d.equals(data))
                 {
-                    d.copy(mDataHelper.get(dataId));
+                    d.copy(data);
                     Collections.sort(dataList, mSorter.getComparator());
                     notifyDataSetChanged();
                     break;
                 }
+            }
+        }
+        
+        public void deleteCard(PaletteData data)
+        {
+            int index = -1;
+            
+            for (int i = 0; i < dataList.size(); i++)
+            {
+                if (dataList.get(i).getId() == data.getId())
+                {
+                    index = i;
+                    break;
+                }
+            }
+            
+            if (index != -1)
+            {
+                dataList.remove(index);
+                notifyDataSetChanged();
             }
         }
         

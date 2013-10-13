@@ -25,4 +25,10 @@
         android:showAsAction="never"
         android:title="@string/action_emailPalette"/>
     
+    <!-- Delete palette. should always be in the overflow -->
+    <item
+        android:id="@+id/action_delete"
+        android:showAsAction="never"
+        android:title="@string/action_delete"/>
+    
 </menu>
