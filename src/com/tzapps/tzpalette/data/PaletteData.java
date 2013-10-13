@@ -209,6 +209,27 @@ public class PaletteData implements Parcelable
         isFavourite = favourite;
     }
     
+    /**
+     * Compares the given palette data with the data, and returns true 
+     * if they represent the same data
+     *  
+     * @param data the palette data to compare
+     * 
+     * @return true if they are the same data, otherwise false
+     */
+    public boolean equals(PaletteData data)
+    {
+        if (data == null)
+            return false;
+        
+        return (this.id == data.id                    &&
+                this.mUpdated == data.mUpdated        &&
+                this.mTitle.equals(data.mTitle)       &&
+                this.mImageUrl.equals(data.mImageUrl) &&
+                this.isFavourite == data.isFavourite  &&
+                this.mColors.equals(data.mColors));
+    }
+    
     @Override
     public String toString()
     {
