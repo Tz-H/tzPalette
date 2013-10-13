@@ -10,6 +10,7 @@
     android:orientation="horizontal"
     android:background="@color/app_bg" >
 
+    <!-- 
     <ImageButton
         android:id="@+id/btn_takePhoto"
         android:layout_width="60dp"
@@ -40,6 +41,76 @@
         android:scaleType="fitCenter"
         android:soundEffectsEnabled="true"
         android:src="@android:drawable/ic_menu_gallery" />
-	    
+	     -->
+    
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+        
+        <LinearLayout 
+            android:id="@+id/btn_takePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/capture_view_banner">
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="@color/app_bg"
+                android:text="Take a photo by"/>
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="60sp"
+                android:textColor="@color/app_bg"
+                android:textStyle="bold"
+                android:text="Cemera" />"
+            
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:id="@+id/btn_loadPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_takePhoto"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/capture_view_banner">
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="@color/app_bg"
+                android:text="Pick a picture from"/>
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="60sp"
+                android:textColor="@color/app_bg"
+                android:textStyle="bold"
+                android:text="Gallery" />
+            
+        </LinearLayout>
+        
+    </RelativeLayout>
 
 </LinearLayout>

@@ -20,6 +20,9 @@
     <color name="pager_title_strip_bg">#1A2635</color>
     <color name="pager_title_strip_text">#EFEFEF</color>
     
+    <color name="capture_view_banner_bg">#5A1A2D</color>
+    <color name="capture_view_banner_bg_highlight">#66A4BD</color>
+    
     <color name="palette_card_bg">#F3F1EC</color>
     <color name="palette_card_border">#222222</color>
     <color name="palette_card_pic_init_bg">#FAFAFA</color>
