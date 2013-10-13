@@ -9,39 +9,6 @@
     android:gravity="center"
     android:orientation="horizontal"
     android:background="@color/app_bg" >
-
-    <!-- 
-    <ImageButton
-        android:id="@+id/btn_takePhoto"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_no_bg"
-        android:contentDescription="@string/btn_takePhoto_desc"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:soundEffectsEnabled="true"
-        android:src="@android:drawable/ic_menu_camera" />
-
-    <ImageView
-        android:id="@+id/pic_separator"
-        android:layout_width="2dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@android:drawable/divider_horizontal_bright"
-        tools:ignore="ContentDescription" />
-
-    <ImageButton
-        android:id="@+id/btn_loadPicture"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_no_bg"
-        android:contentDescription="@string/btn_loadPicture_desc"
-        android:onClick="onClick"
-        android:scaleType="fitCenter"
-        android:soundEffectsEnabled="true"
-        android:src="@android:drawable/ic_menu_gallery" />
-	     -->
     
     <RelativeLayout 
         android:layout_width="fill_parent"
@@ -64,7 +31,7 @@
                 android:layout_marginRight="20dp"
                 android:textSize="18sp"
                 android:textColor="@color/app_bg"
-                android:text="Take a photo by"/>
+                android:text="@string/capture_view_take_photo_1"/>
             
             <TextView 
                 android:layout_width="wrap_content"
@@ -74,7 +41,7 @@
                 android:textSize="60sp"
                 android:textColor="@color/app_bg"
                 android:textStyle="bold"
-                android:text="Cemera" />"
+                android:text="@string/capture_view_take_photo_2" />"
             
         </LinearLayout>
         
@@ -97,7 +64,7 @@
                 android:layout_marginRight="20dp"
                 android:textSize="18sp"
                 android:textColor="@color/app_bg"
-                android:text="Pick a picture from"/>
+                android:text="@string/capture_view_pick_picture_1"/>
             
             <TextView 
                 android:layout_width="wrap_content"
@@ -107,7 +74,7 @@
                 android:textSize="60sp"
                 android:textColor="@color/app_bg"
                 android:textStyle="bold"
-                android:text="Gallery" />
+                android:text="@string/capture_view_pick_picture_2" />
             
         </LinearLayout>
         
