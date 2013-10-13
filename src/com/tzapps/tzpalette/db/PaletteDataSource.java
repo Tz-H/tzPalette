@@ -28,6 +28,8 @@ public class PaletteDataSource
 {
     private static final String TAG = "PaletteDataSource";
     
+    private static PaletteDataSource sInstance = null;
+    
     private Context mContext;
     // Database fields
     private SQLiteDatabase db;
@@ -49,7 +51,20 @@ public class PaletteDataSource
             PaletteThumbEntry.COLUMN_NAME_THUMB
         };
     
-    public PaletteDataSource(Context context)
+    public static PaletteDataSource getInstance(Context context)
+    {
+        // Use the application context, which will ensure that you 
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null)
+        {
+            sInstance = new PaletteDataSource(context.getApplicationContext());
+        }
+        
+        return sInstance;
+    }
+    
+    private PaletteDataSource(Context context)
     {
         mContext = context;
         dbHelper = PaletteDataDbHelper.getInstance(context);

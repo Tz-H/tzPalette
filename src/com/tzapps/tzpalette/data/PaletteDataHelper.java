@@ -32,53 +32,47 @@ public class PaletteDataHelper
     private PaletteDataHelper(Context context)
     {
         mContext = context;
-        mDataSource = new PaletteDataSource(context);
+        mDataSource = PaletteDataSource.getInstance(context);
     };
     
     public static PaletteDataHelper getInstance(Context context)
     {
         if (instance == null)
-            instance = new PaletteDataHelper(context);
+            instance = new PaletteDataHelper(context.getApplicationContext());
         
         return instance;
     }
     
+    public void openDb(boolean writable)
+    {
+        mDataSource.open(writable);
+    }
+    
+    public void closeDb()
+    {
+        mDataSource.close();
+    }
+    
     public void delete(PaletteData data)
     {
-        mDataSource.open(true);
-        
         mDataSource.delete(data);
-        
-        mDataSource.close();
     }
     
     public void delete(long id)
     {
-        mDataSource.open(true);
-        
         mDataSource.delete(id);
-        
-        mDataSource.close();
     }
     
     public void deleteAll()
     {
-        mDataSource.open(true);
-        
         mDataSource.deleteAll();
-        
-        mDataSource.close();
     }
     
     public long add(PaletteData data)
     {
         long id = -1;
         
-        mDataSource.open(true);
-        
         id = mDataSource.add(data, getThumbQuality());
-        
-        mDataSource.close();
         
         return id;
     }
@@ -87,11 +81,7 @@ public class PaletteDataHelper
     {
         Bitmap bitmap = null;
         
-        mDataSource.open(false);
-        
         bitmap = mDataSource.getThumb(id);
-        
-        mDataSource.close();
         
         return bitmap;
     }
@@ -100,22 +90,14 @@ public class PaletteDataHelper
     {
         PaletteData data = null;
         
-        mDataSource.open(false);
-        
         data = mDataSource.get(id);
-        
-        mDataSource.close();
         
         return data;
     }
     
     public void update(PaletteData data, boolean updateThumb)
     {
-        mDataSource.open(true);
-        
         mDataSource.update(data, updateThumb, getThumbQuality());
-        
-        mDataSource.close();
     }
     
     /**
@@ -126,24 +108,14 @@ public class PaletteDataHelper
     public int getDataCount()
     {
         int count = 0;
-        
-        mDataSource.open(false);
         count = mDataSource.count();
-        mDataSource.close();
-        
         return count;
     }
     
     public List<PaletteData> getAllData()
     {
         List<PaletteData> dataList = null;
-        
-        mDataSource.open(false);
-        
         dataList = mDataSource.getAllPaletteData();
-        
-        mDataSource.close();
-        
         return dataList;
     }
     

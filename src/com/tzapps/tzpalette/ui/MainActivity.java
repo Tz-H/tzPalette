@@ -78,6 +78,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         ActivityUtils.forceToShowOverflowOptionsOnActoinBar(this);
 
         mDataHelper = PaletteDataHelper.getInstance(this);
+        mDataHelper.openDb(true);
 
         mViewPager = (ViewPager) findViewById(R.id.main_pager);
 
@@ -108,6 +109,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onDestroy();
         clearTemp();
+        mDataHelper.closeDb();
     }
     
     private void clearTemp()

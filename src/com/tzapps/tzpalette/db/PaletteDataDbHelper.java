@@ -68,7 +68,7 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
         // See this article for more information: http://bit.ly/6LRzfx
         if (sInstance == null)
         {
-          sInstance = new PaletteDataDbHelper(context.getApplicationContext());
+            sInstance = new PaletteDataDbHelper(context.getApplicationContext());
         }
         
         return sInstance;
