@@ -13,6 +13,8 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
 {
     private static final String TAG = "PaletteDataDbHelper";
     
+    private static PaletteDataDbHelper sInstance = null;
+    
     /**
      * Database version.<br/><br/>
      * If you change the database schema, you must increment the database version.
@@ -59,7 +61,24 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
             "ALTER TABLE " + PaletteDataEntry.TABLE_NAME + " ADD COLUMN "
                 + PaletteDataEntry.COLUMN_NAME_ISFAVOURITE + TEXT_TYPE + SEMICOLON_SEP;
     
-    public PaletteDataDbHelper(Context context)
+    public static PaletteDataDbHelper getInstance(Context context)
+    {
+        // Use the application context, which will ensure that you 
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null)
+        {
+          sInstance = new PaletteDataDbHelper(context.getApplicationContext());
+        }
+        
+        return sInstance;
+    }
+    
+    /**
+     * Constructor should be private to prevent direct instantiation.
+     * make call to static factory method "getInstance()" instead.
+     */
+    private PaletteDataDbHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

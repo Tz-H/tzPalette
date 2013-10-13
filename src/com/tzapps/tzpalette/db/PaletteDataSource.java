@@ -52,7 +52,7 @@ public class PaletteDataSource
     public PaletteDataSource(Context context)
     {
         mContext = context;
-        dbHelper = new PaletteDataDbHelper(context);
+        dbHelper = PaletteDataDbHelper.getInstance(context);
     }
     
     public void open(boolean writable)
