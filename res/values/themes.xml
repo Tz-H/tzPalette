@@ -12,4 +12,9 @@
         <item name="android:background">@color/action_bar_bg</item>
     </style>
     
+    <!--  Settings view theme -->
+    <style name="SettingsTheme" parent="MyTheme">
+        <item name="android:windowBackground">@color/settings_view_bg</item>
+    </style>
+    
 </resources>
