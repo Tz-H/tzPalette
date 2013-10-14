@@ -2,6 +2,8 @@ package com.tzapps.tzpalette.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteData implements Parcelable
@@ -98,6 +101,8 @@ public class PaletteData implements Parcelable
     public void addColor(int color)
     {
         mColors.add(color);
+        
+        Collections.sort(mColors, ColorUtils.colorSorter);
     }
     
     public void removeColor(int color)
@@ -132,14 +137,12 @@ public class PaletteData implements Parcelable
     public int[] getColors()
     {
         int numOfColors = mColors.size();
-        int[] colors = new int[mColors.size()];
+        int[] colors = new int[numOfColors];
         
         for (int i = 0; i < numOfColors; i++)
         {
             colors[i] = mColors.get(i);
         }
-        
-        Arrays.sort(colors);
         
         return colors;
     }

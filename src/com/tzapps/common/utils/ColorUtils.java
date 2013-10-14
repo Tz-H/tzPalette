@@ -1,5 +1,7 @@
 package com.tzapps.common.utils;
 
+import java.util.Comparator;
+
 import android.graphics.Color;
 
 public class ColorUtils
@@ -26,6 +28,36 @@ public class ColorUtils
     public static double[] D65 = {95.0429, 100.0, 108.8900};
     public static double[] D75 = {94.9722, 100.0, 122.6394};
     public static double[] whitePoint = D65;
+    
+    public static Comparator<Integer> colorSorter = new Comparator<Integer>(){
+        @Override
+        public int compare(Integer lColor, Integer rColor)
+        {
+            int[] leftHSL  = ColorUtils.colorToHSL(lColor);
+            int[] rightHSL = ColorUtils.colorToHSL(rColor);
+
+            if (leftHSL[2] != rightHSL[2])
+            {
+                // sort color by its lightness first
+                // put the darker color at top
+                return leftHSL[2] - rightHSL[2];
+            }
+            else if (leftHSL[0] != rightHSL[0])
+            {
+                // then its hue value
+                return leftHSL[0] - rightHSL[0];
+            }
+            else if (leftHSL[1] != rightHSL[1])
+            {
+                // then its saturation
+                return leftHSL[1] - rightHSL[1];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    };
     
     /**
      *  Convert RGB Color to a HTML string (#RRGGBB).
