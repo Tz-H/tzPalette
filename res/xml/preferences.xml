@@ -15,19 +15,19 @@
             custom:max="@integer/pref_setColorNumber_max"
             custom:min="@integer/pref_setColorNumber_min"
             android:defaultValue="@integer/pref_setColorNumber_default" />
-        
-        <!-- Example of how to use the SeekBarDialogPreference
+        <!-- 
         <com.tzapps.common.ui.preference.SeekBarDialogPreference
             android:key="pref_setColorNumber"
             android:title="@string/pref_setColorNumber"
-            android:summary="@integer/pref_setColorNumber_default"
+            android:summary="@string/pref_setColorNumber_summ"
+            android:dialogTitle="@string/pref_setColorNumber_dialogTitle"
             android:inputType="number"
             custom:progressMax="@integer/pref_setColorNumber_max"
             custom:progressMin="@integer/pref_setColorNumber_min"
             custom:progressStep="1"
-            custom:progressTextSuffix="%"
+            custom:progressTextSuffix=" colors"
             android:defaultValue="@integer/pref_setColorNumber_default" />
-        -->
+         -->
         
         <PreferenceScreen
             android:key="pref_analysisAdvancedOptions"

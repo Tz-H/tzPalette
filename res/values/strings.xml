@@ -61,7 +61,7 @@
     
     <string name="palette_item_updated">Updated by %1$s</string>
     
-    <string name="analysis_picture_in_process">Analysing...</string>
+    <string name="analysis_picture_in_process">Color analysis in process...</string>
     
     <string name="img_pic_desc">The picture displayed in capture view</string>
     <string name="img_pic_frame_desc">The picture frame in capture view</string>
@@ -77,9 +77,9 @@
     
     <string name="pref_colorAnalysis_Title">Color Analysis Settings</string>
     
-    <string name="pref_setColorNumber">Color grids number: %1$s</string>
+    <string name="pref_setColorNumber">Color number in analysis: %1$s</string>
     <string name="pref_setColorNumber_dialogTitle">Choose Number</string>
-    <string name="pref_setColorNumber_summ">The total number of color grids stored in a palette.</string>
+    <string name="pref_setColorNumber_summ">The total number of color picked up in color analysis.</string>
     
     <string name="pref_analysisAdvancedOptions">Advanced options</string>
     <string name="pref_analysisAdvancedOptions_summ">Advanced options for color analysis process.</string>
