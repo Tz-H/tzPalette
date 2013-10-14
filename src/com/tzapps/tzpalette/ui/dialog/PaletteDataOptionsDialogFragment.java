@@ -91,7 +91,10 @@ public class PaletteDataOptionsDialogFragment extends DialogFragment implements 
         builder.setNegativeButton(android.R.string.cancel, null);
         builder.setItems(mOptionEntries, this);
 
-        return builder.create();
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        
+        return dialog;
     }
     
     public static String[] removeElements(String[] input, String...removeElements)
@@ -110,16 +113,6 @@ public class PaletteDataOptionsDialogFragment extends DialogFragment implements 
         return result.toArray(new String[]{});
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        getDialog().setCanceledOnTouchOutside(true);
-
-        return view;
-    }
-    
     @Override
     public void onClick(DialogInterface dialog, int which)
     {

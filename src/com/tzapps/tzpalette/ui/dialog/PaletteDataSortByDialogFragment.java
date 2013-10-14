@@ -66,20 +66,13 @@ public class PaletteDataSortByDialogFragment extends DialogFragment implements D
         builder.setTitle(title);
         builder.setNegativeButton(android.R.string.cancel, null);
         builder.setItems(mEntries, this);
+        
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
 
         return builder.create();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        getDialog().setCanceledOnTouchOutside(true);
-
-        return view;
-    }
-    
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
