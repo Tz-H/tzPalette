@@ -31,6 +31,7 @@
     <string name="action_open">Open</string>
     <string name="action_view">View</string>
     <string name="action_edit">Edit</string>
+    <string name="action_copy">Copy</string>
     <string name="action_favourite">Mask as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_emailPalette">Email palette</string>
@@ -41,6 +42,17 @@
     <string name="action_sortBy">Sort By</string>
     <string name="action_sortBy_title">Palette Name</string>
     <string name="action_sortBy_updated">Recently Updated</string>
+    
+    <string name="color_info_rgb_title">RGB</string>
+    <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
+    <string name="color_info_hsv_title">HSV</string>
+    <string name="color_info_hsv_value">H = %1$d° S = %2$d%% V = %3$d%%</string>
+    <string name="color_info_hsl_title">HSL</string>
+    <string name="color_info_hsl_value">H = %1$d° S = %2$d%% L = %3$d%%</string>
+    <string name="color_info_lab_title">LAB</string>
+    <string name="color_info_lab_value">L = %1$d a = %2$d b = %3$d</string>
+    <string name="color_info_cmyk_title">CMYK</string>
+    <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     

@@ -22,8 +22,10 @@ import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
+import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
 
-public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener
+public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener
 {
     private static final String TAG = "PaletteCardFragment";
     
@@ -46,6 +48,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         mThumb = (ImageView)view.findViewById(R.id.palette_card_thumb);
         mColors = (PaletteColorGrid)view.findViewById(R.id.palette_card_colors);
         mColors.setOnItemLongClickListener(this);
+        mColors.setOnItemClickListener(this);
         
         refresh();
         
@@ -130,6 +133,16 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
         
         return true;
+    }
+    
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColors.getColor(position);
+        
+        ColorInfoDialogFragment dialogFrag =
+                ColorInfoDialogFragment.newInstance("Color Info", color);
+        dialogFrag.show(getFragmentManager(), "dialog");
     }
 
 }

@@ -23,5 +23,14 @@
       <item name="android:textStyle">bold</item>
       <item name="android:textColor">@color/pager_title_strip_text</item>
     </style>
+    
+    <!--  Color Info View Color Bar Text style -->
+    <style name="ColorInfoColorBarText">
+    <item name="android:textColor">@color/color_bar_text</item>
+    <item name="android:shadowColor">@color/color_bar_text_shadow</item>
+    <item name="android:shadowDx">1</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">1</item>
+  </style>
 
 </resources>

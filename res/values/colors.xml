@@ -42,5 +42,7 @@
     <color name="clickable_text">#1F6181</color>
     <color name="clickable_text_pressed">#66A4BD</color>
     
+    <color name="color_bar_text">#EFEFEF</color>
+    <color name="color_bar_text_shadow">#222222</color>
     
 </resources>

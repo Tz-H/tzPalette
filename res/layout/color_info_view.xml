@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ImageView
+        android:id="@+id/color_info_view_color_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/color_lightgray" />
+    
+    <TextView
+        android:id="@+id/color_info_html"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/color_info_view_color_bar"
+        android:layout_alignBottom="@+id/color_info_view_color_bar"
+        android:gravity="center"
+        android:textSize="20sp"
+        style="@style/ColorInfoColorBarText" />
+    
+    <LinearLayout 
+        android:id="@+id/color_info_view_rgb_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/color_info_view_color_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
+        
+        <TextView 
+            android:id="@+id/color_info_rgb_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_rgb_title"
+            android:textSize="18sp"/>
+    
+	    <TextView
+	        android:id="@+id/color_info_rgb"
+	        android:layout_width="0dp"
+	        android:layout_height="fill_parent"
+	        android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+	        android:text="@string/color_info_rgb_value"
+	        android:textSize="16sp" />
+	    
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/color_info_view_hsv_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/color_info_view_rgb_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
+    
+        <TextView 
+            android:id="@+id/color_info_hsv_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_hsv_title"
+            android:textSize="18sp"/>
+    
+        <TextView
+            android:id="@+id/color_info_hsv"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_hsv_value"
+            android:textSize="16sp" />
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/color_info_view_hsl_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/color_info_view_hsv_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
+    
+        <TextView 
+            android:id="@+id/color_info_hsl_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_hsl_title"
+            android:textSize="18sp"/>
+    
+        <TextView
+            android:id="@+id/color_info_hsl"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_hsl_value"
+            android:textSize="16sp" />
+
+        </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/color_info_view_lab_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/color_info_view_hsl_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
+    
+        <TextView 
+            android:id="@+id/color_info_lab_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_lab_title"
+            android:textSize="18sp"/>
+    
+        <TextView
+            android:id="@+id/color_info_lab"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_lab_value"
+            android:textSize="16sp" />
+        
+    </LinearLayout>
+    
+
+    <LinearLayout 
+        android:id="@+id/color_info_view_cmyk_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/color_info_view_lab_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
+    
+        <TextView 
+            android:id="@+id/color_info_cmyk_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_cmyk_title"
+            android:textSize="18sp"/>
+    
+        <TextView
+            android:id="@+id/color_info_cmyk"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="@string/color_info_cmyk_value"
+            android:textSize="16sp" />
+        
+    </LinearLayout>
+
+</RelativeLayout>
