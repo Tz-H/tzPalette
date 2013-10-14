@@ -33,12 +33,14 @@
         <item>@string/pref_analysisColorType_rgb</item>
         <item>@string/pref_analysisColorType_hsv</item>
         <item>@string/pref_analysisColorType_hsl</item>
+        <item>@string/pref_analysisColorType_lab</item>
     </array>
     
     <array name="pref_analysisColorType_values">
         <item>RGB</item>
         <item>HSV</item>
         <item>HSL</item>
+        <item>LAB</item>
     </array>
     
     <array name="pref_analysisColorAccuracy_entries">

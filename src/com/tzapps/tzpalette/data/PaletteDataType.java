@@ -4,7 +4,8 @@ public enum PaletteDataType
 {
     ColorToRGB("RGB"),
     ColorToHSV("HSV"),
-    ColorToHSL("HSL");
+    ColorToHSL("HSL"),
+    ColorToLAB("LAB");
 
     private String name;
     

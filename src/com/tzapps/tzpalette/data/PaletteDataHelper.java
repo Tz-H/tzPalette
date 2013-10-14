@@ -271,6 +271,10 @@ public class PaletteDataHelper
                 case ColorToHSL:
                     color = ColorUtils.hslToColor(values);
                     break;
+                    
+                case ColorToLAB:
+                    color = ColorUtils.labToColor(values);
+                    break;
             }
             
             data.addColor(color);
@@ -292,6 +296,9 @@ public class PaletteDataHelper
                 
             case ColorToHSL:
                 return ColorUtils.colorToHSL(color);
+                
+            case ColorToLAB:
+                return ColorUtils.colorToLAB(color);
                
             default:
                 int[] values = new int[1];
