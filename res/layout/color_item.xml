@@ -8,7 +8,7 @@
     android:padding="2dp"
     android:gravity="center">
 
-    <com.tzapps.tzpalette.ui.PaletteColorView
+    <com.tzapps.tzpalette.ui.view.ColorCell
         android:id="@+id/item_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

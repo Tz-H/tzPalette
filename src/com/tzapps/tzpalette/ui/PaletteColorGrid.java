@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.ui.view.ColorCell;
 
 public class PaletteColorGrid extends GridView
 {
@@ -110,14 +111,14 @@ public class PaletteColorGrid extends GridView
         public View getView(int position, View convertView, ViewGroup parent)
         {
             View cellView = convertView;
-            PaletteColorView colorView;
+            ColorCell colorView;
             
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             
             if (cellView == null)
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
             
-            colorView = (PaletteColorView)cellView.findViewById(R.id.item_color);
+            colorView = (ColorCell)cellView.findViewById(R.id.item_color);
             colorView.setColor(mColors.get(position));
             
             //Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);

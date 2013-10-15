@@ -1,4 +1,4 @@
-package com.tzapps.tzpalette.ui;
+package com.tzapps.tzpalette.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-public class PaletteColorView extends ImageView
+public class ColorCell extends ImageView
 {
     int   mColor;
     Paint fillPaint = new Paint();
@@ -16,19 +16,19 @@ public class PaletteColorView extends ImageView
         fillPaint = new Paint();
     }
 
-    public PaletteColorView(Context context)
+    public ColorCell(Context context)
     {
         super(context);
         init();
     }
 
-    public PaletteColorView(Context context, AttributeSet attrs)
+    public ColorCell(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public PaletteColorView(Context context, AttributeSet attrs, int defStyle)
+    public ColorCell(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init();
