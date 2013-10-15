@@ -204,6 +204,11 @@ public class ColorUtils
         return Color.rgb(rgb[0], rgb[1], rgb[2]);
     }
     
+    public static int rgbToColor(int R, int G, int B)
+    {
+        return Color.rgb(R, G, B);
+    }
+    
     /**
      *  Convert HSL values to a RGB Color with a default alpha value of 1.
      *  
@@ -217,6 +222,23 @@ public class ColorUtils
     public static int hslToColor(int[] hsl)
     {
         return hslToRGB(hsl[0], hsl[1], hsl[2]);
+    }
+    
+    /**
+     *  Convert HSL values to a RGB Color with a default alpha value of 1.
+     *  
+     *  <li>H (Hue) is specified as degrees in the range 0 - 360.</li>
+     *  <li>S (Saturation) is specified as a percentage in the range 0 - 100.</li>
+     *  <li>L (Lumanance) is specified as a percentage in the range 0 - 100.</li>
+     *
+     *  @param h  Hue
+     *  @param s  Saturation
+     *  @param l  Lumanance
+     *  @return color int in rgb value
+     */
+    public static int hslToColor(int h, int s, int l)
+    {
+        return hslToRGB(h,s,l);
     }
     
     public static int labToColor(int[] lab)

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.ui.view.ColorBar;
+import com.tzapps.tzpalette.ui.view.ColorBar.ColorBarType;
 
 public class ColorInfoDialogFragment extends DialogFragment
 {

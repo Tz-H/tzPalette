@@ -11,6 +11,8 @@
     <string name="title_palette_edit_view_rename">Change Title</string>
     <string name="title_settings_view">Settings</string>
     <string name="title_share_action">Share My Palette</string>
+    <string name="title_edit_color">Edit Color</string>
+    <string name="title_color_info">Color Info</string>
     
     <string name="capture_view_take_photo_1">Take a photo by</string>
     <string name="capture_view_take_photo_2">Camera</string>
@@ -32,6 +34,7 @@
     <string name="action_view">View</string>
     <string name="action_edit">Edit</string>
     <string name="action_copy">Copy</string>
+    <string name="action_restore">Restore</string>
     <string name="action_favourite">Mask as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_emailPalette">Email palette</string>
@@ -53,6 +56,16 @@
     <string name="color_info_lab_value">L = %1$d a = %2$d b = %3$d</string>
     <string name="color_info_cmyk_title">CMYK</string>
     <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
+    
+    <string name="color_edit_tab_rgb">RGB</string>
+    <string name="color_edit_tab_hsl">HSL</string>
+    <string name="color_bar_rgb_r_title">R = %1$d</string>
+    <string name="color_bar_rgb_g_title">G = %1$d</string>
+    <string name="color_bar_rgb_b_title">B = %1$d</string>
+    <string name="color_bar_hsl_h_title">H = %1$d°</string>
+    <string name="color_bar_hsl_s_title">S = %1$d%%</string>
+    <string name="color_bar_hsl_l_title">L = %1$d%%</string>
+    
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     

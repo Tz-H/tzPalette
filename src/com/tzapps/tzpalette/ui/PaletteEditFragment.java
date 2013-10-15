@@ -20,8 +20,11 @@ import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.debug.MyDebug;
+import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment;
+import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment.OnColorEditDialogClosedListener;
+import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 
-public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
+public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener, OnColorEditDialogClosedListener
 {
     private static final String TAG = "PaletteEditFragment";
     
@@ -135,7 +138,22 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         int color = mColoursGrid.getColor(position);
         
-        Toast.makeText(getActivity(), ColorUtils.colorToHtml(color), Toast.LENGTH_SHORT).show();
+        ColorEditDialogFragment dialogFrag =
+                ColorEditDialogFragment.newInstance(getString(R.string.title_edit_color), color);
+        
+        dialogFrag.setOnColorEditDialogClosedListener(this);
+        
+        dialogFrag.show(getFragmentManager(), "dialog");
+    }
+    
+    @Override
+    public void onSaveColorChange(ColorEditDialogFragment fragment, int oldColor, int newColor)
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "replace color " + ColorUtils.colorToHtml(oldColor) 
+                    + " with " + ColorUtils.colorToHtml(newColor));
+        
+        //TODO implement the color update on colors bar (and the palette data);
     }
     
     @Override
@@ -151,5 +169,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         return true;
     }
+
+
 }
 
