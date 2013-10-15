@@ -5,14 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import com.tzapps.common.utils.ColorUtils;
-import com.tzapps.tzpalette.debug.MyDebug;
 
 public class ColorBar extends ImageView implements OnTouchListener
 {
@@ -28,9 +26,9 @@ public class ColorBar extends ImageView implements OnTouchListener
         RGB_R,
         RGB_G,
         RGB_B,
-        HSL_H,
-        HSL_S,
-        HSL_L,
+        HSV_H,
+        HSV_S,
+        HSV_V,
         NONE
     }
     
@@ -134,32 +132,72 @@ public class ColorBar extends ImageView implements OnTouchListener
         
         for (int i = 0; i < w; i++)
         {
-            int color = getColorAt(i,h,w,h);
-            
-            if (color == mColor)
-            {
-                mPaint.setColor(Color.WHITE);
-                mPaint.setStrokeWidth(3);
-            }
-            else
-            {
-                mPaint.setColor(color);
-            }
-                
+            mPaint.setColor(getColorAt(i,h,w,h));
             canvas.drawLine(i, 0, i, h, mPaint);
         }
+        
+        // draw cursor
+        mPaint.setColor(Color.WHITE);
+        int cursorPos = getCursorPosition();
+        canvas.drawLine(cursorPos, 0, cursorPos, h, mPaint);
+        mPaint.setColor(Color.GRAY);
+        canvas.drawLine(cursorPos-1, 0, cursorPos-1, h, mPaint);
+        mPaint.setColor(Color.GRAY);
+        canvas.drawLine(cursorPos+1, 0, cursorPos+1, h, mPaint);
+    }
+    
+    private int getCursorPosition()
+    {
+        int position;
+        int w = getWidth();
+        int[] rgb = ColorUtils.colorToRGB(mColor);
+        int[] hsv = ColorUtils.colorToHSV(mColor);
+        
+        switch(mType)
+        {
+            case RGB_R:
+                position = rgb[0] * w / 256;
+                break;
+                
+            case RGB_G:
+                position = rgb[1] * w / 256;
+                break;
+                
+            case RGB_B:
+                position = rgb[2] * w / 256;
+                break;
+                
+            case HSV_H:
+                position = hsv[0] * w / 360;
+                break;
+                
+            case HSV_S:
+                position = hsv[1] * w / 100;
+                break;
+                
+            case HSV_V:
+                position = hsv[2] * w / 100;
+                break;
+                
+            default:
+            case NONE:
+                position = 0;
+                break;
+        }
+        
+        return position;
     }
     
     private int getColorAt(int xPos, int yPos, int width, int height)
     {
         int[] rgb = ColorUtils.colorToRGB(mColor);
-        int[] hsl = ColorUtils.colorToHSL(mColor);
-        int color, r, g, b, h, s, l;
+        int[] hsv = ColorUtils.colorToHSV(mColor);
+        int color, r, g, b, h, s, v;
         
         switch(mType)
         {
             case RGB_R:
-                r = xPos * 255 / width;
+                r = xPos * 256 / width;
                 g = rgb[1];
                 b = rgb[2];
                 color = ColorUtils.rgbToColor(r,g,b);
@@ -167,7 +205,7 @@ public class ColorBar extends ImageView implements OnTouchListener
                 
             case RGB_G:
                 r = rgb[0];
-                g = xPos * 255 / width;
+                g = xPos * 256 / width;
                 b = rgb[2];
                 color = ColorUtils.rgbToColor(r, g, b);
                 break;
@@ -175,29 +213,29 @@ public class ColorBar extends ImageView implements OnTouchListener
             case RGB_B:
                 r = rgb[0];
                 g = rgb[1];
-                b = xPos * 255 / width;
+                b = xPos * 256 / width;
                 color = ColorUtils.rgbToColor(r, g, b);
                 break;
                 
-            case HSL_H:
+            case HSV_H:
                 h = xPos * 360 / width;
-                s = hsl[1];
-                l = hsl[2];
-                color = ColorUtils.hslToColor(h,s,l);
+                s = hsv[1];
+                v = hsv[2];
+                color = ColorUtils.hsvToColor(h,s,v);
                 break;
                 
-            case HSL_S:
-                h = hsl[0];
+            case HSV_S:
+                h = hsv[0];
                 s = xPos * 100 / width;
-                l = hsl[2];
-                color = ColorUtils.hslToColor(h, s, l);
+                v = hsv[2];
+                color = ColorUtils.hsvToColor(h, s, v);
                 break;
                 
-            case HSL_L:
-                h = hsl[0];
-                s = hsl[1];
-                l = xPos * 100 / width;
-                color = ColorUtils.hslToColor(h, s, l);
+            case HSV_V:
+                h = hsv[0];
+                s = hsv[1];
+                v = xPos * 100 / width;
+                color = ColorUtils.hsvToColor(h, s, v);
                 
                 break;
                 

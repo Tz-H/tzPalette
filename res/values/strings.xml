@@ -58,13 +58,13 @@
     <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
     
     <string name="color_edit_tab_rgb">RGB</string>
-    <string name="color_edit_tab_hsl">HSL</string>
+    <string name="color_edit_tab_hsv">HSV</string>
     <string name="color_bar_rgb_r_title">R = %1$d</string>
     <string name="color_bar_rgb_g_title">G = %1$d</string>
     <string name="color_bar_rgb_b_title">B = %1$d</string>
-    <string name="color_bar_hsl_h_title">H = %1$d°</string>
-    <string name="color_bar_hsl_s_title">S = %1$d%%</string>
-    <string name="color_bar_hsl_l_title">L = %1$d%%</string>
+    <string name="color_bar_hsv_h_title">H = %1$d°</string>
+    <string name="color_bar_hsv_s_title">S = %1$d%%</string>
+    <string name="color_bar_hsv_v_title">V = %1$d%%</string>
     
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>

@@ -112,6 +112,10 @@ public class ColorUtils
         hsv[1] = (int)Math.round(hsv_float[1] * 100);
         hsv[2] = (int)Math.round(hsv_float[2] * 100);
         
+        hsv[0] = (int)(hsv_float[0]);
+        hsv[1] = (int)(hsv_float[1] * 100);
+        hsv[2] = (int)(hsv_float[2] * 100);
+        
         return hsv;
     }
     
@@ -207,6 +211,11 @@ public class ColorUtils
     public static int rgbToColor(int R, int G, int B)
     {
         return Color.rgb(R, G, B);
+    }
+    
+    public static int hsvToColor(int h, int s, int v)
+    {
+        return Color.HSVToColor(new float[]{h,(float)s/100,(float)v/100});
     }
     
     /**

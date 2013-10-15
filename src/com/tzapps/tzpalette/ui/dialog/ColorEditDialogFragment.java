@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.tzapps.common.utils.ColorUtils;
@@ -64,7 +67,7 @@ public class ColorEditDialogFragment extends DialogFragment implements OnColorBa
         mColor = getArguments().getInt("color");
         mColorEditView = inflater.inflate(R.layout.color_edit_view, null);
         
-        initView(mColorEditView, mColor);
+        initView(mColor);
 
         AlertDialog.Builder builder = new Builder(getActivity());
         //builder.setTitle(title);
@@ -83,19 +86,55 @@ public class ColorEditDialogFragment extends DialogFragment implements OnColorBa
         return dialog;
     }
     
-    private void initView(View view, int color)
+    @Override
+    public void onColorChanged(ColorBar colorBar, int color)
     {
-        final ColorBar colorBarR = (ColorBar)mColorEditView.findViewById(R.id.color_bar_r);
-        colorBarR.setType(ColorBarType.RGB_R);
-        colorBarR.setOnColorChangeListener(this);
+        updateColor(color);
+    }
+    
+    private void initTabs()
+    {
+        final TabHost tabHost = (TabHost)mColorEditView.findViewById(android.R.id.tabhost);
+        tabHost.setup();
         
-        final ColorBar colorBarG = (ColorBar)mColorEditView.findViewById(R.id.color_bar_g);
-        colorBarG.setType(ColorBarType.RGB_G);
-        colorBarG.setOnColorChangeListener(this);
+        final TabSpec spec1 = tabHost.newTabSpec("TAB 1 - RGB");
+        spec1.setContent(R.id.color_edit_view_tab_rgb);
+        spec1.setIndicator(getString(R.string.color_edit_tab_rgb));
         
-        final ColorBar colorBarB = (ColorBar)mColorEditView.findViewById(R.id.color_bar_b);
-        colorBarB.setType(ColorBarType.RGB_B);
-        colorBarB.setOnColorChangeListener(this);
+        final TabSpec spec2 = tabHost.newTabSpec("TAB 2 - HSV");
+        spec2.setContent(R.id.color_edit_view_tab_hsv);
+        spec2.setIndicator(getString(R.string.color_edit_tab_hsv));
+        
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+        
+        tabHost.setOnTabChangedListener(new OnTabChangeListener(){
+            @Override
+            public void onTabChanged(String tabId)
+            {
+                updateColor(mNewColor);
+            }
+            
+        });
+    }
+    
+    private void initColorBar(int colorBarResId, ColorBarType type)
+    {
+        final ColorBar colorBar = (ColorBar)mColorEditView.findViewById(colorBarResId);
+        colorBar.setType(type);
+        colorBar.setOnColorChangeListener(this);
+    }
+    
+    private void initView(int color)
+    {
+        initTabs();
+        
+        initColorBar(R.id.color_bar_r, ColorBarType.RGB_R);
+        initColorBar(R.id.color_bar_g, ColorBarType.RGB_G);
+        initColorBar(R.id.color_bar_b, ColorBarType.RGB_B);
+        initColorBar(R.id.color_bar_h, ColorBarType.HSV_H);
+        initColorBar(R.id.color_bar_s, ColorBarType.HSV_S);
+        initColorBar(R.id.color_bar_v, ColorBarType.HSV_V);
         
         final TextView restoreTV = (TextView)mColorEditView.findViewById(R.id.action_restore);
         restoreTV.setOnClickListener(new OnClickListener(){
@@ -109,11 +148,16 @@ public class ColorEditDialogFragment extends DialogFragment implements OnColorBa
         
         updateColor(color);
     }
-
-    @Override
-    public void onColorChanged(ColorBar colorBar, int color)
+    
+    public void udpateColorBar(int colorBarResId, int textViewResId, int textResId, int color, int textVaule)
     {
-        updateColor(color);
+        final TextView title = (TextView)mColorEditView.findViewById(textViewResId);
+        String titleStr = getString(textResId);
+        titleStr = String.format(titleStr, textVaule);
+        title.setText(titleStr);
+        
+        final ColorBar colorBar = (ColorBar)mColorEditView.findViewById(colorBarResId);
+        colorBar.setColor(color);
     }
     
     private void updateColor(int color)
@@ -121,6 +165,7 @@ public class ColorEditDialogFragment extends DialogFragment implements OnColorBa
         mNewColor = color;
         
         int[] rgb = ColorUtils.colorToRGB(color);
+        int[] hsv = ColorUtils.colorToHSV(color);
         
         final ImageView colorBar = (ImageView)mColorEditView.findViewById(R.id.color_edit_view_color_bar);
         final TextView htmlTv = (TextView)mColorEditView.findViewById(R.id.color_info_html);
@@ -128,29 +173,12 @@ public class ColorEditDialogFragment extends DialogFragment implements OnColorBa
         colorBar.setBackgroundColor(color);
         htmlTv.setText(ColorUtils.colorToHtml(color));
         
-        final TextView rTitle = (TextView)mColorEditView.findViewById(R.id.color_bar_r_title);
-        String rTitleStr = getString(R.string.color_bar_rgb_r_title);
-        rTitleStr = String.format(rTitleStr, rgb[0]);
-        rTitle.setText(rTitleStr);
-        
-        final ColorBar colorBarR = (ColorBar)mColorEditView.findViewById(R.id.color_bar_r);
-        colorBarR.setColor(color);
-        
-        final TextView gTitle = (TextView)mColorEditView.findViewById(R.id.color_bar_g_title);
-        String gTitleStr = getString(R.string.color_bar_rgb_g_title);
-        gTitleStr = String.format(gTitleStr, rgb[1]);
-        gTitle.setText(gTitleStr);
-        
-        final ColorBar colorBarG = (ColorBar)mColorEditView.findViewById(R.id.color_bar_g);
-        colorBarG.setColor(color);
-        
-        final TextView bTitle = (TextView)mColorEditView.findViewById(R.id.color_bar_b_title);
-        String bTitleStr = getString(R.string.color_bar_rgb_b_title);
-        bTitleStr = String.format(bTitleStr, rgb[2]);
-        bTitle.setText(bTitleStr);
-        
-        final ColorBar colorBarB = (ColorBar)mColorEditView.findViewById(R.id.color_bar_b);
-        colorBarB.setColor(color);
+        udpateColorBar(R.id.color_bar_r, R.id.color_bar_r_title, R.string.color_bar_rgb_r_title, color, rgb[0]);
+        udpateColorBar(R.id.color_bar_g, R.id.color_bar_g_title, R.string.color_bar_rgb_g_title, color, rgb[1]);
+        udpateColorBar(R.id.color_bar_b, R.id.color_bar_b_title, R.string.color_bar_rgb_b_title, color, rgb[2]);
+        udpateColorBar(R.id.color_bar_h, R.id.color_bar_h_title, R.string.color_bar_hsv_h_title, color, hsv[0]);
+        udpateColorBar(R.id.color_bar_s, R.id.color_bar_s_title, R.string.color_bar_hsv_s_title, color, hsv[1]);
+        udpateColorBar(R.id.color_bar_v, R.id.color_bar_v_title, R.string.color_bar_hsv_v_title, color, hsv[2]);
     }
 
 }
