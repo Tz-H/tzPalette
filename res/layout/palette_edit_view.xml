@@ -16,6 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/color_gray"
             android:contentDescription="@string/img_pic_desc" />
         
 	    <LinearLayout
@@ -60,14 +61,7 @@
 	            android:verticalSpacing="5dp" />
 	    </LinearLayout>
         
-	    <!-- 
-        <fragment android:name="com.tzapps.tzpalette.ui.fragment.ColorEditFragment"
-            android:id="@+id/palette_edit_view_color_edit_fragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-         -->
-         
-         <com.tzapps.tzpalette.ui.view.ColorEditView 
+        <com.tzapps.tzpalette.ui.view.ColorEditView 
              android:id="@+id/palette_edit_view_color_edit_area"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content" />
@@ -76,11 +70,9 @@
 
     <RelativeLayout
         android:id="@+id/palette_edit_view_title_bar"
-        android:layout_width="350dp"
+        android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/palette_edit_view_title"
