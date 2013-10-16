@@ -33,8 +33,9 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
 {
     private static final String TAG = "PaletteEditFragment";
     
-    private PaletteData mData = new PaletteData();
+    private PaletteData mData;
     
+    private View mView;
     private ImageView mImageView;
     private PaletteColorGrid mColoursGrid;
     private View mColorsBar;
@@ -42,30 +43,33 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     private CheckBox mFavourite;
     private ColorEditView mColorEditView;
     
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater, container, savedInstanceState);
-
         Log.d(TAG, "onCreateView()");
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.palette_edit_view, container, false);
         
-        mImageView = (ImageView) view.findViewById(R.id.palette_edit_view_picture);
+        setRetainInstance(true);
+        
+        // Inflate the layout for this fragment
+        mView = inflater.inflate(R.layout.palette_edit_view, container, false);
+        
+        mImageView = (ImageView) mView.findViewById(R.id.palette_edit_view_picture);
         mImageView.setOnClickListener(this);
         
-        mColorsBar = (View) view.findViewById(R.id.palette_edit_view_colors_bar);
-        mTitle = (TextView) view.findViewById(R.id.palette_edit_view_title);
-        mFavourite = (CheckBox) view.findViewById(R.id.palette_edit_view_favourite);
+        mColorsBar = (View) mView.findViewById(R.id.palette_edit_view_colors_bar);
+        mTitle = (TextView) mView.findViewById(R.id.palette_edit_view_title);
+        mFavourite = (CheckBox) mView.findViewById(R.id.palette_edit_view_favourite);
         
-        mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_edit_view_colors);
+        mColoursGrid = (PaletteColorGrid) mView.findViewById(R.id.palette_edit_view_colors);
         mColoursGrid.setOnItemClickListener(this);
         mColoursGrid.setOnItemLongClickListener(this);
         
-        mColorEditView = (ColorEditView) view.findViewById(R.id.palette_edit_view_color_edit_area);
+        mColorEditView = (ColorEditView) mView.findViewById(R.id.palette_edit_view_color_edit_area);
         
-        return view;
+        refresh(true);
+        
+        return mView;
     }
     
     public PaletteData getData()
@@ -118,7 +122,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     public void updateData(PaletteData data, boolean updatePicture)
     {
-        mData.copy(data);
+        mData = data;
         refresh(updatePicture);
     }
     

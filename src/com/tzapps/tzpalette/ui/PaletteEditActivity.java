@@ -3,6 +3,7 @@ package com.tzapps.tzpalette.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,10 +54,18 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         
         mDataHelper = PaletteDataHelper.getInstance(this);
         
+        mEditFrag = (PaletteEditFragment)getFragmentManager().findFragmentByTag("PaletteEditFragment");
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        if (mEditFrag == null)
+        {
+            mEditFrag = new PaletteEditFragment(); 
+            transaction.add(mEditFrag, "PaletteEditFragment");
+        }
+
         // Display the fragment as the main content
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new PaletteEditFragment())
-                .commit();
+        transaction.replace(android.R.id.content, mEditFrag);
+        transaction.commit();
         
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -124,6 +133,9 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         {
             mEditFrag = (PaletteEditFragment)fragment;
             
+            if (mEditFrag.getData() != null)
+                return;
+            
             if (dataId != -1)
             {
                 PaletteData data = mDataHelper.get(dataId);
@@ -143,21 +155,12 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
-        
-        PaletteData data = mEditFrag.getData();
-
-        if (data != null)
-            outState.putParcelable("currentPaletteData", data);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
-        PaletteData data = savedInstanceState.getParcelable("currentPaletteData");
-
-        updateEditVeiw(data, true);
     }
     
     /** Called when the user performs the Analysis action */
