@@ -40,7 +40,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     
     private PaletteDataHelper mDataHelper;
     
-    private PaletteEditFragment mEditFragment;
+    private PaletteEditFragment mEditFrag;
     private ProgressDialog mProgresDialog;
     
     @Override
@@ -96,23 +96,23 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.btn_analysis:
-                analysisPicture(mEditFragment.getData());
+                analysisPicture(mEditFrag.getData());
                 break;
                 
             case R.id.palette_edit_view_title:
-                showRenameDialog(mEditFragment.getData());
+                showRenameDialog(mEditFrag.getData());
                 break;
                 
             case R.id.palette_edit_view_favourite:
                 CheckBox chk = (CheckBox)view;
                 boolean favourite = chk.isChecked();
-                mEditFragment.updateFavourite(favourite);
+                mEditFrag.updateFavourite(favourite);
                 break;
         }
     }
@@ -122,12 +122,12 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         if (fragment instanceof PaletteEditFragment)
         {
-            mEditFragment = (PaletteEditFragment)fragment;
+            mEditFrag = (PaletteEditFragment)fragment;
             
             if (dataId != -1)
             {
                 PaletteData data = mDataHelper.get(dataId);
-                mEditFragment.updateData(data, true);
+                mEditFrag.updateData(data, true);
                 dataId = -1;
             }
             else if (imageUri != null)
@@ -144,7 +144,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         super.onSaveInstanceState(outState);
         
-        PaletteData data = mEditFragment.getData();
+        PaletteData data = mEditFrag.getData();
 
         if (data != null)
             outState.putParcelable("currentPaletteData", data);
@@ -217,7 +217,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     
     protected void updatePaletteDataTitle(String text)
     {
-        mEditFragment.updateTitle(text);
+        mEditFrag.updateTitle(text);
     }
 
     /** Called when the user performs the Cancel action */
@@ -236,7 +236,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         if (MyDebug.LOG)
             Log.d(TAG, "save the edit");
         
-        PaletteData data = mEditFragment.getData();
+        PaletteData data = mEditFrag.getData();
 
         if (data == null)
             return;
@@ -268,10 +268,10 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     /** refresh edit fragment with persisted palette data */
     private void updateEditVeiw(PaletteData data, boolean updatePicture)
     {
-        if (data == null || mEditFragment == null)
+        if (data == null || mEditFrag == null)
             return;
         
-        mEditFragment.updateData(data, updatePicture);
+        mEditFrag.updateData(data, updatePicture);
     }
     
     private String getPictureTilteFromUri(Uri uri)
@@ -316,7 +316,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         data.setTitle(getPictureTilteFromUri(imageUrl));
         data.setImageUrl(imageUrl.toString());
         
-        mEditFragment.updateData(data, true);
+        mEditFrag.updateData(data, true);
         
         // start to analysis the picture immediately after loading it
         new PaletteDataAnalysisTask().execute(data);

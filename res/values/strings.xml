@@ -35,6 +35,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_copy">Copy</string>
     <string name="action_restore">Restore</string>
+    <string name="action_addColor">Add color in palette</string>
     <string name="action_favourite">Mask as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_emailPalette">Email palette</string>
@@ -136,5 +137,6 @@
     <string name="about_feedback"><u>Feedback</u></string>
     
     <string name="feedback_subject">[Feedback] %1$s ver %2$s</string>
+    
     
 </resources>

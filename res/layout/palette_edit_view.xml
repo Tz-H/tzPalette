@@ -5,18 +5,74 @@
     android:layout_height="match_parent"
     android:background="@color/palette_card_bg" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/palette_edit_view_frame"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
         <com.tzapps.common.ui.view.TouchImageView
             android:id="@+id/palette_edit_view_picture"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:contentDescription="@string/img_pic_desc" />
         
-    </RelativeLayout>
+	    <LinearLayout
+	        android:id="@+id/palette_edit_view_colors_bar"
+	        android:layout_width="fill_parent"
+	        android:layout_height="40dp"
+	        android:background="@drawable/palette_edit_view_colors_bar_frame"
+	        android:gravity="center"
+	        android:orientation="horizontal"
+	        android:paddingLeft="5dp"
+	        android:paddingRight="5dp"
+	        android:visibility="invisible" >
+	
+	        <ImageView
+	            android:id="@+id/btn_analysis"
+	            android:layout_width="40dp"
+	            android:layout_height="fill_parent"
+	            android:background="@drawable/button_no_bg"
+	            android:contentDescription="@string/btn_analysis_desc"
+	            android:onClick="onClick"
+	            android:padding="3dp"
+	            android:soundEffectsEnabled="true"
+	            android:src="@android:drawable/ic_menu_view" />
+	
+	        <ImageView
+	            android:layout_width="1dp"
+	            android:layout_height="36dp"
+	            android:layout_margin="2dp"
+	            android:background="@android:drawable/divider_horizontal_bright"
+	            tools:ignore="ContentDescription" />
+	
+	        <com.tzapps.tzpalette.ui.PaletteColorGrid
+	            android:id="@+id/palette_edit_view_colors"
+	            android:layout_width="fill_parent"
+	            android:layout_height="40dp"
+	            android:columnWidth="35dp"
+	            android:gravity="center"
+	            android:horizontalSpacing="2dp"
+	            android:numColumns="auto_fit"
+	            android:paddingTop="5dp"
+	            android:stretchMode="columnWidth"
+	            android:verticalSpacing="5dp" />
+	    </LinearLayout>
+        
+	    <!-- 
+        <fragment android:name="com.tzapps.tzpalette.ui.fragment.ColorEditFragment"
+            android:id="@+id/palette_edit_view_color_edit_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+         -->
+         
+         <com.tzapps.tzpalette.ui.view.ColorEditView 
+             android:id="@+id/palette_edit_view_color_edit_area"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content" />
+        
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/palette_edit_view_title_bar"
@@ -52,50 +108,5 @@
             android:onClick="onClick" />
         
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/palette_edit_view_colors_bar"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/palette_edit_view_colors_bar_frame"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:visibility="invisible" >
-
-        <ImageView
-            android:id="@+id/btn_analysis"
-            android:layout_width="40dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/button_no_bg"
-            android:contentDescription="@string/btn_analysis_desc"
-            android:onClick="onClick"
-            android:padding="3dp"
-            android:soundEffectsEnabled="true"
-            android:src="@android:drawable/ic_menu_view" />
-
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="36dp"
-            android:layout_margin="2dp"
-            android:background="@android:drawable/divider_horizontal_bright"
-            tools:ignore="ContentDescription" />
-
-        <com.tzapps.tzpalette.ui.PaletteColorGrid
-            android:id="@+id/palette_edit_view_colors"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:columnWidth="35dp"
-            android:gravity="center"
-            android:horizontalSpacing="2dp"
-            android:numColumns="auto_fit"
-            android:paddingTop="5dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="5dp" />
-    </LinearLayout>
 
 </RelativeLayout>

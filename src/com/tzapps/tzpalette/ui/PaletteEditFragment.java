@@ -1,5 +1,6 @@
 package com.tzapps.tzpalette.ui;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,10 +27,9 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
-import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment;
-import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment.OnColorEditDialogClosedListener;
+import com.tzapps.tzpalette.ui.view.ColorEditView;
 
-public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener, OnColorEditDialogClosedListener
+public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
 {
     private static final String TAG = "PaletteEditFragment";
     
@@ -40,6 +40,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     private View mColorsBar;
     private TextView mTitle;
     private CheckBox mFavourite;
+    private ColorEditView mColorEditView;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -61,6 +62,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mColoursGrid = (PaletteColorGrid) view.findViewById(R.id.palette_edit_view_colors);
         mColoursGrid.setOnItemClickListener(this);
         mColoursGrid.setOnItemLongClickListener(this);
+        
+        mColorEditView = (ColorEditView) view.findViewById(R.id.palette_edit_view_color_edit_area);
         
         return view;
     }
@@ -196,22 +199,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         int color = mColoursGrid.getColor(position);
         
-        ColorEditDialogFragment dialogFrag =
-                ColorEditDialogFragment.newInstance(getString(R.string.title_edit_color), color);
-        
-        dialogFrag.setOnColorEditDialogClosedListener(this);
-        
-        dialogFrag.show(getFragmentManager(), "dialog");
-    }
-    
-    @Override
-    public void onSaveColorChange(ColorEditDialogFragment fragment, int oldColor, int newColor)
-    {
-        if (MyDebug.LOG)
-            Log.d(TAG, "replace color " + ColorUtils.colorToHtml(oldColor) 
-                    + " with " + ColorUtils.colorToHtml(newColor));
-        
-        //TODO implement the color update on colors bar (and the palette data);
+        mColorEditView.setColor(color);
     }
     
     @Override
