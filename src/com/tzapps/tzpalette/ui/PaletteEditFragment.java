@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +17,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.BaseFragment;
+import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
+import com.tzapps.common.utils.MediaHelper;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.data.PaletteData;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.ColorEditDialogFragment.OnColorEditDialogClosedListener;
-import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 
 public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener, OnColorEditDialogClosedListener
 {
     private static final String TAG = "PaletteEditFragment";
+    
+    private PaletteData mData = new PaletteData();
     
     private ImageView mImageView;
     private PaletteColorGrid mColoursGrid;
@@ -58,6 +65,60 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         return view;
     }
     
+    public PaletteData getData()
+    {
+        return mData;
+    }
+    
+    public void refresh(boolean updatePicture)
+    {
+        if (mData == null)
+            return;
+        
+        mTitle.setText(mData.getTitle());
+        mFavourite.setChecked(mData.isFavourite());
+        mColoursGrid.setColors(mData.getColors());
+        
+        if (mData.getColors().length != 0)
+            showColorsBar();
+
+        if (updatePicture)
+        {
+            Bitmap bitmap    = null;
+            
+            bitmap = PaletteDataHelper.getInstance(getActivity()).getThumb(mData.getId());
+            
+            if (bitmap == null)
+            {
+                String imagePath = mData.getImageUrl();
+                Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
+                
+                bitmap = BitmapUtils.getBitmapFromUri(getActivity(), imageUri, Constants.THUMB_MAX_SIZE);
+                
+                if (bitmap != null)
+                {
+                    int orientation;
+                    
+                    /*
+                     * This is a quick fix on picture orientation for the picture taken
+                     * from the camera, as it will be always rotated to landscape 
+                     * incorrectly even if we take it in portrait mode...
+                     */
+                    orientation = MediaHelper.getPictureOrientation(getActivity(), imageUri);
+                    bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
+                } 
+            }
+            
+            updateImageView(bitmap);
+        }
+    }
+    
+    public void updateData(PaletteData data, boolean updatePicture)
+    {
+        mData.copy(data);
+        refresh(updatePicture);
+    }
+    
     public void updateImageView(Bitmap bitmap)
     {
         Log.d(TAG, "updateImageView");
@@ -73,18 +134,20 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "updateColors");
         
-        mColoursGrid.setColors(colors);
+        mData.addColors(colors, false);
         
         if (colors.length != 0)
             showColorsBar();
+        
+        refresh(false);
     }
     
-    public void udpateTitle(String title)
+    public void updateTitle(String title)
     {
         if (MyDebug.LOG)
             Log.d(TAG, "update title " + title);
         
-        mTitle.setText(title);
+        mData.setTitle(title);
         showTitleBar();
     }
     
@@ -93,13 +156,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "update favourite" + favourite);
         
-        mFavourite.setChecked(favourite);
-    }
-    
-    public void clear()
-    {
-        updateImageView(null);
-        mColoursGrid.clear();
+        mData.setFavourite(favourite);
+        refresh(false);
     }
     
     private void showColorsBar()

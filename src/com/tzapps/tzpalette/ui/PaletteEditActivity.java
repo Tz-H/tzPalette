@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,14 +18,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnFocusChangeListener;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
-import com.tzapps.common.utils.BitmapUtils;
-import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
@@ -38,41 +35,23 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
 {
     private static final String TAG = "PaletteEditActivity";
     
-    private PaletteData mCurrentData;
+    private long dataId;
+    private Uri  imageUri;
+    
     private PaletteDataHelper mDataHelper;
     
     private PaletteEditFragment mEditFragment;
     private ProgressDialog mProgresDialog;
     
-    private void init()
-    {
-        mDataHelper = PaletteDataHelper.getInstance(this);
-        
-        long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
-        Uri imageUrl = getIntent().getData();
-        
-        if (dataId != -1)
-        {
-            mCurrentData = mDataHelper.get(dataId);
-        }
-        else if (imageUrl != null)
-        {
-            handlePicture(imageUrl);
-            
-            // cleanup the data so we will not re-handle the picture when rotate the screen
-            getIntent().setData(null);
-        }
-        else
-        {
-            if (MyDebug.LOG)
-                Log.e(TAG, "cannot initialize to get corrent palette data");
-        }
-    }
-    
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
+        imageUri = getIntent().getData();
+        
+        mDataHelper = PaletteDataHelper.getInstance(this);
         
         // Display the fragment as the main content
         getFragmentManager().beginTransaction()
@@ -85,8 +64,6 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             // Show the Up button in the action bar.
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        
-        init();
     }
     
     @Override
@@ -125,17 +102,17 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         switch (view.getId())
         {
             case R.id.btn_analysis:
-                analysisPicture();
+                analysisPicture(mEditFragment.getData());
                 break;
                 
             case R.id.palette_edit_view_title:
-                showRenameDialog();
+                showRenameDialog(mEditFragment.getData());
                 break;
                 
             case R.id.palette_edit_view_favourite:
                 CheckBox chk = (CheckBox)view;
                 boolean favourite = chk.isChecked();
-                mCurrentData.setFavourite(favourite);
+                mEditFragment.updateFavourite(favourite);
                 break;
         }
     }
@@ -144,18 +121,33 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     public void onFragmentViewCreated(Fragment fragment)
     {
         if (fragment instanceof PaletteEditFragment)
+        {
             mEditFragment = (PaletteEditFragment)fragment;
-        
-        updateEditVeiw(true);
+            
+            if (dataId != -1)
+            {
+                PaletteData data = mDataHelper.get(dataId);
+                mEditFragment.updateData(data, true);
+                dataId = -1;
+            }
+            else if (imageUri != null)
+            {
+                handlePicture(imageUri);
+                imageUri = null;
+                getIntent().setData(null);
+            }
+        }
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
+        
+        PaletteData data = mEditFragment.getData();
 
-        if (mCurrentData != null)
-            outState.putParcelable("currentPaletteData", mCurrentData);
+        if (data != null)
+            outState.putParcelable("currentPaletteData", data);
     }
 
     @Override
@@ -163,29 +155,32 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         super.onRestoreInstanceState(savedInstanceState);
 
-        mCurrentData = savedInstanceState.getParcelable("currentPaletteData");
+        PaletteData data = savedInstanceState.getParcelable("currentPaletteData");
 
-        updateEditVeiw(true);
+        updateEditVeiw(data, true);
     }
     
     /** Called when the user performs the Analysis action */
-    private void analysisPicture()
+    private void analysisPicture(PaletteData data)
     {
         Log.d(TAG, "analysis the picture");
 
-        if (mCurrentData == null)
+        if (data == null)
             return;
 
-        new PaletteDataAnalysisTask().execute(mCurrentData);
+        new PaletteDataAnalysisTask().execute(data);
     }
     
     /** Called when the user performs change title action */
-    private void showRenameDialog()
+    private void showRenameDialog(PaletteData data)
     {
+        if (data == null)
+            return;
+        
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
 
-        input.setText(mCurrentData.getTitle());
+        input.setText(data.getTitle());
         input.setSingleLine(true);
         input.setSelectAllOnFocus(true);
 
@@ -222,8 +217,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     
     protected void updatePaletteDataTitle(String text)
     {
-        mCurrentData.setTitle(text);
-        mEditFragment.udpateTitle(text);
+        mEditFragment.updateTitle(text);
     }
 
     /** Called when the user performs the Cancel action */
@@ -241,23 +235,25 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         if (MyDebug.LOG)
             Log.d(TAG, "save the edit");
+        
+        PaletteData data = mEditFragment.getData();
 
-        if (mCurrentData == null)
+        if (data == null)
             return;
         
         long    id;
         boolean addNew;
 
-        if (mCurrentData.getId() == -1)
+        if (data.getId() == -1)
         {
-            id = mDataHelper.add(mCurrentData);
+            id = mDataHelper.add(data);
             addNew = true;
         }
         else
         {
-            mDataHelper.update(mCurrentData, /*updateThumb*/false);
+            mDataHelper.update(data, /*updateThumb*/false);
             
-            id = mCurrentData.getId();
+            id = data.getId();
             addNew = false;
         }
         
@@ -270,44 +266,12 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     }
     
     /** refresh edit fragment with persisted palette data */
-    private void updateEditVeiw(boolean updatePicture)
+    private void updateEditVeiw(PaletteData data, boolean updatePicture)
     {
-        if (mCurrentData == null || mEditFragment == null)
+        if (data == null || mEditFragment == null)
             return;
         
-        if (updatePicture)
-        {
-            Bitmap bitmap    = null;
-            
-            bitmap = mDataHelper.getThumb(mCurrentData.getId());
-            
-            if (bitmap == null)
-            {
-                String imagePath = mCurrentData.getImageUrl();
-                Uri    imageUri  = imagePath == null ? null : Uri.parse(imagePath);
-                
-                bitmap = BitmapUtils.getBitmapFromUri(this, imageUri, Constants.THUMB_MAX_SIZE);
-                
-                if (bitmap != null)
-                {
-                    int orientation;
-                    
-                    /*
-                     * This is a quick fix on picture orientation for the picture taken
-                     * from the camera, as it will be always rotated to landscape 
-                     * incorrectly even if we take it in portrait mode...
-                     */
-                    orientation = MediaHelper.getPictureOrientation(this, imageUri);
-                    bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
-                } 
-            }
-            
-            mEditFragment.updateImageView(bitmap);
-        }
-        
-        mEditFragment.updateFavourite(mCurrentData.isFavourite());
-        mEditFragment.updateColors(mCurrentData.getColors());
-        mEditFragment.udpateTitle(mCurrentData.getTitle());
+        mEditFragment.updateData(data, updatePicture);
     }
     
     private String getPictureTilteFromUri(Uri uri)
@@ -346,14 +310,16 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     {
         assert(imageUrl != null);
         
-        mCurrentData = new PaletteData();
+        PaletteData data = new PaletteData();
        
         //TODO something is still wrong on file title fetching logic
-        mCurrentData.setTitle(getPictureTilteFromUri(imageUrl));
-        mCurrentData.setImageUrl(imageUrl.toString());
+        data.setTitle(getPictureTilteFromUri(imageUrl));
+        data.setImageUrl(imageUrl.toString());
+        
+        mEditFragment.updateData(data, true);
         
         // start to analysis the picture immediately after loading it
-        new PaletteDataAnalysisTask().execute(mCurrentData);
+        new PaletteDataAnalysisTask().execute(data);
     }
 
     private void startAnalysis()
@@ -403,7 +369,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         protected void onPostExecute(PaletteData result)
         {
             stopAnalysis();
-            updateEditVeiw(false);
+            updateEditVeiw(result, false);
         }
     }
     
