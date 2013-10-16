@@ -35,7 +35,7 @@ public class TouchImageView extends ImageView
     PointF last = new PointF();
     PointF start = new PointF();
     float minScale = 1f;
-    float maxScale = 3f;
+    float maxScale = 4f;
     float[] m;
 
     int viewWidth, viewHeight;
@@ -70,8 +70,8 @@ public class TouchImageView extends ImageView
         setImageMatrix(matrix);
         setScaleType(ScaleType.MATRIX);
 
-        setOnTouchListener(new OnTouchListener() {
-
+        setOnTouchListener(new OnTouchListener() 
+        {
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
