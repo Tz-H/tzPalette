@@ -154,6 +154,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mData.setTitle(title);
         showTitleBar();
+        
+        refresh(false);
     }
     
     public void updateFavourite(boolean favourite)
