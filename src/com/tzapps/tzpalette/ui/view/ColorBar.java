@@ -103,6 +103,7 @@ public class ColorBar extends ImageView implements OnTouchListener
         
         switch(event.getAction())
         {
+            case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 w = getWidth();
                 h = getHeight();
