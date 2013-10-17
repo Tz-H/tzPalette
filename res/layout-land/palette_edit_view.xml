@@ -58,7 +58,7 @@
         </RelativeLayout>
         
         <LinearLayout 
-            android:layout_width="320dp"
+            android:layout_width="330dp"
             android:layout_height="fill_parent"
             android:orientation="vertical">
             
@@ -95,17 +95,14 @@
                     android:background="@android:drawable/divider_horizontal_bright"
                     tools:ignore="ContentDescription" />
         
-                <com.tzapps.tzpalette.ui.view.ColorRow
-                    android:id="@+id/palette_edit_view_colors"
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:columnWidth="30dp"
-                    android:gravity="center"
-                    android:horizontalSpacing="2dp"
-                    android:numColumns="auto_fit"
-                    android:paddingTop="5dp"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="5dp" />
+	            <com.tzapps.tzpalette.ui.view.ColorRow
+	                android:id="@+id/palette_edit_view_colors"
+	                android:layout_width="fill_parent"
+	                android:layout_height="35dp"
+	                android:columnWidth="35dp"
+	                android:gravity="center"
+	                android:numColumns="auto_fit"
+	                android:stretchMode="columnWidth" />
                 
             </LinearLayout>
         </LinearLayout>
