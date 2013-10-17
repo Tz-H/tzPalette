@@ -20,7 +20,7 @@
             android:id="@+id/btn_takePhoto"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:layout_weight="0.75"
+            android:layout_weight="0.66"
             android:clickable="true"
             android:onClick="onClick"
             android:gravity="right"
@@ -51,7 +51,7 @@
         <View 
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.25"
+            android:layout_weight="0.34"
             android:visibility="invisible" />
         
     </LinearLayout>
@@ -64,14 +64,14 @@
         <View 
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.25"
+            android:layout_weight="0.34"
             android:visibility="invisible" />
         
         <RelativeLayout 
             android:id="@+id/btn_loadPicture"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:layout_weight="0.75"
+            android:layout_weight="0.66"
             android:clickable="true"
             android:onClick="onClick"
             android:gravity="left"
