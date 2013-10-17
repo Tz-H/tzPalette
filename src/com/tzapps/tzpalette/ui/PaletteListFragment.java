@@ -29,6 +29,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
 {
@@ -229,7 +230,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             ImageView thumb         = (ImageView)itemView.findViewById(R.id.palette_item_thumb);
             TextView title          = (TextView)itemView.findViewById(R.id.palette_item_title);
             TextView updated        = (TextView)itemView.findViewById(R.id.palette_item_updated);
-            PaletteColorGrid colors = (PaletteColorGrid)itemView.findViewById(R.id.palette_item_colors);
+            ColorRow colorRow       = (ColorRow)itemView.findViewById(R.id.palette_item_colors);
             ImageView options       = (ImageView)itemView.findViewById(R.id.palette_item_options);
             ImageView favourite     = (ImageView)itemView.findViewById(R.id.palette_item_favourite_icon);
             
@@ -253,9 +254,9 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             updated.setText(updatedStr);
             
             //disable the colors grid to make it not clickable
-            colors.setColors(data.getColors());
-            colors.setFocusable(false);
-            colors.setEnabled(false);
+            colorRow.setColors(data.getColors());
+            colorRow.setFocusable(false);
+            colorRow.setEnabled(false);
             
             if (data.isFavourite())
                 favourite.setVisibility(View.VISIBLE);

@@ -47,8 +47,8 @@
 	            android:layout_margin="2dp"
 	            android:background="@android:drawable/divider_horizontal_bright"
 	            tools:ignore="ContentDescription" />
-	
-	        <com.tzapps.tzpalette.ui.PaletteColorGrid
+	        
+	        <com.tzapps.tzpalette.ui.view.ColorRow
 	            android:id="@+id/palette_edit_view_colors"
 	            android:layout_width="fill_parent"
 	            android:layout_height="40dp"
@@ -59,6 +59,7 @@
 	            android:paddingTop="5dp"
 	            android:stretchMode="columnWidth"
 	            android:verticalSpacing="5dp" />
+	             
 	    </LinearLayout>
         
         <com.tzapps.tzpalette.ui.view.ColorEditView 

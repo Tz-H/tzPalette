@@ -24,6 +24,7 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
+import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener
 {
@@ -31,7 +32,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
     
     private TextView mTitle;
     private ImageView mThumb;
-    private PaletteColorGrid mColors;
+    private ColorRow mColorRow;
     private PaletteData mData;
     
     @Override
@@ -46,9 +47,9 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         
         mTitle = (TextView)view.findViewById(R.id.palette_card_title);
         mThumb = (ImageView)view.findViewById(R.id.palette_card_thumb);
-        mColors = (PaletteColorGrid)view.findViewById(R.id.palette_card_colors);
-        mColors.setOnItemLongClickListener(this);
-        mColors.setOnItemClickListener(this);
+        mColorRow = (ColorRow)view.findViewById(R.id.palette_card_colors);
+        mColorRow.setOnItemLongClickListener(this);
+        mColorRow.setOnItemClickListener(this);
         
         refresh();
         
@@ -74,8 +75,8 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         if (mTitle != null)
             mTitle.setText(mData.getTitle());
         
-        if (mColors != null)
-            mColors.setColors(mData.getColors());
+        if (mColorRow != null)
+            mColorRow.setColors(mData.getColors());
         
         if (mThumb != null)
             updateThumb();
@@ -124,7 +125,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColors.getColor(position);
+        int color = mColorRow.getColor(position);
         
         String toastText = getResources().getString(R.string.copy_color_into_clipboard);
         toastText = String.format(toastText, ColorUtils.colorToHtml(color));
@@ -138,7 +139,7 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColors.getColor(position);
+        int color = mColorRow.getColor(position);
         
         ColorInfoDialogFragment dialogFrag =
                 ColorInfoDialogFragment.newInstance("Color Info", color);

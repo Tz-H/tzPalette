@@ -56,7 +56,7 @@
             android:gravity="center"
             android:orientation="vertical" >
             
-            <com.tzapps.tzpalette.ui.PaletteColorGrid
+            <com.tzapps.tzpalette.ui.view.ColorRow
                 android:id="@+id/palette_card_colors"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"

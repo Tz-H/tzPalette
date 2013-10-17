@@ -1,4 +1,4 @@
-package com.tzapps.tzpalette.ui;
+package com.tzapps.tzpalette.ui.view;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +16,9 @@ import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.ui.view.ColorCell;
 
-public class PaletteColorGrid extends GridView
+public class ColorRow extends GridView
 {
-    private final static String TAG = "PaletteColorGrid";
+    private final static String TAG = "ColorRow";
     
     private ColorAdapter mColorsAdapter;
     
@@ -28,19 +28,19 @@ public class PaletteColorGrid extends GridView
         setAdapter(mColorsAdapter);
     }
 
-    public PaletteColorGrid(Context context)
+    public ColorRow(Context context)
     {
         super(context);
         init(context);
     }
 
-    public PaletteColorGrid(Context context, AttributeSet attrs)
+    public ColorRow(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(context);
     }
 
-    public PaletteColorGrid(Context context, AttributeSet attrs, int defStyle)
+    public ColorRow(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init(context);

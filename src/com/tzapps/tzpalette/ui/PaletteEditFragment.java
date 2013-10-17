@@ -6,20 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tzapps.common.ui.BaseFragment;
-import com.tzapps.common.ui.view.TouchImageView;
-import com.tzapps.common.ui.view.TouchImageView.OnAdvancedClickListener;
 import com.tzapps.common.utils.BitmapUtils;
-import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.common.utils.MediaHelper;
 import com.tzapps.tzpalette.Constants;
@@ -30,6 +25,7 @@ import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.view.ColorEditView;
 import com.tzapps.tzpalette.ui.view.ColorImageView;
 import com.tzapps.tzpalette.ui.view.ColorImageView.OnColorImageClickListener;
+import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnColorImageClickListener
 {
@@ -39,7 +35,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     private View mView;
     private ColorImageView mImageView;
-    private PaletteColorGrid mColoursGrid;
+    private ColorRow mColoursRow;
     private View mColorsBar;
     private TextView mTitle;
     private CheckBox mFavourite;
@@ -63,9 +59,9 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mTitle = (TextView) mView.findViewById(R.id.palette_edit_view_title);
         mFavourite = (CheckBox) mView.findViewById(R.id.palette_edit_view_favourite);
         
-        mColoursGrid = (PaletteColorGrid) mView.findViewById(R.id.palette_edit_view_colors);
-        mColoursGrid.setOnItemClickListener(this);
-        mColoursGrid.setOnItemLongClickListener(this);
+        mColoursRow = (ColorRow) mView.findViewById(R.id.palette_edit_view_colors);
+        mColoursRow.setOnItemClickListener(this);
+        mColoursRow.setOnItemLongClickListener(this);
         
         mColorEditView = (ColorEditView) mView.findViewById(R.id.palette_edit_view_color_edit_area);
         
@@ -86,7 +82,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mTitle.setText(mData.getTitle());
         mFavourite.setChecked(mData.isFavourite());
-        mColoursGrid.setColors(mData.getColors());
+        mColoursRow.setColors(mData.getColors());
         
         if (mData.getColors().length != 0)
             showColorsBar();
@@ -174,7 +170,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         int newColor = mColorEditView.getNewColor();
         
         mData.addColor(newColor);
-        mColoursGrid.addColor(newColor);
+        mColoursRow.addColor(newColor);
     }
     
     private void showColorsBar()
@@ -211,7 +207,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColoursGrid.getColor(position);
+        int color = mColoursRow.getColor(position);
         
         mColorEditView.setColor(color);
     }
@@ -221,8 +217,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         //long click to remove this color from palette data and colors bar
         
-        int color = mColoursGrid.getColor(position);
-        mColoursGrid.removeColor(color);
+        int color = mColoursRow.getColor(position);
+        mColoursRow.removeColor(color);
         mData.removeColor(color);
         
         return true;
