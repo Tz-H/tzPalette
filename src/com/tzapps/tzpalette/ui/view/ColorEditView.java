@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.ui.view.ColorBar.ColorBarType;
@@ -21,8 +23,8 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
 {
     private static final String TAG = "ColorEditView";
     
-    private int  mColor = Color.LTGRAY;
-    private int  mNewColor = Color.LTGRAY;
+    private int  mColor = Color.GRAY;
+    private int  mNewColor = Color.GRAY;
     
     private Context mContext;
     private View mView;
@@ -129,12 +131,29 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
             @Override
             public void onClick(View v)
             {
-                setColor(mColor);
+                copyColorToClipboard(mColor);
             }
-            
+        });
+        
+        final TextView htmlNewTv = (TextView)mView.findViewById(R.id.color_info_html_new);
+        htmlNewTv.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                copyColorToClipboard(mNewColor);
+            }
         });
         
         updateColor();
+    }
+    
+    private void copyColorToClipboard(int color)
+    {
+        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
+        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
+        
+        ClipboardUtils.setPlainText(mContext, "Copied color", ColorUtils.colorToHtml(color));
+        Toast.makeText(mContext, toastText, Toast.LENGTH_SHORT).show();
     }
 
     private void udpateColorBar(int colorBarResId, int textViewResId, int textResId, int color, int textVaule)
