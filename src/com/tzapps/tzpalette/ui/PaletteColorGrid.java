@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -8,11 +9,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.ui.view.ColorCell;
 
@@ -52,9 +52,19 @@ public class PaletteColorGrid extends GridView
         mColorsAdapter.setColors(colors);
     }
     
+    public void addColor(int color)
+    {
+        mColorsAdapter.addColor(color);
+    }
+    
     public int getColor(int position)
     {
         return mColorsAdapter.getColor(position);
+    }
+    
+    public void removeColor(int color)
+    {
+        mColorsAdapter.removeColor(color);
     }
     
     public void clear()
@@ -82,6 +92,33 @@ public class PaletteColorGrid extends GridView
         public int getColor(int position)
         {
             return mColors.get(position);
+        }
+        
+        public void addColor(int color)
+        {
+            mColors.add(color);
+            Collections.sort(mColors, ColorUtils.colorSorter);
+            
+            notifyDataSetChanged();
+        }
+        
+        public void removeColor(int color)
+        {
+            int index = -1;
+            
+            for (int i = 0; i < mColors.size(); i++)
+            {
+                if (color == mColors.get(i))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            
+            if (index != -1)
+                mColors.remove(index);
+            
+            notifyDataSetChanged();
         }
 
         public void setColors(int[] colors)

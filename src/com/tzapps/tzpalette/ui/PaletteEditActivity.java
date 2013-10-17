@@ -123,6 +123,10 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 boolean favourite = chk.isChecked();
                 mEditFrag.updateFavourite(favourite);
                 break;
+                
+            case R.id.action_addColor:
+                mEditFrag.addNewColorIntoColorsBar();
+                break;
         }
     }
 

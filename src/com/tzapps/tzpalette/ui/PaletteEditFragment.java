@@ -169,6 +169,14 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         refresh(false);
     }
     
+    public void addNewColorIntoColorsBar()
+    {
+        int newColor = mColorEditView.getNewColor();
+        
+        mData.addColor(newColor);
+        mColoursGrid.addColor(newColor);
+    }
+    
     private void showColorsBar()
     {
         if (mColorsBar.getVisibility() != View.VISIBLE)
@@ -211,13 +219,11 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
     {
+        //long click to remove this color from palette data and colors bar
+        
         int color = mColoursGrid.getColor(position);
-        
-        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
-        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
-        
-        ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
-        Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
+        mColoursGrid.removeColor(color);
+        mData.removeColor(color);
         
         return true;
     }
