@@ -1,11 +1,14 @@
 package com.tzapps.tzpalette.ui.view;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 
 import com.tzapps.common.ui.view.TouchImageView;
 import com.tzapps.common.ui.view.TouchImageView.OnAdvancedClickListener;
+import com.tzapps.common.utils.BitmapUtils;
 
 public class ColorImageView extends TouchImageView implements OnAdvancedClickListener
 {
@@ -20,7 +23,7 @@ public class ColorImageView extends TouchImageView implements OnAdvancedClickLis
     
     private void init()
     {
-        this.setOnAdvancedClickListener(this);
+        setOnAdvancedClickListener(this);
     }
     
     public ColorImageView(Context context)
@@ -38,9 +41,10 @@ public class ColorImageView extends TouchImageView implements OnAdvancedClickLis
     @Override
     public void onAdvancedItemClick(TouchImageView view, int xPos, int yPos)
     {
-        // TODO analyais the color at the indicated location
+        // TODO analysis the color at the indicated location
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(view);
         
-        int color = Color.BLACK;
+        int color = bitmap.getPixel(xPos, yPos);
         
         if (mCallback != null)
             mCallback.onColorImageClicked(this, xPos, yPos, color);

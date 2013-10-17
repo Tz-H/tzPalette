@@ -196,6 +196,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
         
+        mColorEditView.setColor(color);
     }
 
 

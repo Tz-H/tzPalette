@@ -136,7 +136,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
             if (mEditFrag.getData() != null)
                 return;
             
-            if (dataId != -1)
+           if (dataId != -1)
             {
                 PaletteData data = mDataHelper.get(dataId);
                 mEditFrag.updateData(data, true);

@@ -22,13 +22,12 @@ import android.widget.ImageView;
 
 public class TouchImageView extends ImageView
 {
-
-    Matrix matrix;
-    
     public interface OnAdvancedClickListener
     {
         public void onAdvancedItemClick(TouchImageView view, int xPos, int yPos);
     }
+
+    Matrix matrix;
 
     // We can be in one of these 3 states
     static final int NONE = 0;
