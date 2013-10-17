@@ -1,6 +1,5 @@
 package com.tzapps.tzpalette.ui;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,11 +12,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.BaseFragment;
+import com.tzapps.common.ui.view.TouchImageView;
+import com.tzapps.common.ui.view.TouchImageView.OnAdvancedClickListener;
 import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
@@ -28,15 +28,17 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.view.ColorEditView;
+import com.tzapps.tzpalette.ui.view.ColorImageView;
+import com.tzapps.tzpalette.ui.view.ColorImageView.OnColorImageClickListener;
 
-public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnClickListener
+public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnColorImageClickListener
 {
     private static final String TAG = "PaletteEditFragment";
     
     private PaletteData mData;
     
     private View mView;
-    private ImageView mImageView;
+    private ColorImageView mImageView;
     private PaletteColorGrid mColoursGrid;
     private View mColorsBar;
     private TextView mTitle;
@@ -54,8 +56,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.palette_edit_view, container, false);
         
-        mImageView = (ImageView) mView.findViewById(R.id.palette_edit_view_picture);
-        mImageView.setOnClickListener(this);
+        mImageView = (ColorImageView) mView.findViewById(R.id.palette_edit_view_picture);
+        mImageView.setOnColorImageClickListener(this);
         
         mColorsBar = (View) mView.findViewById(R.id.palette_edit_view_colors_bar);
         mTitle = (TextView) mView.findViewById(R.id.palette_edit_view_title);
@@ -190,13 +192,12 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     }
     
     @Override
-    public void onClick(View v)
+    public void onColorImageClicked(ColorImageView view, int xPos, int yPos, int color)
     {
-        if (v == mImageView)
-        {
-            //TODO: pick the color on image view
-        }
+        Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
+        
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -219,7 +220,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         return true;
     }
-
 
 }
 

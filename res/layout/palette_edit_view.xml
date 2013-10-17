@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <com.tzapps.common.ui.view.TouchImageView
+        <com.tzapps.tzpalette.ui.view.ColorImageView
             android:id="@+id/palette_edit_view_picture"
             android:layout_width="fill_parent"
             android:layout_height="0dp"

@@ -24,6 +24,11 @@ public class TouchImageView extends ImageView
 {
 
     Matrix matrix;
+    
+    public interface OnAdvancedClickListener
+    {
+        public void onAdvancedItemClick(TouchImageView view, int xPos, int yPos);
+    }
 
     // We can be in one of these 3 states
     static final int NONE = 0;
@@ -39,7 +44,8 @@ public class TouchImageView extends ImageView
     float[] m;
 
     int viewWidth, viewHeight;
-    static final int CLICK = 3;
+    /** The threshold for detecting click operation */
+    static final int CLICK = 5;
     float saveScale = 1f;
     protected float origWidth, origHeight;
     int oldMeasuredWidth, oldMeasuredHeight;
@@ -47,6 +53,8 @@ public class TouchImageView extends ImageView
     ScaleGestureDetector mScaleDetector;
 
     Context context;
+    
+    private OnAdvancedClickListener mCallback;
 
     public TouchImageView(Context context)
     {
@@ -106,7 +114,12 @@ public class TouchImageView extends ImageView
                         int xDiff = (int) Math.abs(curr.x - start.x);
                         int yDiff = (int) Math.abs(curr.y - start.y);
                         if (xDiff < CLICK && yDiff < CLICK)
+                        {
                             performClick();
+                            
+                            if (mCallback != null)
+                                mCallback.onAdvancedItemClick(TouchImageView.this, (int)curr.x, (int)curr.y);
+                        }
                         break;
 
                     case MotionEvent.ACTION_POINTER_UP:
@@ -125,6 +138,11 @@ public class TouchImageView extends ImageView
     public void setMaxZoom(float x)
     {
         maxScale = x;
+    }
+    
+    public void setOnAdvancedClickListener(OnAdvancedClickListener listener)
+    {
+        mCallback = listener;
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener
@@ -257,4 +275,5 @@ public class TouchImageView extends ImageView
         }
         fixTrans();
     }
+
 }
