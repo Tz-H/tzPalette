@@ -58,7 +58,7 @@
         </RelativeLayout>
         
         <LinearLayout 
-            android:layout_width="330dp"
+            android:layout_width="340dp"
             android:layout_height="fill_parent"
             android:orientation="vertical">
             
@@ -98,11 +98,7 @@
 	            <com.tzapps.tzpalette.ui.view.ColorRow
 	                android:id="@+id/palette_edit_view_colors"
 	                android:layout_width="fill_parent"
-	                android:layout_height="35dp"
-	                android:columnWidth="35dp"
-	                android:gravity="center"
-	                android:numColumns="auto_fit"
-	                android:stretchMode="columnWidth" />
+	                android:layout_height="35dp" />
                 
             </LinearLayout>
         </LinearLayout>

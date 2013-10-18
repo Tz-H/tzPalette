@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.ui.view;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.animation.Animator;
@@ -11,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 
+import com.tzapps.common.ui.view.HorizontalListView;
 import com.tzapps.tzpalette.R;
 
-public class ColorRow extends GridView
+public class ColorRow extends HorizontalListView
 {
     private final static String TAG = "ColorRow";
     
@@ -23,25 +24,13 @@ public class ColorRow extends GridView
     
     private void init(Context context)
     {
-        mColorsAdapter = new ColorAdapter(context, this);
+        mColorsAdapter = new ColorAdapter(context);
         setAdapter(mColorsAdapter);
-    }
-
-    public ColorRow(Context context)
-    {
-        super(context);
-        init(context);
     }
 
     public ColorRow(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(context);
-    }
-
-    public ColorRow(Context context, AttributeSet attrs, int defStyle)
-    {
-        super(context, attrs, defStyle);
         init(context);
     }
     
@@ -79,21 +68,20 @@ public class ColorRow extends GridView
     private class ColorAdapter extends BaseAdapter
     {
         private List<Integer> mColors;
+        private LinkedList<View> mViews;
         
-        private GridView mGridView;
         private Context mContext;
 
-        public ColorAdapter(Context context, GridView gridView)
+        public ColorAdapter(Context context)
         {
             mContext = context;
-            mGridView = gridView;
             mColors = new ArrayList<Integer>();
+            mViews = new LinkedList<View>();
         }
         
-        private void animToRemoveColor(int position)
+        private void animToRemoveColor(final int position)
         {
-            final int index = position;
-            final View deleteView = mGridView.getChildAt(position);
+            final View deleteView = mViews.get(position);
             
             //fade out
             deleteView.animate().alpha(0).setListener(new AnimatorListenerAdapter(){
@@ -102,7 +90,8 @@ public class ColorRow extends GridView
                 {
                     deleteView.clearAnimation();
                     deleteView.setAlpha(1);
-                    mColors.remove(index);
+                    mColors.remove(position);
+                    mViews.remove(position);
                     notifyDataSetChanged();
                 }
             });
@@ -113,9 +102,9 @@ public class ColorRow extends GridView
                 float xMoveTo = deleteView.getX();
                 float yMoveTo = deleteView.getY();
                 
-                for (int i = position + 1; i < mGridView.getCount(); i++)
+                for (int i = position + 1; i < mViews.size(); i++)
                 {
-                    final View moveView = mGridView.getChildAt(i);
+                    final View moveView = mViews.get(i);
                     
                     final float x = moveView.getX();
                     final float y = moveView.getY();
@@ -146,6 +135,7 @@ public class ColorRow extends GridView
         public void clear()
         {
             mColors.clear();
+            mViews.clear();
             notifyDataSetChanged();
         }
 
@@ -205,16 +195,28 @@ public class ColorRow extends GridView
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            View cellView = convertView;
+            View cellView;
             ColorCell colorView;
             
-            if (cellView == null)
+            if (position < mViews.size())
+            {
+                cellView = mViews.get(position);
+            }
+            else
             {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
+                mViews.add(cellView);
             }
             
+            int cellSize = parent.getHeight();
+            
+            cellView.setMinimumHeight(cellSize);
+            cellView.setMinimumWidth(cellSize);
+            
             colorView = (ColorCell)cellView.findViewById(R.id.item_color);
+            colorView.setMinimumHeight(cellSize - cellView.getPaddingTop() - cellView.getPaddingBottom());
+            colorView.setMinimumWidth(cellSize - cellView.getPaddingLeft() - cellView.getPaddingRight());
             colorView.setColor(mColors.get(position));
             
             return cellView;

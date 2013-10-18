@@ -61,11 +61,7 @@
             <com.tzapps.tzpalette.ui.view.ColorRow
                 android:id="@+id/palette_card_colors"
                 android:layout_width="fill_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:columnWidth="32dp"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth" />
+                android:layout_height="32dp" />
             
         </LinearLayout>
     

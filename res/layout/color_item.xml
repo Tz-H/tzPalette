@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:minWidth="35dp"
-    android:minHeight="35dp"
+    android:clickable="true"
+    android:background="@drawable/button_no_bg"
     android:padding="2dp"
     android:gravity="center">
 
     <com.tzapps.tzpalette.ui.view.ColorCell
         android:id="@+id/item_color"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription" />
 
