@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.BaseAdapter;
 
 import com.tzapps.common.ui.view.HorizontalListView;
@@ -53,6 +51,11 @@ public class ColorRow extends HorizontalListView
     public int getColor(int position)
     {
         return mColorsAdapter.getColor(position);
+    }
+    
+    public int getColorCount()
+    {
+        return mColorsAdapter.getCount();
     }
     
     public void removeColor(int color)

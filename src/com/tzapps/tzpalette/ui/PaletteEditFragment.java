@@ -203,6 +203,10 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
         
         mColorEditView.setColor(color);
+        
+        // Add user's picking color into mColoursRow directly if
+        if (mColoursRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
+            addNewColorIntoColorsBar();
     }
 
 
@@ -218,11 +222,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
     {
         //long click to remove this color from palette data and colors bar
-        
-        //int color = mColoursRow.getColor(position);
-        //mColoursRow.removeColor(color);
-        //mData.removeColor(color);
-        
         int color = mColoursRow.getColor(position);
         
         mColoursRow.removeColorAt(position);

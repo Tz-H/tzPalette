@@ -28,6 +28,8 @@ public final class Constants
     public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;
     /** The maximum thumb size stored in local db. */
     public static final int THUMB_MAX_SIZE = 1024;
+    /** The maximum color number for each palette. */
+    public static final int COLOR_SLOT_MAX_SIZE = 8;
     
     /** The default palette data sorter */
     public static final Sorter PALETTE_DATA_SORTER_DEFAULT = Sorter.Title;
