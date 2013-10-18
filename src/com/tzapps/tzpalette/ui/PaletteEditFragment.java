@@ -219,8 +219,13 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         //long click to remove this color from palette data and colors bar
         
+        //int color = mColoursRow.getColor(position);
+        //mColoursRow.removeColor(color);
+        //mData.removeColor(color);
+        
         int color = mColoursRow.getColor(position);
-        mColoursRow.removeColor(color);
+        
+        mColoursRow.removeColorAt(position);
         mData.removeColor(color);
         
         return true;

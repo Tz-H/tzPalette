@@ -1,9 +1,10 @@
 package com.tzapps.tzpalette.ui.view;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,9 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.ui.view.ColorCell;
 
 public class ColorRow extends GridView
 {
@@ -24,7 +23,7 @@ public class ColorRow extends GridView
     
     private void init(Context context)
     {
-        mColorsAdapter = new ColorAdapter(context);
+        mColorsAdapter = new ColorAdapter(context, this);
         setAdapter(mColorsAdapter);
     }
 
@@ -67,6 +66,11 @@ public class ColorRow extends GridView
         mColorsAdapter.removeColor(color);
     }
     
+    public void removeColorAt(int position)
+    {
+        mColorsAdapter.removeColorAt(position);
+    }
+    
     public void clear()
     {
         mColorsAdapter.clear();
@@ -75,14 +79,70 @@ public class ColorRow extends GridView
     private class ColorAdapter extends BaseAdapter
     {
         private List<Integer> mColors;
+        
+        private GridView mGridView;
         private Context mContext;
 
-        public ColorAdapter(Context c)
+        public ColorAdapter(Context context, GridView gridView)
         {
-            mContext = c;
+            mContext = context;
+            mGridView = gridView;
             mColors = new ArrayList<Integer>();
         }
         
+        private void animToRemoveColor(int position)
+        {
+            final int index = position;
+            final View deleteView = mGridView.getChildAt(position);
+            
+            //fade out
+            deleteView.animate().alpha(0).setListener(new AnimatorListenerAdapter(){
+                @Override
+                public void onAnimationEnd(Animator animation)
+                {
+                    deleteView.clearAnimation();
+                    deleteView.setAlpha(1);
+                    mColors.remove(index);
+                    notifyDataSetChanged();
+                }
+            });
+            
+            if (position != getCount() - 1)
+            {
+                //animate the colors behind the deleted one to move forward 
+                float xMoveTo = deleteView.getX();
+                float yMoveTo = deleteView.getY();
+                
+                for (int i = position + 1; i < mGridView.getCount(); i++)
+                {
+                    final View moveView = mGridView.getChildAt(i);
+                    
+                    final float x = moveView.getX();
+                    final float y = moveView.getY();
+                    
+                    moveView.animate().x(xMoveTo).y(yMoveTo).setListener(new AnimatorListenerAdapter(){
+                        @Override
+                        public void onAnimationEnd(Animator animation)
+                        {
+                            moveView.clearAnimation();
+                            moveView.setX(x);
+                            moveView.setY(y);
+                        }
+                    });
+                    
+                    //persist the current view's X/Y values which will be used as the moveTo X/Y values
+                    //for the next moveView
+                    xMoveTo = x;
+                    yMoveTo = y;
+                }
+            }
+        }
+        
+        public void removeColorAt(int position)
+        {
+            animToRemoveColor(position);
+        }
+
         public void clear()
         {
             mColors.clear();
@@ -97,7 +157,7 @@ public class ColorRow extends GridView
         public void addColor(int color)
         {
             mColors.add(color);
-            Collections.sort(mColors, ColorUtils.colorSorter);
+            //Collections.sort(mColors, ColorUtils.colorSorter);
             
             notifyDataSetChanged();
         }
@@ -116,9 +176,7 @@ public class ColorRow extends GridView
             }
             
             if (index != -1)
-                mColors.remove(index);
-            
-            notifyDataSetChanged();
+                removeColorAt(index);
         }
 
         public void setColors(int[] colors)
@@ -136,12 +194,12 @@ public class ColorRow extends GridView
 
         public Object getItem(int position)
         {
-            return null;
+            return mColors.get(position);
         }
 
         public long getItemId(int position)
         {
-            return 0;
+            return position;
         }
 
         // create a new ImageView for each item referenced by the Adapter
@@ -150,16 +208,14 @@ public class ColorRow extends GridView
             View cellView = convertView;
             ColorCell colorView;
             
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            
             if (cellView == null)
+            {
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
+            }
             
             colorView = (ColorCell)cellView.findViewById(R.id.item_color);
             colorView.setColor(mColors.get(position));
-            
-            //Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
-            //cellView.startAnimation(fadeInAnim);
             
             return cellView;
         }
