@@ -338,6 +338,9 @@ public class HorizontalListView extends AdapterView<ListAdapter>
     protected boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
             float velocityY)
     {
+        if (!HorizontalListView.this.isEnabled())
+            return true;
+        
         synchronized (HorizontalListView.this)
         {
             mScroller.fling(mNextX, 0, (int) -velocityX, 0, 0, mMaxX, 0, 0);
@@ -349,6 +352,9 @@ public class HorizontalListView extends AdapterView<ListAdapter>
 
     protected boolean onDown(MotionEvent e)
     {
+        if (!HorizontalListView.this.isEnabled())
+            return true;
+        
         mScroller.forceFinished(true);
         return true;
     }
@@ -372,6 +378,8 @@ public class HorizontalListView extends AdapterView<ListAdapter>
         public boolean onScroll(MotionEvent e1, MotionEvent e2,
                 float distanceX, float distanceY)
         {
+            if (!HorizontalListView.this.isEnabled())
+                return true;
 
             synchronized (HorizontalListView.this)
             {
@@ -385,6 +393,9 @@ public class HorizontalListView extends AdapterView<ListAdapter>
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e)
         {
+            if (!HorizontalListView.this.isEnabled())
+                return true;
+            
             for (int i = 0; i < getChildCount(); i++)
             {
                 View child = getChildAt(i);
@@ -410,6 +421,9 @@ public class HorizontalListView extends AdapterView<ListAdapter>
         @Override
         public void onLongPress(MotionEvent e)
         {
+            if (!HorizontalListView.this.isEnabled())
+                return;
+            
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++)
             {
