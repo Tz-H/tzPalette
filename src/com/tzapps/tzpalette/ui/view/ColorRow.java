@@ -11,6 +11,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.BaseAdapter;
 
 import com.tzapps.common.ui.view.HorizontalListView;
@@ -71,6 +76,7 @@ public class ColorRow extends HorizontalListView
         private LinkedList<View> mViews;
         
         private Context mContext;
+        private boolean animFadeInViewWhenAddNew;
 
         public ColorAdapter(Context context)
         {
@@ -84,11 +90,14 @@ public class ColorRow extends HorizontalListView
             final View deleteView = mViews.get(position);
             
             //fade out
-            deleteView.animate().alpha(0).setListener(new AnimatorListenerAdapter(){
+            deleteView.animate().alpha(0).scaleX(0).scaleY(0).setInterpolator(new AccelerateInterpolator())
+                .setListener(new AnimatorListenerAdapter(){
                 @Override
                 public void onAnimationEnd(Animator animation)
                 {
                     deleteView.clearAnimation();
+                    deleteView.setScaleX(1);
+                    deleteView.setScaleY(1);
                     deleteView.setAlpha(1);
                     mColors.remove(position);
                     mViews.remove(position);
@@ -109,7 +118,8 @@ public class ColorRow extends HorizontalListView
                     final float x = moveView.getX();
                     final float y = moveView.getY();
                     
-                    moveView.animate().x(xMoveTo).y(yMoveTo).setListener(new AnimatorListenerAdapter(){
+                    moveView.animate().x(xMoveTo).y(yMoveTo).setInterpolator(new AnticipateInterpolator())
+                        .setListener(new AnimatorListenerAdapter(){
                         @Override
                         public void onAnimationEnd(Animator animation)
                         {
@@ -148,6 +158,7 @@ public class ColorRow extends HorizontalListView
         {
             mColors.add(color);
             //Collections.sort(mColors, ColorUtils.colorSorter);
+            animFadeInViewWhenAddNew = true;
             
             notifyDataSetChanged();
         }
@@ -173,6 +184,8 @@ public class ColorRow extends HorizontalListView
         {
             for (int i = 0; i < colors.length; i++)
                 mColors.add(colors[i]);
+            
+            animFadeInViewWhenAddNew = false;
             
             notifyDataSetChanged();
         }
@@ -207,6 +220,14 @@ public class ColorRow extends HorizontalListView
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 cellView = inflater.inflate(R.layout.color_item, parent, false);
                 mViews.add(cellView);
+                
+                if (animFadeInViewWhenAddNew)
+                {
+                    cellView.setAlpha(0);
+                    cellView.setScaleX(.2f);
+                    cellView.setScaleY(.2f);
+                    cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).alpha(1).scaleX(1).scaleY(1).start();
+                }
             }
             
             int cellSize = parent.getHeight();
