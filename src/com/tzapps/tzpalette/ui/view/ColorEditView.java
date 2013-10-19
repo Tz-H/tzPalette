@@ -23,11 +23,17 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
 {
     private static final String TAG = "ColorEditView";
     
+    public interface OnColorEditViewChangedListener
+    {
+        public void onColorChanged(ColorEditView view, int oldColor, int newColor);
+    }
+    
     private int  mColor = Color.GRAY;
     private int  mNewColor = Color.GRAY;
     
     private Context mContext;
     private View mView;
+    private OnColorEditViewChangedListener mCallback;
     
     public ColorEditView(Context context)
     {
@@ -70,11 +76,28 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
         return mNewColor;
     }
     
+    public void setOnColorEditViewChangedListener(OnColorEditViewChangedListener listener)
+    {
+        mCallback = listener;
+    }
+    
+    public void restore()
+    {
+        mNewColor = mColor;
+        updateColor();
+        
+        if (mCallback != null)
+            mCallback.onColorChanged(this, mColor, mNewColor);
+    }
+    
     @Override
     public void onColorChanged(ColorBar colorBar, int color)
     {
         mNewColor = color;
         updateColor();
+        
+        if (mCallback != null)
+            mCallback.onColorChanged(this, mColor, mNewColor);
     }
     
     private void initTabs()
@@ -141,6 +164,15 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
             public void onClick(View v)
             {
                 copyColorToClipboard(mNewColor);
+            }
+        });
+        
+        final TextView restoreTv = (TextView)mView.findViewById(R.id.action_restore);
+        restoreTv.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                restore();
             }
         });
         
