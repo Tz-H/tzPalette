@@ -1,13 +1,13 @@
 package com.tzapps.tzpalette.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteData implements Parcelable
@@ -18,7 +18,7 @@ public class PaletteData implements Parcelable
     private long   mUpdated;
     private String mTitle;
     private String mImageUrl;
-    private List<Integer> mColors;
+    private ArrayList<Integer> mColors;
     private boolean isFavourite;
     
     public static final Parcelable.Creator<PaletteData> CREATOR = 
@@ -214,6 +214,20 @@ public class PaletteData implements Parcelable
     }
     
     /**
+     * Replace a color with a new one at indicated location
+     * 
+     * @param location the color location to replace
+     * @param newColor the new color
+     */
+    public void replaceAt(int location, int color)
+    {
+        if (location >= mColors.size())
+            return;
+        
+        mColors.set(location, color);
+    }
+    
+    /**
      * Check if the palette data has contained the indicated color
      * 
      * @param color the color to check
@@ -268,10 +282,26 @@ public class PaletteData implements Parcelable
         buffer.append("[ ")
               .append("id=").append(id).append(",")
               .append("title=").append(mTitle).append(",")
-              .append("colors=").append(Arrays.toString(getColors())).append(",")
+              .append("colors=").append(getColorsString(mColors)).append(",")
               .append("imageUrl=").append(mImageUrl).append(",")
               .append("isFavourite=").append(isFavourite)
               .append(" ]");
+        
+        return buffer.toString();
+    }
+    
+    private String getColorsString(List<Integer> colors)
+    {
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append("[ ");
+        
+        for(int color : colors)
+        {
+            buffer.append(ColorUtils.colorToHtml(color)).append(" ");
+        }
+        
+        buffer.append("]");
         
         return buffer.toString();
     }
