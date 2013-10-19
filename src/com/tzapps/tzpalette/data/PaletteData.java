@@ -2,16 +2,12 @@ package com.tzapps.tzpalette.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.debug.MyDebug;
 
 public class PaletteData implements Parcelable
@@ -41,15 +37,10 @@ public class PaletteData implements Parcelable
     
     public PaletteData()
     {
-        this(null, null);
+        this("");
     }
     
-    public PaletteData(Bitmap thumb)
-    {
-        this(null, thumb);
-    }
-
-    public PaletteData(String title, Bitmap thumb)
+    public PaletteData(String title)
     {
         id     = -1;
         mTitle = title;
@@ -223,6 +214,17 @@ public class PaletteData implements Parcelable
     }
     
     /**
+     * Check if the palette data has contained the indicated color
+     * 
+     * @param color the color to check
+     * @return true if it contains, otherwise false
+     */
+    public boolean contains(int color)
+    {
+        return mColors.contains(color);
+    }
+    
+    /**
      * Compares the given palette data with the data, and returns true 
      * if they represent the same data
      *  
@@ -243,6 +245,21 @@ public class PaletteData implements Parcelable
                 this.mColors.equals(data.mColors));
     }
     
+    /**
+     * Copy palette data values from an indicated one
+     * 
+     * @param data the palette data to copy
+     */
+    public void copy(PaletteData data)
+    {
+        this.id          = data.id;
+        this.mColors     = data.mColors;
+        this.mTitle      = data.mTitle;
+        this.mImageUrl   = data.mImageUrl;
+        this.mUpdated    = data.mUpdated;
+        this.isFavourite = data.isFavourite;
+    }
+    
     @Override
     public String toString()
     {
@@ -259,18 +276,4 @@ public class PaletteData implements Parcelable
         return buffer.toString();
     }
 
-    /**
-     * Copy palette data values from an indicated one
-     * 
-     * @param data the palette data to copy
-     */
-    public void copy(PaletteData data)
-    {
-        this.id          = data.id;
-        this.mColors     = data.mColors;
-        this.mTitle      = data.mTitle;
-        this.mImageUrl   = data.mImageUrl;
-        this.mUpdated    = data.mUpdated;
-        this.isFavourite = data.isFavourite;
-    }
 }
