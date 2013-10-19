@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,8 +39,14 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     private CheckBox mFavourite;
     private ColorEditView mColorEditView;
     
-    private int mSelColor;
-    private int mSelColorPosition;
+    /** the current selected color - original color */
+    private int mSelOriColor = Color.GRAY;
+    /** the current selected color - new color */
+    private int mSelNewColor = Color.GRAY;
+    /** the current selected color position */
+    private int mSelColorPosition = -1;
+    /** the current tab in color edit View */
+    private int mCurTab = ColorEditView.TAB_INDEX_RGB;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -82,6 +89,10 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mTitle.setText(mData.getTitle());
         mFavourite.setChecked(mData.isFavourite());
         mColorsRow.setColors(mData.getColors());
+        mColorsRow.setSelection(mSelColorPosition);
+        
+        mColorEditView.setColor(mSelOriColor, mSelNewColor);
+        mColorEditView.setCurrentTab(mCurTab);
 
         if (updatePicture)
         {
@@ -170,25 +181,37 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
         
-        mColorEditView.setColor(color);
-        
         // Add user's picking color into mColoursRow directly if
         if (mColorsRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
+        {
             addNewColorIntoColorsBar(color, /*selected*/true);
+            
+            mSelOriColor = color;
+            mSelNewColor = color;
+            mColorEditView.setColor(color,color);
+        }
     }
     
     @Override
-    public void onColorChanged(ColorEditView view, int oldColor, int newColor)
+    public void onColorChanged(ColorEditView view, int oriColor, int newColor)
     {
         if (MyDebug.LOG)
-            Log.d(TAG, "update color: color=" + ColorUtils.colorToHtml(mSelColor) + " newColor=" + ColorUtils.colorToHtml(newColor) +
+            Log.d(TAG, "update color: color=" + ColorUtils.colorToHtml(oriColor) + " newColor=" + ColorUtils.colorToHtml(newColor) +
                     " selected color slot=" + mSelColorPosition);
+        
+        mSelNewColor = newColor;
         
         if (mSelColorPosition != -1)
         {
             mData.replaceAt(mSelColorPosition, newColor);
             mColorsRow.updateColorAt(mSelColorPosition, newColor);
         }
+    }
+    
+    @Override
+    public void onTabChanged(ColorEditView view, int index, String tag)
+    {
+        mCurTab = index;
     }
 
 
@@ -200,10 +223,11 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "select a color position= " + position + " Color=" + ColorUtils.colorToHtml(color));
         
-        mSelColor = color;
+        mSelOriColor = color;
+        mSelNewColor = color;
         mSelColorPosition = position;
         
-        mColorEditView.setColor(color);
+        mColorEditView.setColor(color,color);
         mColorsRow.setSelection(position);
     }
     

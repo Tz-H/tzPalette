@@ -23,16 +23,24 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
 {
     private static final String TAG = "ColorEditView";
     
+    public static final int TAB_INDEX_RGB = 0;
+    public static final int TAB_INDEX_HSV = 1;
+    public static final String TAB_TAG_RGB = "TabTagRGB";
+    public static final String TAB_TAG_HSV = "TabTagHSV";
+    
     public interface OnColorEditViewChangedListener
     {
-        public void onColorChanged(ColorEditView view, int oldColor, int newColor);
+        public void onColorChanged(ColorEditView view, int oriColor, int newColor);
+        public void onTabChanged(ColorEditView view, int index, String tag);
     }
     
-    private int  mColor = Color.GRAY;
-    private int  mNewColor = Color.GRAY;
+    private int mOriColor = Color.GRAY;
+    private int mNewColor = Color.GRAY;
     
     private Context mContext;
     private View mView;
+    private TabHost mTabHost;
+    
     private OnColorEditViewChangedListener mCallback;
     
     public ColorEditView(Context context)
@@ -59,16 +67,21 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
         
         mView = LayoutInflater.from(context).inflate(R.layout.color_edit_view, null);
         
-        initView(mColor);
+        initView(mOriColor);
         addView(mView);
     }
     
-    public void setColor(int color)
+    public void setColor(int oriColor, int newColor)
     {
-        mColor = color;
-        mNewColor = color;
+        mOriColor = oriColor;
+        mNewColor = newColor;
         
         updateColor();
+    }
+    
+    public int getOriColor()
+    {
+        return mOriColor;
     }
 
     public int getNewColor()
@@ -83,11 +96,11 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
     
     public void restore()
     {
-        mNewColor = mColor;
+        mNewColor = mOriColor;
         updateColor();
         
         if (mCallback != null)
-            mCallback.onColorChanged(this, mColor, mNewColor);
+            mCallback.onColorChanged(this, mOriColor, mNewColor);
     }
     
     @Override
@@ -97,32 +110,46 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
         updateColor();
         
         if (mCallback != null)
-            mCallback.onColorChanged(this, mColor, mNewColor);
+            mCallback.onColorChanged(this, mOriColor, mNewColor);
+    }
+    
+    public void setCurrentTab(int index)
+    {
+        mTabHost.setCurrentTab(index);
+    }
+    
+    public int getCurrentTab()
+    {
+        return mTabHost.getCurrentTab();
     }
     
     private void initTabs()
     {
-        final TabHost tabHost = (TabHost)mView.findViewById(android.R.id.tabhost);
-        tabHost.setup();
+        mTabHost = (TabHost)mView.findViewById(android.R.id.tabhost);
+        mTabHost.setup();
         
-        final TabSpec spec1 = tabHost.newTabSpec("TAB 1 - RGB");
+        final TabSpec spec1 = mTabHost.newTabSpec(TAB_TAG_RGB);
         spec1.setContent(R.id.color_edit_view_tab_rgb);
         spec1.setIndicator(getString(R.string.color_edit_tab_rgb));
         
-        final TabSpec spec2 = tabHost.newTabSpec("TAB 2 - HSV");
+        final TabSpec spec2 = mTabHost.newTabSpec(TAB_TAG_RGB);
         spec2.setContent(R.id.color_edit_view_tab_hsv);
         spec2.setIndicator(getString(R.string.color_edit_tab_hsv));
         
-        tabHost.addTab(spec1);
-        tabHost.addTab(spec2);
+        mTabHost.addTab(spec1);
+        mTabHost.addTab(spec2);
         
-        tabHost.setOnTabChangedListener(new OnTabChangeListener(){
+        mTabHost.setOnTabChangedListener(new OnTabChangeListener(){
             @Override
             public void onTabChanged(String tabId)
             {
                 updateColor();
+                
+                if (mCallback != null)
+                    mCallback.onTabChanged(ColorEditView.this, 
+                                           mTabHost.getCurrentTab(), 
+                                           mTabHost.getCurrentTabTag());
             }
-            
         });
     }
     
@@ -154,7 +181,7 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
             @Override
             public void onClick(View v)
             {
-                copyColorToClipboard(mColor);
+                copyColorToClipboard(mOriColor);
             }
         });
         
@@ -207,8 +234,8 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
         final ImageView colorBar = (ImageView)mView.findViewById(R.id.color_edit_view_color_bar);
         final TextView htmlTv = (TextView)mView.findViewById(R.id.color_info_html);
         
-        colorBar.setBackgroundColor(mColor);
-        htmlTv.setText(ColorUtils.colorToHtml(mColor));
+        colorBar.setBackgroundColor(mOriColor);
+        htmlTv.setText(ColorUtils.colorToHtml(mOriColor));
         
         final ImageView newColorBar = (ImageView)mView.findViewById(R.id.color_edit_view_new_color_bar);
         final TextView htmlNewTv = (TextView)mView.findViewById(R.id.color_info_html_new);
