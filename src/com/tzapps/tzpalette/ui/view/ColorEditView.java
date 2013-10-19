@@ -98,9 +98,6 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
     {
         mNewColor = mOriColor;
         updateColor();
-        
-        if (mCallback != null)
-            mCallback.onColorChanged(this, mOriColor, mNewColor);
     }
     
     @Override
@@ -108,9 +105,6 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
     {
         mNewColor = color;
         updateColor();
-        
-        if (mCallback != null)
-            mCallback.onColorChanged(this, mOriColor, mNewColor);
     }
     
     public void setCurrentTab(int index)
@@ -249,5 +243,8 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
         udpateColorBar(R.id.color_bar_h, R.id.color_bar_h_title, R.string.color_bar_hsv_h_title, mNewColor, hsv[0]);
         udpateColorBar(R.id.color_bar_s, R.id.color_bar_s_title, R.string.color_bar_hsv_s_title, mNewColor, hsv[1]);
         udpateColorBar(R.id.color_bar_v, R.id.color_bar_v_title, R.string.color_bar_hsv_v_title, mNewColor, hsv[2]);
+        
+        if (mCallback != null)
+            mCallback.onColorChanged(this, mOriColor, mNewColor);
     }
 }

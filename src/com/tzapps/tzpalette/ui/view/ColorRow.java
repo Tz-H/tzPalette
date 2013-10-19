@@ -43,6 +43,11 @@ public class ColorRow extends HorizontalListView
         mColorsAdapter.setSelection(position);
     }
     
+    public int getSelection()
+    {
+        return mColorsAdapter.getSelection();
+    }
+    
     public void setColors(int colors[])
     {
         mColorsAdapter.clear();
@@ -105,7 +110,7 @@ public class ColorRow extends HorizontalListView
     private class ColorAdapter extends BaseAdapter
     {
         /* the current selected position */
-        private int curSel = -1;
+        private int mCurSel = -1;
         
         private List<Integer> mColors;
         private LinkedList<View> mViews;
@@ -119,7 +124,7 @@ public class ColorRow extends HorizontalListView
             mColors = new ArrayList<Integer>();
             mViews = new LinkedList<View>();
         }
-        
+
         public void updateColorAt(int position, int newColor)
         {
             mColors.set(position, newColor);
@@ -128,11 +133,16 @@ public class ColorRow extends HorizontalListView
 
         public void setSelection(int position)
         {
-            if (curSel == position)
+            if (mCurSel == position)
                 return;
             
-            curSel = position;
+            mCurSel = position;
             notifyDataSetChanged();
+        }
+        
+        public int getSelection()
+        {
+            return mCurSel;
         }
 
         private void animToRemoveColor(final int position)
@@ -189,20 +199,20 @@ public class ColorRow extends HorizontalListView
         
         public void removeColorAt(int position)
         {
-            if (position == curSel)
+            if (position == mCurSel)
             {
                 //the current selected color is deleted
                 //so set the curSel to -1 (none)
-                curSel = -1;
+                mCurSel = -1;
             }
-            else if (position < curSel)
+            else if (position < mCurSel)
             {
                 //a color ahead the current selected is deleted
                 //so the current selected color's index need to
                 //move left one unit (e.g. the old select index
                 //is 4, and color in slot 2 is deleted, then the
                 //selected color should be at slot 3 now)
-                curSel--;
+                mCurSel--;
             }
             
             animToRemoveColor(position);
@@ -234,7 +244,7 @@ public class ColorRow extends HorizontalListView
             
             if (selected)
                 // the newly added color is at the last position
-                curSel = mColors.size() - 1;
+                mCurSel = mColors.size() - 1;
             
             animFadeInViewWhenAddNew = true;
             notifyDataSetChanged();
@@ -312,7 +322,7 @@ public class ColorRow extends HorizontalListView
             cellView.setMinimumHeight(cellSize);
             cellView.setMinimumWidth(cellSize);
             
-            if (curSel == position)
+            if (mCurSel == position)
             {
                 cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).scaleX(1.2f).scaleY(1.2f).start();
             }

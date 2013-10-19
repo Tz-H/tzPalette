@@ -128,6 +128,14 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     public void updateData(PaletteData data, boolean updatePicture)
     {
         mData = data;
+        
+        if (data.getColors().length != 0)
+        {
+            mSelOriColor = data.getColors()[0];
+            mSelNewColor = data.getColors()[0];
+            mSelColorPosition = 0;
+        }
+        
         refresh(updatePicture);
     }
     
@@ -181,14 +189,25 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
         
-        // Add user's picking color into mColoursRow directly if
+        
         if (mColorsRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
         {
+            // if there is an empty color slot existing
+            // then add user's picking color into a new color slot
             addNewColorIntoColorsBar(color, /*selected*/true);
             
             mSelOriColor = color;
             mSelNewColor = color;
+            mSelColorPosition = mColorsRow.getSelection();
             mColorEditView.setColor(color,color);
+        }
+        else if (mSelColorPosition != -1)
+        {
+            // if the ColorsRow's slots have been full, then
+            // the picked color will be set as the new color for
+            // changing current selected color slot
+            mSelNewColor = color;
+            mColorEditView.setColor(mSelOriColor, mSelNewColor);
         }
     }
     
@@ -200,6 +219,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
                     " selected color slot=" + mSelColorPosition);
         
         mSelNewColor = newColor;
+        mSelColorPosition = mColorsRow.getSelection();
         
         if (mSelColorPosition != -1)
         {
@@ -226,9 +246,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mSelOriColor = color;
         mSelNewColor = color;
         mSelColorPosition = position;
-        
-        mColorEditView.setColor(color,color);
         mColorsRow.setSelection(position);
+        mColorEditView.setColor(color,color);
     }
     
     @Override
