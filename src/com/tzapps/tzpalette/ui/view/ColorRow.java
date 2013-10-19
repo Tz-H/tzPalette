@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.BaseAdapter;
 
 import com.tzapps.common.ui.view.HorizontalListView;
@@ -121,7 +121,7 @@ public class ColorRow extends HorizontalListView
                     final float x = moveView.getX();
                     final float y = moveView.getY();
                     
-                    moveView.animate().x(xMoveTo).y(yMoveTo).setInterpolator(new AnticipateInterpolator())
+                    moveView.animate().x(xMoveTo).y(yMoveTo).setInterpolator(new OvershootInterpolator())
                         .setListener(new AnimatorListenerAdapter(){
                         @Override
                         public void onAnimationEnd(Animator animation)
