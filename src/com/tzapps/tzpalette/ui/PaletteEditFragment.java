@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -24,10 +22,10 @@ import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.view.ColorEditView;
 import com.tzapps.tzpalette.ui.view.ColorImageView;
-import com.tzapps.tzpalette.ui.view.ColorImageView.OnColorImageClickListener;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
-public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, OnColorImageClickListener
+public class PaletteEditFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, 
+                                        ColorImageView.OnColorImageClickListener, ColorEditView.OnColorEditViewChangedListener
 {
     private static final String TAG = "PaletteEditFragment";
     
@@ -35,12 +33,13 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     private View mView;
     private ColorImageView mImageView;
-    private ColorRow mColoursRow;
-    private View mColorsBar;
+    private ColorRow mColorsRow;
     private TextView mTitle;
     private CheckBox mFavourite;
     private ColorEditView mColorEditView;
     
+    private int mSelColor;
+    private int mSelColorPosition;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -55,15 +54,15 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mImageView = (ColorImageView) mView.findViewById(R.id.palette_edit_view_picture);
         mImageView.setOnColorImageClickListener(this);
         
-        mColorsBar = (View) mView.findViewById(R.id.palette_edit_view_colors_bar);
         mTitle = (TextView) mView.findViewById(R.id.palette_edit_view_title);
         mFavourite = (CheckBox) mView.findViewById(R.id.palette_edit_view_favourite);
         
-        mColoursRow = (ColorRow) mView.findViewById(R.id.palette_edit_view_colors);
-        mColoursRow.setOnItemClickListener(this);
-        mColoursRow.setOnItemLongClickListener(this);
+        mColorsRow = (ColorRow) mView.findViewById(R.id.palette_edit_view_colors);
+        mColorsRow.setOnItemClickListener(this);
+        mColorsRow.setOnItemLongClickListener(this);
         
         mColorEditView = (ColorEditView) mView.findViewById(R.id.palette_edit_view_color_edit_area);
+        mColorEditView.setOnColorEditViewChangedListener(this);
         
         refresh(true);
         
@@ -82,7 +81,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mTitle.setText(mData.getTitle());
         mFavourite.setChecked(mData.isFavourite());
-        mColoursRow.setColors(mData.getColors());
+        mColorsRow.setColors(mData.getColors());
 
         if (updatePicture)
         {
@@ -159,43 +158,62 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         refresh(false);
     }
     
-    public void addNewColorIntoColorsBar()
+    public void addNewColorIntoColorsBar(int color, boolean selected)
     {
-        int newColor = mColorEditView.getNewColor();
-        
-        mData.addColor(newColor);
-        mColoursRow.addColor(newColor);
+        mData.addColor(color);
+        mColorsRow.addColor(color, selected);
     }
     
     @Override
     public void onColorImageClicked(ColorImageView view, int xPos, int yPos, int color)
     {
-        Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
+        if (MyDebug.LOG)
+            Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
         
         mColorEditView.setColor(color);
         
         // Add user's picking color into mColoursRow directly if
-        if (mColoursRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
-            addNewColorIntoColorsBar();
+        if (mColorsRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
+            addNewColorIntoColorsBar(color, /*selected*/true);
+    }
+    
+    @Override
+    public void onColorChanged(ColorEditView view, int oldColor, int newColor)
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "update color: color=" + ColorUtils.colorToHtml(mSelColor) + " newColor=" + ColorUtils.colorToHtml(newColor) +
+                    " selected color slot=" + mSelColorPosition);
+        
+        if (mSelColorPosition != -1)
+        {
+            mData.replaceAt(mSelColorPosition, newColor);
+            mColorsRow.updateColorAt(mSelColorPosition, newColor);
+        }
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        int color = mColoursRow.getColor(position);
+        int color = mColorsRow.getColor(position);
+        
+        if (MyDebug.LOG)
+            Log.d(TAG, "select a color position= " + position + " Color=" + ColorUtils.colorToHtml(color));
+        
+        mSelColor = color;
+        mSelColorPosition = position;
         
         mColorEditView.setColor(color);
-        mColoursRow.setSelection(position);
+        mColorsRow.setSelection(position);
     }
     
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
     {
         //long click to remove this color from palette data and colors bar
-        int color = mColoursRow.getColor(position);
+        int color = mColorsRow.getColor(position);
         
-        mColoursRow.removeColorAt(position);
+        mColorsRow.removeColorAt(position);
         mData.removeColor(color);
         
         return true;

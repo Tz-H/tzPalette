@@ -54,6 +54,18 @@ public class ColorRow extends HorizontalListView
         mColorsAdapter.addColor(color);
     }
     
+    /**
+     * Add a new color into colors bar and choose whether
+     * it is selected 
+     * 
+     * @param color     the color to add
+     * @param selected  true to set the new color selected, false not
+     */
+    public void addColor(int color, boolean selected)
+    {
+        mColorsAdapter.addColor(color, selected);
+    }
+    
     public int getColor(int position)
     {
         return mColorsAdapter.getColor(position);
@@ -72,6 +84,17 @@ public class ColorRow extends HorizontalListView
     public void removeColorAt(int position)
     {
         mColorsAdapter.removeColorAt(position);
+    }
+    
+    /**
+     * Update color cell's color at indicated position
+     * 
+     * @param position the color cell position
+     * @param newColor the new color at that position
+     */
+    public void updateColorAt(int position, int newColor)
+    {
+        mColorsAdapter.updateColorAt(position, newColor);
     }
     
     public void clear()
@@ -97,21 +120,19 @@ public class ColorRow extends HorizontalListView
             mViews = new LinkedList<View>();
         }
         
+        public void updateColorAt(int position, int newColor)
+        {
+            mColors.set(position, newColor);
+            notifyDataSetChanged();
+        }
+
         public void setSelection(int position)
         {
             if (curSel == position)
                 return;
             
-            if (curSel != -1)
-            {
-                View curSelectedView = mViews.get(curSel);
-                curSelectedView.animate().scaleX(1).scaleY(1).start();
-            }
-            
-            View newSelectedView = mViews.get(position);
-            newSelectedView.animate().scaleX(1.2f).scaleY(1.2f).start();
-            
             curSel = position;
+            notifyDataSetChanged();
         }
 
         private void animToRemoveColor(final int position)
@@ -168,6 +189,22 @@ public class ColorRow extends HorizontalListView
         
         public void removeColorAt(int position)
         {
+            if (position == curSel)
+            {
+                //the current selected color is deleted
+                //so set the curSel to -1 (none)
+                curSel = -1;
+            }
+            else if (position < curSel)
+            {
+                //a color ahead the current selected is deleted
+                //so the current selected color's index need to
+                //move left one unit (e.g. the old select index
+                //is 4, and color in slot 2 is deleted, then the
+                //selected color should be at slot 3 now)
+                curSel--;
+            }
+            
             animToRemoveColor(position);
         }
 
@@ -188,7 +225,18 @@ public class ColorRow extends HorizontalListView
             mColors.add(color);
             
             animFadeInViewWhenAddNew = true;
+            notifyDataSetChanged();
+        }
+        
+        public void addColor(int color, boolean selected)
+        {
+            mColors.add(color);
             
+            if (selected)
+                // the newly added color is at the last position
+                curSel = mColors.size() - 1;
+            
+            animFadeInViewWhenAddNew = true;
             notifyDataSetChanged();
         }
         
@@ -263,6 +311,15 @@ public class ColorRow extends HorizontalListView
             
             cellView.setMinimumHeight(cellSize);
             cellView.setMinimumWidth(cellSize);
+            
+            if (curSel == position)
+            {
+                cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).scaleX(1.2f).scaleY(1.2f).start();
+            }
+            else
+            {
+                cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).scaleX(1).scaleY(1).start();
+            }
             
             colorView = (ColorCell)cellView.findViewById(R.id.item_color);
             colorView.setMinimumHeight(cellSize - cellView.getPaddingTop() - cellView.getPaddingBottom());

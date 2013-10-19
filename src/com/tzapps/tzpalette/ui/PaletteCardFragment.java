@@ -23,7 +23,6 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
-import com.tzapps.tzpalette.ui.dialog.PaletteDataSortByDialogFragment;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener
