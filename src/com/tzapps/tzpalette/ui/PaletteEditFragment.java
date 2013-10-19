@@ -216,6 +216,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         int color = mColoursRow.getColor(position);
         
         mColorEditView.setColor(color);
+        mColoursRow.setSelection(position);
     }
     
     @Override

@@ -37,6 +37,12 @@ public class ColorRow extends HorizontalListView
         init(context);
     }
     
+    @Override
+    public void setSelection(int position)
+    {
+        mColorsAdapter.setSelection(position);
+    }
+    
     public void setColors(int colors[])
     {
         mColorsAdapter.clear();
@@ -75,6 +81,9 @@ public class ColorRow extends HorizontalListView
     
     private class ColorAdapter extends BaseAdapter
     {
+        /* the current selected position */
+        private int curSel = -1;
+        
         private List<Integer> mColors;
         private LinkedList<View> mViews;
         
@@ -88,6 +97,23 @@ public class ColorRow extends HorizontalListView
             mViews = new LinkedList<View>();
         }
         
+        public void setSelection(int position)
+        {
+            if (curSel == position)
+                return;
+            
+            if (curSel != -1)
+            {
+                View curSelectedView = mViews.get(curSel);
+                curSelectedView.animate().scaleX(1).scaleY(1).start();
+            }
+            
+            View newSelectedView = mViews.get(position);
+            newSelectedView.animate().scaleX(1.2f).scaleY(1.2f).start();
+            
+            curSel = position;
+        }
+
         private void animToRemoveColor(final int position)
         {
             final View deleteView = mViews.get(position);
