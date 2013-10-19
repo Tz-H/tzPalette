@@ -186,7 +186,7 @@ public class ColorRow extends HorizontalListView
         public void addColor(int color)
         {
             mColors.add(color);
-            //Collections.sort(mColors, ColorUtils.colorSorter);
+            
             animFadeInViewWhenAddNew = true;
             
             notifyDataSetChanged();

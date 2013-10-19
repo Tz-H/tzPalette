@@ -1,5 +1,7 @@
 package com.tzapps.tzpalette.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -246,6 +248,9 @@ public class PaletteDataHelper
         KMeansProcessor proc = new KMeansProcessor(numOfColors, deviation, /*maxRound*/99, false);   
         proc.processKMean(points);
         
+        
+        List<Integer> colors = new ArrayList<Integer>();
+        
         for (ClusterCenter center : proc.getClusterCenters())
         {
             /*
@@ -277,8 +282,13 @@ public class PaletteDataHelper
                     break;
             }
             
-            data.addColor(color);
+            colors.add(color);
         }
+        
+        //Sort color before add them into PaletteData
+        Collections.sort(colors, ColorUtils.colorSorter);
+        
+        data.addColors(colors, /*reset*/true);
     }
     
     /**

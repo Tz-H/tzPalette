@@ -101,8 +101,6 @@ public class PaletteData implements Parcelable
     public void addColor(int color)
     {
         mColors.add(color);
-        
-        Collections.sort(mColors, ColorUtils.colorSorter);
     }
     
     public void removeColor(int color)
@@ -122,6 +120,18 @@ public class PaletteData implements Parcelable
             mColors.remove(index);
     }
     
+    public void addColors(List<Integer> colors, boolean reset)
+    {
+        if (colors == null)
+            return;
+        
+        if (reset)
+            mColors.clear();
+        
+        for (int color : colors)
+            mColors.add(color);
+    }
+    
     public void addColors(int[] colors, boolean reset)
     {
         if (colors == null)
@@ -131,7 +141,7 @@ public class PaletteData implements Parcelable
             mColors.clear();
         
         for (int color : colors)
-            addColor(color);
+            mColors.add(color);
     }
     
     public int[] getColors()
