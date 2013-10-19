@@ -83,9 +83,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         mTitle.setText(mData.getTitle());
         mFavourite.setChecked(mData.isFavourite());
         mColoursRow.setColors(mData.getColors());
-        
-        if (mData.getColors().length != 0)
-            showColorsBar();
 
         if (updatePicture)
         {
@@ -141,9 +138,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mData.addColors(colors, false);
         
-        if (colors.length != 0)
-            showColorsBar();
-        
         refresh(false);
     }
     
@@ -153,8 +147,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
             Log.d(TAG, "update title " + title);
         
         mData.setTitle(title);
-        showTitleBar();
-        
         refresh(false);
     }
     
@@ -173,28 +165,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         
         mData.addColor(newColor);
         mColoursRow.addColor(newColor);
-    }
-    
-    private void showColorsBar()
-    {
-        if (mColorsBar.getVisibility() != View.VISIBLE)
-        {
-            mColorsBar.setVisibility(View.VISIBLE);
-            
-            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
-            mColorsBar.startAnimation(anim);
-        }
-    }
-    
-    private void showTitleBar()
-    {
-        if (mTitle.getVisibility() != View.VISIBLE)
-        {
-            mTitle.setVisibility(View.VISIBLE);
-            
-            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
-            mTitle.startAnimation(anim);
-        }
     }
     
     @Override

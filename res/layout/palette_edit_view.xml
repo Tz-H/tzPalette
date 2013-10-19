@@ -26,10 +26,8 @@
 	        android:background="@drawable/palette_edit_view_colors_bar_frame"
 	        android:gravity="center"
 	        android:orientation="horizontal"
-	        android:paddingLeft="5dp"
-	        android:paddingRight="5dp"
 	        android:clipChildren="false"
-	        android:visibility="invisible" >
+	        android:visibility="visible" >
 	
 	        <ImageView
 	            android:id="@+id/btn_analysis"
