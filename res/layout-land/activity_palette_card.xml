@@ -8,7 +8,8 @@
     <com.tzapps.common.ui.view.PagerContainer 
         android:id="@+id/pager_container"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/palette_card_color_list_area"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
         
@@ -22,9 +23,9 @@
     
     <RelativeLayout 
         android:id="@+id/palette_card_color_list_area"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/pager_container"
+        android:layout_alignParentRight="true"
         android:background="#FFF">
 	    
         <!-- Color Info List Area -->
@@ -35,7 +36,8 @@
         android:id="@+id/palette_card_view_action_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/palette_card_color_list_area"
+        android:layout_alignRight="@+id/palette_card_color_list_area"
         android:layout_alignParentBottom="true"
         android:padding="5dp"
         android:gravity="left"

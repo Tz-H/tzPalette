@@ -67,6 +67,9 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
         mCardAdapter.setCurrentCard(dataId);
         
+        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setPageMargin(60);
+        
         // Make sure we're running on Honeycomb or higher to use ActionBar APIs
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         {

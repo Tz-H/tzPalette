@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_capture"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/color_gray" >
 
     <RelativeLayout
         android:id="@+id/palette_card_frame"
-        android:layout_width="280dp"
-        android:layout_height="340dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/palette_card_frame">
@@ -17,7 +17,7 @@
         <LinearLayout 
             android:id="@+id/palette_card_top_bar"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:background="@color/palette_card_title_bg"
             android:orientation="vertical" >
@@ -43,14 +43,14 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
             android:contentDescription="@string/img_pic_desc" />
     
         <LinearLayout 
             android:id="@+id/palette_card_bottom_bar"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:background="@color/palette_card_colors_bar_bg"
             android:gravity="center"
@@ -61,7 +61,7 @@
             <com.tzapps.tzpalette.ui.view.ColorRow
                 android:id="@+id/palette_card_colors"
                 android:layout_width="fill_parent"
-                android:layout_height="32dp" />
+                android:layout_height="28dp" />
             
         </LinearLayout>
     
