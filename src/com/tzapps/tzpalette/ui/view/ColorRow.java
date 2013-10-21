@@ -114,7 +114,7 @@ public class ColorRow extends HorizontalListView
     {
         /* the current selected position */
         private int mCurSel = -1;
-        private int mNewlyAdded = -1;
+        private int mNewlyAddedPosition = -1;
         
         private List<Integer> mColors;
         
@@ -246,7 +246,7 @@ public class ColorRow extends HorizontalListView
             if (selected)
                 mCurSel = mColors.size() - 1;
             
-            mNewlyAdded = mColors.size() - 1;
+            mNewlyAddedPosition = mColors.size() - 1;
             animFadeInViewWhenAddNew = true;
             notifyDataSetChanged();
         }
@@ -302,14 +302,14 @@ public class ColorRow extends HorizontalListView
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             cellView = inflater.inflate(R.layout.color_item, parent, false);
             
-            if (animFadeInViewWhenAddNew && mNewlyAdded == position)
+            if (animFadeInViewWhenAddNew && mNewlyAddedPosition == position)
             {
                 cellView.setAlpha(0);
                 cellView.setScaleX(.2f);
                 cellView.setScaleY(.2f);
                 cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).alpha(1).scaleX(1).scaleY(1).start();
                 
-                mNewlyAdded = -1;
+                mNewlyAddedPosition = -1;
             }
             
             int cellSize = parent.getHeight();
