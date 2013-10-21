@@ -81,6 +81,27 @@ public class ActivityUtils
     }
     
     /**
+     * Fetch the versionCode from the AndroicManifest.xml
+     * 
+     * @param context
+     * @return the versionCode
+     */
+    public static int getVersionCode(Context context)
+    {
+        try
+        {
+            ComponentName comp = new ComponentName(context, context.getClass());
+            PackageInfo pinfo = context.getPackageManager()
+                    .getPackageInfo(comp.getPackageName(), 0);
+            return pinfo.versionCode;
+        }
+        catch (android.content.pm.PackageManager.NameNotFoundException e)
+        {
+            return 0;
+        }
+    }
+    
+    /**
      * Send an email via available mail activity
      * 
      * @param context   the app context

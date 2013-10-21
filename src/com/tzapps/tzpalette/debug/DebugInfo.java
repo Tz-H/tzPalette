@@ -11,11 +11,12 @@ import com.tzapps.common.utils.ActivityUtils;
 
 public final class DebugInfo
 {
-    public String appVersion;
+    public String appVersionName;
     public String osVersion;
     public String deviceModel;
     public String locale;
     public int apiLevel;
+    public int appVersionCode;
     public int screenDensity;
     public int screenWidth;
     public int screenHeight;
@@ -26,7 +27,8 @@ public final class DebugInfo
     {
         DebugInfo info = new DebugInfo();
         
-        info.appVersion  = ActivityUtils.getVersionName(context);
+        info.appVersionName  = ActivityUtils.getVersionName(context);
+        info.appVersionCode = ActivityUtils.getVersionCode(context);
         info.osVersion   = android.os.Build.VERSION.RELEASE;
         info.deviceModel = android.os.Build.MODEL;
         info.locale      = Locale.getDefault().toString();

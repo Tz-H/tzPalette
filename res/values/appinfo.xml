@@ -9,14 +9,14 @@
         \n\n\n
         ------------------\n
         App Information:\n\n
-        App version: %1$s\n
-        API level: %2$d\n
-        OS version: %3$s\n
-        Model: %4$s\n
-        Locale: %5$s\n
-        Screen Density: %6$d\n
-        Screen Dimensions: %7$d x %8$d\n
-        Device Dimensions: %9$d x %10$d\n
+        App version: %1$s (%2$d) \n
+        API level: %3$d\n
+        OS version: %4$s\n
+        Model: %5$s\n
+        Locale: %6$s\n
+        Screen Density: %7$d\n
+        Screen Dimensions: %8$d x %9$d\n
+        Device Dimensions: %10$d x %11$d\n
     </string>
     
 </resources>

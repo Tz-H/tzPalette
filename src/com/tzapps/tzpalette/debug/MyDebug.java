@@ -24,18 +24,19 @@ public final class MyDebug
         String to      = context.getString(R.string.app_contact);
         String subject = String.format(subjectStr, 
                                        context.getString(R.string.app_name),
-                                       info.appVersion);
+                                       info.appVersionName);
         String body    = String.format(feedbackStr,
-                                        info.appVersion,
-                                        info.apiLevel,
-                                        info.osVersion,
-                                        info.deviceModel,
-                                        info.locale,
-                                        info.screenDensity,
-                                        info.screenWidth,
-                                        info.screenHeight,
-                                        info.deviceWidth,
-                                        info.deviceHeight);
+                                       info.appVersionName,
+                                       info.appVersionCode,
+                                       info.apiLevel,
+                                       info.osVersion,
+                                       info.deviceModel,
+                                       info.locale,
+                                       info.screenDensity,
+                                       info.screenWidth,
+                                       info.screenHeight,
+                                       info.deviceWidth,
+                                       info.deviceHeight);
         
         ActivityUtils.sendEmail(context, to, subject, body);
     }
