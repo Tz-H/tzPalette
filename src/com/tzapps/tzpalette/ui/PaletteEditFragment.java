@@ -159,6 +159,16 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         refresh(false);
     }
     
+    public void clearColors()
+    {
+        if (MyDebug.LOG)
+            Log.d(TAG, "clearColors");
+        
+        mData.clearColors();
+        mColorsRow.clear();
+        
+    }
+    
     public void updateTitle(String title)
     {
         if (MyDebug.LOG)

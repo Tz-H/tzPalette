@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -112,7 +111,29 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         switch (view.getId())
         {
             case R.id.btn_analysis:
-                analysisPicture(mEditFrag.getData());
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Re-analyse colors")
+                        .setMessage("It will remove all existing colors in this palette, continue?")
+                        .setPositiveButton("Continue", new OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) 
+                            {
+                                //clear all existing colors in edit view
+                                mEditFrag.clearColors();
+                                doAnalysis(mEditFrag.getData());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) 
+                            {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+
+                dialog.setCanceledOnTouchOutside(true);
+                
+                dialog.show();
                 break;
                 
             case R.id.palette_edit_view_title:
@@ -209,13 +230,13 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     }
     
     /** Called when the user performs the Analysis action */
-    private void analysisPicture(PaletteData data)
+    private void doAnalysis(PaletteData data)
     {
         Log.d(TAG, "analysis the picture");
 
         if (data == null)
             return;
-
+        
         new PaletteDataAnalysisTask().execute(data);
     }
     
