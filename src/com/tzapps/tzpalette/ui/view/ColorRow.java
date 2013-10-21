@@ -6,6 +6,9 @@ import java.util.List;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -27,7 +30,7 @@ public class ColorRow extends HorizontalListView
     
     private void init(Context context)
     {
-        mColorsAdapter = new ColorAdapter(context);
+        mColorsAdapter = new ColorAdapter(context, this);
         setAdapter(mColorsAdapter);
     }
 
@@ -111,18 +114,19 @@ public class ColorRow extends HorizontalListView
     {
         /* the current selected position */
         private int mCurSel = -1;
+        private int mNewlyAdded = -1;
         
         private List<Integer> mColors;
-        private LinkedList<View> mViews;
         
         private Context mContext;
+        private ColorRow mColorRow;
         private boolean animFadeInViewWhenAddNew;
 
-        public ColorAdapter(Context context)
+        public ColorAdapter(Context context, ColorRow colorRow)
         {
             mContext = context;
+            mColorRow = colorRow;
             mColors = new ArrayList<Integer>();
-            mViews = new LinkedList<View>();
         }
 
         public void updateColorAt(int position, int newColor)
@@ -144,50 +148,35 @@ public class ColorRow extends HorizontalListView
         {
             return mCurSel;
         }
-
+        
         private void animToRemoveColor(final int position)
         {
-            final View deleteView = mViews.get(position);
+            final View deleteView = mColorRow.getChildAt(position);
+            List<Animator> anims = new ArrayList<Animator>();
             
-            //fade out
-            deleteView.animate().alpha(0).scaleX(0).scaleY(0).setInterpolator(new AccelerateInterpolator())
-                .setListener(new AnimatorListenerAdapter(){
-                @Override
-                public void onAnimationEnd(Animator animation)
-                {
-                    deleteView.clearAnimation();
-                    deleteView.setScaleX(1);
-                    deleteView.setScaleY(1);
-                    deleteView.setAlpha(1);
-                    mColors.remove(position);
-                    mViews.remove(position);
-                    notifyDataSetChanged();
-                }
-            });
+            // fade out
+            ObjectAnimator anim = ObjectAnimator.ofFloat(deleteView, "alpha", 1,0);
+            anim.setInterpolator(new AccelerateInterpolator());
+            anims.add(anim);
             
-            if (position != getCount() - 1)
+            if (position != mColorRow.getCount() - 1)
             {
                 //animate the colors behind the deleted one to move forward 
                 float xMoveTo = deleteView.getX();
                 float yMoveTo = deleteView.getY();
                 
-                for (int i = position + 1; i < mViews.size(); i++)
+                for (int i = position + 1; i < mColors.size(); i++)
                 {
-                    final View moveView = mViews.get(i);
-                    
+                    final View moveView = mColorRow.getChildAt(i);
                     final float x = moveView.getX();
                     final float y = moveView.getY();
                     
-                    moveView.animate().x(xMoveTo).y(yMoveTo).setInterpolator(new OvershootInterpolator())
-                        .setListener(new AnimatorListenerAdapter(){
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-                            moveView.clearAnimation();
-                            moveView.setX(x);
-                            moveView.setY(y);
-                        }
-                    });
+                    PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("x", xMoveTo);
+                    PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("y", yMoveTo);
+                    
+                    ObjectAnimator animXY = ObjectAnimator.ofPropertyValuesHolder(moveView, pvhX, pvhY);
+                    animXY.setInterpolator(new OvershootInterpolator());
+                    anims.add(animXY);
                     
                     //persist the current view's X/Y values which will be used as the moveTo X/Y values
                     //for the next moveView
@@ -195,6 +184,18 @@ public class ColorRow extends HorizontalListView
                     yMoveTo = y;
                 }
             }
+            
+            AnimatorSet animSet = new AnimatorSet();
+            animSet.playTogether(anims);
+            animSet.addListener(new AnimatorListenerAdapter(){
+                @Override
+                public void onAnimationEnd(Animator animation)
+                {
+                    mColors.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+            animSet.start();
         }
         
         public void removeColorAt(int position)
@@ -221,7 +222,6 @@ public class ColorRow extends HorizontalListView
         public void clear()
         {
             mColors.clear();
-            mViews.clear();
             notifyDataSetChanged();
         }
 
@@ -242,10 +242,11 @@ public class ColorRow extends HorizontalListView
         {
             mColors.add(color);
             
+            // the newly added color is at the last position
             if (selected)
-                // the newly added color is at the last position
                 mCurSel = mColors.size() - 1;
             
+            mNewlyAdded = mColors.size() - 1;
             animFadeInViewWhenAddNew = true;
             notifyDataSetChanged();
         }
@@ -291,30 +292,24 @@ public class ColorRow extends HorizontalListView
         {
             return position;
         }
-
+        
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent)
         {
             View cellView;
             ColorCell colorView;
             
-            if (position < mViews.size())
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            cellView = inflater.inflate(R.layout.color_item, parent, false);
+            
+            if (animFadeInViewWhenAddNew && mNewlyAdded == position)
             {
-                cellView = mViews.get(position);
-            }
-            else
-            {
-                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                cellView = inflater.inflate(R.layout.color_item, parent, false);
-                mViews.add(cellView);
+                cellView.setAlpha(0);
+                cellView.setScaleX(.2f);
+                cellView.setScaleY(.2f);
+                cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).alpha(1).scaleX(1).scaleY(1).start();
                 
-                if (animFadeInViewWhenAddNew)
-                {
-                    cellView.setAlpha(0);
-                    cellView.setScaleX(.2f);
-                    cellView.setScaleY(.2f);
-                    cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).alpha(1).scaleX(1).scaleY(1).start();
-                }
+                mNewlyAdded = -1;
             }
             
             int cellSize = parent.getHeight();
@@ -324,11 +319,8 @@ public class ColorRow extends HorizontalListView
             
             if (mCurSel == position)
             {
-                cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).scaleX(1.2f).scaleY(1.2f).start();
-            }
-            else
-            {
-                cellView.animate().setInterpolator(new AnticipateOvershootInterpolator()).scaleX(1).scaleY(1).start();
+                cellView.setScaleX(1.2f);
+                cellView.setScaleY(1.2f);
             }
             
             colorView = (ColorCell)cellView.findViewById(R.id.item_color);
