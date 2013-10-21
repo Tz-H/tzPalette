@@ -111,9 +111,10 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         switch (view.getId())
         {
             case R.id.btn_analysis:
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Re-analyse colors")
-                        .setMessage("It will remove all existing colors in this palette, continue?")
-                        .setPositiveButton("Continue", new OnClickListener(){
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.title_reanalyse_colors)
+                        .setMessage(R.string.message_reanalyse_colors)
+                        .setPositiveButton(R.string.action_continue, new OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) 
                             {
@@ -122,7 +123,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                                 doAnalysis(mEditFrag.getData());
                             }
                         })
-                        .setNegativeButton("Cancel", new OnClickListener(){
+                        .setNegativeButton(android.R.string.cancel, new OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) 
                             {
@@ -157,23 +158,24 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         //check whether the platte data has been changed
         if (!curData.equals(dbData))
         {
-            AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Palette changes are not saved")
-                            .setMessage("Do you really want to exit without saving the changes?")
-                            .setPositiveButton("Exit", new OnClickListener(){
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setTitle(R.string.title_exit_without_save)
+                            .setMessage(R.string.message_exit_without_save)
+                            .setPositiveButton(R.string.action_exit, new OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) 
                                 {
                                     finish();
                                 }
                             })
-                            .setNeutralButton("Save & Exit", new OnClickListener(){
+                            .setNeutralButton(R.string.action_saveAndExit, new OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) 
                                 {
                                     doSave();
                                 }
                             })
-                            .setNegativeButton("Cancel", new OnClickListener(){
+                            .setNegativeButton(android.R.string.cancel, new OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) 
                                 {

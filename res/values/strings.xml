@@ -13,6 +13,11 @@
     <string name="title_share_action">Share My Palette</string>
     <string name="title_edit_color">Edit Color</string>
     <string name="title_color_info">Color Info</string>
+    <string name="title_exit_without_save">Palette Changes Unsaved</string>
+    <string name="title_reanalyse_colors">Re-analyse Colors</string>
+    
+    <string name="message_exit_without_save">Do you really want to exit without saving the changes?</string>
+    <string name="message_reanalyse_colors">It will remove all existing colors in this palette, continue?</string>
     
     <string name="capture_view_take_photo_1">Take a photo by</string>
     <string name="capture_view_take_photo_2">Camera</string>
@@ -34,6 +39,9 @@
     <string name="action_view">View</string>
     <string name="action_edit">Edit</string>
     <string name="action_copy">Copy</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_saveAndExit">Save &amp; Exit</string>
     <string name="action_restore">Restore</string>
     <string name="action_addColor">Add color into palette</string>
     <string name="action_favourite">Mask as favourite</string>
