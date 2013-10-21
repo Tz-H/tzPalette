@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -91,7 +92,7 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         switch (item.getItemId())
         {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
                 return true;
                 
             case R.id.action_cancel:
@@ -123,6 +124,50 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
                 boolean favourite = chk.isChecked();
                 mEditFrag.updateFavourite(favourite);
                 break;
+        }
+    }
+    
+    @Override
+    public void onBackPressed()
+    {
+        PaletteData curData = mEditFrag.getData();
+        PaletteData dbData = mDataHelper.get(curData.getId());
+        
+        //check whether the platte data has been changed
+        if (!curData.equals(dbData))
+        {
+            AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Palette changes are not saved")
+                            .setMessage("Do you really want to exit without saving the changes?")
+                            .setPositiveButton("Exit", new OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) 
+                                {
+                                    finish();
+                                }
+                            })
+                            .setNeutralButton("Save & Exit", new OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) 
+                                {
+                                    doSave();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) 
+                                {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create();
+            
+            dialog.setCanceledOnTouchOutside(true);
+            
+            dialog.show();
+        }
+        else
+        {
+            super.onBackPressed();
         }
     }
 
