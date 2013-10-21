@@ -253,35 +253,41 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         switch (option)
         {
             case Rename:
-                Log.d(TAG, "Rename palatte item(position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Rename palatte item(position=" + position + " , id=" + dataId + ")");
                 showRenameDialog(position, dataId);
                 break;
 
             case Delete:
-                Log.d(TAG, "Delete palatte item(position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Delete palatte item(position=" + position + " , id=" + dataId + ")");
                 mPaletteListFragment.remove(data);
                 mDataHelper.delete(data);
                 break;
                 
             case View:
-                Log.d(TAG, "View palette item (position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "View palette item (position=" + position + " , id=" + dataId + ")");
                 openPaletteCardView(dataId);
                 break;
                 
             case Edit:
-                Log.d(TAG, "Edit palette item (position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Edit palette item (position=" + position + " , id=" + dataId + ")");
                 openEditView(dataId);
                 break;
                 
             case Favourite:
-                Log.d(TAG, "Favourite palette (position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Favourite palette (position=" + position + " , id=" + dataId + ")");
                 data.setFavourite(true);
                 mDataHelper.update(data, false);
                 mPaletteListFragment.update(data);
                 break;
                 
             case UnFavourite:
-                Log.d(TAG, "Unfavourite palette (position=" + position + " , id=" + dataId + ")");
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Unfavourite palette (position=" + position + " , id=" + dataId + ")");
                 data.setFavourite(false);
                 mDataHelper.update(data, false);
                 mPaletteListFragment.update(data);
@@ -292,7 +298,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     @Override
     public void onPaletteDataSorterClicked(Sorter sorter)
     {
-        Log.d(TAG, "sorter " + sorter + " selected");
+        if (MyDebug.LOG)
+            Log.d(TAG, "sorter " + sorter + " selected");
         
         mDataSorter = sorter;
         mPaletteListFragment.setSorter(sorter);
@@ -309,7 +316,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
                 PaletteData data = mPaletteListFragment.getItem(itemPosition);
 
-                Log.d(TAG, "Show options on palette data + " + data);
+                if (MyDebug.LOG)
+                    Log.d(TAG, "Show options on palette data + " + data);
 
                 PaletteDataOptionsDialogFragment optionDialogFrag =
                         PaletteDataOptionsDialogFragment.newInstance(itemPosition, dataId, data);
@@ -333,8 +341,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     @Override
     public void onPaletteItemClick(int position, long dataId, PaletteData data)
     {
-        // TODO view the palette data
-        Log.i(TAG, "palette data " + data.getId() + " clicked");
+        if (MyDebug.LOG)
+            Log.i(TAG, "palette data " + data.getId() + " clicked");
         
         openPaletteCardView(dataId);
     }
@@ -351,7 +359,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     @Override
     public void onPaletteItemLongClick(int position, long dataId, PaletteData data)
     {
-        Log.i(TAG, "palette data " + data.getId() + " long clicked");
+        if (MyDebug.LOG)
+            Log.i(TAG, "palette data " + data.getId() + " long clicked");
         
         PaletteDataOptionsDialogFragment optionDialogFrag =
                 PaletteDataOptionsDialogFragment.newInstance(position, dataId, data);
@@ -447,7 +456,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     /** Called when the user performs the Take Photo action */
     private void takePhoto()
     {
-        Log.d(TAG, "take a photo");
+        if (MyDebug.LOG)
+            Log.d(TAG, "take a photo");
 
         if (ActivityUtils.isIntentAvailable(getBaseContext(), MediaStore.ACTION_IMAGE_CAPTURE))
         {
@@ -459,14 +469,16 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
         else
         {
-            Log.e(TAG, "no camera found");
+            if (MyDebug.LOG)
+                Log.e(TAG, "no camera found");
         }
     }
     
     /** Called when the user performs the Load Picture action */
     private void loadPicture()
     {
-        Log.d(TAG, "load a picture");
+        if (MyDebug.LOG)
+            Log.d(TAG, "load a picture");
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, LOAD_PICTURE_RESULT);

@@ -125,6 +125,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             case R.id.action_emailPalette:
                 if (MyDebug.LOG)
                     Log.d(TAG, "send palette card via email");
+                
+                //TODO: implement email palette function
                 return true;
                 
             case R.id.action_export:

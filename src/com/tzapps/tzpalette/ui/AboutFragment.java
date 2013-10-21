@@ -23,8 +23,6 @@ public class AboutFragment extends BaseFragment
     {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.d(TAG, "onCreateView()");
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.about_view, container, false);
         

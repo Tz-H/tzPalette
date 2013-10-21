@@ -51,8 +51,7 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.d(TAG, "onCreateView()");
-        
+        // Retain the edit view fragment so when rotate the screen it will not be recreated
         setRetainInstance(true);
         
         // Inflate the layout for this fragment
@@ -141,7 +140,8 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     
     public void updateImageView(Bitmap bitmap)
     {
-        Log.d(TAG, "updateImageView");
+        if (MyDebug.LOG)
+            Log.d(TAG, "updateImageView");
         
         if (mImageView == null)
             return;
@@ -198,7 +198,6 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
     {
         if (MyDebug.LOG)
             Log.d(TAG, "image clicked at x=" + xPos + " y=" + yPos + " color=" + ColorUtils.colorToHtml(color));
-        
         
         if (mColorsRow.getColorCount() < Constants.COLOR_SLOT_MAX_SIZE)
         {

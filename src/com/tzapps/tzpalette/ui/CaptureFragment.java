@@ -18,8 +18,6 @@ public class CaptureFragment extends BaseFragment
     {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.d(TAG, "onCreateView()");
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.capture_view, container, false);
         

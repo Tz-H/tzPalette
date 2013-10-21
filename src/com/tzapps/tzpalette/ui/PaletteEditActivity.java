@@ -234,7 +234,8 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     /** Called when the user performs the Analysis action */
     private void doAnalysis(PaletteData data)
     {
-        Log.d(TAG, "analysis the picture");
+        if (MyDebug.LOG)
+            Log.d(TAG, "analysis the picture");
 
         if (data == null)
             return;

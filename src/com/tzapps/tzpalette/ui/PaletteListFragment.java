@@ -29,6 +29,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
+import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
@@ -131,7 +132,8 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     {
         mAdapter.add(data);
 
-        Log.d(TAG, "palette data " + data.getId() + " added");
+        if (MyDebug.LOG)
+            Log.d(TAG, "palette data " + data.getId() + " added");
 
         mAdapter.sort(mSorter.getComparator());
         mAdapter.notifyDataSetChanged();
@@ -150,7 +152,9 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             }
         }
 
-        Log.d(TAG, "palette data " + data.getId() + " removed");
+        if (MyDebug.LOG)
+            Log.d(TAG, "palette data " + data.getId() + " removed");
+        
         mAdapter.notifyDataSetChanged();
     }
     
