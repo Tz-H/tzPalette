@@ -253,11 +253,14 @@ public class PaletteEditFragment extends BaseFragment implements AdapterView.OnI
         if (MyDebug.LOG)
             Log.d(TAG, "select a color position= " + position + " Color=" + ColorUtils.colorToHtml(color));
         
-        mSelOriColor = color;
-        mSelNewColor = color;
-        mSelColorPosition = position;
-        mColorsRow.setSelection(position);
-        mColorEditView.setColor(color,color);
+        if (position != mColorsRow.getSelection())
+        {
+            mSelOriColor = color;
+            mSelNewColor = color;
+            mSelColorPosition = position;
+            mColorsRow.setSelection(position);
+            mColorEditView.setColor(color,color);
+        }
     }
     
     @Override
