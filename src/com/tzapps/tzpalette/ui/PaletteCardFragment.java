@@ -24,7 +24,7 @@ import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
-public class PaletteCardFragment extends BaseFragment implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener
+public class PaletteCardFragment extends BaseFragment
 {
     private static final String TAG = "PaletteCardFragment";
     
@@ -44,8 +44,6 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         mTitle = (TextView)view.findViewById(R.id.palette_card_title);
         mThumb = (ImageView)view.findViewById(R.id.palette_card_thumb);
         mColorRow = (ColorRow)view.findViewById(R.id.palette_card_colors);
-        mColorRow.setOnItemLongClickListener(this);
-        mColorRow.setOnItemClickListener(this);
         
         refresh();
         
@@ -123,28 +121,4 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
         mThumb.setImageBitmap(bitmap);
     }
     
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        int color = mColorRow.getColor(position);
-        
-        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
-        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
-        
-        ClipboardUtils.setPlainText(getActivity(), "Copied color", ColorUtils.colorToHtml(color));
-        Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT).show();
-        
-        return true;
-    }
-    
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        int color = mColorRow.getColor(position);
-        
-        ColorInfoDialogFragment dialogFrag =
-                ColorInfoDialogFragment.newInstance("Color Info", color);
-        dialogFrag.show(getFragmentManager(), "dialog");
-    }
-
 }

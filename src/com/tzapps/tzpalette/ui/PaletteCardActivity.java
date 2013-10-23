@@ -24,10 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
@@ -38,7 +40,7 @@ import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.view.ColorInfoListView;
 
-public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener, OnItemClickListener
+public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener, OnItemClickListener, OnItemLongClickListener
 {
     private static final String TAG = "PaletteCardActivity";
 
@@ -68,6 +70,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         mViewPager = (ViewPager) findViewById(R.id.palette_card_pager);
         mColorInfoList = (ColorInfoListView) findViewById(R.id.palette_card_color_list);
         mColorInfoList.setOnItemClickListener(this);
+        mColorInfoList.setOnItemLongClickListener(this);
         
         mDataHelper = PaletteDataHelper.getInstance(this);
         mCardAdapter = new PaletteCardAdapter(this, mViewPager, mColorInfoList);
@@ -157,12 +160,30 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         int color = mColorInfoList.getColor(position);
         
         if (MyDebug.LOG)
-            Log.d(TAG, "open color detail info dialog: " + ColorUtils.colorToHtml(color));
+            Log.d(TAG, "color info list item clicked: " + ColorUtils.colorToHtml(color));
         
+        // Show color info detail dialog
         ColorInfoDialogFragment dialogFrag =
                 ColorInfoDialogFragment.newInstance(getString(R.string.title_color_info), color);
         dialogFrag.show(getFragmentManager(), "dialog");
+    }
+    
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorInfoList.getColor(position);
         
+        if (MyDebug.LOG)
+            Log.d(TAG, "color info list item long clicked: " + ColorUtils.colorToHtml(color));
+        
+        // Copy color's html(hex) value into clipboard
+        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
+        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
+        
+        ClipboardUtils.setPlainText(this, "Copied color", ColorUtils.colorToHtml(color));
+        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+        
+        return true;
     }
     
     public void onClick(View view)
