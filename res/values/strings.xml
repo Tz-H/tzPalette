@@ -66,6 +66,21 @@
     <string name="color_info_cmyk_title">CMYK</string>
     <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
     
+    <string name="color_info_hex_title">Hex</string>
+    <string name="color_info_rgb_r_title">Red</string>
+    <string name="color_info_rgb_g_title">Green</string>
+    <string name="color_info_rgb_b_title">Blue</string>
+    <string name="color_info_hsv_h_title">Hue</string>
+    <string name="color_info_hsv_s_title">Saturation</string>
+    <string name="color_info_hsv_v_title">Value</string>
+    
+    <string name="color_info_rgb_r_value">%1$d</string>
+    <string name="color_info_rgb_g_value">%1$d</string>
+    <string name="color_info_rgb_b_value">%1$d</string>
+    <string name="color_info_hsv_h_value">%1$d°</string>
+    <string name="color_info_hsv_s_value">%1$d%%</string>
+    <string name="color_info_hsv_v_value">%1$d%%</string>
+    
     <string name="color_edit_tab_rgb">RGB</string>
     <string name="color_edit_tab_hsv">HSV</string>
     <string name="color_bar_rgb_r_title">R = %1$d</string>
@@ -74,7 +89,6 @@
     <string name="color_bar_hsv_h_title">H = %1$d°</string>
     <string name="color_bar_hsv_s_title">S = %1$d%%</string>
     <string name="color_bar_hsv_v_title">V = %1$d%%</string>
-    
     
     <string name="copy_color_into_clipboard">Color %1$s copied into clipboard.</string>
     

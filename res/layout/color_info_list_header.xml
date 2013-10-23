@@ -8,21 +8,21 @@
     <RelativeLayout 
         android:id="@+id/color_info_html_bar"
         android:layout_width="70dp"
-        android:layout_height="20dp">
-	    <TextView
-	        android:id="@+id/color_info_html"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:gravity="center"
-	        android:textSize="14sp"
-	        android:text="Hex"
-	        style="@style/ColorInfoColorBarText" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/color_info_html"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="@string/color_info_hex_title"
+            style="@style/ColorInfoColorBarText" />
     </RelativeLayout>
     
     <LinearLayout 
         android:id="@+id/color_info_bar"
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/color_info_html_bar"
         android:gravity="center"
         android:orientation="horizontal">
@@ -30,63 +30,63 @@
         <TextView 
             android:id="@+id/color_info_rgb_r"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Red"
+            android:text="@string/color_info_rgb_r_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
         
         <TextView 
             android:id="@+id/color_info_rgb_g"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Green"
+            android:text="@string/color_info_rgb_g_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
         
         <TextView 
             android:id="@+id/color_info_rgb_b"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Blue"
+            android:text="@string/color_info_rgb_b_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
         
         <TextView 
             android:id="@+id/color_info_hsv_h"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Hue"
+            android:text="@string/color_info_hsv_h_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
         
         <TextView 
             android:id="@+id/color_info_hsv_s"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1.6"
             android:gravity="center"
-            android:text="Saturation"
+            android:text="@string/color_info_hsv_s_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
         
         <TextView 
             android:id="@+id/color_info_hsv_v"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Value"
+            android:text="@string/color_info_hsv_v_title"
             android:textSize="14sp"
             style="@style/ColorInfoColorBarText"/>
-	    
+        
     </LinearLayout>
 
 </RelativeLayout>

@@ -179,12 +179,6 @@ public class ColorInfoListView extends ListView
         {
             final ImageView colorBar = (ImageView)view.findViewById(R.id.color_info_color_bar);
             final TextView htmlTv = (TextView)view.findViewById(R.id.color_info_html);
-            final TextView rTv = (TextView)view.findViewById(R.id.color_info_rgb_r);
-            final TextView gTv = (TextView)view.findViewById(R.id.color_info_rgb_g);
-            final TextView bTv = (TextView)view.findViewById(R.id.color_info_rgb_b);
-            final TextView hTv = (TextView)view.findViewById(R.id.color_info_hsv_h);
-            final TextView sTv = (TextView)view.findViewById(R.id.color_info_hsv_s);
-            final TextView vTv = (TextView)view.findViewById(R.id.color_info_hsv_v);
             
             colorBar.setBackgroundColor(color);
             htmlTv.setText(ColorUtils.colorToHtml(color));
@@ -192,13 +186,20 @@ public class ColorInfoListView extends ListView
             int[] rgb = ColorUtils.colorToRGB(color);
             int[] hsv = ColorUtils.colorToHSV(color);
             
-            rTv.setText(String.valueOf(rgb[0]));
-            gTv.setText(String.valueOf(rgb[1]));
-            bTv.setText(String.valueOf(rgb[2]));
-            
-            hTv.setText(String.valueOf(hsv[0]));
-            sTv.setText(String.valueOf(hsv[1]));
-            vTv.setText(String.valueOf(hsv[2]));
+            updateColorTextView(view, R.id.color_info_rgb_r, R.string.color_info_rgb_r_value, rgb[0]);
+            updateColorTextView(view, R.id.color_info_rgb_g, R.string.color_info_rgb_g_value, rgb[1]);
+            updateColorTextView(view, R.id.color_info_rgb_b, R.string.color_info_rgb_b_value, rgb[2]);
+            updateColorTextView(view, R.id.color_info_hsv_h, R.string.color_info_hsv_h_value, hsv[0]);
+            updateColorTextView(view, R.id.color_info_hsv_s, R.string.color_info_hsv_s_value, hsv[1]);
+            updateColorTextView(view, R.id.color_info_hsv_v, R.string.color_info_hsv_v_value, hsv[2]);
+        }
+        
+        private void updateColorTextView(View view, int textViewResId, int textResId, int textValue)
+        {
+            final TextView tv = (TextView)view.findViewById(textViewResId);
+            String str = mContext.getString(textResId);
+            str = String.format(str, textValue);
+            tv.setText(str);
         }
     }
 
