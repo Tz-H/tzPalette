@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_darkgray"
     android:orientation="horizontal" >
-
-    <RelativeLayout
+    
+    <RelativeLayout 
         android:id="@+id/color_info_html_bar"
         android:layout_width="70dp"
-        android:layout_height="40dp" >
-
-        <ImageView
-            android:id="@+id/color_info_color_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/color_lightgray"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/color_info_html"
-            style="@style/ColorInfoColorBarText"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:textSize="16sp" />
+        android:layout_height="20dp">
+	    <TextView
+	        android:id="@+id/color_info_html"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:gravity="center"
+	        android:textSize="14sp"
+	        android:text="Hex"
+	        style="@style/ColorInfoColorBarText" />
     </RelativeLayout>
-
-    <LinearLayout
+    
+    <LinearLayout 
         android:id="@+id/color_info_bar"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
         android:layout_toRightOf="@+id/color_info_html_bar"
         android:gravity="center"
-        android:orientation="horizontal" >
-
-        <TextView
+        android:orientation="horizontal">
+        
+        <TextView 
             android:id="@+id/color_info_rgb_r"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="255"
-            android:textSize="14sp" />
-
-        <TextView
+            android:text="Red"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+        
+        <TextView 
             android:id="@+id/color_info_rgb_g"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="255"
-            android:textSize="14sp" />
-
-        <TextView
+            android:text="Green"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+        
+        <TextView 
             android:id="@+id/color_info_rgb_b"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="255"
-            android:textSize="14sp" />
-
-        <TextView
+            android:text="Blue"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+        
+        <TextView 
             android:id="@+id/color_info_hsv_h"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="360"
-            android:textSize="14sp" />
-
-        <TextView
+            android:text="Hue"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+        
+        <TextView 
             android:id="@+id/color_info_hsv_s"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1.6"
             android:gravity="center"
-            android:text="100%"
-            android:textSize="14sp" />
-
-        <TextView
+            android:text="Saturation"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+        
+        <TextView 
             android:id="@+id/color_info_hsv_v"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="100%"
-            android:textSize="14sp" />
+            android:text="Value"
+            android:textSize="14sp"
+            style="@style/ColorInfoColorBarText"/>
+	    
     </LinearLayout>
 
 </RelativeLayout>

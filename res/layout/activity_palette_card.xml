@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_gray" >
+    android:background="@color/app_bg" >
    
     <com.tzapps.common.ui.view.PagerContainer 
         android:id="@+id/pager_container"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:background="@color/color_gray">
         
 	    <android.support.v4.view.ViewPager
 	        android:id="@+id/palette_card_pager"
@@ -20,12 +21,15 @@
     
     </com.tzapps.common.ui.view.PagerContainer>
     
-    <RelativeLayout 
+    <LinearLayout 
         android:id="@+id/palette_card_color_list_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/pager_container"
-        android:background="#FFF">
+        android:orientation="vertical">
+	    
+	    <!-- Color Info List Header -->
+	    <include layout="@layout/color_info_list_header"/>
 	    
         <!-- Color Info List Area -->
         <com.tzapps.tzpalette.ui.view.ColorInfoListView
@@ -33,6 +37,6 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"/>
         
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

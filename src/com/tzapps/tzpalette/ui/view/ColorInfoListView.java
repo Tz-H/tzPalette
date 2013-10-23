@@ -182,23 +182,23 @@ public class ColorInfoListView extends ListView
             final TextView rTv = (TextView)view.findViewById(R.id.color_info_rgb_r);
             final TextView gTv = (TextView)view.findViewById(R.id.color_info_rgb_g);
             final TextView bTv = (TextView)view.findViewById(R.id.color_info_rgb_b);
-            final TextView hTv = (TextView)view.findViewById(R.id.color_info_hsl_h);
-            final TextView sTv = (TextView)view.findViewById(R.id.color_info_hsl_s);
-            final TextView lTv = (TextView)view.findViewById(R.id.color_info_hsl_l);
+            final TextView hTv = (TextView)view.findViewById(R.id.color_info_hsv_h);
+            final TextView sTv = (TextView)view.findViewById(R.id.color_info_hsv_s);
+            final TextView vTv = (TextView)view.findViewById(R.id.color_info_hsv_v);
             
             colorBar.setBackgroundColor(color);
             htmlTv.setText(ColorUtils.colorToHtml(color));
             
             int[] rgb = ColorUtils.colorToRGB(color);
-            int[] hsl = ColorUtils.colorToHSL(color);
+            int[] hsv = ColorUtils.colorToHSV(color);
             
             rTv.setText(String.valueOf(rgb[0]));
             gTv.setText(String.valueOf(rgb[1]));
             bTv.setText(String.valueOf(rgb[2]));
             
-            hTv.setText(String.valueOf(hsl[0]));
-            sTv.setText(String.valueOf(hsl[1]));
-            lTv.setText(String.valueOf(hsl[2]));
+            hTv.setText(String.valueOf(hsv[0]));
+            sTv.setText(String.valueOf(hsv[1]));
+            vTv.setText(String.valueOf(hsv[2]));
         }
     }
 
