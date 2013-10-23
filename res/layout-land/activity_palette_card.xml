@@ -29,6 +29,10 @@
         android:background="#FFF">
 	    
         <!-- Color Info List Area -->
+        <com.tzapps.tzpalette.ui.view.ColorInfoListView
+            android:id="@+id/palette_card_color_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         
     </RelativeLayout>
     

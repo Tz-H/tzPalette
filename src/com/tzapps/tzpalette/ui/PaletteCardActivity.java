@@ -32,6 +32,7 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
+import com.tzapps.tzpalette.ui.view.ColorInfoListView;
 
 public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
 {
@@ -41,6 +42,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     private static final int PALETTE_CARD_SHARE_RESULT = 1;
     
     private ViewPager mViewPager;
+    private ColorInfoListView mColorInfoList;
     private PaletteCardAdapter mCardAdapter;
     private PaletteDataHelper mDataHelper;
     
@@ -60,9 +62,10 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
         
         mViewPager = (ViewPager) findViewById(R.id.palette_card_pager);
+        mColorInfoList = (ColorInfoListView) findViewById(R.id.palette_card_color_list);
         
         mDataHelper = PaletteDataHelper.getInstance(this);
-        mCardAdapter = new PaletteCardAdapter(this, mViewPager);
+        mCardAdapter = new PaletteCardAdapter(this, mViewPager, mColorInfoList);
         
         long dataId = getIntent().getExtras().getLong(Constants.PALETTE_DATA_ID);
         mCardAdapter.setCurrentCard(dataId);
@@ -298,15 +301,18 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     {
         private Context mContext;
         private ViewPager mViewPager;
+        private ColorInfoListView mColorInfoList;
+        
         private List<PaletteData> dataList;
         private PaletteDataHelper mDataHelper;
         private View mCurrentView;
 
-        public PaletteCardAdapter(Activity activity, ViewPager pager)
+        public PaletteCardAdapter(Activity activity, ViewPager pager, ColorInfoListView colorInfoList)
         {
             super(activity.getFragmentManager());
             mContext = activity;
             mViewPager = pager;
+            mColorInfoList = colorInfoList;
             mDataHelper = PaletteDataHelper.getInstance(mContext);
             
             dataList = mDataHelper.getAllData();
@@ -318,6 +324,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         public void setCurrentCard(long dataId)
         {
             int index = 0;
+            PaletteData curData = null;
             
             for (int i = 0; i < dataList.size(); i++)
             {
@@ -325,12 +332,16 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 
                 if (data.getId() == dataId)
                 {
+                    curData = data;
                     index = i;
                     break;
                 }
             }
             
             mViewPager.setCurrentItem(index);
+            
+            if (curData != null)
+                mColorInfoList.setColors(curData.getColors());
         }
         
         public PaletteData getCurrentData()
@@ -385,6 +396,10 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             super.setPrimaryItem(container, position, object);
             
             mCurrentView = ((Fragment)object).getView();
+            
+            PaletteData curData = dataList.get(position);
+            if (curData != null)
+                mColorInfoList.setColors(curData.getColors());
         }
         
         @Override
