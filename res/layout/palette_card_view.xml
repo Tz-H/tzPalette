@@ -45,6 +45,8 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
+            android:clickable="true"
+            android:onClick="onClick"
             android:contentDescription="@string/img_pic_desc" />
     
         <LinearLayout 

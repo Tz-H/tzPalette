@@ -35,57 +35,5 @@
             android:layout_height="wrap_content"/>
         
     </RelativeLayout>
-    
-    <RelativeLayout 
-        android:id="@+id/palette_card_view_action_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/palette_card_color_list_area"
-        android:layout_alignRight="@+id/palette_card_color_list_area"
-        android:layout_alignParentBottom="true"
-        android:padding="5dp"
-        android:gravity="left"
-        android:orientation="horizontal">
-        
-	    <ImageButton 
-	        android:id="@+id/btn_edit"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:padding="5dp"
-	        android:clickable="true"
-	        android:onClick="onClick"
-	        android:src="@android:drawable/ic_menu_edit"
-	        android:scaleType="fitCenter"
-	        android:background="@drawable/button_dark_bg" 
-	        android:contentDescription="@string/btn_edit_desc"/>
-	    
-	    <ImageButton 
-	        android:id="@+id/btn_share"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:layout_toRightOf="@+id/btn_edit"
-	        android:layout_marginLeft="10dp"
-	        android:padding="5dp"
-	        android:clickable="true"
-	        android:onClick="onClick"
-	        android:src="@android:drawable/ic_menu_share"
-	        android:scaleType="fitCenter"
-	        android:background="@drawable/button_dark_bg" 
-	        android:contentDescription="@string/btn_share_desc"/>
-	    
-	    <ImageButton 
-            android:id="@+id/btn_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:src="@android:drawable/ic_menu_delete"
-            android:scaleType="fitCenter"
-            android:background="@drawable/button_dark_bg" 
-            android:contentDescription="@string/btn_share_desc"/>
-    
-    </RelativeLayout>
 
 </RelativeLayout>

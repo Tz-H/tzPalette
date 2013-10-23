@@ -22,19 +22,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.BitmapUtils;
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
+import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.view.ColorInfoListView;
 
-public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener
+public class PaletteCardActivity extends Activity implements OnFragmentStatusChangedListener, OnItemClickListener
 {
     private static final String TAG = "PaletteCardActivity";
 
@@ -63,6 +67,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         
         mViewPager = (ViewPager) findViewById(R.id.palette_card_pager);
         mColorInfoList = (ColorInfoListView) findViewById(R.id.palette_card_color_list);
+        mColorInfoList.setOnItemClickListener(this);
         
         mDataHelper = PaletteDataHelper.getInstance(this);
         mCardAdapter = new PaletteCardAdapter(this, mViewPager, mColorInfoList);
@@ -121,7 +126,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 return true;
                 
             case R.id.action_edit:
-                openEditView();
+                PaletteData curData = mCardAdapter.getCurrentData();
+                openEditView(curData.getId());
                 return true;
                 
             case R.id.action_delete:
@@ -145,20 +151,27 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         return super.onOptionsItemSelected(item);
     }
     
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorInfoList.getColor(position);
+        
+        if (MyDebug.LOG)
+            Log.d(TAG, "open color detail info dialog: " + ColorUtils.colorToHtml(color));
+        
+        ColorInfoDialogFragment dialogFrag =
+                ColorInfoDialogFragment.newInstance(getString(R.string.title_color_info), color);
+        dialogFrag.show(getFragmentManager(), "dialog");
+        
+    }
+    
     public void onClick(View view)
     {
         switch (view.getId())
         {
-            case R.id.btn_edit:
-                openEditView();
-                break;
-                
-            case R.id.btn_share:
-                sharePaletteCard();
-                break;
-                
-            case R.id.btn_delete:
-                deletePaletteCard();
+            case R.id.palette_card_thumb:
+                long dataId = (Long)view.getTag();
+                openEditView(dataId);
                 break;
         }
     }
@@ -266,19 +279,14 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         Toast.makeText(this, "Palette Card <" + title + "> exported", Toast.LENGTH_SHORT).show();
     }
     
-    private void openEditView()
+    private void openEditView(long dataId)
     {
-        PaletteData data = mCardAdapter.getCurrentData();
-        
-        if (data == null)
-            return;
-        
         if (MyDebug.LOG)
-            Log.d(TAG, "edit palette card: " + data);
+            Log.d(TAG, "edit palette card: " + dataId);
         
         Intent intent = new Intent(this, PaletteEditActivity.class);
         
-        intent.putExtra(Constants.PALETTE_DATA_ID, data.getId());
+        intent.putExtra(Constants.PALETTE_DATA_ID, dataId);
         
         startActivityForResult(intent, PALETTE_CARD_EDIT_RESULT);
     }

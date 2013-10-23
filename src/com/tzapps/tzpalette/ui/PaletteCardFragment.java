@@ -115,6 +115,11 @@ public class PaletteCardFragment extends BaseFragment implements AdapterView.OnI
             }
         }
         
+        //Add a tag here to save the palette data id on the thumb
+        //then in onClick() methed when the thumb is clicked, we
+        //could open the palette edit view
+        mThumb.setTag(mData.getId());
+        
         mThumb.setImageBitmap(bitmap);
     }
     
