@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import android.widget.EditText;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.StringUtils;
+import com.tzapps.common.utils.UriUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
@@ -348,34 +350,17 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
     
     private String getPictureTilteFromUri(Uri uri)
     {
-        String filename = null;
+        String displayName = UriUtils.getUriDisplayName(this, uri);
         
-        String scheme = uri.getScheme();
-        if (scheme.equals("file"))
-        {
-            filename = uri.getLastPathSegment();
-        }
-        else if (scheme.equals("content"))
-        {
-            String[] proj = {MediaStore.Images.Media.TITLE};
-            
-            Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-            
-            if (cursor != null && cursor.getCount() != 0)
-            {
-                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
-                cursor.moveToFirst();
-                filename = cursor.getString(columnIndex);
-            }
-            
-            cursor.close();
-        }
+        // if we cannot fetch the display name then give it a default name... 
+        if (StringUtils.isEmpty(displayName))
+            displayName = getResources().getString(R.string.palette_title_default);
         
-        // FIXME: sometimes we cannot parse and get image file name correctly
-        if (StringUtils.isEmpty(filename))
-            filename = getResources().getString(R.string.palette_title_default);
+        //TEST
+        String path = UriUtils.getUriPath(this, uri);
+        Log.d(TAG, "uri path: "  + path);
         
-        return filename;
+        return displayName;
     }
     
     private void handlePicture(Uri imageUrl)
@@ -384,7 +369,6 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         
         PaletteData data = new PaletteData();
        
-        //TODO something is still wrong on file title fetching logic
         data.setTitle(getPictureTilteFromUri(imageUrl));
         data.setImageUrl(imageUrl.toString());
         
