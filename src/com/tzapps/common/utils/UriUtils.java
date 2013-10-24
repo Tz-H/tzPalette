@@ -32,6 +32,8 @@ public class UriUtils
                 int columnIndex = cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME);
                 cursor.moveToFirst();
                 displayName = cursor.getString(columnIndex);
+                
+                cursor.close();
             }
         }
         else if (scheme.startsWith("file"))
