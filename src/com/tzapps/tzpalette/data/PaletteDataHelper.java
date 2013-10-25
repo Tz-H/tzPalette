@@ -88,6 +88,15 @@ public class PaletteDataHelper
         return bitmap;
     }
     
+    public Bitmap getThumbSmall(long id)
+    {
+        Bitmap bitmap = null;
+        
+        bitmap = mDataSource.getThumbSmall(id);
+        
+        return bitmap;
+    }
+    
     public PaletteData get(long id)
     {
         PaletteData data = null;

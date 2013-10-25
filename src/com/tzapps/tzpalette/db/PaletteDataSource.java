@@ -48,7 +48,8 @@ public class PaletteDataSource
         {
             PaletteThumbEntry._ID,
             PaletteThumbEntry.COLUMN_NAME_PALETTE_ID,
-            PaletteThumbEntry.COLUMN_NAME_THUMB
+            PaletteThumbEntry.COLUMN_NAME_THUMB,
+            PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL
         };
     
     public static PaletteDataSource getInstance(Context context)
@@ -123,7 +124,7 @@ public class PaletteDataSource
         data.setUpdated(updated);
         
         // Insert the thumb into the thumb table
-        addThumb(insertId, getThumb(data.getImageUrl()), quality);
+        addThumb(insertId, getThumb(data.getImageUrl()), quality, Constants.THUMB_MAX_SIZE, Constants.THUMB_SMALL_MAX_SIZE);
         
         if (MyDebug.LOG)
             Log.d(TAG, "PaletteData saved with id:" + insertId + " thumb quality:" + quality);
@@ -149,24 +150,34 @@ public class PaletteDataSource
             
             if (orientation != ExifInterface.ORIENTATION_NORMAL)
                 bitmap = BitmapUtils.getRotatedBitmap(bitmap, orientation);
-            
-            int maxWidth = Constants.THUMB_MAX_SIZE;
-            int maxHeight = Constants.THUMB_MAX_SIZE;
-            
-            if (bitmap.getWidth() > maxWidth || bitmap.getHeight() > maxHeight)
-                bitmap = BitmapUtils.resizeBitmapToFitFrame(bitmap, maxWidth, maxHeight);
         }
         
         return bitmap;
     }
     
-    private void addThumb(long dataId, Bitmap thumb, int quality)
+    private void addThumb(long dataId, Bitmap bitmap, int quality, int thumbMaxSize, int thumbSmallMaxSize)
     {
+        Bitmap thumb = null;
+        Bitmap thumbSmall = null;
+        
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         
         values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
+        
+        if (bitmap.getWidth() > thumbMaxSize || bitmap.getHeight() > thumbMaxSize)
+            thumb = BitmapUtils.resizeBitmapToFitFrame(bitmap, thumbMaxSize, thumbMaxSize);
+        else
+            thumb = bitmap;
+        
         values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb, quality));
+        
+        if (bitmap.getWidth() > thumbSmallMaxSize || bitmap.getHeight() > thumbSmallMaxSize)
+            thumbSmall = BitmapUtils.resizeBitmapToFitFrame(thumb, thumbMaxSize, thumbMaxSize);
+        else
+            thumbSmall = bitmap;
+        
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL, BitmapUtils.convertBitmapToByteArray(thumbSmall, quality));
         
         // Insert the thumb into database...
         db.insert(PaletteThumbEntry.TABLE_NAME, null, values);
@@ -206,7 +217,7 @@ public class PaletteDataSource
         if (updateThumb)
         {
             values.put(PaletteDataEntry.COLUMN_NAME_IMAGEURL, data.getImageUrl());
-            updateThumb(id, getThumb(data.getImageUrl()), quality);
+            updateThumb(id, getThumb(data.getImageUrl()), quality, Constants.THUMB_MAX_SIZE, Constants.THUMB_SMALL_MAX_SIZE);
         }
         
         // Issue SQL statement
@@ -221,13 +232,29 @@ public class PaletteDataSource
             Log.d(TAG, "PaletteData updated with id:" + id + " thumb quality:" + quality);
     }
     
-    private void updateThumb(long dataId, Bitmap thumb, int quality)
+    private void updateThumb(long dataId, Bitmap bitmap, int quality, int thumbMaxSize, int thumbSmallMaxSize)
     {
+        Bitmap thumb = null;
+        Bitmap thumbSmall = null;
+        
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         
         values.put(PaletteThumbEntry.COLUMN_NAME_PALETTE_ID, dataId);
+        
+        if (bitmap.getWidth() > thumbMaxSize || bitmap.getHeight() > thumbMaxSize)
+            thumb = BitmapUtils.resizeBitmapToFitFrame(thumb, thumbMaxSize, thumbMaxSize);
+        else
+            thumb = bitmap;
+        
         values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb, quality));
+        
+        if (bitmap.getWidth() > thumbSmallMaxSize || bitmap.getHeight() > thumbSmallMaxSize)
+            thumbSmall = BitmapUtils.resizeBitmapToFitFrame(thumb, thumbMaxSize, thumbMaxSize);
+        else
+            thumbSmall = bitmap;
+        
+        values.put(PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL, BitmapUtils.convertBitmapToByteArray(thumbSmall, quality));
         
         // Issue SQL statement
         db.update(PaletteThumbEntry.TABLE_NAME, 
@@ -277,6 +304,51 @@ public class PaletteDataSource
         db.delete(PaletteThumbEntry.TABLE_NAME, null, null);
     }
     
+    /**
+     * Get the regular thumb by the indicated palette data id
+     *
+     * @param id    the palette data id
+     * @return the small size thumb
+     */
+    public Bitmap getThumbSmall(long dataId)
+    {
+        Bitmap bitmap = null;
+        
+        Cursor cursor = db.query(
+                PaletteThumbEntry.TABLE_NAME,
+                paletteThumbColumns,
+                PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + " = " + dataId,
+                null,
+                null,
+                null,
+                null
+                );
+        
+        if (cursor.getCount() != 0)
+        {
+            cursor.moveToFirst();
+            
+            byte[] thumb = cursor.getBlob(cursor.getColumnIndexOrThrow(PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL));
+            bitmap = BitmapFactory.decodeByteArray(thumb, 0, thumb.length); 
+        }
+        else
+        {
+            if (MyDebug.LOG)
+                Log.d(TAG, "the palette data =" + dataId + " doesn't have a thumb_small");
+        }
+        
+        // Make sure to close the cursor
+        cursor.close();
+        
+        return bitmap;
+    }
+    
+    /**
+     * Get the regular thumb by the indicated palette data id
+     *
+     * @param id    the palette data id
+     * @return the regular size thumb
+     */
     public Bitmap getThumb(long dataId)
     {
         Bitmap bitmap = null;
