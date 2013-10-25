@@ -292,7 +292,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
         protected Bitmap doInBackground(PaletteData...dataArray)
         {
             PaletteData data = dataArray[0];
-            return PaletteDataHelper.getInstance(mContext).getThumb(data.getId());
+            return PaletteDataHelper.getInstance(mContext).getThumbSmall(data.getId());
         }
         
         @Override
