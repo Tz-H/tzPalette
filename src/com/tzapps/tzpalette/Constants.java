@@ -28,6 +28,8 @@ public final class Constants
     public static final int PICTURE_ANALYSIS_MAX_SIZE = 512;
     /** The maximum thumb size stored in local db. */
     public static final int THUMB_MAX_SIZE = 1024;
+    /** The maximum thumb_small size stored in local db. */
+    public static final int THUMB_SMALL_MAX_SIZE = 300;
     /** The maximum color number for each palette. */
     public static final int COLOR_SLOT_MAX_SIZE = 8;
     

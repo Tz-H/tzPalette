@@ -29,5 +29,8 @@ public final class PaletteDataContract
         public static final String TABLE_NAME             = "Thumbs";
         public static final String COLUMN_NAME_PALETTE_ID = "palette_id";
         public static final String COLUMN_NAME_THUMB      = "thumb";
+        
+        // Added since version 5
+        public static final String COLUMN_NAME_THUMB_SMALL = "thumb_small";
     }
 }

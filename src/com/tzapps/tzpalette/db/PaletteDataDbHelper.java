@@ -21,9 +21,10 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
      * <ul>
      * <li>Version 3: new thumb table</li>
      * <li>Version 4: palette table: isFavourite column</li>
+     * <li>Version 5: thumb table: thumb_small column
      * </ul>
      */
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "TzPalette.db";
     
     private static final String TEXT_TYPE    = " TEXT";
@@ -46,8 +47,10 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static String SQL_CREATE_THUMB_TABLE = 
             "CREATE TABLE " + PaletteThumbEntry.TABLE_NAME + " (" +
                     PaletteThumbEntry._ID + " INTEGER PRIMARY KEY," +
-                    PaletteThumbEntry.COLUMN_NAME_PALETTE_ID + TEXT_TYPE    + COMMA_SEP +
-                    PaletteThumbEntry.COLUMN_NAME_THUMB    + BLOB_TYPE    + 
+                    PaletteThumbEntry.COLUMN_NAME_PALETTE_ID  + TEXT_TYPE  + COMMA_SEP +
+                    PaletteThumbEntry.COLUMN_NAME_THUMB       + BLOB_TYPE  + COMMA_SEP +
+                    // Version 5:
+                    PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL + BLOB_TYPE  +
                     ")";
     
     private static final String SQL_DELETE_PALETTE_TABLE =
@@ -60,6 +63,11 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     private static final String SQL_UPGRADE_PALETTE_TABLE_V4 =
             "ALTER TABLE " + PaletteDataEntry.TABLE_NAME + " ADD COLUMN "
                 + PaletteDataEntry.COLUMN_NAME_ISFAVOURITE + TEXT_TYPE + SEMICOLON_SEP;
+    
+    // Upgrade SQL statement for version 5
+    private static final String SQL_UPGRADE_THUMB_TABLE_V5 =
+            "ALTER TABLE " + PaletteThumbEntry.TABLE_NAME + " ADD COLUMN "
+                + PaletteThumbEntry.COLUMN_NAME_THUMB_SMALL + BLOB_TYPE + SEMICOLON_SEP;
     
     public static PaletteDataDbHelper getInstance(Context context)
     {
@@ -118,7 +126,18 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
                     }
                     // fall through for further upgrades
                 case 4:
-                    // add more columns here
+                    // Upgrade from version 4 to 5.
+                    try
+                    {
+                        db.execSQL(SQL_UPGRADE_THUMB_TABLE_V5);
+                    }
+                    catch (SQLException e)
+                    {
+                        Log.e(TAG, "Error executing SQL: ", e);
+                        // If the error is "duplicate column name" then everything is fine,
+                        // as this happens after upgrading oldVersion->newVersion, then
+                        // downgrading newVersion->oldVersion, and then upgrading again
+                    }
                     break;
                 
                 default:
@@ -140,6 +159,5 @@ public class PaletteDataDbHelper extends SQLiteOpenHelper
     {
         onUpgrade(db, oldVersion, newVersion);
     }
-    
 
 }
