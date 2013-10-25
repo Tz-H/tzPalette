@@ -43,6 +43,9 @@ public final class Constants
     /** The default thumb quality */
     public static final String CACHE_THUMB_QUALITY_DEFAULT = "MEDIUM";
     
+    /** The palette card off screen read limit number */
+    public static final int PALETTE_CARD_PAGE_OFFSCREEN_LIMIT = 5;
+    
 }
 
 
