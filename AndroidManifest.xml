@@ -10,6 +10,10 @@
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- tzPalette will not support small screen device -->
+    <supports-screens android:smallScreens="false"/>
 
     <application
         android:allowBackup="true"
