@@ -36,25 +36,12 @@ public class ColorInfoListView extends ListView
     
     public void setColors(int colors[])
     {
-        mColorsAdapter.clear();
         mColorsAdapter.setColors(colors);
     }
     
     public void addColor(int color)
     {
         mColorsAdapter.addColor(color);
-    }
-    
-    /**
-     * Add a new color into colors bar and choose whether
-     * it is selected 
-     * 
-     * @param color     the color to add
-     * @param selected  true to set the new color selected, false not
-     */
-    public void addColor(int color, boolean selected)
-    {
-        mColorsAdapter.addColor(color, selected);
     }
     
     public int getColor(int position)
@@ -111,12 +98,6 @@ public class ColorInfoListView extends ListView
             notifyDataSetChanged();
         }
         
-        public void addColor(int color, boolean selected)
-        {
-            mColors.add(color);
-            notifyDataSetChanged();
-        }
-        
         public void removeColor(int color)
         {
             int index = -1;
@@ -142,6 +123,8 @@ public class ColorInfoListView extends ListView
 
         public void setColors(int[] colors)
         {
+            mColors.clear();
+            
             for (int i = 0; i < colors.length; i++)
                 mColors.add(colors[i]);
             
@@ -166,10 +149,14 @@ public class ColorInfoListView extends ListView
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            View view;
+            View view = convertView;
             
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.color_info_list_item, parent, false);
+            if (view == null)
+            {
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.color_info_list_item, parent, false);
+            }
+            
             udpateColorListItem(view, mColors.get(position));
             
             return view;
