@@ -24,8 +24,9 @@
     <string name="capture_view_pick_picture_1">Pick a picture from</string>
     <string name="capture_view_pick_picture_2">Gallery</string>
     
-    <string name="action_takePhoto">Take a photo</string>
-    <string name="action_loadPicture">Load a picture</string>
+    <string name="action_takePhoto">Take photo</string>
+    <string name="action_pickPicture">Pick picture</string>
+    <string name="action_paletteList">My Palettes</string>
     <string name="action_share">Share</string>
     <string name="action_analysis">Analysis</string>
     <string name="action_save">Save</string>

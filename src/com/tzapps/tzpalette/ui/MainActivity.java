@@ -202,7 +202,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 takePhoto();
                 return true;
 
-            case R.id.action_loadPicture:
+            case R.id.action_pickPicture:
                 loadPicture();
                 return true;
                 
@@ -214,6 +214,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
             case R.id.action_settings:
                 openSettings();
+                return true;
+                
+            case R.id.action_paletteList:
+                mPageAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
                 return true;
 
             case R.id.action_about:
