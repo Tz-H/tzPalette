@@ -28,13 +28,13 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 /**
  * PagerContainer: A layout that displays a ViewPager with its children that are outside the typical
  * pager bounds.
  */
-public class PagerContainer extends FrameLayout implements ViewPager.OnPageChangeListener
+public class PagerContainer extends RelativeLayout implements ViewPager.OnPageChangeListener
 {
 
     private ViewPager mPager;

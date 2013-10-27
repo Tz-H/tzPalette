@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/app_bg" >
    
     <com.tzapps.common.ui.view.PagerContainer 
         android:id="@+id/pager_container"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:minHeight="@dimen/palette_card_page_container_height_min"
         android:background="@color/color_gray">
         
 	    <android.support.v4.view.ViewPager
 	        android:id="@+id/palette_card_pager"
-	        android:layout_width="250dp"
-	        android:layout_height="fill_parent"
+	        android:layout_width="@dimen/palette_card_page_width"
+	        android:layout_height="@dimen/palette_card_page_height"
 	        android:layout_gravity="center_horizontal" />
     
     </com.tzapps.common.ui.view.PagerContainer>
@@ -24,8 +27,7 @@
     <LinearLayout 
         android:id="@+id/palette_card_color_list_area"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/pager_container"
+        android:layout_height="@dimen/palette_card_color_list_height"
         android:orientation="vertical">
 	    
 	    <!-- Color Info List Header -->
@@ -39,4 +41,4 @@
         
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

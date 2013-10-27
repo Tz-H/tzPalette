@@ -1,9 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     
+    <dimen name="palette_card_page_container_height_min">300dp</dimen>
     <dimen name="palette_card_page_margin">20dp</dimen>
+    <dimen name="palette_card_page_width">250dp</dimen>
+    <dimen name="palette_card_page_height">280dp</dimen>
+    <dimen name="palette_card_color_list_width">350dp</dimen>
+    <dimen name="palette_card_color_list_height">250dp</dimen>
 
 </resources>
