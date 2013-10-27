@@ -161,7 +161,7 @@
     
     <string name="feedback_subject">[Feedback] %1$s ver %2$s</string>
     
-    <string name="promotion">created by %1$s ver %2$s</string>
+    <string name="promotion">\n -created by %1$s ver %2$s</string>
     <string name="email_palette_card_subject">My Palette - %1$s</string>
     
 </resources>
