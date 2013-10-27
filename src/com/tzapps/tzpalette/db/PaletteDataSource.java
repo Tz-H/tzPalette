@@ -173,7 +173,7 @@ public class PaletteDataSource
         values.put(PaletteThumbEntry.COLUMN_NAME_THUMB, BitmapUtils.convertBitmapToByteArray(thumb, quality));
         
         if (bitmap.getWidth() > thumbSmallMaxSize || bitmap.getHeight() > thumbSmallMaxSize)
-            thumbSmall = BitmapUtils.resizeBitmapToFitFrame(thumb, thumbMaxSize, thumbMaxSize);
+            thumbSmall = BitmapUtils.resizeBitmapToFitFrame(bitmap, thumbMaxSize, thumbMaxSize);
         else
             thumbSmall = bitmap;
         
