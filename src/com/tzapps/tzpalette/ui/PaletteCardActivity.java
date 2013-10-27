@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
+import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.common.utils.BitmapUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
@@ -56,7 +57,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     private PaletteDataHelper mDataHelper;
     
     private Sorter mSorter;
-    private File mTempShareFile;
+    private File mTempCardFile;
+    private File mTempColorsFile;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -101,8 +103,11 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     
     private void clearTemp()
     {
-        if (mTempShareFile != null)
-            mTempShareFile.delete();
+        if (mTempCardFile != null)
+            mTempCardFile.delete();
+        
+        if (mTempColorsFile != null)
+            mTempColorsFile.delete();
     }
     
     @Override
@@ -144,7 +149,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 if (MyDebug.LOG)
                     Log.d(TAG, "send palette card via email");
                 
-                //TODO: implement email palette function
+                emailPaletteCard();
                 return true;
                 
             case R.id.action_export:
@@ -234,8 +239,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                 break;
                 
             case PALETTE_CARD_SHARE_RESULT:
-                if (mTempShareFile != null)
-                    mTempShareFile.delete();
+                if (mTempCardFile != null)
+                    mTempCardFile.delete();
                 break;
         }
     }
@@ -279,14 +284,14 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
 
         assert (bitmap != null);
 
-        mTempShareFile = getTempFile(Constants.TZPALETTE_TEMP_SHARE_FILE_NAME);
-        BitmapUtils.saveBitmapToFile(bitmap, mTempShareFile);
+        mTempCardFile = getTempFile(Constants.TZPALETTE_TEMP_SHARE_FILE_NAME_CARD);
+        BitmapUtils.saveBitmapToFile(bitmap, mTempCardFile);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
         shareIntent.setType("image/jpeg");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mTempShareFile));
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mCardAdapter.getCurrentData().getTitle());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mTempCardFile));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getPromotionString());
         
         String actionTitle = getString(R.string.title_share_action);
         
@@ -323,6 +328,34 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         sendBroadcast(mediaScanIntent);
         
         Toast.makeText(this, "Palette Card <" + title + "> exported", Toast.LENGTH_SHORT).show();
+    }
+    
+    public void emailPaletteCard()
+    {
+        Bitmap paletteCardBmp = getCurrentPaletteCardBitmap();
+        Bitmap colorListBmp = getCurrentColorListBitmap();
+        
+        mTempCardFile = getTempFile(Constants.TZPALETTE_TEMP_SHARE_FILE_NAME_CARD);
+        BitmapUtils.saveBitmapToFile(paletteCardBmp, mTempCardFile);
+        mTempColorsFile = getTempFile(Constants.TZPALETTE_TEMP_SHARE_FILE_NAME_COLORS);
+        BitmapUtils.saveBitmapToFile(colorListBmp, mTempColorsFile);
+        
+        // MyPalette - [Title]
+        String subject = getString(R.string.email_palette_card_subject);
+        subject = String.format(subject, mCardAdapter.getCurrentData().getTitle());
+        
+        String body = getPromotionString();
+
+        ActivityUtils.sendEmail(this, "", subject, body, Uri.fromFile(mTempCardFile), Uri.fromFile(mTempColorsFile));
+    }
+    
+    private String getPromotionString()
+    {
+        // created by [app_name] ver [versionName]
+        String text = getString(R.string.promotion);
+        
+        return String.format(text, getString(R.string.app_name),
+                ActivityUtils.getVersionName(this));
     }
     
     private void openEditView(long dataId)

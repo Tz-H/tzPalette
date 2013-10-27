@@ -1,6 +1,7 @@
 package com.tzapps.common.utils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ComponentName;
@@ -115,6 +116,36 @@ public class ActivityUtils
         
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+        
+        context.startActivity(Intent.createChooser(emailIntent, null));
+    }
+    
+    /**
+     * Send an email via available mail activity
+     * 
+     * @param context       the app context
+     * @param to            the email address send to
+     * @param subject       the email subject
+     * @param body          the email body
+     * @param attachments   the uris for attachments
+     */
+    public static void sendEmail(Context context, String to, String subject, String body, Uri...attachments)
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+        
+        if (attachments != null && attachments.length != 0)
+        {
+            ArrayList<Uri> uris = new ArrayList<Uri>();
+            
+            for (int i = 0; i < attachments.length; i++)
+                uris.add(attachments[i]);
+            
+            emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        }
         
         context.startActivity(Intent.createChooser(emailIntent, null));
     }
