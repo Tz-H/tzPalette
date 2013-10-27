@@ -6,19 +6,17 @@
     android:layout_height="fill_parent"
     android:background="@color/color_gray" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/palette_card_frame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:background="@drawable/palette_card_frame">
         
         <LinearLayout 
             android:id="@+id/palette_card_top_bar"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="@dimen/palette_card_top_bar_height"
             android:background="@color/palette_card_title_bg"
             android:orientation="vertical" >
             
@@ -32,7 +30,7 @@
 	            android:singleLine="true"
 	            android:text="@string/palette_title_default"
 	            android:textColor="@color/color_lightgray"
-	            android:textSize="18sp"
+	            android:textSize="16sp"
 	            android:textStyle="bold"/>
 	        
         </LinearLayout>
@@ -40,11 +38,9 @@
         <ImageView
             android:id="@+id/palette_card_thumb"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:onClick="onClick"
             android:contentDescription="@string/img_pic_desc" />
@@ -52,8 +48,7 @@
         <LinearLayout 
             android:id="@+id/palette_card_bottom_bar"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
+            android:layout_height="@dimen/palette_card_bottom_bar_height"
             android:background="@color/palette_card_colors_bar_bg"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -63,10 +58,11 @@
             <com.tzapps.tzpalette.ui.view.ColorRow
                 android:id="@+id/palette_card_colors"
                 android:layout_width="fill_parent"
-                android:layout_height="28dp" />
+                android:layout_height="fill_parent"
+                android:layout_margin="1dp" />
             
         </LinearLayout>
     
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
