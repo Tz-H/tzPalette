@@ -16,6 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:singleLine="true"
             android:textSize="14sp"
             android:text="@string/color_info_hex_title"
             style="@style/ColorInfoColorBarText" />
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/color_info_rgb_r_title"
         android:textSize="14sp"
         style="@style/ColorInfoColorBarText"/>
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/color_info_rgb_g_title"
         android:textSize="14sp"
         style="@style/ColorInfoColorBarText"/>
@@ -47,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/color_info_rgb_b_title"
         android:textSize="14sp"
         style="@style/ColorInfoColorBarText"/>
@@ -57,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/color_info_hsv_h_title"
         android:textSize="14sp"
         style="@style/ColorInfoColorBarText"/>
@@ -78,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/color_info_hsv_v_title"
         android:textSize="14sp"
         style="@style/ColorInfoColorBarText"/>
