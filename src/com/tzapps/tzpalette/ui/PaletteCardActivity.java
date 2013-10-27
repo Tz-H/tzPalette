@@ -225,6 +225,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
                     {
                         PaletteData data = mDataHelper.get(dataId);
                         mCardAdapter.updateCard(data);
+                        mCardAdapter.setCurrentCard(dataId);
                     }
                 }
                 break;
