@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,6 +33,9 @@ import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.View.MeasureSpec;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class BitmapUtils
 {
@@ -162,12 +167,14 @@ public class BitmapUtils
     /**
      * Get the bitmap from the indicated view
      * 
-     * @param view the view to draw
+     * @param view          the view to draw
+     * @param totalWidth    the total width of the view
+     * @param totalHeight   the total height of the view
      * @return the bitmap
      */
-    public static Bitmap getBitmapFromView(View view)
+    public static Bitmap getBitmapFromView(View view, int totalWidth, int totalHeight)
     {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(totalWidth, totalHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable bg = view.getBackground();
         if (bg != null)
@@ -176,6 +183,87 @@ public class BitmapUtils
             canvas.drawColor(Color.WHITE);
         
         view.draw(canvas);
+        
+        return bitmap;
+    }
+    
+    /**
+     * Get the bitmap from the indicated list view
+     * 
+     * @param listView
+     * @return the bitmap
+     */
+    public static Bitmap getBitmapFromListView(ListView listView)
+    {
+        ListAdapter adapter  = listView.getAdapter(); 
+        int itemscount       = adapter.getCount();
+        int allitemsheight   = 0;
+        List<Bitmap> bmps    = new ArrayList<Bitmap>();
+        
+        for (int i = 0; i < itemscount; i++) 
+        {
+            View childView = adapter.getView(i, null, listView);
+            childView.measure(MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.EXACTLY), 
+                              MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+            childView.layout(0, 0, childView.getMeasuredWidth(), childView.getMeasuredHeight());
+            childView.setDrawingCacheEnabled(true);
+            childView.buildDrawingCache();
+            bmps.add(childView.getDrawingCache());
+            allitemsheight += childView.getMeasuredHeight();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(listView.getMeasuredWidth(), allitemsheight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        
+        Paint paint = new Paint();
+        int iHeight = 0;
+
+        for (int i = 0; i < bmps.size(); i++) 
+        {
+            Bitmap bmp = bmps.get(i);
+            canvas.drawBitmap(bmp, 0, iHeight, paint);
+            iHeight += bmp.getHeight();
+
+            bmp.recycle();
+            bmp=null;
+        }
+        
+        return bitmap;
+    }
+    
+    /**
+     * Combine the given bitmaps vertically 
+     * 
+     * @param bitmaps
+     * @return the combined bitmap
+     */
+    public static Bitmap combineBitmapsVertically(Bitmap...bitmaps)
+    {
+        int width  = 0;
+        int height = 0;
+        
+        for (int i = 0; i < bitmaps.length; i++)
+        {
+            width = Math.max(bitmaps[i].getWidth(), width);
+            height += bitmaps[i].getHeight();
+        }
+        
+        Bitmap bitmap    = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas    = new Canvas(bitmap);
+        
+        Paint paint = new Paint();
+        int iHeight = 0;
+        
+        for (int i = 0; i < bitmaps.length; i++)
+        {
+            Bitmap bmp = bitmaps[i];
+            canvas.drawBitmap(bmp, 0, iHeight, paint);
+            iHeight += bmp.getHeight();
+
+            bmp.recycle();
+            bmp=null;
+        }
         
         return bitmap;
     }

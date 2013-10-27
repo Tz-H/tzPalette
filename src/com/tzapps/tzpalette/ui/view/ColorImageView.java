@@ -41,8 +41,8 @@ public class ColorImageView extends TouchImageView implements OnAdvancedClickLis
     @Override
     public void onAdvancedItemClick(TouchImageView view, int xPos, int yPos)
     {
-        // TODO analysis the color at the indicated location
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(view);
+        // analysis the color at the indicated location
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(view, view.getWidth(), view.getHeight());
         
         int color = bitmap.getPixel(xPos, yPos);
         

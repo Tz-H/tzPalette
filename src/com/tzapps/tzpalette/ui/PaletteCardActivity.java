@@ -1,6 +1,7 @@
 package com.tzapps.tzpalette.ui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
@@ -250,11 +253,29 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
         return file;
     }
     
+    private Bitmap getCurrentPaletteCardBitmap()
+    {
+        final View view = mCardAdapter.getCurrentView();
+        final View paletteCard = view.findViewById(R.id.palette_card_frame);
+        
+        return BitmapUtils.getBitmapFromView(paletteCard, paletteCard.getWidth(), paletteCard.getHeight());
+    }
+    
+    private Bitmap getCurrentColorListBitmap()
+    {
+        final View colorListArea = findViewById(R.id.palette_card_color_list_area);
+        final View header = findViewById(R.id.color_list_header);
+        final ListView colorList = (ListView)colorListArea.findViewById(R.id.palette_card_color_list);
+        
+        Bitmap headerBmp = BitmapUtils.getBitmapFromView(header, header.getWidth(), header.getHeight());
+        Bitmap listBmp = BitmapUtils.getBitmapFromListView(colorList);
+        
+        return BitmapUtils.combineBitmapsVertically(headerBmp, listBmp);
+    }
+    
     private void sharePaletteCard()
     {
-        View view = mCardAdapter.getCurrentView();
-        View paletteCard = view.findViewById(R.id.palette_card_frame);
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
+        Bitmap bitmap = getCurrentPaletteCardBitmap();
 
         assert (bitmap != null);
 
@@ -275,11 +296,8 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
     
     private void exportPaletteCard()
     {
-        View view = mCardAdapter.getCurrentView();
-        View paletteCard = view.findViewById(R.id.palette_card_frame);
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(paletteCard);
-
-        assert (bitmap != null);
+        Bitmap paletteCardBmp = getCurrentPaletteCardBitmap();
+        Bitmap colorListBmp = getCurrentColorListBitmap();
         
         String title = mCardAdapter.getCurrentData().getTitle();
 
@@ -287,15 +305,21 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             title = getResources().getString(R.string.palette_title_default);
         
         String folderName = Constants.FOLDER_HOME + File.separator + Constants.SUBFOLDER_EXPORT;
-        String fileName = Constants.TZPALETTE_FILE_PREFIX + title.replace(" ", "_");
+        String cardFileName = Constants.TZPALETTE_FILE_PREFIX + title.replace(" ", "_") + "_Card";
+        String colorListFileName = Constants.TZPALETTE_FILE_PREFIX + title.replace(" ", "_") + "_Colors";
 
-        File file = BitmapUtils.saveBitmapToSDCard(bitmap, folderName + File.separator + fileName);
-
+        File cardFile = BitmapUtils.saveBitmapToSDCard(paletteCardBmp, folderName + File.separator + cardFileName);
+        File colorListFile = BitmapUtils.saveBitmapToSDCard(colorListBmp, folderName + File.separator + colorListFileName);
+        
         /* invoke the system's media scanner to add the photo to
          * the Media Provider's database
          */
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(Uri.fromFile(file));
+        // scan exported palette card file
+        mediaScanIntent.setData(Uri.fromFile(cardFile));
+        sendBroadcast(mediaScanIntent);
+        //scan exported colors file
+        mediaScanIntent.setData(Uri.fromFile(colorListFile));
         sendBroadcast(mediaScanIntent);
         
         Toast.makeText(this, "Palette Card <" + title + "> exported", Toast.LENGTH_SHORT).show();

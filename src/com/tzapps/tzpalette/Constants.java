@@ -32,6 +32,8 @@ public final class Constants
     public static final int THUMB_SMALL_MAX_SIZE = 256;
     /** The maximum color number for each palette. */
     public static final int COLOR_SLOT_MAX_SIZE = 8;
+    /** The width of exported palette card */
+    public static final int PALETTE_CARD_EXPORT_WIDTH = 600;
     
     /** The default palette data sorter */
     public static final Sorter PALETTE_DATA_SORTER_DEFAULT = Sorter.Title;
