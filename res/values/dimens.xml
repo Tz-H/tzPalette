@@ -14,6 +14,7 @@
     <dimen name="palette_card_color_list_height">250dp</dimen>
     
     <dimen name="color_list_html_bar_width">70dp</dimen>
+    <dimen name="color_list_header_height">20dp</dimen>
     <dimen name="color_list_item_height">40dp</dimen>
 
 </resources>

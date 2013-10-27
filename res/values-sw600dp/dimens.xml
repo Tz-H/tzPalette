@@ -1,8 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <!--
          Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
+    
+    <dimen name="palette_card_page_container_height_min">400dp</dimen>
+    <dimen name="palette_card_page_margin">20dp</dimen>
+    <dimen name="palette_card_page_width">350dp</dimen>
+    <dimen name="palette_card_page_height">400dp</dimen>
+    <dimen name="palette_card_color_list_width">450dp</dimen>
+    <dimen name="palette_card_color_list_height">420dp</dimen>
+    
+    <dimen name="color_list_html_bar_width">100dp</dimen>
+    <dimen name="color_list_header_height">30dp</dimen>
+    <dimen name="color_list_item_height">50dp</dimen>
 
 </resources>
