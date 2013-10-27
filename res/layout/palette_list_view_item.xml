@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/palette_list_item_height"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
     android:background="@drawable/palette_item" >
 
     <RelativeLayout
         android:id="@+id/palette_item_thumb_frame"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/palette_list_item_thumb_area_width"
+        android:layout_height="fill_parent"
         android:gravity="center"
-        android:orientation="horizontal"
         android:padding="5dp" >
 
         <ImageView
@@ -32,13 +33,59 @@
             android:src="@android:drawable/btn_star_big_on"
             android:visibility="invisible"
             tools:ignore="ContentDescription" />
+        
     </RelativeLayout>
+    
+    <LinearLayout 
+        android:id="@+id/palette_item_content_area"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        
+        <TextView
+	        android:id="@+id/palette_item_title"
+	        android:layout_width="fill_parent"
+	        android:layout_height="@dimen/palette_list_item_title_height"
+	        android:gravity="center|left"
+	        android:paddingLeft="5dp"
+	        android:singleLine="true"
+	        android:text="@string/palette_title_default"
+	        android:textColor="@color/color_darkgray"
+	        android:textSize="18sp"
+	        android:textStyle="bold" />
+
+	    <TextView
+	        android:id="@+id/palette_item_updated"
+	        android:layout_width="fill_parent"
+	        android:layout_height="@dimen/palette_list_item_update_height"
+	        android:gravity="center|left"
+	        android:paddingLeft="5dp"
+	        android:textColor="@color/color_gray"
+	        android:textSize="12sp" />
+	
+	    <LinearLayout
+	        android:id="@+id/palette_item_colors_bar"
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:gravity="center"
+	        android:orientation="vertical" >
+	
+	        <com.tzapps.tzpalette.ui.view.ColorRow
+	            android:id="@+id/palette_item_colors"
+	            android:layout_width="fill_parent"
+	            android:layout_height="@dimen/palette_list_item_color_bar_height"
+	            android:layout_gravity="center" />
+	        
+	    </LinearLayout>
+        
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/palette_item_option_area"
         android:layout_width="40dp"
-        android:layout_height="80dp"
-        android:layout_alignParentRight="true"
+        android:layout_height="fill_parent"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -50,49 +97,7 @@
             android:contentDescription="@string/palette_option_btn_desc"
             android:onClick="onClick"
             android:src="@android:drawable/ic_menu_more" />
+        
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/palette_item_title"
-        android:layout_width="fill_parent"
-        android:layout_height="25dp"
-        android:layout_toLeftOf="@+id/palette_item_option_area"
-        android:layout_toRightOf="@+id/palette_item_thumb_frame"
-        android:gravity="center|left"
-        android:paddingLeft="5dp"
-        android:singleLine="true"
-        android:text="@string/palette_title_default"
-        android:textColor="@color/color_darkgray"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/palette_item_updated"
-        android:layout_width="fill_parent"
-        android:layout_height="15dp"
-        android:layout_below="@+id/palette_item_title"
-        android:layout_toLeftOf="@+id/palette_item_option_area"
-        android:layout_toRightOf="@+id/palette_item_thumb_frame"
-        android:gravity="center|left"
-        android:paddingLeft="5dp"
-        android:textColor="@color/color_gray"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:id="@+id/palette_item_colors_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/palette_item_thumb_frame"
-        android:layout_toLeftOf="@+id/palette_item_option_area"
-        android:layout_toRightOf="@+id/palette_item_thumb_frame"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <com.tzapps.tzpalette.ui.view.ColorRow
-            android:id="@+id/palette_item_colors"
-            android:layout_width="fill_parent"
-            android:layout_height="25dp"
-            android:layout_gravity="center" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -21,5 +21,11 @@
     <dimen name="color_list_html_bar_width">100dp</dimen>
     <dimen name="color_list_header_height">30dp</dimen>
     <dimen name="color_list_item_height">50dp</dimen>
+    
+    <dimen name="palette_list_item_height">100dp</dimen>
+    <dimen name="palette_list_item_thumb_area_width">100dp</dimen>
+    <dimen name="palette_list_item_title_height">30dp</dimen>
+    <dimen name="palette_list_item_update_height">20dp</dimen>
+    <dimen name="palette_list_item_color_bar_height">30dp</dimen>
 
 </resources>
