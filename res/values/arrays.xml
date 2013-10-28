@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string-array name="palette_itemOption_entries">
         <item>@string/action_view</item>
@@ -10,7 +10,7 @@
         <item>@string/action_unfavourite</item>
     </string-array>
     
-    <string-array name="palette_itemOption_valeus">
+    <string-array name="palette_itemOption_valeus" tools:ignore="MissingTranslation">
         <item>View</item>
         <item>Edit</item>
         <item>Rename</item>
@@ -24,7 +24,7 @@
         <item>@string/action_sortBy_updated</item>
     </string-array>
     
-    <string-array name="palette_data_sorter_values">
+    <string-array name="palette_data_sorter_values" tools:ignore="MissingTranslation">
         <item>Title</item>
         <item>Updated</item>
     </string-array>
