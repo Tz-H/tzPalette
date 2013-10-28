@@ -100,18 +100,6 @@
     
     <string name="analysis_picture_in_process">Color analysis in process...</string>
     
-    <string name="img_pic_desc">The picture displayed in capture view</string>
-    <string name="img_pic_frame_desc">The picture frame in capture view</string>
-    <string name="btn_clear_desc">The button used to clear the current palette</string>
-    <string name="btn_save_desc">The bubbton used to save the current palette</string>
-    <string name="btn_takePhoto_desc">The button used to take a photo</string>
-    <string name="btn_loadPicture_desc">The button used to load a picture</string>
-    <string name="btn_edit_desc">The button used to edit palette card</string>
-    <string name="btn_share_desc">The button used to share palette card</string>
-    <string name="btn_analysis_desc">The button used to analysis the picture</string>
-    <string name="palette_thumb_desc">The palette item\'s thumbnail</string>
-    <string name="palette_option_btn_desc">The palette item\'s edit options</string>
-    
     <string name="pref_colorAnalysis_Title">Color Analysis Settings</string>
     
     <string name="pref_setColorNumber">Color number in analysis: %1$s</string>
@@ -148,7 +136,7 @@
     <string name="pref_cache_thumbQuality_low">Low</string>
     
     <string name="pref_cache_clearAll">Clear all records</string>
-    <string name="pref_cache_clearAll_summ">Delete all palette data saved in database. This operstion is unrecoverable.</string>
+    <string name="pref_cache_clearAll_summ">Delete all palette data saved in database. This operation is unrecoverable.</string>
     <string name="pref_cache_clearAll_dialogTitle">Clear all records</string>
     <string name="pref_cache_clearAll_dialogContent">Are you sure you want to delete all records?</string>
     

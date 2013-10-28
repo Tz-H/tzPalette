@@ -17,8 +17,7 @@
          android:id="@+id/palette_edit_view_picture"
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"
-         android:background="@color/color_gray"
-         android:contentDescription="@string/img_pic_desc" />
+         android:background="@color/color_gray"/>
         
         <RelativeLayout
             android:id="@+id/palette_edit_view_title_bar"
@@ -80,11 +79,11 @@
                 android:layout_width="40dp"
                 android:layout_height="fill_parent"
                 android:background="@drawable/button_no_bg"
-                android:contentDescription="@string/btn_analysis_desc"
                 android:onClick="onClick"
                 android:padding="3dp"
                 android:soundEffectsEnabled="true"
-                android:src="@android:drawable/ic_menu_view" />
+                android:src="@android:drawable/ic_menu_view"
+                tools:ignore="ContentDescription" />
     
             <ImageView
                 android:layout_width="1dp"

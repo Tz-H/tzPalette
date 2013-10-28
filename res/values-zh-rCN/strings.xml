@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">tzPalette</string>
+    
+    <string name="title_capture_view">捕获</string>
+    <string name="title_palette_list_view">我的调色板</string>
+    <string name="title_about_view">关于</string>
+    <string name="title_palette_card_view">调色板卡片</string>
+    <string name="title_palette_edit_view">编辑调色板</string>
+    <string name="title_palette_edit_view_rename">更改标题</string>
+    <string name="title_settings_view">设置</string>
+    <string name="title_share_action">分享</string>
+    <string name="title_edit_color">编辑颜色</string>
+    <string name="title_color_info">色彩信息</string>
+    <string name="title_exit_without_save">调色板修改未保存</string>
+    <string name="title_reanalyse_colors">重新拾取颜色</string>
+    
+    <string name="message_exit_without_save">不保存修改直接退出？</string>
+    <string name="message_reanalyse_colors">此操作将移除调色板中存在的色彩，继续？</string>
+    
+    <string name="capture_view_take_photo_1">拍摄照片</string>
+    <string name="capture_view_take_photo_2">相机</string>
+    <string name="capture_view_pick_picture_1">选取图片</string>
+    <string name="capture_view_pick_picture_2">图库</string>
+    
+    <string name="action_takePhoto">拍摄照片</string>
+    <string name="action_pickPicture">选取图片</string>
+    <string name="action_paletteList">我的调色板</string>
+    <string name="action_share">分享</string>
+    <string name="action_analysis">分析</string>
+    <string name="action_save">保存</string>
+    <string name="action_export">导出</string>
+    <string name="action_clear">清除</string>
+    <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_delete">删除</string>
+    <string name="action_open">打开</string>
+    <string name="action_view">浏览</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_copy">复制</string>
+    <string name="action_exit">退出</string>
+    <string name="action_continue">继续</string>
+    <string name="action_saveAndExit">保存并退出</string>
+    <string name="action_restore">复原</string>
+    <string name="action_addColor">添加颜色到调色板</string>
+    <string name="action_favourite">标记为收藏</string>
+    <string name="action_unfavourite">移除收藏</string>
+    <string name="action_emailPalette">发送调色板</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_clearAll">清除全部</string>
+    <string name="action_feedback">反馈意见</string>
+    <string name="action_contactUs">联系我们</string>
+    <string name="action_sortBy">排序</string>
+    <string name="action_sortBy_title">按调色板标题</string>
+    <string name="action_sortBy_updated">按修改时间</string>
+    
+    <string name="color_info_rgb_title">RGB</string>
+    <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
+    <string name="color_info_hsv_title">HSV</string>
+    <string name="color_info_hsv_value">H = %1$d° S = %2$d%% V = %3$d%%</string>
+    <string name="color_info_hsl_title">HSL</string>
+    <string name="color_info_hsl_value">H = %1$d° S = %2$d%% L = %3$d%%</string>
+    <string name="color_info_lab_title">LAB</string>
+    <string name="color_info_lab_value">L = %1$d a = %2$d b = %3$d</string>
+    <string name="color_info_cmyk_title">CMYK</string>
+    <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
+    
+    <string name="color_info_hex_title">十六进制</string>
+    <string name="color_info_rgb_r_title">红色</string>
+    <string name="color_info_rgb_g_title">绿色</string>
+    <string name="color_info_rgb_b_title">蓝色</string>
+    <string name="color_info_hsv_h_title">色调</string>
+    <string name="color_info_hsv_s_title">饱和度</string>
+    <string name="color_info_hsv_v_title">亮度</string>
+    
+    <string name="color_info_rgb_r_value">%1$d</string>
+    <string name="color_info_rgb_g_value">%1$d</string>
+    <string name="color_info_rgb_b_value">%1$d</string>
+    <string name="color_info_hsv_h_value">%1$d°</string>
+    <string name="color_info_hsv_s_value">%1$d%%</string>
+    <string name="color_info_hsv_v_value">%1$d%%</string>
+    
+    <string name="color_edit_tab_rgb">RGB</string>
+    <string name="color_edit_tab_hsv">HSV</string>
+    <string name="color_bar_rgb_r_title">R = %1$d</string>
+    <string name="color_bar_rgb_g_title">G = %1$d</string>
+    <string name="color_bar_rgb_b_title">B = %1$d</string>
+    <string name="color_bar_hsv_h_title">H = %1$d°</string>
+    <string name="color_bar_hsv_s_title">S = %1$d%%</string>
+    <string name="color_bar_hsv_v_title">V = %1$d%%</string>
+    
+    <string name="copy_color_into_clipboard">颜色 %1$s 已拷贝入剪贴板</string>
+    
+    <string name="palette_title_default">未命名</string>
+    <string name="palette_title_hint">调色板标题</string>
+    
+    <string name="palette_item_updated">更新时间 %1$s</string>
+    
+    <string name="analysis_picture_in_process">正在分析色彩...</string>
+    
+    <string name="pref_colorAnalysis_Title">色彩分析设置</string>
+    
+    <string name="pref_setColorNumber">分析中的颜色数量： %1$s</string>
+    <string name="pref_setColorNumber_dialogTitle">选择数字</string>
+    <string name="pref_setColorNumber_summ">在色彩分析中所拾取的色彩数量</string>
+    
+    <string name="pref_analysisAdvancedOptions">高级选项</string>
+    <string name="pref_analysisAdvancedOptions_summ">色彩分析高级选项</string>
+    
+    <string name="pref_analysisColorType">颜色类型： %1$s</string>
+    <string name="pref_analysisColorType_dialogTitle">选择颜色类型</string>
+    <string name="pref_analysisColorType_summ">选择色彩分析中的颜色类型。不同的颜色类型会影响色彩的分析结果。</string>
+    <string name="pref_analysisColorType_rgb">RGB</string>
+    <string name="pref_analysisColorType_hsv">HSV</string>
+    <string name="pref_analysisColorType_hsl">HSL</string>
+    <string name="pref_analysisColorType_lab">LAB</string>
+    
+    <string name="pref_analysisColorAccuracy">分析精度： %1$s</string>
+    <string name="pref_analysisColorAccuracy_dialogTitle">选择精度</string>
+    <string name="pref_analysisColorAccuracy_summ">选择色彩分析的精度。更高的精度需要更多的分析处理时间。</string>
+    <string name="pref_analysisColorAccuracy_high">高</string>
+    <string name="pref_analysisColorAccuracy_normal">中</string>
+    <string name="pref_analysisColorAccuracy_low">低</string>
+    
+    <string name="pref_enableKpp">启用 KPP算法</string>
+    <string name="pref_enableKpp_summ">启用 K-means++ 算法。它可以提高色彩分析的准确度，但会增加分析处理时间。</string>
+    
+    <string name="pref_cache_title">缓存设置</string>
+    
+    <string name="pref_cache_thumbQuality">缩略图质量</string>
+    <string name="pref_cache_thumbQuality_dialogTitle">选择缩略图质量</string>
+    <string name="pref_cache_thumbQuality_high">高</string>
+    <string name="pref_cache_thumbQuality_medium">中</string>
+    <string name="pref_cache_thumbQuality_low">低</string>
+    
+    <string name="pref_cache_clearAll">清除所有记录</string>
+    <string name="pref_cache_clearAll_summ">清除数据库中保存的所有调色板信息。该操作不可恢复。</string>
+    <string name="pref_cache_clearAll_dialogTitle">清除所有记录</string>
+    <string name="pref_cache_clearAll_dialogContent">确定要删除所有记录吗？</string>
+    
+    <string name="pref_system_title">系统设置</string>
+    <string name="pref_version_title">版本</string>
+    <string name="pref_feedback_title">反馈意见</string>
+    
+    <string name="about_version">版本 %1$s</string>
+    <string name="about_feedback"><u>反馈意见</u></string>
+    
+    <string name="feedback_subject">[反馈意见] %1$s 版本 %2$s</string>
+    
+    <string name="promotion">\n -由 %1$s 版本 %2$s创建</string>
+    <string name="email_palette_card_subject">我的调色板 - %1$s</string>
+    
+</resources>

@@ -39,11 +39,11 @@
             android:id="@+id/palette_card_thumb"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:onClick="onClick"
-            android:contentDescription="@string/img_pic_desc" />
+            tools:ignore="ContentDescription" />
     
         <LinearLayout 
             android:id="@+id/palette_card_bottom_bar"

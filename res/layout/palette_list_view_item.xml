@@ -20,8 +20,8 @@
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
             android:background="@color/color_photogray"
-            android:contentDescription="@string/palette_thumb_desc"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/palette_item_favourite_icon"
@@ -94,9 +94,9 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/button_no_bg"
-            android:contentDescription="@string/palette_option_btn_desc"
             android:onClick="onClick"
-            android:src="@android:drawable/ic_menu_more" />
+            android:src="@android:drawable/ic_menu_more"
+            tools:ignore="ContentDescription" />
         
     </LinearLayout>
 
