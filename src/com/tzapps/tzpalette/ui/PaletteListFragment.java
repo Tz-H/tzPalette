@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -30,6 +31,8 @@ import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
+import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask;
+import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask.AsyncDrawable;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
@@ -267,49 +270,23 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             else
                 favourite.setVisibility(View.INVISIBLE);
             
-            if (!data.getImageUrl().equals((String)thumb.getTag()))
+            loadThumb(data.getId(), thumb);
+        }
+        
+        private void loadThumb(long dataId, ImageView imageView)
+        {
+            if (PaletteThumbWorkerTask.cancelPotentialWork(dataId, imageView))
             {
-                // clean up the current thumb and reload it in thumb update task
-                thumb.setImageBitmap(null);
-                thumb.setTag(data.getImageUrl());
-                new PaletteThumbUpdateTask(mContext, thumb).execute(data);
+                final PaletteThumbWorkerTask task = 
+                        new PaletteThumbWorkerTask(mContext, imageView, /*smallThumb*/true);
+                
+                //TODO: add a place holder bitmap
+                final AsyncDrawable asyncDrawble = 
+                        new AsyncDrawable(getResources(), null, task);
+                imageView.setImageDrawable(asyncDrawble);
+                task.execute(dataId);
             }
         }
     }
     
-    class PaletteThumbUpdateTask extends AsyncTask<PaletteData, Void, Bitmap>
-    {
-        private Context mContext;
-        private final WeakReference<ImageView> imageViewRef;
-        
-        public PaletteThumbUpdateTask(Context context, ImageView imageView)
-        {
-            mContext = context;
-            imageViewRef = new WeakReference<ImageView>(imageView);
-        }
-        
-        @Override
-        protected Bitmap doInBackground(PaletteData...dataArray)
-        {
-            PaletteData data = dataArray[0];
-            return PaletteDataHelper.getInstance(mContext).getThumbSmall(data.getId());
-        }
-        
-        @Override
-        protected void onPostExecute(Bitmap bitmap)
-        {
-            if (imageViewRef != null)
-            {
-                ImageView imageView = imageViewRef.get();
-                if (imageView != null)
-                {
-                    imageView.setImageBitmap(bitmap);
-                    
-                    Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
-                    imageView.startAnimation(fadeInAnim);
-                }
-            }
-        }
-    }
-
 }
