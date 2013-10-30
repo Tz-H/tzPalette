@@ -33,6 +33,7 @@ import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask;
 import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask.AsyncDrawable;
+import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask.ThumbSize;
 import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class PaletteListFragment extends BaseListFragment implements OnItemClickListener, OnItemLongClickListener
@@ -278,12 +279,15 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             if (PaletteThumbWorkerTask.cancelPotentialWork(dataId, imageView))
             {
                 final PaletteThumbWorkerTask task = 
-                        new PaletteThumbWorkerTask(mContext, imageView, /*smallThumb*/true);
+                        new PaletteThumbWorkerTask(mContext, imageView);
                 
                 //TODO: add a place holder bitmap
                 final AsyncDrawable asyncDrawble = 
                         new AsyncDrawable(getResources(), null, task);
                 imageView.setImageDrawable(asyncDrawble);
+                
+                task.setAnimEnabled(true);
+                task.setThumbSize(ThumbSize.Small);
                 task.execute(dataId);
             }
         }

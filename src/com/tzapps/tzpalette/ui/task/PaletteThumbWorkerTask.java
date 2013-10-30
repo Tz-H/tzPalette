@@ -19,17 +19,45 @@ public class PaletteThumbWorkerTask extends AsyncTask<Long, Void, Bitmap>
 {
     private final WeakReference<ImageView> imageViewReference;
     
+    public enum ThumbSize
+    {
+        Large,
+        Small;
+    };
+    
     public long data = 0;
     
-    private boolean isSmallThumb;
     private Context mContext;
+    private boolean enableAnim;
+    private ThumbSize thumbSize;
     
-    public PaletteThumbWorkerTask(Context context, ImageView imageView, boolean smallThumb)
+    public PaletteThumbWorkerTask(Context context, ImageView imageView)
     {
         mContext = context;
         // Use a WeakReference to ensure the ImageView can be garbage collected
         imageViewReference = new WeakReference<ImageView>(imageView);
-        isSmallThumb = smallThumb;
+        thumbSize = ThumbSize.Large;
+        enableAnim = false;
+    }
+    
+    /**
+     * (En|dis)able the fade in animation effect when set the thumb on image view
+     * 
+     * @param enabled
+     */
+    public void setAnimEnabled(boolean enabled)
+    {
+        enableAnim = enabled;
+    }
+    
+    /**
+     * Set the thumb size to fetch
+     * 
+     * @param size
+     */
+    public void setThumbSize(ThumbSize size)
+    {
+        thumbSize = size;
     }
     
     // Decode image in background
@@ -38,10 +66,15 @@ public class PaletteThumbWorkerTask extends AsyncTask<Long, Void, Bitmap>
     {
         data = params[0];
         
-        if (isSmallThumb)
-            return PaletteDataHelper.getInstance(mContext).getThumbSmall(data);
-        else
-            return PaletteDataHelper.getInstance(mContext).getThumb(data);
+        switch (thumbSize)
+        {
+            case Small:
+                return PaletteDataHelper.getInstance(mContext).getThumbSmall(data);
+            
+            default:
+            case Large:
+                return PaletteDataHelper.getInstance(mContext).getThumb(data);
+        }
     }
     
     // Once complete, see if ImageView is still around and set bitmap
@@ -59,8 +92,12 @@ public class PaletteThumbWorkerTask extends AsyncTask<Long, Void, Bitmap>
             if (this == workerTask && imageView != null)
             {
                 imageView.setImageBitmap(bitmap);
-                Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
-                imageView.startAnimation(fadeInAnim);
+                
+                if (enableAnim)
+                {
+                    Animation fadeInAnim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_anim);
+                    imageView.startAnimation(fadeInAnim);
+                }
             }
         }
     }
