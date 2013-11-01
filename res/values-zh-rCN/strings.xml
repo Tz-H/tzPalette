@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">tzPalette</string>
+    <string name="app_name">tz调色板</string>
     
     <string name="title_capture_view">捕获</string>
     <string name="title_palette_list_view">我的调色板</string>
@@ -17,7 +17,7 @@
     <string name="title_reanalyse_colors">重新拾取颜色</string>
     
     <string name="message_exit_without_save">不保存修改直接退出？</string>
-    <string name="message_reanalyse_colors">此操作将移除调色板中存在的色彩，继续？</string>
+    <string name="message_reanalyse_colors">此操作将移除调色板中已存在的色彩，继续？</string>
     
     <string name="capture_view_take_photo_1">拍摄照片</string>
     <string name="capture_view_take_photo_2">相机</string>
@@ -84,12 +84,12 @@
     
     <string name="color_edit_tab_rgb">RGB</string>
     <string name="color_edit_tab_hsv">HSV</string>
-    <string name="color_bar_rgb_r_title">R = %1$d</string>
-    <string name="color_bar_rgb_g_title">G = %1$d</string>
-    <string name="color_bar_rgb_b_title">B = %1$d</string>
-    <string name="color_bar_hsv_h_title">H = %1$d°</string>
-    <string name="color_bar_hsv_s_title">S = %1$d%%</string>
-    <string name="color_bar_hsv_v_title">V = %1$d%%</string>
+    <string name="color_bar_rgb_r_title">红色 = %1$d</string>
+    <string name="color_bar_rgb_g_title">绿色 = %1$d</string>
+    <string name="color_bar_rgb_b_title">蓝色 = %1$d</string>
+    <string name="color_bar_hsv_h_title">色调 = %1$d°</string>
+    <string name="color_bar_hsv_s_title">饱和度 = %1$d%%</string>
+    <string name="color_bar_hsv_v_title">亮度 = %1$d%%</string>
     
     <string name="copy_color_into_clipboard">颜色 %1$s 已拷贝入剪贴板</string>
     
@@ -98,13 +98,13 @@
     
     <string name="palette_item_updated">更新时间 %1$s</string>
     
-    <string name="analysis_picture_in_process">正在分析色彩...</string>
+    <string name="analysis_picture_in_process">正在进行色彩分析...</string>
     
     <string name="pref_colorAnalysis_Title">色彩分析设置</string>
     
-    <string name="pref_setColorNumber">分析中的颜色数量： %1$s</string>
-    <string name="pref_setColorNumber_dialogTitle">选择数字</string>
-    <string name="pref_setColorNumber_summ">在色彩分析中所拾取的色彩数量</string>
+    <string name="pref_setColorNumber">色彩分析中的颜色数量： %1$s</string>
+    <string name="pref_setColorNumber_dialogTitle">选择颜色数量</string>
+    <string name="pref_setColorNumber_summ">在色彩分析中所拾取的颜色数量</string>
     
     <string name="pref_analysisAdvancedOptions">高级选项</string>
     <string name="pref_analysisAdvancedOptions_summ">色彩分析高级选项</string>
@@ -119,7 +119,7 @@
     
     <string name="pref_analysisColorAccuracy">分析精度： %1$s</string>
     <string name="pref_analysisColorAccuracy_dialogTitle">选择精度</string>
-    <string name="pref_analysisColorAccuracy_summ">选择色彩分析的精度。更高的精度需要更多的分析处理时间。</string>
+    <string name="pref_analysisColorAccuracy_summ">选择色彩分析的精度。更高的精度需要更长的分析处理时间。</string>
     <string name="pref_analysisColorAccuracy_high">高</string>
     <string name="pref_analysisColorAccuracy_normal">中</string>
     <string name="pref_analysisColorAccuracy_low">低</string>
@@ -136,7 +136,7 @@
     <string name="pref_cache_thumbQuality_low">低</string>
     
     <string name="pref_cache_clearAll">清除所有记录</string>
-    <string name="pref_cache_clearAll_summ">清除数据库中保存的所有调色板信息。该操作不可恢复。</string>
+    <string name="pref_cache_clearAll_summ">清除数据库中保存的所有调色板信息，该操作不可恢复。</string>
     <string name="pref_cache_clearAll_dialogTitle">清除所有记录</string>
     <string name="pref_cache_clearAll_dialogContent">确定要删除所有记录吗？</string>
     

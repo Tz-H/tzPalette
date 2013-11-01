@@ -45,7 +45,7 @@
     <string name="action_saveAndExit">Save &amp; Exit</string>
     <string name="action_restore">Restore</string>
     <string name="action_addColor">Add color into palette</string>
-    <string name="action_favourite">Mask as favourite</string>
+    <string name="action_favourite">Mark as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_emailPalette">Email palette</string>
     <string name="action_cancel">Cencel</string>
@@ -125,7 +125,7 @@
     <string name="pref_analysisColorAccuracy_low">Low</string>
     
     <string name="pref_enableKpp">Enable KPP</string>
-    <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process a little bit.</string>
+    <string name="pref_enableKpp_summ">Enable K-means++ process. It could improve the color analysis accuracy but slow down the process.</string>
     
     <string name="pref_cache_title">Cache Settings</string>
     
