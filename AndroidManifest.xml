@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tzapps.tzpalette"
-    android:versionCode="7"
-    android:versionName="Alpha 4">
+    android:versionCode="8"
+    android:versionName="Beta 1">
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18" />
     <uses-feature android:name="android.hardware.camera"/>
@@ -20,12 +20,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyTheme">
-        
-        <!-- OPTIONS FOR TEST 
-	        android:hardwareAcelerated="false" 
-	        android:uiOptions="splitActionBarWhenNarrow"
-	        android:largeHeap="true"  
-        -->
         
         <activity
             android:name="com.tzapps.tzpalette.ui.MainActivity"
