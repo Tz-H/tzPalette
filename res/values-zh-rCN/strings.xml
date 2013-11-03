@@ -147,8 +147,8 @@
     
     <string name="about_version">版本号:%1$s</string>
     <string name="about_feedback">反馈意见</string>
-    <string name="about_project">查看项目</string>
-    <string name="about_rate_us">为应用评分</string>
+    <string name="about_project">查看工程</string>
+    <string name="about_rate_us">应用评分</string>
     
     <string name="feedback_subject">[反馈意见] %1$s 版本 %2$s</string>
     
