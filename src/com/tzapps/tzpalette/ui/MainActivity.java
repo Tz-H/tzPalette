@@ -197,15 +197,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         // Handle presses on the action bar items
         switch (item.getItemId())
-        {
-            case R.id.action_takePhoto:
-                takePhoto();
-                return true;
-
-            case R.id.action_pickPicture:
-                loadPicture();
-                return true;
-                
+        {                
             case R.id.action_sortBy:
                 PaletteDataSortByDialogFragment dialogFrag =
                         PaletteDataSortByDialogFragment.newInstance(getString(R.string.action_sortBy));
@@ -214,6 +206,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
             case R.id.action_settings:
                 openSettings();
+                return true;
+               
+            case R.id.action_newPalette:
+                mPageAdapter.setSelectedPage(PAGE_CAPTURE_VIEW_POSITION);
                 return true;
                 
             case R.id.action_paletteList:

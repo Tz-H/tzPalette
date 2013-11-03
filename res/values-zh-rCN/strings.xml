@@ -3,7 +3,7 @@
 
     <string name="app_name">tz调色板</string>
     
-    <string name="title_capture_view">捕获</string>
+    <string name="title_capture_view">获取</string>
     <string name="title_palette_list_view">我的调色板</string>
     <string name="title_about_view">关于</string>
     <string name="title_palette_card_view">调色板卡片</string>
@@ -41,6 +41,7 @@
     <string name="action_edit">编辑</string>
     <string name="action_copy">复制</string>
     <string name="action_exit">退出</string>
+    <string name="action_new">新建</string>
     <string name="action_continue">继续</string>
     <string name="action_saveAndExit">保存并退出</string>
     <string name="action_restore">复原</string>

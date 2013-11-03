@@ -41,6 +41,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_copy">Copy</string>
     <string name="action_exit">Exit</string>
+    <string name="action_new">New</string>
     <string name="action_continue">Continue</string>
     <string name="action_saveAndExit">Save &amp; Exit</string>
     <string name="action_restore">Restore</string>
@@ -53,8 +54,8 @@
     <string name="action_feedback">Feedback</string>
     <string name="action_contactUs">Contact Us</string>
     <string name="action_sortBy">Sort By</string>
-    <string name="action_sortBy_title">Palette Name</string>
-    <string name="action_sortBy_updated">Recently Updated</string>
+    <string name="action_sortBy_title">By Name</string>
+    <string name="action_sortBy_updated">By Date</string>
     
     <string name="color_info_rgb_title">RGB</string>
     <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
