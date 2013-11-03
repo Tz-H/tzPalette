@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_author">Tianzi Hou</string>
+    <string name="app_author_webpage">http://linkedin.com/in/tianzihou</string>
+    <string name="app_creative">Iain Frame</string>
+    <string name="app_creative_webpage">http://www.linkedin.com/pub/iain-frame/0/558/b77</string>
+    
     <string name="app_contact">tianzi.hou+tzpalette@gmail.com</string>
-    <string name="app_author_webpage">LINKEDIN.COM/in/tianzihou</string>
-    <string name="app_project_website">GITHUB.COM/TianziHou/tzPalette</string>
+    <string name="app_project_website">https://GITHUB.COM/TianziHou/tzPalette</string>
     
     <string name="app_feedback_debugInfo">
         \n\n\n

@@ -229,6 +229,13 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         }
     }
     
+    private void openWebPage(String httpUrl)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(httpUrl));
+        startActivity(intent);
+    }
+    
     private void sendFeedback()
     {
         MyDebug.sendFeedback(this);
@@ -332,8 +339,25 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 takePhoto();
                 break;
                 
-            case R.id.btn_feedback:
+            case R.id.about_feedback:
                 sendFeedback();
+                break;
+                
+            case R.id.about_author:
+                openWebPage(getString(R.string.app_author_webpage));
+                break;
+                
+            case R.id.about_creative:
+                openWebPage(getString(R.string.app_creative_webpage));
+                break;
+                
+            case R.id.about_project:
+                openWebPage(getString(R.string.app_project_website));
+                break;
+                
+            case R.id.about_rate:
+                //TODO: open google play store rate page when it is published
+                //openWebPage();
                 break;
         }
     }

@@ -45,4 +45,9 @@
     <color name="color_bar_text">#EFEFEF</color>
     <color name="color_bar_text_shadow">#222222</color>
     
+    <color name="about_bar_linkedin_bg">#0085AF</color>
+    <color name="about_bar_feedback_bg">#9A2715</color>
+    <color name="about_bar_rate_bg">#D97345</color>
+    <color name="about_bar_project_bg">#4C655F</color>
+    
 </resources>

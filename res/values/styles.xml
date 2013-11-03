@@ -19,18 +19,25 @@
     
     <!-- Pager Title Sritp Text style -->
     <style name="PagerTitleStripText">
-      <item name="android:textSize">14sp</item>
-      <item name="android:textStyle">bold</item>
-      <item name="android:textColor">@color/pager_title_strip_text</item>
+		<item name="android:textSize">14sp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@color/pager_title_strip_text</item>
     </style>
     
     <!--  Color Info View Color Bar Text style -->
     <style name="ColorInfoColorBarText">
-    <item name="android:textColor">@color/color_bar_text</item>
-    <item name="android:shadowColor">@color/color_bar_text_shadow</item>
-    <item name="android:shadowDx">1</item>
-    <item name="android:shadowDy">1</item>
-    <item name="android:shadowRadius">1</item>
-  </style>
+	    <item name="android:textColor">@color/color_bar_text</item>
+	    <item name="android:shadowColor">@color/color_bar_text_shadow</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">1</item>
+    </style>
+  
+    <!-- About View Button Text style -->
+    <style name="AboutViewButtonText">
+        <item name="android:textColor">@color/color_lightgray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
 </resources>
