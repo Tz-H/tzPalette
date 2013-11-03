@@ -139,12 +139,15 @@ public class ColorBar extends ImageView implements OnTouchListener
         
         // draw cursor
         mPaint.setColor(Color.WHITE);
+        mPaint.setStrokeWidth(3f);
         int cursorPos = getCursorPosition();
         canvas.drawLine(cursorPos, 0, cursorPos, h, mPaint);
         mPaint.setColor(Color.GRAY);
-        canvas.drawLine(cursorPos-1, 0, cursorPos-1, h, mPaint);
+        mPaint.setStrokeWidth(2f);
+        canvas.drawLine(cursorPos-2, 0, cursorPos-2, h, mPaint);
         mPaint.setColor(Color.GRAY);
-        canvas.drawLine(cursorPos+1, 0, cursorPos+1, h, mPaint);
+        mPaint.setStrokeWidth(2f);
+        canvas.drawLine(cursorPos+2, 0, cursorPos+2, h, mPaint);
     }
     
     private int getCursorPosition()
