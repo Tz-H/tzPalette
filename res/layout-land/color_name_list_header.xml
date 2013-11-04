@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color_name_list_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/color_list_header_height"
+    android:background="@color/color_darkgray"
+    android:gravity="center"
+    android:orientation="horizontal" >
+    
+    <RelativeLayout 
+        android:id="@+id/color_info_html_bar"
+        android:layout_width="@dimen/color_list_html_bar_width"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/color_info_html"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:text="@string/color_info_hex_title"
+            style="@style/ColorInfoColorBarText" />
+    </RelativeLayout>
+    
+    <TextView 
+        android:id="@+id/color_info_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_name"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_rgb_r"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_rgb_r_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_rgb_g"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_rgb_g_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_rgb_b"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_rgb_b_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_hsv_h"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_hsv_h_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_hsv_s"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.6"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_hsv_s_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+    
+    <TextView 
+        android:id="@+id/color_info_hsv_v"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/color_info_hsv_v_title"
+        android:textSize="14sp"
+        style="@style/ColorInfoColorBarText"/>
+
+</LinearLayout>

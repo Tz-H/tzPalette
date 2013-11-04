@@ -5,6 +5,7 @@
     
     <string name="title_capture_view">获取</string>
     <string name="title_palette_list_view">我的调色板</string>
+    <string name="title_color_name_list_view">色彩列表</string>
     <string name="title_about_view">关于</string>
     <string name="title_palette_card_view">调色板卡片</string>
     <string name="title_palette_edit_view">编辑调色板</string>
@@ -57,6 +58,7 @@
     <string name="action_sortBy_title">按调色板标题</string>
     <string name="action_sortBy_updated">按修改时间</string>
     
+    <string name="color_info_name">名称</string>
     <string name="color_info_rgb_title">RGB</string>
     <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
     <string name="color_info_hsv_title">HSV</string>

@@ -3,12 +3,9 @@ package com.tzapps.tzpalette.ui;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +28,7 @@ import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
+import com.tzapps.tzpalette.data.ColorNameListHelper;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
@@ -54,9 +52,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     /** Called when the user opens the Palette Edit view */
     private static final int PALETTE_EDIT_RESULT = 3;
     
-    private static final int PAGE_CAPTURE_VIEW_POSITION = 0;
-    private static final int PAGE_PALETTE_LIST_POSITION = 1;
-    private static final int PAGE_ABOUT_VIEW_POSITION   = 2;
+    private static final int PAGE_CAPTURE_VIEW_POSITION    = 0;
+    private static final int PAGE_PALETTE_LIST_POSITION    = 1;
+    private static final int PAGE_COLOR_NAME_LIST_POSITION = 2;
+    private static final int PAGE_ABOUT_VIEW_POSITION      = 3;
 
     private ViewPager mViewPager;
     private PageAdapter mPageAdapter;
@@ -74,8 +73,11 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         ActivityUtils.forceToShowOverflowOptionsOnActoinBar(this);
+        
+        // init ColorNameListHelper when the main activity is created...
+        ColorNameListHelper.getInstance(this);
 
         mDataHelper = PaletteDataHelper.getInstance(this);
         mDataHelper.openDb(true);
@@ -86,6 +88,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         mPageAdapter.addPage(getString(R.string.title_capture_view), CaptureFragment.class, null);
         mPageAdapter.addPage(getString(R.string.title_palette_list_view), PaletteListFragment.class,null);
+        mPageAdapter.addPage(getString(R.string.title_color_name_list_view), ColorNameListFragment.class, null);
         mPageAdapter.addPage(getString(R.string.title_about_view), AboutFragment.class, null);
         
         // Open palette list view directly if there has been already record in database
@@ -182,6 +185,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 
             case PAGE_PALETTE_LIST_POSITION:
                 inflater.inflate(R.menu.palette_list_view_actions, menu);
+                break;
+                
+            case PAGE_COLOR_NAME_LIST_POSITION:
+                inflater.inflate(R.menu.color_name_list_actions, menu);
                 break;
                 
             case PAGE_ABOUT_VIEW_POSITION:
@@ -460,7 +467,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (fragment instanceof PaletteListFragment)
         {
             mPaletteListFragment = (PaletteListFragment) fragment;
-            mPaletteListFragment.addAll(mDataHelper.getAllData());
+            //mPaletteListFragment.addAll(mDataHelper.getAllData());
         }
     }
 
