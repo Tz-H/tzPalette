@@ -67,7 +67,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_author"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -95,7 +95,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_creative"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -123,7 +123,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_feedback"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -151,7 +151,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_rate"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -179,7 +179,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_project"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"

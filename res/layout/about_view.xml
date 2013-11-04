@@ -54,7 +54,7 @@
         android:layout_height="wrap_content">
         
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="@dimen/about_view_option_area_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -63,7 +63,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_author"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -91,7 +91,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_creative"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -119,7 +119,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_feedback"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -147,7 +147,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_rate"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
@@ -175,7 +175,7 @@
 	        <LinearLayout 
 	            android:id="@+id/about_project"
 	            android:layout_width="match_parent"
-	            android:layout_height="40dp"
+	            android:layout_height="@dimen/about_view_option_height"
 	            android:layout_margin="5dp"
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"

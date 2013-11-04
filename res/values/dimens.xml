@@ -28,5 +28,8 @@
     <dimen name="palette_list_item_title_height">25dp</dimen>
     <dimen name="palette_list_item_update_height">15dp</dimen>
     <dimen name="palette_list_item_color_bar_height">25dp</dimen>
+    
+    <dimen name="about_view_option_area_width">250dp</dimen>
+    <dimen name="about_view_option_height">40dp</dimen>
 
 </resources>
