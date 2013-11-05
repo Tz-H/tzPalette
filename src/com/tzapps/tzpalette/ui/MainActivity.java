@@ -34,6 +34,8 @@ import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
+import com.tzapps.tzpalette.ui.dialog.AboutDialogFragment;
+import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOption;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment.OnClickPaletteItemOptionListener;
@@ -55,7 +57,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     private static final int PAGE_CAPTURE_VIEW_POSITION    = 0;
     private static final int PAGE_PALETTE_LIST_POSITION    = 1;
     private static final int PAGE_COLOR_NAME_LIST_POSITION = 2;
-    private static final int PAGE_ABOUT_VIEW_POSITION      = 3;
 
     private ViewPager mViewPager;
     private PageAdapter mPageAdapter;
@@ -89,7 +90,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         mPageAdapter.addPage(getString(R.string.title_capture_view), CaptureFragment.class, null);
         mPageAdapter.addPage(getString(R.string.title_palette_list_view), PaletteListFragment.class,null);
         mPageAdapter.addPage(getString(R.string.title_color_name_list_view), ColorNameListFragment.class, null);
-        mPageAdapter.addPage(getString(R.string.title_about_view), AboutFragment.class, null);
         
         // Open palette list view directly if there has been already record in database
         if (mDataHelper.getDataCount() > 0)
@@ -188,10 +188,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case PAGE_COLOR_NAME_LIST_POSITION:
                 inflater.inflate(R.menu.color_name_list_actions, menu);
                 break;
-                
-            case PAGE_ABOUT_VIEW_POSITION:
-                inflater.inflate(R.menu.about_view_actions, menu);
-                break;
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -222,7 +218,8 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 return true;
 
             case R.id.action_about:
-                mPageAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
+                //mPageAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
+                showAboutDialog();
                 return true;
                 
             case R.id.action_feedback:
@@ -411,6 +408,13 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         data = mDataHelper.get(data.getId());
         mPaletteListFragment.update(data);
+    }
+    
+    private void showAboutDialog()
+    {
+        // Show color info detail dialog
+        AboutDialogFragment dialogFrag = AboutDialogFragment.newInstance(getString(R.string.title_about_view));
+        dialogFrag.show(getFragmentManager(), "aboutDialog");
     }
 
     private void showRenameDialog(final int position, final long dataId)
