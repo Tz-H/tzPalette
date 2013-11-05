@@ -112,7 +112,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     {
         super.onDestroy();
         clearTemp();
-        mDataHelper.closeDb();
     }
     
     private void clearTemp()
@@ -164,8 +163,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
              * 3. need to update all (e.g. all palette data are deleted
              * in settings view)
              */
-            mPaletteListFragment.removeAll();
-            mPaletteListFragment.addAll(mDataHelper.getAllData());
+            mPaletteListFragment.refresh();
         }
     }
 
@@ -409,9 +407,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             return;
 
         data.setTitle(title);
-        mDataHelper.update(data, /* updateThumb */false);
-
-        mPaletteListFragment.refresh();
+        mDataHelper.update(data, /*updateThumb*/false);
+        
+        data = mDataHelper.get(data.getId());
+        mPaletteListFragment.update(data);
     }
 
     private void showRenameDialog(final int position, final long dataId)
@@ -467,7 +466,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (fragment instanceof PaletteListFragment)
         {
             mPaletteListFragment = (PaletteListFragment) fragment;
-            //mPaletteListFragment.addAll(mDataHelper.getAllData());
+            mPaletteListFragment.refresh();
         }
     }
 

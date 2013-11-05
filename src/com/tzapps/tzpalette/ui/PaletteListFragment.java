@@ -23,6 +23,7 @@ import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteData;
 import com.tzapps.tzpalette.data.PaletteDataComparator.Sorter;
+import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask;
 import com.tzapps.tzpalette.ui.task.PaletteThumbWorkerTask.AsyncDrawable;
@@ -33,6 +34,7 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
 {
     private static final String TAG = "PaletteListFragment";
     
+    private PaletteDataHelper mDataHelper;
     private PaletteDataAdapter<PaletteData> mAdapter;
     private OnClickPaletteItemListener mCallback;
     private Sorter mSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
@@ -59,12 +61,13 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
             throw new ClassCastException(activity.toString()
                     + " must implement OnClickPaletteItemListener");
         }
-
-        List<PaletteData> items = new ArrayList<PaletteData>();
-
+        
+        if (mDataHelper == null)
+            mDataHelper = PaletteDataHelper.getInstance(activity);
+        
         if (mAdapter == null)
             mAdapter = new PaletteDataAdapter<PaletteData>(activity,
-                    R.layout.palette_list_view_item, items);
+                    R.layout.palette_list_view_item, new ArrayList<PaletteData>());
     }
 
     @Override
@@ -110,19 +113,10 @@ public class PaletteListFragment extends BaseListFragment implements OnItemClick
     
     public void refresh()
     {
+        mAdapter.clear();
+        mAdapter.addAll(mDataHelper.getAllData());
         mAdapter.sort(mSorter.getComparator());
         mAdapter.notifyDataSetChanged();
-    }
-    
-    public void removeAll()
-    {
-        mAdapter.clear();
-    }
-
-    public void addAll(List<PaletteData> dataList)
-    {
-        mAdapter.addAll(dataList);
-        mAdapter.sort(mSorter.getComparator());
     }
 
     public void add(PaletteData data)
