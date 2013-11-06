@@ -64,4 +64,25 @@ public class ClusterPoint
         
         return dist;
     }
+    
+    /**
+     * Check whether the given points are equals based on the indicated deviation
+     *  
+     * @param p1        point 1
+     * @param p2        point 2
+     * @param deviation the deviation
+     * 
+     * @return true if p1 equals p2, otherwise false
+     */
+    public static boolean equals(ClusterPoint p1, ClusterPoint p2, int deviation)
+    {
+        int dist = ClusterPoint.calcEuclideanDistanceSquare(p1, p2);
+        
+        /* To improve the cluster convergence rate, we might
+         * allow a deviation, i.e. if the distance of the cluster center
+         * is less than the indicated deviation we could treat them as 
+         * "equals"  
+         */
+        return dist <= deviation*deviation;
+    }
 }

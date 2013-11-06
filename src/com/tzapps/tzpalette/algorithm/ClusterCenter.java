@@ -46,16 +46,4 @@ public class ClusterCenter extends ClusterPoint
         this.clusterIndex = c.clusterIndex;
         this.nearestPoint = c.nearestPoint;
     }
-    
-    public static boolean equals(ClusterCenter c1, ClusterCenter c2, int deviation)
-    {
-        int dist = ClusterPoint.calcEuclideanDistanceSquare(c1, c2);
-        
-        /* To improve the cluster convergence rate, we might
-         * allow a deviation, i.e. if the distance of the cluster center
-         * is less than the indicated deviation we could treat them as 
-         * "equals"  
-         */
-        return dist <= deviation*deviation;
-    }
 }

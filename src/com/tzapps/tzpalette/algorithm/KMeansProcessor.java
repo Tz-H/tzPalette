@@ -262,7 +262,7 @@ public class KMeansProcessor
                 Log.d(TAG, "cluster " + i + " old " + oldCenter.toString()
                         + ", new " + newCenter.toString());
             
-            if (!ClusterCenter.equals(oldCenter, newCenter, deviation))
+            if (!ClusterPoint.equals(oldCenter, newCenter, deviation))
                 return false;
         }
         return true;
