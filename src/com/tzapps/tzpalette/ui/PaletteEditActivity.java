@@ -356,10 +356,6 @@ public class PaletteEditActivity extends Activity implements OnFragmentStatusCha
         if (StringUtils.isEmpty(displayName))
             displayName = getResources().getString(R.string.palette_title_default);
         
-        //TEST
-        String path = UriUtils.getUriPath(this, uri);
-        Log.d(TAG, "uri path: "  + path);
-        
         return displayName;
     }
     
