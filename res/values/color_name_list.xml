@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="color_name_list_names">
+	    <item>Black</item>
+	    <item>Dimgray</item>
+	    <item>Gray</item>
+	    <item>Dark Gray</item>
+	    <item>Silver</item>
+	    <item>Light Gray</item>
+	    <item>Gainsboro</item>
+	    <item>White Smoke</item>
+	    <item>White</item>
+	    <item>Snow</item>
+	    <item>Iron Gray</item>
+	    <item>Sand Beige</item>
+	    <item>Rosy Brown</item>
+	    <item>Light Coral</item>
+	    <item>Indian Red</item>
+	    <item>Brown</item>
+	    <item>Fire Brick</item>
+	    <item>Maroon</item>
+	    <item>Dark Red</item>
+	    <item>Strong Red</item>
+	    <item>Red</item>
+	    <item>Persimmon</item>
+	    <item>Misty Rose</item>
+	    <item>Salmon</item>
+	    <item>Scarlet</item>
+	    <item>Tomato</item>
+	    <item>Dark Salmon</item>
+	    <item>Coral</item>
+	    <item>Orange Red</item>
+	    <item>Light Salmon</item>
+	    <item>Vermilion</item>
+	    <item>Sienna</item>
+	    <item>Tropical Orange</item>
+	    <item>Camel</item>
+	    <item>Apricot</item>
+	    <item>Coconut Brown</item>
+	    <item>Seashell</item>
+	    <item>Saddle Brown</item>
+	    <item>Chocolate</item>
+	    <item>Burnt Orange</item>
+	    <item>Sun Orange</item>
+	    <item>Peach Puff</item>
+	    <item>Sand Brown</item>
+	    <item>Bronze</item>
+	    <item>Linen</item>
+	    <item>Honey Orange</item>
+	    <item>Peru</item>
+	    <item>Sepia</item>
+	    <item>Ocher</item>
+	    <item>Bisque </item>
+	    <item>Tangerine</item>
+	    <item>Dark Orange</item>
+	    <item>Antique White</item>
+	    <item>Tan</item>
+	    <item>Burly Wood</item>
+	    <item>Blanched Almond</item>
+	    <item>Navajo White</item>
+	    <item>Marigold</item>
+	    <item>Papaya Whip</item>
+	    <item>Pale Ocre</item>
+	    <item>Khaki</item>
+	    <item>Moccasin</item>
+	    <item>Old Lace</item>
+	    <item>Wheat</item>
+	    <item>Peach</item>
+	    <item>Orange</item>
+	    <item>Floral White</item>
+	    <item>Goldenrod</item>
+	    <item>Dark Goldenrod</item>
+	    <item>Coffee</item>
+	    <item>Jasmine</item>
+	    <item>Amber</item>
+	    <item>Cornsilk</item>
+	    <item>Chrome Yellow</item>
+	    <item>Golden</item>
+	    <item>Lemon Chiffon</item>
+	    <item>Light Khaki</item>
+	    <item>Pale Goldenrod</item>
+	    <item>Dark Khaki</item>
+	    <item>Mimosa</item>
+	    <item>Cream</item>
+	    <item>Ivory</item>
+	    <item>Beige</item>
+	    <item>Light Yellow</item>
+	    <item>Light Goldenrod Yellow</item>
+	    <item>Champagne Yellow</item>
+	    <item>Mustard</item>
+	    <item>Moon Yellow</item>
+	    <item>Olive</item>
+	    <item>Canary Yellow</item>
+	    <item>Yellow</item>
+	    <item>Moss Green</item>
+	    <item>Light Lime</item>
+	    <item>Olive Drab</item>
+	    <item>Yellow Green</item>
+	    <item>Dark Olive Green</item>
+	    <item>Apple Green</item>
+	    <item>Green Yellow</item>
+	    <item>Grass Green</item>
+	    <item>Lawn Green</item>
+	    <item>Chartreuse</item>
+	    <item>Foliage Green</item>
+	    <item>Fresh Leaves</item>
+	    <item>Bright Green</item>
+	    <item>Cobalt Green</item>
+	    <item>Honeydew</item>
+	    <item>Dark Sea Green</item>
+	    <item>Light Green</item>
+	    <item>Pale Green</item>
+	    <item>Ivy Green</item>
+	    <item>Forest Green</item>
+	    <item>Lime Green</item>
+	    <item>Dark Green</item>
+	    <item>Green</item>
+	    <item>Lime</item>
+	    <item>Malachite</item>
+	    <item>Mint</item>
+	    <item>Celadon Green</item>
+	    <item>Emerald</item>
+	    <item>Turquoise Green</item>
+	    <item>Veridian</item>
+	    <item>Horizon Blue</item>
+	    <item>Sea Green</item>
+	    <item>Medium Sea Green</item>
+	    <item>Mint Cream</item>
+	    <item>Spring Green</item>
+	    <item>Peacock Green</item>
+	    <item>Medium Spring Green</item>
+	    <item>Medium Aquamarine</item>
+	    <item>Aquamarine</item>
+	    <item>Cyan Blue</item>
+	    <item>Aqua Blue</item>
+	    <item>Turquoise Blue</item>
+	    <item>Turquoise</item>
+	    <item>Light Sea Green </item>
+	    <item>Medium Turquoise</item>
+	    <item>Light Cyan</item>
+	    <item>Baby Blue</item>
+	    <item>Pale Turquoise</item>
+	    <item>Dark Slate Gray</item>
+	    <item>Teal</item>
+	    <item>Dark Cyan</item>
+	    <item>Cyan</item>
+	    <item>Aqua</item>
+	    <item>Dark Turquoise</item>
+	    <item>Cadet Blue</item>
+	    <item>Peacock Blue</item>
+	    <item>Powder Blue</item>
+	    <item>Strong Blue</item>
+	    <item>Light Blue</item>
+	    <item>Pale Blue</item>
+	    <item>Saxe Blue</item>
+	    <item>Deep Sky Blue</item>
+	    <item>Sky Blue</item>
+	    <item>Light Sky Blue</item>
+	    <item>Marine Blue</item>
+	    <item> Prussian blue</item>
+	    <item>Steel Blue</item>
+	    <item>Alice Blue</item>
+	    <item>Slate Gray</item>
+	    <item>Light Slate Gray</item>
+	    <item>Dodger Blue</item>
+	    <item>Mineral Blue</item>
+	    <item>Azure</item>
+	    <item>Wedgwood Blue</item>
+	    <item>Light Steel Blue</item>
+	    <item>Cobalt Blue</item>
+	    <item>Pale Denim</item>
+	    <item>Cornflower Blue</item>
+	    <item>Salvia Blue</item>
+	    <item>Dark Powder Blue</item>
+	    <item>Sapphire</item>
+	    <item>International Klein Blue</item>
+	    <item>Cerulean blue</item>
+	    <item>Royal Blue</item>
+	    <item>Dark Mineral Blue</item>
+	    <item>Ultramarine</item>
+	    <item>Lapis Lazuli</item>
+	    <item>Ghost White</item>
+	    <item>Lavender</item>
+	    <item>Periwinkle</item>
+	    <item>Midnight Blue</item>
+	    <item>Navy Blue</item>
+	    <item>Dark Blue</item>
+	    <item>Medium Blue</item>
+	    <item>Blue</item>
+	    <item>Wisteria</item>
+	    <item>Dark Slate Blue</item>
+	    <item>Slate Blue</item>
+	    <item>Medium Slate Blue</item>
+	    <item>Mauve</item>
+	    <item>Lilac</item>
+	    <item>Medium Purple</item>
+	    <item>Amethyst</item>
+	    <item>Grayish Purple</item>
+	    <item>Heliotrope</item>
+	    <item>Mineral Violet</item>
+	    <item>Blue Violet</item>
+	    <item>Violet</item>
+	    <item>Indigo</item>
+	    <item>Dark Orchid</item>
+	    <item>Dark Violet</item>
+	    <item>Pansy</item>
+	    <item>Mallow</item>
+	    <item>Opera Mauve</item>
+	    <item>Medium Orchid</item>
+	    <item>Pail Lilac</item>
+	    <item>Thistle</item>
+	    <item>Clematis</item>
+	    <item>Plum</item>
+	    <item>Light Violet</item>
+	    <item>Purple</item>
+	    <item>Dark Magenta</item>
+	    <item>Magenta</item>
+	    <item>Fuchsia</item>
+	    <item>Orchid</item>
+	    <item>Pearl Pink</item>
+	    <item>Old Rose</item>
+	    <item>Rose Pink</item>
+	    <item>Medium Violet Red</item>
+	    <item>Magenta Rose</item>
+	    <item>Rose </item>
+	    <item>Ruby</item>
+	    <item>Camellia</item>
+	    <item>Deep Pink</item>
+	    <item>Flamingo</item>
+	    <item>Coral Pink</item>
+	    <item>Hot Pink</item>
+	    <item>Burgundy</item>
+	    <item>Spinel Red</item>
+	    <item>Carmine</item>
+	    <item>Baby Pink</item>
+	    <item>Cardinal Red</item>
+	    <item>Lavender Blush</item>
+	    <item>Pale Violet Red</item>
+	    <item>Cerise</item>
+	    <item>Salmon Pink</item>
+	    <item>Crimson</item>
+	    <item>Pink</item>
+	    <item>Light Pink</item>
+	    <item>Shell Pink</item>
+	    <item>Alizarin Crimson</item>
+	</string-array>
+	
+	<string-array name="color_name_list_values">
+	    <item>#000000</item>
+	    <item>#696969</item>
+	    <item>#808080</item>
+	    <item>#A9A9A9</item>
+	    <item>#C0C0C0</item>
+	    <item>#D3D3D3</item>
+	    <item>#DCDCDC</item>
+	    <item>#F5F5F5</item>
+	    <item>#FFFFFF</item>
+	    <item>#FFFAFA</item>
+	    <item>#625B57</item>
+	    <item>#E6C3C3</item>
+	    <item>#BC8F8F</item>
+	    <item>#F08080</item>
+	    <item>#CD5C5C</item>
+	    <item>#A52A2A</item>
+	    <item>#B22222</item>
+	    <item>#800000</item>
+	    <item>#8B0000</item>
+	    <item>#E60000</item>
+	    <item>#FF0000</item>
+	    <item>#FF4D40</item>
+	    <item>#FFE4E1</item>
+	    <item>#FA8072</item>
+	    <item>#FF2400</item>
+	    <item>#FF6347</item>
+	    <item>#E9967A</item>
+	    <item>#FF7F50</item>
+	    <item>#FF4500</item>
+	    <item>#FFA07A</item>
+	    <item>#FF4D00</item>
+	    <item>#A0522D</item>
+	    <item>#FF8033</item>
+	    <item>#A16B47</item>
+	    <item>#E69966</item>
+	    <item>#4D1F00</item>
+	    <item>#FFF5EE</item>
+	    <item>#8B4513</item>
+	    <item>#D2691E</item>
+	    <item>#CC5500</item>
+	    <item>#FF7300</item>
+	    <item>#FFDAB9</item>
+	    <item>#F4A460</item>
+	    <item>#B87333</item>
+	    <item>#FAF0E6</item>
+	    <item>#FFB366</item>
+	    <item>#CD853F</item>
+	    <item>#704214</item>
+	    <item>#CC7722</item>
+	    <item>#FFE4C4</item>
+	    <item>#F28500</item>
+	    <item>#FF8C00</item>
+	    <item>#FAEBD7</item>
+	    <item>#D2B48C</item>
+	    <item>#DEB887</item>
+	    <item>#FFEBCD</item>
+	    <item>#FFDEAD</item>
+	    <item>#FF9900</item>
+	    <item>#FFEFD5</item>
+	    <item>#CCB38C</item>
+	    <item>#996B1F</item>
+	    <item>#FFE4B5</item>
+	    <item>#FDF5E6</item>
+	    <item>#F5DEB3</item>
+	    <item>#FFE5B4</item>
+	    <item>#FFA500</item>
+	    <item>#FFFAF0</item>
+	    <item>#DAA520</item>
+	    <item>#B8860B</item>
+	    <item>#4D3900</item>
+	    <item>#E6C35C</item>
+	    <item>#FFBF00</item>
+	    <item>#FFF8DC</item>
+	    <item>#E6B800</item>
+	    <item>#FFD700</item>
+	    <item>#FFFACD</item>
+	    <item>#F0E68C</item>
+	    <item>#EEE8AA</item>
+	    <item>#BDB76B</item>
+	    <item>#E6D933</item>
+	    <item>#FFFDD0</item>
+	    <item>#FFFFF0</item>
+	    <item>#F5F5DC</item>
+	    <item>#FFFFE0</item>
+	    <item>#FAFAD2</item>
+	    <item>#FFFF99</item>
+	    <item>#CCCC4D</item>
+	    <item>#FFFF4D</item>
+	    <item>#808000</item>
+	    <item>#FFFF00</item>
+	    <item>#FFFF00</item>
+	    <item>#697723</item>
+	    <item>#CCFF00</item>
+	    <item>#6B8E23</item>
+	    <item>#9ACD32</item>
+	    <item>#556B2F</item>
+	    <item>#8CE600</item>
+	    <item>#ADFF2F</item>
+	    <item>#99E64D</item>
+	    <item>#7CFC00</item>
+	    <item>#7FFF00</item>
+	    <item>#73B839</item>
+	    <item>#99FF4D</item>
+	    <item>#66FF00</item>
+	    <item>#66FF59</item>
+	    <item>#F0FFF0</item>
+	    <item>#8FBC8F</item>
+	    <item>#90EE90</item>
+	    <item>#98FB98</item>
+	    <item>#36BF36</item>
+	    <item>#228B22</item>
+	    <item>#32CD32</item>
+	    <item>#006400</item>
+	    <item>#008000</item>
+	    <item>#00FF00</item>
+	    <item>#22C32E</item>
+	    <item>#16982B</item>
+	    <item>#73E68C</item>
+	    <item>#50C878</item>
+	    <item>#4DE680</item>
+	    <item>#127436</item>
+	    <item>#A6FFCC</item>
+	    <item>#2E8B57</item>
+	    <item>#3CB371</item>
+	    <item>#F5FFFA</item>
+	    <item>#00FF80</item>
+	    <item>#00A15C</item>
+	    <item>#00FA9A</item>
+	    <item>#66CDAA</item>
+	    <item>#7FFFD4</item>
+	    <item>#0DBF8C</item>
+	    <item>#66FFE6</item>
+	    <item>#33E6CC</item>
+	    <item>#30D5C8</item>
+	    <item>#20B2AA</item>
+	    <item>#48D1CC</item>
+	    <item>#E0FFFF</item>
+	    <item>#E0FFFF</item>
+	    <item>#AFEEEE</item>
+	    <item>#2F4F4F</item>
+	    <item>#008080</item>
+	    <item>#008B8B</item>
+	    <item>#00FFFF</item>
+	    <item>#AFDFE4</item>
+	    <item>#00CED1</item>
+	    <item>#5F9EA0</item>
+	    <item>#00808C</item>
+	    <item>#B0E0E6</item>
+	    <item>#006374</item>
+	    <item>#ADD8E6</item>
+	    <item>#7AB8CC</item>
+	    <item>#4798B3</item>
+	    <item>#00BFFF</item>
+	    <item>#87CEEB</item>
+	    <item>#87CEFA</item>
+	    <item>#00477D</item>
+	    <item>#003153</item>
+	    <item>#4682B4</item>
+	    <item>#F0F8FF</item>
+	    <item>#708090</item>
+	    <item>#778899</item>
+	    <item>#1E90FF</item>
+	    <item>#004D99</item>
+	    <item>#007FFF</item>
+	    <item>#5686BF</item>
+	    <item>#B0C4DE</item>
+	    <item>#0047AB</item>
+	    <item>#5E86C1</item>
+	    <item>#6495ED</item>
+	    <item>#4D80E6</item>
+	    <item>#003399</item>
+	    <item>#082567</item>
+	    <item>#002FA7</item>
+	    <item>#2A52BE</item>
+	    <item>#4169E1</item>
+	    <item>#24367D</item>
+	    <item>#0033FF</item>
+	    <item>#0D33FF</item>
+	    <item>#F8F8FF</item>
+	    <item>#E6E6FA</item>
+	    <item>#CCCCFF</item>
+	    <item>#191970</item>
+	    <item>#000080</item>
+	    <item>#00008B</item>
+	    <item>#0000CD</item>
+	    <item>#0000FF</item>
+	    <item>#5C50E6</item>
+	    <item>#483D8B</item>
+	    <item>#6A5ACD</item>
+	    <item>#7B68EE</item>
+	    <item>#6640FF</item>
+	    <item>#B399FF</item>
+	    <item>#9370DB</item>
+	    <item>#6633CC</item>
+	    <item>#8674A1</item>
+	    <item>#5000B8</item>
+	    <item>#B8A1CF</item>
+	    <item>#8A2BE2</item>
+	    <item>#8B00FF</item>
+	    <item>#4B0080</item>
+	    <item>#9932CC</item>
+	    <item>#9400D3</item>
+	    <item>#7400A1</item>
+	    <item>#D94DFF</item>
+	    <item>#E680FF</item>
+	    <item>#BA55D3</item>
+	    <item>#E6CFE6</item>
+	    <item>#D8BFD8</item>
+	    <item>#CCA3CC</item>
+	    <item>#DDA0DD</item>
+	    <item>#EE82EE</item>
+	    <item>#800080</item>
+	    <item>#8B008B</item>
+	    <item>#FF00FF</item>
+	    <item>#F400A1</item>
+	    <item>#DA70D6</item>
+	    <item>#FFB3E6</item>
+	    <item>#B85798</item>
+	    <item>#FF66CC</item>
+	    <item>#C71585</item>
+	    <item>#FF0DA6</item>
+	    <item>#FF007F</item>
+	    <item>#CC0080</item>
+	    <item>#E63995</item>
+	    <item>#FF1493</item>
+	    <item>#E68AB8</item>
+	    <item>#FF80BF</item>
+	    <item>#FF69B4</item>
+	    <item>#470024</item>
+	    <item>#FF73B3</item>
+	    <item>#E6005C</item>
+	    <item>#FFD9E6</item>
+	    <item>#990036</item>
+	    <item>#FFF0F5</item>
+	    <item>#DB7093</item>
+	    <item>#DE3163</item>
+	    <item>#FF8099</item>
+	    <item>#DC143C</item>
+	    <item>#FFC0CB</item>
+	    <item>#FFB6C1</item>
+	    <item>#FFB3BF</item>
+	    <item>#E32636</item>
+	</string-array>
+</resources>

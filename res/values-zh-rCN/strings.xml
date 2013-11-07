@@ -58,6 +58,10 @@
     <string name="action_sortBy_title">按调色板标题</string>
     <string name="action_sortBy_updated">按修改时间</string>
     
+    <string name="color_info_tab_info">颜色信息</string>
+    <string name="color_info_tab_similar">相似颜色</string>
+    <string name="color_info_tab_action_more">更多信息</string>
+    
     <string name="color_info_name">名称</string>
     <string name="color_info_rgb_title">RGB</string>
     <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>

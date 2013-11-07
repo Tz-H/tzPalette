@@ -1,25 +1,14 @@
 package com.tzapps.tzpalette.ui;
 
-import android.graphics.Bitmap;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tzapps.common.ui.BaseFragment;
-import com.tzapps.common.utils.BitmapUtils;
-import com.tzapps.common.utils.MediaHelper;
-import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.ColorNameListHelper;
-import com.tzapps.tzpalette.data.PaletteData;
-import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.ui.view.ColorNameListView;
-import com.tzapps.tzpalette.ui.view.ColorRow;
 
 public class ColorNameListFragment extends BaseFragment
 {

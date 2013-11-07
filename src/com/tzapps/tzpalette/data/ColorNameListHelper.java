@@ -1,18 +1,14 @@
 package com.tzapps.tzpalette.data;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 
+import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.data.ColorNameListHelper.ColorNameItem;
+import com.tzapps.tzpalette.algorithm.ClusterPoint;
 
 public class ColorNameListHelper
 {
@@ -40,23 +36,15 @@ public class ColorNameListHelper
         mContext = context;
         mList = new ArrayList<ColorNameItem>();
         
-        InputStream in = mContext.getResources().openRawResource(R.raw.color_name_list);
-        String line;
+        String[] names = context.getResources().getStringArray(R.array.color_name_list_names);
+        String[] values = context.getResources().getStringArray(R.array.color_name_list_values);
         
-        try
+        assert(names.length == values.length);
+        
+        for (int i = 0; i < names.length; i++)
         {
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            while ((line = br.readLine()) != null)
-            {
-                String []strArr = line.split("\\|");
-                
-                ColorNameItem item = new ColorNameItem(Color.parseColor(strArr[0]), strArr[1]);
-                mList.add(item);
-            }
-        }
-        catch (IOException e)
-        {
-            Log.e(TAG, "Read color name list failed!");
+            ColorNameItem item = new ColorNameItem(Color.parseColor(values[i]), names[i]);
+            mList.add(item);
         }
     };
     
@@ -90,9 +78,46 @@ public class ColorNameListHelper
         return mList.size();
     }
     
-    
+    /**
+     * Get all colorNameList in the order of the indicated sorter
+     * @param sorter the color name item sorter
+     * @return the sorted color name array
+     */
     public ColorNameItem[] getAll()
     {
         return mList.toArray(new ColorNameItem[]{});
+    }
+    
+    /**
+     * Given a color, to get its similar colors from the color name list
+     * 
+     * @param color        the given color value
+     * @param deviation    the deviation
+     * @return the array with similar colors
+     */
+    public ColorNameItem[] getSimilar(int color, int deviation)
+    {
+        List<ColorNameItem> list = new ArrayList<ColorNameItem>();
+        
+        for (int i = 0; i < mList.size(); i++)
+        {
+            ColorNameItem item = mList.get(i);
+            
+            if (isColorSimilar(item.color, color, deviation))
+                list.add(item);
+        }
+        
+        return list.toArray(new ColorNameItem[]{});
+    }
+    
+    private boolean isColorSimilar(int color_1, int color_2, int deviation)
+    { 
+        int [] hsv_1 = ColorUtils.colorToHSV(color_1);
+        int [] hsv_2 = ColorUtils.colorToHSV(color_2);
+        
+        ClusterPoint point1 = new ClusterPoint(hsv_1);
+        ClusterPoint point2 = new ClusterPoint(hsv_2);
+        
+        return ClusterPoint.equals(point1, point2, deviation);
     }
 }

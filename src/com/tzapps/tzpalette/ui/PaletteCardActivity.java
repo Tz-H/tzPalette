@@ -171,8 +171,7 @@ public class PaletteCardActivity extends Activity implements OnFragmentStatusCha
             Log.d(TAG, "color info list item clicked: " + ColorUtils.colorToHtml(color));
         
         // Show color info detail dialog
-        ColorInfoDialogFragment dialogFrag =
-                ColorInfoDialogFragment.newInstance(getString(R.string.title_color_info), color);
+        ColorInfoDialogFragment dialogFrag = ColorInfoDialogFragment.newInstance(color);
         dialogFrag.show(getFragmentManager(), "dialog");
     }
     

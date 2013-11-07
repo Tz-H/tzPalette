@@ -81,7 +81,7 @@
         android:id="@+id/color_info_hsv_s"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.6"
+        android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/color_info_hsv_s_title"
