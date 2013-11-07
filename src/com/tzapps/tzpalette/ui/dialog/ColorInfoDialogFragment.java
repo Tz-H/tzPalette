@@ -1,11 +1,15 @@
 package com.tzapps.tzpalette.ui.dialog;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,12 +98,15 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         
         final ImageView colorBar = (ImageView)mView.findViewById(R.id.color_info_view_color_bar);
         final TextView htmlTv = (TextView)mView.findViewById(R.id.color_info_html);
+        final TextView moreTv = (TextView)mView.findViewById(R.id.color_info_tab_action_more);
         final TextView rgbTv = (TextView)mView.findViewById(R.id.color_info_rgb);
         final TextView hsvTv = (TextView)mView.findViewById(R.id.color_info_hsv);
         final TextView hslTv = (TextView)mView.findViewById(R.id.color_info_hsl);
         final TextView labTv = (TextView)mView.findViewById(R.id.color_info_lab);
         final TextView cmykTv = (TextView)mView.findViewById(R.id.color_info_cmyk);
         final ColorNameListView colorNameList = (ColorNameListView)mView.findViewById(R.id.color_name_list);
+        
+        moreTv.setOnClickListener(this);
         
         colorBar.setBackgroundColor(mColor);
         htmlTv.setText(ColorUtils.colorToHtml(mColor));
@@ -152,6 +159,10 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
             case R.id.color_info_html:
                 copyColorToClipboard(getActivity(), mColor);
                 break;
+                
+            case R.id.color_info_tab_action_more:
+                openColorInfoWebPage(mColor);
+                break;
         }
     }
     
@@ -162,6 +173,16 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         
         ClipboardUtils.setPlainText(context, "Copied color", ColorUtils.colorToHtml(color));
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+    }
+    
+    private void openColorInfoWebPage(int color)
+    {
+        String webUrl = Constants.COLOR_INFO_MORE_WEBSITE;
+        webUrl += ColorUtils.colorToHtml(color).replace("#", "").toLowerCase(Locale.getDefault());
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(webUrl));
+        startActivity(intent);
     }
     
 }
