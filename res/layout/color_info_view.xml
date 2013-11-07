@@ -39,7 +39,7 @@
 
                 <TabWidget
                     android:id="@android:id/tabs"
-                    android:layout_width="180dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <ImageView
@@ -66,7 +66,7 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="250dp" >
+                android:minHeight="220dp" >
 
                 <LinearLayout
                     android:id="@+id/color_info_view_tab_info"

@@ -50,6 +50,8 @@ public final class Constants
     /** The palette card off screen read limit number */
     public static final int PALETTE_CARD_PAGE_OFFSCREEN_LIMIT = 5;
     
+    /** The color info similar color deviation */
+    public static final int COLOR_INFO_SIMILAR_DEVIATION = 20;
 }
 
 
