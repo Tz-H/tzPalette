@@ -5,7 +5,6 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.R;
-import com.tzapps.tzpalette.data.PaletteData;
-import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.utils.TzPaletteUtils;
 
 public class AboutDialogFragment extends DialogFragment implements OnClickListener

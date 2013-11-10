@@ -1,15 +1,10 @@
 package com.tzapps.tzpalette.ui.dialog;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
