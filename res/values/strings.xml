@@ -5,7 +5,7 @@
     
     <string name="title_capture_view">Capture</string>
     <string name="title_palette_list_view">My Palettes</string>
-    <string name="title_color_name_list_view">Color Names</string>
+    <string name="title_color_name_list_view">Named Colors</string>
     <string name="title_about_view">About</string>
     <string name="title_palette_card_view">Palette Card</string>
     <string name="title_palette_edit_view">Edit Palette</string>
@@ -63,15 +63,15 @@
     <string name="color_info_tab_action_more">More</string>
     
     <string name="color_info_rgb_title">RGB</string>
-    <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
+    <string name="color_info_rgb_value">%1$d\t\t%2$d\t\t%3$d</string>
     <string name="color_info_hsv_title">HSV</string>
-    <string name="color_info_hsv_value">H = %1$d° S = %2$d%% V = %3$d%%</string>
+    <string name="color_info_hsv_value">%1$d°\t\t%2$d%%\t\t%3$d%%</string>
     <string name="color_info_hsl_title">HSL</string>
-    <string name="color_info_hsl_value">H = %1$d° S = %2$d%% L = %3$d%%</string>
+    <string name="color_info_hsl_value">%1$d°\t\t%2$d%%\t\t%3$d%%</string>
     <string name="color_info_lab_title">LAB</string>
-    <string name="color_info_lab_value">L = %1$d a = %2$d b = %3$d</string>
+    <string name="color_info_lab_value">%1$d\t\t%2$d\t\t%3$d</string>
     <string name="color_info_cmyk_title">CMYK</string>
-    <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
+    <string name="color_info_cmyk_value">%1$d%%\t\t%2$d%%\t\t%3$d%%\t\t%4$d%%</string>
     
     <string name="color_info_name">Name</string>
     <string name="color_info_hex_title">Hex</string>

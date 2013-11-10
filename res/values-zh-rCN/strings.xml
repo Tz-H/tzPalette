@@ -55,25 +55,25 @@
     <string name="action_feedback">反馈意见</string>
     <string name="action_contactUs">联系我们</string>
     <string name="action_sortBy">排序</string>
-    <string name="action_sortBy_title">按调色板标题</string>
-    <string name="action_sortBy_updated">按修改时间</string>
+    <string name="action_sortBy_title">按标题</string>
+    <string name="action_sortBy_updated">按时间</string>
     
     <string name="color_info_tab_info">颜色信息</string>
     <string name="color_info_tab_similar">相似色</string>
     <string name="color_info_tab_action_more">更多信息</string>
     
-    <string name="color_info_name">名称</string>
     <string name="color_info_rgb_title">RGB</string>
-    <string name="color_info_rgb_value">R = %1$d G = %2$d B = %3$d</string>
+    <string name="color_info_rgb_value">%1$d, %2$d, %3$d</string>
     <string name="color_info_hsv_title">HSV</string>
-    <string name="color_info_hsv_value">H = %1$d° S = %2$d%% V = %3$d%%</string>
+    <string name="color_info_hsv_value">%1$d°, %2$d%%, %3$d%%</string>
     <string name="color_info_hsl_title">HSL</string>
-    <string name="color_info_hsl_value">H = %1$d° S = %2$d%% L = %3$d%%</string>
+    <string name="color_info_hsl_value">%1$d°, %2$d%%, %3$d%%</string>
     <string name="color_info_lab_title">LAB</string>
-    <string name="color_info_lab_value">L = %1$d a = %2$d b = %3$d</string>
+    <string name="color_info_lab_value">%1$d, %2$d, %3$d</string>
     <string name="color_info_cmyk_title">CMYK</string>
-    <string name="color_info_cmyk_value">C = %1$d%% M = %2$d%% Y = %3$d%% K = %4$d%%</string>
+    <string name="color_info_cmyk_value">%1$d%%, %2$d%%, %3$d%%, %4$d%%</string>
     
+    <string name="color_info_name">名称</string>
     <string name="color_info_hex_title">十六进制</string>
     <string name="color_info_rgb_r_title">红色</string>
     <string name="color_info_rgb_g_title">绿色</string>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -31,6 +31,13 @@
 	    <item name="android:shadowDx">1</item>
 	    <item name="android:shadowDy">1</item>
 	    <item name="android:shadowRadius">1</item>
+    </style>
+    
+    <!--  Color Info View Tab Info Title Text Style -->
+    <style name="ColorInfoTabTitleText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_darkgray</item>
     </style>
   
     <!-- About View Button Text style -->

@@ -7,8 +7,9 @@
     <ImageView
         android:id="@+id/color_info_view_color_bar"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:background="@color/color_lightgray" />
+        android:layout_height="50dp"
+        android:background="@color/color_lightgray"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/color_info_html"
@@ -66,168 +67,14 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="220dp" >
+                android:minHeight="200dp" >
 
-                <LinearLayout
-                    android:id="@+id/color_info_view_tab_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|left"
-                    android:orientation="vertical" >
+                <!-- Color Info tab panel -->
+                <include layout="@layout/color_info_view_tab_info"/>
+                
+                <!-- Similar Color tab panel -->
+                <include layout="@layout/color_info_view_tab_similar" />
 
-                    <LinearLayout
-                        android:id="@+id/color_info_view_rgb_bar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/color_info_rgb_title"
-                            android:layout_width="60dp"
-                            android:layout_height="fill_parent"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_rgb_title"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/color_info_rgb"
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_rgb_value"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/color_info_view_hsv_bar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/color_info_hsv_title"
-                            android:layout_width="60dp"
-                            android:layout_height="fill_parent"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_hsv_title"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/color_info_hsv"
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_hsv_value"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/color_info_view_hsl_bar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/color_info_hsl_title"
-                            android:layout_width="60dp"
-                            android:layout_height="fill_parent"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_hsl_title"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/color_info_hsl"
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_hsl_value"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/color_info_view_lab_bar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/color_info_lab_title"
-                            android:layout_width="60dp"
-                            android:layout_height="fill_parent"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_lab_title"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/color_info_lab"
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_lab_value"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/color_info_view_cmyk_bar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/color_info_cmyk_title"
-                            android:layout_width="60dp"
-                            android:layout_height="fill_parent"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_cmyk_title"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/color_info_cmyk"
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:paddingLeft="10dp"
-                            android:text="@string/color_info_cmyk_value"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/color_info_view_tab_similar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|left"
-                    android:orientation="vertical" >
-                    
-				    <!-- Color Name List Header -->
-				    <include layout="@layout/color_name_list_header"/>
-				    
-				    <!-- Color Name List Area -->
-				    <com.tzapps.tzpalette.ui.view.ColorNameListView
-				        android:id="@+id/color_name_list"
-				        android:layout_width="match_parent"
-				        android:layout_height="match_parent"/>
-                    
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
