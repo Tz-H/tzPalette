@@ -35,7 +35,6 @@ import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.PaletteListFragment.OnClickPaletteItemListener;
 import com.tzapps.tzpalette.ui.dialog.AboutDialogFragment;
-import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOption;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment;
 import com.tzapps.tzpalette.ui.dialog.PaletteDataOptionsDialogFragment.OnClickPaletteItemOptionListener;
@@ -224,26 +223,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case R.id.action_about:
                 showAboutDialog();
                 return true;
-                
-            case R.id.action_feedback:
-                sendFeedback();
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    
-    private void openWebPage(String httpUrl)
-    {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(httpUrl));
-        startActivity(intent);
-    }
-    
-    private void sendFeedback()
-    {
-        MyDebug.sendFeedback(this);
     }
     
     private void openSettings()
@@ -342,27 +325,6 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                  
             case R.id.btn_takePhoto:
                 takePhoto();
-                break;
-                
-            case R.id.about_feedback:
-                sendFeedback();
-                break;
-                
-            case R.id.about_author:
-                openWebPage(getString(R.string.app_author_webpage));
-                break;
-                
-            case R.id.about_creative:
-                openWebPage(getString(R.string.app_creative_webpage));
-                break;
-                
-            case R.id.about_project:
-                openWebPage(getString(R.string.app_project_website));
-                break;
-                
-            case R.id.about_rate:
-                //TODO: open google play store rate page when it is published
-                //openWebPage();
                 break;
         }
     }

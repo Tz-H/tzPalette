@@ -22,8 +22,8 @@ import android.widget.LinearLayout;
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
-import com.tzapps.tzpalette.debug.MyDebug;
 import com.tzapps.tzpalette.ui.dialog.AboutDialogFragment;
+import com.tzapps.tzpalette.utils.TzPaletteUtils;
 
 public class SettingsFragment extends PreferenceFragment implements 
             OnSharedPreferenceChangeListener, OnPreferenceClickListener
@@ -68,7 +68,7 @@ public class SettingsFragment extends PreferenceFragment implements
     
     private void sendFeedback()
     {
-        MyDebug.sendFeedback(getActivity());
+        TzPaletteUtils.sendFeedback(getActivity());
     }
     
     private void openAboutDialog()

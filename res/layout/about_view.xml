@@ -67,7 +67,6 @@
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
 	            android:clickable="true"
-	            android:onClick="onClick"
 	            android:background="@color/about_bar_linkedin_bg"
 	            android:orientation="horizontal">
 	            
@@ -95,7 +94,6 @@
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
 	            android:clickable="true"
-	            android:onClick="onClick"
 	            android:background="@color/about_bar_linkedin_bg"
 	            android:orientation="horizontal">
 	            
@@ -123,7 +121,6 @@
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
 	            android:clickable="true"
-	            android:onClick="onClick"
 	            android:background="@color/about_bar_feedback_bg"
 	            android:orientation="horizontal">
 	            
@@ -151,7 +148,6 @@
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
 	            android:clickable="true"
-	            android:onClick="onClick"
 	            android:background="@color/about_bar_rate_bg"
 	            android:orientation="horizontal">
 	            
@@ -179,7 +175,6 @@
 	            android:paddingLeft="10dp"
 	            android:gravity="left|center"
 	            android:clickable="true"
-	            android:onClick="onClick"
 	            android:background="@color/about_bar_project_bg"
 	            android:orientation="horizontal">
 	            
