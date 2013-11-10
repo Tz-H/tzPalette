@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/color_list_item_height"
     android:gravity="center"
-    android:background="@color/app_bg"
+    android:background="@drawable/color_info_list_item"
     android:orientation="horizontal" >
 
     <RelativeLayout

@@ -5,7 +5,7 @@
     android:layout_height="@dimen/palette_list_item_height"
     android:orientation="horizontal"
     android:baselineAligned="false"
-    android:background="@drawable/palette_item" >
+    android:background="@drawable/palette_list_item" >
 
     <RelativeLayout
         android:id="@+id/palette_item_thumb_frame"

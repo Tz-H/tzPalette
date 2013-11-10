@@ -29,9 +29,11 @@
     <color name="palette_card_title_bg">#222222</color>
     <color name="palette_card_colors_bar_bg">#FAFAFA</color>
     
-    <color name="palette_item_bg">#F3F1EC</color>
-    <color name="palette_item_bg_pressed">#BBDBE7</color>
-    <color name="palette_item_border">#222222</color>
+    <color name="palette_list_item_bg">#F3F1EC</color>
+    <color name="palette_list_item_bg_pressed">#BBDBE7</color>
+    
+    <color name="color_info_list_item_bg">#F3F1EC</color>
+    <color name="color_info_list_item_bg_pressed">#BBDBE7</color>
     
     <color name="capture_view_colors_bar_border">#ECECEC</color>
     
