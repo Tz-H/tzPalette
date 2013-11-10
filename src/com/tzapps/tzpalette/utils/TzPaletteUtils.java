@@ -1,15 +1,12 @@
 package com.tzapps.tzpalette.utils;
 
-import java.util.Locale;
-
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.Toast;
 
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
-import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 
 public class TzPaletteUtils
@@ -30,18 +27,15 @@ public class TzPaletteUtils
     }
     
     /**
-     * Open an indicated color within a color enquire web page
+     * Search the indicated color info online with google search engine
      * 
-     * @param context   the application context
-     * @param color     the color to enquiry
+     * @param context   the applciation context
+     * @param color     the color to search
      */
-    public static void openColorInfoWebPage(Context context, int color)
+    public static void searchColorInfoOnWeb(Context context, int color)
     {
-        String webUrl = Constants.COLOR_INFO_MORE_WEBSITE;
-        webUrl += ColorUtils.colorToHtml(color).replace("#", "").toLowerCase(Locale.getDefault());
-        
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(webUrl));
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, ColorUtils.colorToHtml(color));
         context.startActivity(intent);
     }
 }
