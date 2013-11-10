@@ -8,16 +8,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.ui.view.ColorBar.ColorBarType;
 import com.tzapps.tzpalette.ui.view.ColorBar.OnColorBarChangedListener;
+import com.tzapps.tzpalette.utils.TzPaletteUtils;
 
 public class ColorEditView extends RelativeLayout implements OnColorBarChangedListener
 {
@@ -202,11 +201,7 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
     
     private void copyColorToClipboard(int color)
     {
-        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
-        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
-        
-        ClipboardUtils.setPlainText(mContext, "Copied color", ColorUtils.colorToHtml(color));
-        Toast.makeText(mContext, toastText, Toast.LENGTH_SHORT).show();
+        TzPaletteUtils.copyColorToClipboard(mContext, color);
     }
 
     private void udpateColorBar(int colorBarResId, int textViewResId, int textResId, int color, int textVaule)

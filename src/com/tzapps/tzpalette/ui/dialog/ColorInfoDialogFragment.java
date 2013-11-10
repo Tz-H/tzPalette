@@ -27,6 +27,7 @@ import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.ColorNameListHelper;
 import com.tzapps.tzpalette.data.ColorNameListHelper.ColorNameItem;
 import com.tzapps.tzpalette.ui.view.ColorNameListView;
+import com.tzapps.tzpalette.utils.TzPaletteUtils;
 
 public class ColorInfoDialogFragment extends DialogFragment implements OnClickListener
 {
@@ -160,32 +161,13 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         switch (v.getId())
         {
             case R.id.color_info_html:
-                copyColorToClipboard(getActivity(), mColor);
+                TzPaletteUtils.copyColorToClipboard(getActivity(), mColor);
                 break;
                 
             case R.id.color_info_tab_action_more:
-                openColorInfoWebPage(mColor);
+                TzPaletteUtils.openColorInfoWebPage(getActivity(), mColor);
                 break;
         }
-    }
-    
-    private void copyColorToClipboard(Context context, int color)
-    {
-        String toastText = getResources().getString(R.string.copy_color_into_clipboard);
-        toastText = String.format(toastText, ColorUtils.colorToHtml(color));
-        
-        ClipboardUtils.setPlainText(context, "Copied color", ColorUtils.colorToHtml(color));
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-    }
-    
-    private void openColorInfoWebPage(int color)
-    {
-        String webUrl = Constants.COLOR_INFO_MORE_WEBSITE;
-        webUrl += ColorUtils.colorToHtml(color).replace("#", "").toLowerCase(Locale.getDefault());
-        
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(webUrl));
-        startActivity(intent);
     }
     
 }
