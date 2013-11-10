@@ -697,7 +697,7 @@ public class ColorUtils
         if (Y < K)
             K = Y;
         
-        if ((int)Math.round(K) == 1)
+        if (K == 1)
         {
             //pure black
             C = 0;
