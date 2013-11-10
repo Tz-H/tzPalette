@@ -175,7 +175,7 @@ public class ColorEditView extends RelativeLayout implements OnColorBarChangedLi
             @Override
             public void onClick(View v)
             {
-                copyColorToClipboard(mOriColor);
+                restore();
             }
         });
         
