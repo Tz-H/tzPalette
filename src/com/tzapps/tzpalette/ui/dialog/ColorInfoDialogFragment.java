@@ -149,6 +149,9 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
             // if there is no similar color found, we should hide the "similar" tab...
             mTabHost.getTabWidget().getChildTabViewAt(1).setVisibility(View.GONE);
         }
+        
+        //colorNameList in color info dialog should not clickable
+        colorNameList.setEnabled(false);
     }
 
     @Override

@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.tzapps.common.ui.BaseFragment;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.ColorNameListHelper;
+import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
 import com.tzapps.tzpalette.ui.view.ColorNameListView;
 
-public class ColorNameListFragment extends BaseFragment
+public class ColorNameListFragment extends BaseFragment implements OnItemClickListener
 {
     private static final String TAG = "ColorNameListFragment";
     
@@ -27,7 +30,18 @@ public class ColorNameListFragment extends BaseFragment
         mColorNameList = (ColorNameListView) view.findViewById(R.id.color_name_list);
         
         mColorNameList.setColors(ColorNameListHelper.getInstance(getActivity()).getAll());
+        mColorNameList.setOnItemClickListener(this);
         
         return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorNameList.getColor(position);
+        
+        // Show color info detail dialog
+        ColorInfoDialogFragment dialogFrag = ColorInfoDialogFragment.newInstance(color);
+        dialogFrag.show(getFragmentManager(), "dialog");
     }    
 }
