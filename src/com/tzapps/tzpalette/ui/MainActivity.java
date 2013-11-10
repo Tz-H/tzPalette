@@ -216,9 +216,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             case R.id.action_paletteList:
                 mPageAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
                 return true;
+                
+            case R.id.action_colorNameList:
+                mPageAdapter.setSelectedPage(PAGE_COLOR_NAME_LIST_POSITION);
+                return true;
 
             case R.id.action_about:
-                //mPageAdapter.setSelectedPage(PAGE_ABOUT_VIEW_POSITION);
                 showAboutDialog();
                 return true;
                 
@@ -412,7 +415,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
     
     private void showAboutDialog()
     {
-        // Show color info detail dialog
+        // Show about dialog
         AboutDialogFragment dialogFrag = AboutDialogFragment.newInstance(getString(R.string.title_about_view));
         dialogFrag.show(getFragmentManager(), "aboutDialog");
     }

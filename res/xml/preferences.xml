@@ -91,6 +91,10 @@
             android:key="pref_system_feedback"
             android:title="@string/pref_feedback_title"/>
         
+        <Preference 
+            android:key="pref_system_about"
+            android:title="@string/pref_about_title"/>
+        
     </PreferenceCategory>
 
 </PreferenceScreen>

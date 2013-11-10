@@ -23,6 +23,7 @@ import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.PaletteDataHelper;
 import com.tzapps.tzpalette.debug.MyDebug;
+import com.tzapps.tzpalette.ui.dialog.AboutDialogFragment;
 
 public class SettingsFragment extends PreferenceFragment implements 
             OnSharedPreferenceChangeListener, OnPreferenceClickListener
@@ -35,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment implements
     public static final String KEY_PREF_ENABLE_KPP = "pref_enableKpp";
     public static final String KEY_PREF_SYSTEM_VERSION = "pref_system_version";
     public static final String KEY_PREF_SYSTEM_FEEDBACK = "pref_system_feedback";
+    public static final String KEY_PREF_SYSTEM_ABOUT = "pref_system_about";
     public static final String KEY_PREF_CACHE_THUMB_QUALITY = "pref_cache_thumbQuality";
     public static final String KEY_PREF_CACHE_CLEARALL = "pref_cache_clearAll";
 
@@ -51,6 +53,9 @@ public class SettingsFragment extends PreferenceFragment implements
         
         Preference cacheClearPref = (Preference) findPreference(KEY_PREF_CACHE_CLEARALL);
         cacheClearPref.setOnPreferenceClickListener(this);
+        
+        Preference aboutPref = (Preference) findPreference(KEY_PREF_SYSTEM_ABOUT);
+        aboutPref.setOnPreferenceClickListener(this);
 
         // Initialize the prefs title/summary label
         loadPrefs();
@@ -64,6 +69,13 @@ public class SettingsFragment extends PreferenceFragment implements
     private void sendFeedback()
     {
         MyDebug.sendFeedback(getActivity());
+    }
+    
+    private void openAboutDialog()
+    {
+        // Show about dialog
+        AboutDialogFragment dialogFrag = AboutDialogFragment.newInstance(getString(R.string.title_about_view));
+        dialogFrag.show(getFragmentManager(), "aboutDialog");
     }
 
     private void loadPrefs()
@@ -120,6 +132,10 @@ public class SettingsFragment extends PreferenceFragment implements
         if (key.equals(KEY_PREF_SYSTEM_FEEDBACK))
         {
             sendFeedback();
+        }
+        else if (key.equals(KEY_PREF_SYSTEM_ABOUT))
+        {
+            openAboutDialog();
         }
         else if (key.equals(KEY_PREF_CACHE_CLEARALL))
         {

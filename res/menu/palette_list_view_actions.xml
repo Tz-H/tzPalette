@@ -13,6 +13,11 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_sortBy" />
     
+    <item 
+        android:id="@+id/action_colorNameList"
+        android:showAsAction="never"
+        android:title="@string/title_color_name_list_view"/>
+    
     <!-- Settings. should always be in the overflow -->
     <item
         android:id="@+id/action_settings"

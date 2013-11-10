@@ -150,6 +150,7 @@
     <string name="pref_system_title">系统设置</string>
     <string name="pref_version_title">版本</string>
     <string name="pref_feedback_title">反馈意见</string>
+    <string name="pref_about_title">关于</string>
     
     <string name="about_version">版本号:%1$s</string>
     <string name="about_feedback">反馈意见</string>
