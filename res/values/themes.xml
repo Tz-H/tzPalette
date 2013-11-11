@@ -10,6 +10,8 @@
     <!--  ActionBar style -->
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/action_bar_bg</item>
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:title">@string/title_main_view</item>
     </style>
     
     <!--  Settings view theme -->

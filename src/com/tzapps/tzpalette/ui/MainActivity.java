@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -76,6 +77,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         
         ActivityUtils.forceToShowOverflowOptionsOnActoinBar(this);
         
+        // Make sure we're running on Honeycomb or higher to use ActionBar APIs
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+            getActionBar().setTitle(R.string.title_main_view);
+        }
+        
         // init ColorNameListHelper when the main activity is created...
         ColorNameListHelper.getInstance(this);
 
@@ -104,6 +111,7 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             if (type.startsWith("image/"))
                 handleSendImage(intent);
         }
+        
     }
     
     @Override

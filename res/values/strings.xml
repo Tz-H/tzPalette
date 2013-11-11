@@ -3,12 +3,13 @@
 
     <string name="app_name">tzPalette</string>
     
+    <string name="title_main_view">PALETTE</string>
     <string name="title_capture_view">Capture</string>
     <string name="title_palette_list_view">My Palettes</string>
     <string name="title_color_name_list_view">Named Colors</string>
     <string name="title_about_view">About</string>
-    <string name="title_palette_card_view">Palette Card</string>
-    <string name="title_palette_edit_view">Edit Palette</string>
+    <string name="title_palette_card_view">CARD</string>
+    <string name="title_palette_edit_view">EDIT</string>
     <string name="title_palette_edit_view_rename">Change Title</string>
     <string name="title_settings_view">Settings</string>
     <string name="title_share_action">Share My Palette</string>
@@ -152,6 +153,7 @@
     <string name="pref_feedback_title">Feedback</string>
     <string name="pref_about_title">About</string>
     
+    <string name="about_title">PALETTE</string>
     <string name="about_version">version %1$s</string>
     <string name="about_feedback">Feedback</string>
     <string name="about_project">View Project</string>

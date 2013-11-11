@@ -13,28 +13,39 @@
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:gravity="left|center"
-        android:orientation="horizontal">
-        
-        <ImageView
-            android:id="@+id/about_title_icon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher_web"
-            tools:ignore="ContentDescription" />
+        android:gravity="center"
+        android:orientation="vertical">
         
         <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            
+            <ImageView
+	            android:id="@+id/about_title_icon"
+	            android:layout_width="35dp"
+	            android:layout_height="35dp"
+	            android:layout_marginRight="10dp"
+	            android:scaleType="fitCenter"
+	            android:src="@drawable/ic_launcher_web"
+	            tools:ignore="ContentDescription" />
             
             <TextView 
                 android:id="@+id/about_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="30sp" />
+                android:text="@string/about_title"
+                android:textSize="40sp" />
+            
+        </LinearLayout>
+        
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
                    
             <TextView
                 android:id="@+id/about_version"

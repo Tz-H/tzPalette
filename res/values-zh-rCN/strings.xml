@@ -7,8 +7,8 @@
     <string name="title_palette_list_view">我的调色板</string>
     <string name="title_color_name_list_view">色彩列表</string>
     <string name="title_about_view">关于</string>
-    <string name="title_palette_card_view">调色板卡片</string>
-    <string name="title_palette_edit_view">编辑调色板</string>
+    <string name="title_palette_card_view">调色卡</string>
+    <string name="title_palette_edit_view">编辑</string>
     <string name="title_palette_edit_view_rename">更改标题</string>
     <string name="title_settings_view">设置</string>
     <string name="title_share_action">分享</string>
@@ -152,6 +152,7 @@
     <string name="pref_feedback_title">反馈意见</string>
     <string name="pref_about_title">关于</string>
     
+    <string name="about_title">PALETTE</string>
     <string name="about_version">版本号:%1$s</string>
     <string name="about_feedback">反馈意见</string>
     <string name="about_project">查看工程</string>
