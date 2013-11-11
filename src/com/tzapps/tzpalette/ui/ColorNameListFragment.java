@@ -45,7 +45,7 @@ public class ColorNameListFragment extends BaseFragment implements OnItemClickLi
         
         // Show color info detail dialog
         ColorInfoDialogFragment dialogFrag = ColorInfoDialogFragment.newInstance(color);
-        dialogFrag.show(getFragmentManager(), "dialog");
+        dialogFrag.show(getFragmentManager(), "colorInfoDialog");
     }
 
     @Override

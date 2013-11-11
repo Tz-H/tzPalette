@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -22,7 +25,7 @@ import com.tzapps.tzpalette.data.ColorNameListHelper.ColorNameItem;
 import com.tzapps.tzpalette.ui.view.ColorNameListView;
 import com.tzapps.tzpalette.utils.TzPaletteUtils;
 
-public class ColorInfoDialogFragment extends DialogFragment implements OnClickListener
+public class ColorInfoDialogFragment extends DialogFragment implements OnClickListener, OnItemClickListener, OnItemLongClickListener
 {
     private static final String TAG = "ColorInfoDialogFragment";
     
@@ -32,6 +35,8 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
     private int mColor;
     private View mView;
     private TabHost mTabHost;
+    
+    private ColorNameListView mColorNameList;
     
     public static ColorInfoDialogFragment newInstance(int color)
     {
@@ -98,7 +103,8 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         final TextView hslTv = (TextView)mView.findViewById(R.id.color_info_hsl);
         final TextView labTv = (TextView)mView.findViewById(R.id.color_info_lab);
         final TextView cmykTv = (TextView)mView.findViewById(R.id.color_info_cmyk);
-        final ColorNameListView colorNameList = (ColorNameListView)mView.findViewById(R.id.color_name_list);
+        
+        mColorNameList = (ColorNameListView)mView.findViewById(R.id.color_name_list);
         
         moreTv.setOnClickListener(this);
         
@@ -136,16 +142,15 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         
         if (similarColors.length != 0)
         {
-            colorNameList.setColors(similarColors);
+            mColorNameList.setColors(similarColors);
+            mColorNameList.setOnItemClickListener(this);
+            mColorNameList.setOnItemLongClickListener(this);
         }
         else
         {
             // if there is no similar color found, we should hide the "similar" tab...
             mTabHost.getTabWidget().getChildTabViewAt(1).setVisibility(View.GONE);
         }
-        
-        //colorNameList in color info dialog should not clickable
-        colorNameList.setEnabled(false);
     }
 
     @Override
@@ -163,4 +168,27 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
         }
     }
     
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorNameList.getColor(position);
+        
+        // Show a new color info detail dialog
+        ColorInfoDialogFragment dialogFrag = ColorInfoDialogFragment.newInstance(color);
+        dialogFrag.show(getFragmentManager(), "colorInfoDialog");
+        
+        // dismiss the current one
+        dismiss();
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        int color = mColorNameList.getColor(position);
+        
+        // Copy color info into clipboard
+        TzPaletteUtils.copyColorToClipboard(getActivity(), color);
+        
+        return true;
+    }
 }
