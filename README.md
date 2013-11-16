@@ -1,6 +1,6 @@
-tzPalette
+TZPALETTE
 =========
-A HANDY COLOR TOOL FOR AMAZING COLORS
+####A handy color tool for amazing colors####
 
 ##Features##
 
@@ -14,6 +14,7 @@ A HANDY COLOR TOOL FOR AMAZING COLORS
 
 ##Download##
 
-[![Get App on Google Play][2]][1]
-  [1]:https://play.google.com/store/apps/details?id=com.tzapps.tzpalette
-  [2]:https://developer.android.com/images/brand/en_app_rgb_wo_60.png
+[![Get App on Google Play][1]][2]
+
+[1]:https://developer.android.com/images/brand/en_app_rgb_wo_60.png
+[2]:https://play.google.com/store/apps/details?id=com.tzapps.tzpalette
