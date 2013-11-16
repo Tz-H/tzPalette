@@ -4,9 +4,9 @@
     <string name="app_name">tzPalette</string>
     
     <string name="title_main_view">PALETTE</string>
-    <string name="title_capture_view">Capture</string>
-    <string name="title_palette_list_view">My Palettes</string>
-    <string name="title_color_name_list_view">Named Colors</string>
+    <string name="title_capture_view">CAPTURE</string>
+    <string name="title_palette_list_view">MY PALETTES</string>
+    <string name="title_color_name_list_view">NAMED COLORS</string>
     <string name="title_about_view">About</string>
     <string name="title_palette_card_view">CARD</string>
     <string name="title_palette_edit_view">EDIT</string>
@@ -51,7 +51,7 @@
     <string name="action_favourite">Mark as favourite</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_emailPalette">Email palette</string>
-    <string name="action_cancel">Cencel</string>
+    <string name="action_cancel">Cancel</string>
     <string name="action_clearAll">Clear All</string>
     <string name="action_feedback">Feedback</string>
     <string name="action_contactUs">Contact Us</string>
