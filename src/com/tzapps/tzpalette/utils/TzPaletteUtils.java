@@ -34,7 +34,7 @@ public class TzPaletteUtils
     /**
      * Search the indicated color info online with google search engine
      * 
-     * @param context   the applciation context
+     * @param context   the application context
      * @param color     the color to search
      */
     public static void searchColorInfoOnWeb(Context context, int color)

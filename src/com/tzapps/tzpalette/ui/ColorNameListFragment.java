@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.tzapps.common.ui.BaseFragment;
+import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.ColorNameListHelper;
 import com.tzapps.tzpalette.ui.dialog.ColorInfoDialogFragment;
@@ -19,19 +20,27 @@ public class ColorNameListFragment extends BaseFragment implements OnItemClickLi
 {
     private static final String TAG = "ColorNameListFragment";
     
+    private ColorNameListHelper mColorNameHelper;
     private ColorNameListView mColorNameList;
+    private String mQuery;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
+        
+        mColorNameHelper = ColorNameListHelper.getInstance(getActivity());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.color_name_list_view, container, false);
         
         mColorNameList = (ColorNameListView) view.findViewById(R.id.color_name_list);
         
-        mColorNameList.setColors(ColorNameListHelper.getInstance(getActivity()).getAll());
+        if (StringUtils.isEmpty(mQuery))
+            mColorNameList.setColors(mColorNameHelper.getAll());
+        else
+            mColorNameList.setColors(mColorNameHelper.search(mQuery));
+        
         mColorNameList.setOnItemClickListener(this);
         mColorNameList.setOnItemLongClickListener(this);
         
@@ -57,5 +66,15 @@ public class ColorNameListFragment extends BaseFragment implements OnItemClickLi
         TzPaletteUtils.copyColorToClipboard(getActivity(), color);
         
         return true;
+    }
+    
+    public void search(String query)
+    {
+        mQuery = query;
+        
+        if (StringUtils.isEmpty(query))
+            mColorNameList.setColors(mColorNameHelper.getAll());
+        else
+            mColorNameList.setColors(mColorNameHelper.search(query));
     }
 }

@@ -44,6 +44,7 @@
     <string name="action_copy">复制</string>
     <string name="action_exit">退出</string>
     <string name="action_new">新建</string>
+    <string name="action_search">搜索</string>
     <string name="action_continue">继续</string>
     <string name="action_saveAndExit">保存并退出</string>
     <string name="action_restore">复原</string>

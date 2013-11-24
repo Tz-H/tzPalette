@@ -7,8 +7,10 @@ import android.content.Context;
 import android.graphics.Color;
 
 import com.tzapps.common.utils.ColorUtils;
+import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.algorithm.ClusterPoint;
+import com.tzapps.tzpalette.data.ColorNameListHelper.ColorNameItem;
 
 public class ColorNameListHelper
 {
@@ -86,6 +88,28 @@ public class ColorNameListHelper
     public ColorNameItem[] getAll()
     {
         return mList.toArray(new ColorNameItem[]{});
+    }
+    
+    /**
+     * Given a color name query, search for matched color name
+     * 
+     * @param query the query for color name
+     * 
+     * @return the ColorNameItem array with the color name match the query
+     */
+    public ColorNameItem[] search(String query)
+    {
+        List<ColorNameItem> list = new ArrayList<ColorNameItem>();
+        
+        for (int i = 0; i < mList.size(); i++)
+        {
+            ColorNameItem item = mList.get(i);
+            
+            if (StringUtils.containsIgnoreCase(item.name, query))
+                list.add(item);
+        }
+        
+        return list.toArray(new ColorNameItem[]{});
     }
     
     /**

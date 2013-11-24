@@ -44,6 +44,7 @@
     <string name="action_copy">Copy</string>
     <string name="action_exit">Exit</string>
     <string name="action_new">New</string>
+    <string name="action_search">Search</string>
     <string name="action_continue">Continue</string>
     <string name="action_saveAndExit">Save &amp; Exit</string>
     <string name="action_restore">Restore</string>

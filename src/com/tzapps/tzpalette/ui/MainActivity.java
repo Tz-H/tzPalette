@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,13 +21,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.SearchView.OnCloseListener;
 
 import com.tzapps.common.ui.OnFragmentStatusChangedListener;
 import com.tzapps.common.utils.ActivityUtils;
+import com.tzapps.common.utils.StringUtils;
 import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.data.ColorNameListHelper;
@@ -60,14 +65,16 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
     private ViewPager mViewPager;
     private PageAdapter mPageAdapter;
-
+    
     /** temp file used to cache the picture or photo, it should be cleanup when the app is exit. */
     private File mTempFile;
     
     private PaletteDataHelper mDataHelper;
     private Sorter mDataSorter = Constants.PALETTE_DATA_SORTER_DEFAULT;
+    private ColorNameListHelper mColorNameHelper;
 
     private PaletteListFragment mPaletteListFragment;
+    private ColorNameListFragment mColorNameListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -101,8 +108,18 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         if (mDataHelper.getDataCount() > 0)
             mPageAdapter.setSelectedPage(PAGE_PALETTE_LIST_POSITION);
 
-        // Get intent, action and MIME type
-        Intent intent = getIntent();
+        // handle with the intent passed in   
+        handleIntent(getIntent());
+    }
+    
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        handleIntent(intent);
+    }
+    
+    private void handleIntent(Intent intent)
+    {
         String action = intent.getAction();
         String type = intent.getType();
 
@@ -111,7 +128,15 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
             if (type.startsWith("image/"))
                 handleSendImage(intent);
         }
-        
+        else if (Intent.ACTION_SEARCH.equals(action))
+        {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            
+            if (MyDebug.LOG)
+                Log.d(TAG, "handle with search query: " + query);
+            
+            handleColorNameQuery(query);
+        }
     }
     
     @Override
@@ -133,6 +158,12 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
 
         if (imageUri != null)
             openEditView(imageUri);
+    }
+    
+    private void handleColorNameQuery(String query)
+    {
+        if (mColorNameListFragment != null)
+            mColorNameListFragment.search(query);
     }
 
     @Override
@@ -194,10 +225,46 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
                 
             case PAGE_COLOR_NAME_LIST_POSITION:
                 inflater.inflate(R.menu.color_name_list_actions, menu);
+                setupSearchView(menu);
                 break;
         }
 
         return super.onCreateOptionsMenu(menu);
+    }
+    
+    private void setupSearchView(Menu menu)
+    {
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        menuItem.setOnActionExpandListener(new OnActionExpandListener()
+        {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item)
+            {
+                if (MyDebug.LOG)
+                    Log.i(TAG, "onMenuItemActionCollapse " + item.getTitle());
+                
+                if (mColorNameListFragment != null)
+                    mColorNameListFragment.search(null);
+                
+                return true; // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item)
+            {
+                if (MyDebug.LOG)
+                    Log.i(TAG, "onMenuItemActionExpand " + item.getTitle());
+                
+                return true;
+            }
+        });
+        
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }
 
     @Override
@@ -444,6 +511,10 @@ public class MainActivity extends Activity implements OnFragmentStatusChangedLis
         {
             mPaletteListFragment = (PaletteListFragment) fragment;
             mPaletteListFragment.refresh();
+        }
+        else if (fragment instanceof ColorNameListFragment)
+        {
+            mColorNameListFragment = (ColorNameListFragment) fragment;
         }
     }
 
