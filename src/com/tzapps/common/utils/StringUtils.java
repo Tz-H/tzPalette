@@ -1,5 +1,8 @@
 package com.tzapps.common.utils;
 
+import java.util.Locale;
+import java.util.regex.Pattern;
+
 
 public class StringUtils
 {
@@ -22,7 +25,22 @@ public class StringUtils
 	 */
 	public static String deNull(String str)
 	{
-		return str == null? "": str;
+		return str == null ? "": str;
+	}
+	
+	/**
+	 * Check whether the target string contains the indicated sub string, and case insensitive
+	 * 
+	 * @param target  the target string
+	 * @param subStr  the sub string
+	 * @return the check result
+	 */
+	public static boolean containsIgnoreCase(String target, String subStr)
+	{
+	    target = deNull(target);
+	    subStr = deNull(subStr);
+	    
+	    return Pattern.compile(Pattern.quote(subStr), Pattern.CASE_INSENSITIVE).matcher(target).find();
 	}
 
 }
