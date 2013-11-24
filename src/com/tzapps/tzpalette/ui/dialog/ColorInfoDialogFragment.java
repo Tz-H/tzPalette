@@ -163,7 +163,7 @@ public class ColorInfoDialogFragment extends DialogFragment implements OnClickLi
                 break;
                 
             case R.id.color_info_tab_action_more:
-                TzPaletteUtils.searchColorInfoOnWeb(getActivity(), mColor);
+                TzPaletteUtils.searchColorOnColorHexa(getActivity(), mColor);
                 break;
         }
     }

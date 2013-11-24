@@ -52,6 +52,8 @@ public final class Constants
     
     /** The color info similar color deviation */
     public static final int COLOR_INFO_SIMILAR_DEVIATION = 20;
+    /** The color info more action base web url */
+    public static final String COLRO_INFO_MORE_BASE_URL = "http://www.colorhexa.com/";
 }
 
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.tzapps.common.utils.ActivityUtils;
 import com.tzapps.common.utils.ClipboardUtils;
 import com.tzapps.common.utils.ColorUtils;
+import com.tzapps.tzpalette.Constants;
 import com.tzapps.tzpalette.R;
 import com.tzapps.tzpalette.debug.DebugInfo;
 
@@ -41,6 +42,23 @@ public class TzPaletteUtils
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
         intent.putExtra(SearchManager.QUERY, ColorUtils.colorToHtml(color));
         context.startActivity(intent);
+    }
+    
+    /**
+     * Search the indicated color info online with the color search
+     * engine "ColorHexa.com"
+     * 
+     * @param context
+     * @param color
+     */
+    public static void searchColorOnColorHexa(Context context, int color)
+    {
+        String httpUrl = Constants.COLRO_INFO_MORE_BASE_URL;
+        
+        //e.g. http://www.colorhexa.com/e835c0
+        httpUrl += ColorUtils.colorToHtml(color).toLowerCase().replace("#", "");
+        
+        openWebPage(context, httpUrl);
     }
     
     /**
