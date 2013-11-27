@@ -2,6 +2,13 @@ TZPALETTE
 =========
 ####A handy color tool for amazing colors####
 
+##Download##
+
+[![Get App on Google Play][1]][2]
+
+[1]:https://developer.android.com/images/brand/en_app_rgb_wo_60.png
+[2]:https://play.google.com/store/apps/details?id=com.tzapps.tzpalette
+
 ##Features##
 
 - Automatically analysis the colors from a photo/picture with unique algorithms
@@ -12,9 +19,11 @@ TZPALETTE
 - More useful color information (RGB, HSV, HSL, LAB, CMYK)
 - Find and match color in named colors
 
-##Download##
+##Latest Updates##
 
-[![Get App on Google Play][1]][2]
+**version 1.0.1**
 
-[1]:https://developer.android.com/images/brand/en_app_rgb_wo_60.png
-[2]:https://play.google.com/store/apps/details?id=com.tzapps.tzpalette
+- Update color search engine for "more" action
+- Search named colors by its name
+
+
